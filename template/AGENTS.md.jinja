@@ -33,9 +33,11 @@ npx lefthook run pre-commit --all-files   # every commit gate
 npx lefthook run pre-push --all-files     # build, screenshots[% if artifact %], artifact[% endif %]
 ```
 
-`npm run check` writes screenshots to `checks/` (light and dark, desktop and
-phone). Look at them after every visual change; the check catches broken
-charts and overflow, not ugly layouts. Before the app is shown or published,
+`npm run check` writes screenshots to `checks/` (light and dark; desktop,
+laptop and phone). It fails on broken charts, spilling panels, sideways
+scrolling and chart labels that collide or overrun their panel. Look at the
+screenshots after every visual change; the check catches breakage, not ugly
+layouts. Before the app is shown or published,
 offer the user reviews by Claude Code's `ui-critic` agent (visual polish) and
 `hig-critic` agent (Apple's guidelines: purpose, legibility, states and
 writing). Expect them to disagree sometimes, and settle those points with the

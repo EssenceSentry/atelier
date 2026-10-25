@@ -41,8 +41,9 @@ Pull later improvements into a project with `uvx copier update --trust`.
   - rejection of AI co-author trailers.
 - **Push hooks**:
   - a build;
-  - screenshots in light and dark, desktop and phone, failing on a broken
-    chart, a console error or a sideways scroll;
+  - screenshots in light and dark at desktop, laptop and phone widths,
+    failing on a broken chart, a console error, a spilling panel, a
+    sideways scroll or colliding chart labels;
   - the artifact check, when the artifact build is on.
 - **CI**:
   - runs the same hooks and keeps the screenshots;

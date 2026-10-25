@@ -1,8 +1,10 @@
-// Screenshot every direction × mode × screen and fail on broken charts,
-// console errors, content spilling out of a panel, or a page that scrolls
-// sideways. Usage: node scripts/capture.mjs [baseUrl] [outDir]
+// Screenshot every direction × mode × screen and fail on console errors or
+// any problem in the template's layout checks (broken charts, spilling
+// panels, sideways scrolling, overlapping chart labels), the same checks
+// every generated project runs. Usage: node scripts/capture.mjs [baseUrl] [outDir]
 import { mkdir } from "node:fs/promises"
 import { chromium } from "playwright"
+import { layoutProblems } from "../../../template/scripts/layout-checks.mjs"
 
 const base = process.argv[2] ?? "http://localhost:5188"
 const out = process.argv[3] ?? "captures"
@@ -36,21 +38,8 @@ for (const vp of viewports) {
         await page.goto(`${base}/?d=${d}&m=${m}&s=${s}&chrome=0`, { waitUntil: "networkidle" })
         await page.evaluate(() => document.fonts.ready)
         await page.waitForTimeout(250)
-        const states = await page.$$eval("figure.plot-figure", (els) =>
-          // Charts in panels hidden at this width never get a size; skip them.
-          els.filter((e) => e.getClientRects().length > 0).map((e) => e.dataset.state)
-        )
-        for (const st of states)
-          if (st !== "ok") problems.push(`${d}/${m}/${s}/${vp.name}: chart ${st}`)
-        const layout = await page.evaluate(() => ({
-          sideways: document.documentElement.scrollWidth > document.documentElement.clientWidth,
-          spills: [...document.querySelectorAll(".panel")]
-            .filter((e) => e.getClientRects().length > 0 && e.scrollHeight > e.clientHeight + 2)
-            .map((e) => e.querySelector("h1, h2, h3, summary")?.textContent ?? e.className),
-        }))
-        if (layout.sideways) problems.push(`${d}/${m}/${s}/${vp.name}: page scrolls sideways`)
-        for (const panel of layout.spills)
-          problems.push(`${d}/${m}/${s}/${vp.name}: content spills out of panel "${panel}"`)
+        for (const problem of await layoutProblems(page))
+          problems.push(`${d}/${m}/${s}/${vp.name}: ${problem}`)
         await page.screenshot({ path: `${out}/${s}-${d}-${m}-${vp.name}.png`, fullPage: true })
         // Screens that scroll inside a panel instead of the page get a second
         // shot scrolled to the end, so what sits below the fold is seen too.

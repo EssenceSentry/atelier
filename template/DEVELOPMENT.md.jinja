@@ -23,7 +23,7 @@ Every gate is a hook in `lefthook.yml`. CI runs the same hooks with
 | Workflow security | zizmor | commit, when workflows change |
 | No AI co-author trailers | `scripts/check-no-ai-coauthors.mjs` | commit message |
 | Build | Vite | push |
-| Screenshots in light and dark, desktop and phone; no broken chart, console error or sideways scroll | `scripts/check.mjs` | push |
+| Screenshots in light and dark, desktop, laptop and phone; no broken chart, console error, spilling panel, sideways scroll or colliding chart label | `scripts/check.mjs` and `scripts/layout-checks.mjs` | push |
 [%- if artifact %]
 | Artifact page: light/dark switching, charts and phone layout inside an artifact-like host | `scripts/check-artifact.mjs` | push |
 [%- endif %]

@@ -1,14 +1,18 @@
-// Serve the build and look at it in light and dark, on desktop and phone.
-// Fails on a chart that did not render, a console error, or a page that
-// scrolls sideways on a phone. Screenshots land in checks/ for a person or an
-// agent to look at. Run `npm run build` first.
+// Serve the build and look at it in light and dark, at desktop, laptop and
+// phone widths. Fails on a console error or any problem in layout-checks.mjs:
+// a broken chart, content spilling out of a panel, sideways scrolling, or
+// chart labels that overlap or run past their panel. Screenshots land in
+// checks/ for a person or an agent to look at. Run `npm run build` first.
 import { mkdir } from "node:fs/promises"
 import { chromium } from "playwright"
 import { preview } from "vite"
+import { layoutProblems } from "./layout-checks.mjs"
 
 const out = "checks"
 const viewports = [
   { name: "desktop", width: 1440, height: 900 },
+  // Between the lg and xl breakpoints, where side panels fold into the page.
+  { name: "laptop", width: 1180, height: 820 },
   { name: "phone", width: 390, height: 844 },
 ]
 
@@ -35,16 +39,7 @@ for (const colorScheme of ["light", "dark"]) {
     await page.goto(url, { waitUntil: "networkidle" })
     await page.evaluate(() => document.fonts.ready)
     await page.waitForTimeout(250)
-    const charts = await page.$$eval("figure.plot-figure", (els) =>
-      // Charts in panels hidden at this width never get a size; skip them.
-      els.filter((e) => e.getClientRects().length > 0).map((e) => e.dataset.state)
-    )
-    for (const state of charts) if (state !== "ok") problems.push(`${label}: chart ${state}`)
-    const { scroll, client } = await page.evaluate(() => ({
-      scroll: document.documentElement.scrollWidth,
-      client: document.documentElement.clientWidth,
-    }))
-    if (scroll > client) problems.push(`${label}: page scrolls sideways (${scroll} > ${client})`)
+    for (const problem of await layoutProblems(page)) problems.push(`${label}: ${problem}`)
     await page.screenshot({ path: `${out}/${colorScheme}-${viewport.name}.png`, fullPage: true })
     await page.close()
   }
