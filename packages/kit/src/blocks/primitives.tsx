@@ -53,7 +53,7 @@ export function SectionHeader({
       <div
         className={cn(
           "flex shrink-0 items-center gap-2 text-xs text-muted-foreground",
-          !meta && "self-center"
+          !meta && "-my-1 self-center"
         )}
       >
         {meta}

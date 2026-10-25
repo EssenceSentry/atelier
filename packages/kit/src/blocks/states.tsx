@@ -1,4 +1,14 @@
-import { Check, CircleAlert, CircleCheck, CircleDashed, Inbox, Link2, Undo2 } from "lucide-react"
+import {
+  Check,
+  CircleAlert,
+  CircleCheck,
+  FlaskConical,
+  Inbox,
+  Link2,
+  LoaderCircle,
+  Undo2,
+  X,
+} from "lucide-react"
 import { type ReactNode, useEffect, useRef, useState } from "react"
 
 import { Button } from "@/components/ui/button"
@@ -92,9 +102,10 @@ export function LiveIndicator({ status, className }: { status: LiveStatus; class
         className
       )}
     >
+      {status === "example" && <FlaskConical />}
+      {status === "connecting" && <LoaderCircle className="motion-safe:animate-spin" />}
       {status === "live" && <span className="live-dot" />}
       {status === "offline" && <CircleAlert className="text-critical" />}
-      {(status === "example" || status === "connecting") && <CircleDashed />}
       {liveLabel[status]}
     </span>
   )
@@ -135,7 +146,8 @@ export function UndoNotice({
     <div
       role="status"
       className={cn(
-        "flex flex-wrap items-center gap-x-3 gap-y-2 rounded-lg bg-muted px-4 py-3 text-[13px]",
+        // The minimum height keeps the layout still when the Undo button leaves.
+        "flex min-h-[52px] flex-wrap items-center gap-x-3 gap-y-2 rounded-lg bg-muted px-4 py-3 text-[13px]",
         className
       )}
     >
@@ -143,14 +155,21 @@ export function UndoNotice({
       <span className="min-w-0 flex-1">{children}</span>
       {left > 0 && (
         <Button size="sm" variant="outline" onClick={onUndo}>
-          <Undo2 /> Undo <span className="num text-muted-foreground">{left} s</span>
+          <Undo2 /> Undo{" "}
+          <span className="num inline-block w-[4ch] text-right text-muted-foreground">
+            {left} s
+          </span>
         </Button>
       )}
     </div>
   )
 }
 
-/** Copies text, the page address by default, and says whether it worked. */
+/**
+ * Copies text, the page address by default, and says whether it worked. When
+ * the page may not use the clipboard, as in some sandboxes, it shows the text
+ * selected so ⌘C copies it.
+ */
 export function CopyButton({
   value,
   label = "Copy link",
@@ -161,27 +180,56 @@ export function CopyButton({
   className?: string
 }) {
   const [state, setState] = useState<"idle" | "copied" | "failed">("idle")
+  const text = value ?? (typeof location === "undefined" ? "" : location.href)
 
   useEffect(() => {
-    if (state === "idle") return
+    if (state !== "copied") return
     const timer = setTimeout(() => setState("idle"), 2000)
     return () => clearTimeout(timer)
   }, [state])
 
   async function copy() {
     try {
-      await navigator.clipboard.writeText(value ?? location.href)
+      await navigator.clipboard.writeText(text)
       setState("copied")
     } catch {
-      // Sandboxed pages, such as artifacts, may refuse clipboard access.
       setState("failed")
     }
   }
 
   return (
-    <Button variant="ghost" size="sm" className={className} onClick={copy}>
-      {state === "copied" ? <Check /> : <Link2 />}
-      {state === "copied" ? "Copied" : state === "failed" ? "Copy blocked" : label}
-    </Button>
+    <span className="relative inline-flex">
+      <Button variant="ghost" size="sm" className={className} onClick={copy}>
+        {state === "copied" ? <Check /> : <Link2 />}
+        {state === "copied" ? "Copied" : label}
+      </Button>
+      {state === "failed" && (
+        <div className="absolute top-full right-0 z-30 mt-2 w-72 space-y-2 rounded-lg border bg-popover p-3 text-popover-foreground shadow-md">
+          <div className="flex items-center justify-between gap-2 text-[13px] font-medium">
+            <span className="flex items-center gap-1.5">
+              <CircleAlert className="size-4 text-warning" /> Copying is blocked here
+            </span>
+            <Button
+              size="icon-xs"
+              variant="ghost"
+              aria-label="Close"
+              onClick={() => setState("idle")}
+            >
+              <X />
+            </Button>
+          </div>
+          <input
+            readOnly
+            value={text}
+            aria-label="Link to copy"
+            // biome-ignore lint/a11y/noAutofocus: the field exists only to be copied from
+            autoFocus
+            onFocus={(event) => event.currentTarget.select()}
+            className="h-8 w-full rounded-md border bg-background px-2 font-mono text-xs"
+          />
+          <p className="text-xs text-muted-foreground">Press ⌘C or Ctrl+C to copy it.</p>
+        </div>
+      )}
+    </span>
   )
 }
