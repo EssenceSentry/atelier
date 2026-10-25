@@ -52,17 +52,19 @@ export const cells: { index: number; name: string; state: CellState; seconds: nu
   { index: 25, name: "Publish dataset card", state: "queued", seconds: 0 },
 ]
 
+// Times agree with the cells above: the run started at 14:02, cell 21 failed at
+// 14:34:06, cell 22 retried it until 14:54:32, and it is now 15:00.
 export const logLines: { t: string; level: "info" | "warn" | "error"; msg: string }[] = [
-  { t: "14:46:02", level: "info", msg: "shard 37/48 written · 1,204 vectors · 3.1 MiB" },
-  { t: "14:45:51", level: "info", msg: "s3://lab-embeddings/travel/v4/ +412 objects" },
-  { t: "14:45:20", level: "warn", msg: "throughput dipped to 268 rows/s for 4 min (GPU thermal)" },
-  { t: "14:41:07", level: "error", msg: "job embed-travel-1785866245 AlgorithmError: exit code 1" },
+  { t: "14:59:52", level: "info", msg: "shard 37/48 written · 1,204 vectors · 3.1 MiB" },
+  { t: "14:59:31", level: "info", msg: "s3://lab-embeddings/travel/v4/ +412 objects" },
+  { t: "14:44:20", level: "warn", msg: "throughput dipped to 268 rows/s for 4 min (GPU thermal)" },
+  { t: "14:34:06", level: "error", msg: "job embed-travel-1785866245 AlgorithmError: exit code 1" },
   {
-    t: "14:41:07",
+    t: "14:34:06",
     level: "info",
     msg: "cell 22 retrying the embedding with shard size 512 (attempt 2)",
   },
-  { t: "14:38:44", level: "info", msg: "checkpoint saved · kernel state 2.4 GiB" },
+  { t: "14:31:40", level: "info", msg: "checkpoint saved · kernel state 2.4 GiB" },
 ]
 
 // Review: queue of channels and the selected channel's evidence.
@@ -195,16 +197,17 @@ export const neighbors = [
 ]
 
 // Report: weekly warehouse spend in dollars.
+// Weeks of 2026, each starting on a Monday. Ingest ran at size M from 7 September.
 export const weeks = [
-  "Aug 4",
-  "Aug 11",
-  "Aug 18",
-  "Aug 25",
-  "Sep 1",
-  "Sep 8",
-  "Sep 15",
-  "Sep 22",
-  "Sep 29",
+  "Aug 3",
+  "Aug 10",
+  "Aug 17",
+  "Aug 24",
+  "Aug 31",
+  "Sep 7",
+  "Sep 14",
+  "Sep 21",
+  "Sep 28",
 ]
 export const warehouses = ["Ingest", "Transform", "BI dashboards", "Ad hoc"] as const
 export const spend = (() => {

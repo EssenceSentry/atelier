@@ -8,10 +8,11 @@ import {
   LayoutDashboard,
   NotebookPen,
   Pause,
+  Play,
   ScrollText,
 } from "lucide-react"
 import type { ReactNode } from "react"
-import { useCallback } from "react"
+import { useCallback, useState } from "react"
 import { AppBar } from "@/blocks/app-bar"
 import { PlotFigure, tipStyle } from "@/blocks/plot-figure"
 import {
@@ -24,7 +25,7 @@ import {
   StatusBadge,
   StatusIcon,
 } from "@/blocks/primitives"
-import { LiveIndicator } from "@/blocks/states"
+import { LiveIndicator, UndoNotice } from "@/blocks/states"
 import { Button } from "@/components/ui/button"
 import type { LiveStatus } from "@/lib/live"
 import { cells, logLines, spark, throughput } from "@/lib/sample"
@@ -32,71 +33,101 @@ import { cn } from "@/lib/utils"
 
 const TOTAL_CELLS = 25
 const FAILED_CELL = 21
+const RUNNING_CELL = 24
+
+type CellState = "done" | "failed" | "running" | "queued"
+
+/** One source for the strip, the headline count and the cell list. */
+const cellState = (n: number): CellState =>
+  n === FAILED_CELL
+    ? "failed"
+    : n < RUNNING_CELL
+      ? "done"
+      : n === RUNNING_CELL
+        ? "running"
+        : "queued"
+const strip = Array.from({ length: TOTAL_CELLS }, (_, i) => ({ n: i + 1, state: cellState(i + 1) }))
+const settled = strip.filter((c) => c.state === "done" || c.state === "failed").length
+
+const thisRun = throughput.filter((d) => d.series === "This run")
+const median = throughput.filter((d) => d.series === "Median of last 5 runs")
+const now = thisRun[thisRun.length - 1]
+const medianNow = median[median.length - 1]
+
+function fmtDuration(s: number) {
+  if (!s) return "—"
+  const m = Math.floor(s / 60)
+  return m ? `${m}m ${String(s % 60).padStart(2, "0")}s` : `${s}s`
+}
+
+const cellSeconds = (index: number) => cells.find((c) => c.index === index)?.seconds ?? 0
 
 function CellStrip() {
   return (
     <div className="space-y-2">
       <div className="flex gap-[3px]">
-        {Array.from({ length: TOTAL_CELLS }, (_, i) => {
-          const n = i + 1
-          const state =
-            n === FAILED_CELL ? "failed" : n < 24 ? "done" : n === 24 ? "running" : "queued"
-          return (
-            <div key={n} className="relative h-7 flex-1">
-              {state === "failed" && (
-                <span className="absolute -top-2.5 left-1/2 size-1.5 -translate-x-1/2 rounded-full bg-critical" />
+        {strip.map(({ n, state }) => (
+          <div key={n} className="relative h-7 flex-1">
+            {state === "failed" && (
+              <span className="absolute -top-2.5 left-1/2 size-1.5 -translate-x-1/2 rounded-full bg-critical" />
+            )}
+            <div
+              className={cn(
+                "h-full rounded-[3px]",
+                // Only the cell that is moving takes the accent.
+                state === "done" && "bg-ink-2/55",
+                state === "failed" && "bg-critical/70",
+                state === "running" && "bg-primary motion-safe:animate-pulse",
+                state === "queued" && "bg-muted shadow-[inset_0_0_0_1px_var(--border-strong)]"
               )}
-              <div
-                className={cn(
-                  "h-full rounded-[3px]",
-                  // Only the cell that is moving takes the accent.
-                  state === "done" && "bg-ink-2/55",
-                  state === "failed" && "bg-critical/70",
-                  state === "running" && "bg-primary motion-safe:animate-pulse",
-                  state === "queued" && "bg-muted shadow-[inset_0_0_0_1px_var(--border)]"
-                )}
-              />
-            </div>
-          )
-        })}
+            />
+          </div>
+        ))}
       </div>
-      <div className="label-mono flex flex-wrap justify-between gap-x-3 gap-y-1 text-[11px] text-muted-foreground">
-        <span className="whitespace-nowrap">cell 1</span>
+      <div className="flex flex-wrap justify-between gap-x-3 gap-y-1 text-[11px] text-muted-foreground">
+        <span className="label-mono whitespace-nowrap">cell 1</span>
         {/* On phones the note takes its own row below the end labels. */}
-        <span className="order-last flex w-full items-center gap-1.5 sm:order-none sm:w-auto">
-          <span className="size-1.5 shrink-0 rounded-full bg-critical" /> cell 21 failed, cell 22
-          retried it
+        <span className="order-last flex w-full items-center gap-1.5 text-xs sm:order-none sm:w-auto">
+          <span className="size-1.5 shrink-0 rounded-full bg-critical" /> Cell {FAILED_CELL} failed
+          and cell {FAILED_CELL + 1} retried it
         </span>
-        <span className="whitespace-nowrap">cell 25</span>
+        <span className="label-mono whitespace-nowrap">cell {TOTAL_CELLS}</span>
       </div>
     </div>
   )
 }
 
-const throughputChart = (t: VizTokens) => {
-  const current = throughput.filter((d) => d.series === "This run")
-  const last = current[current.length - 1]
-  return {
+const throughputChart = (t: VizTokens) =>
+  ({
     marginLeft: 36,
-    marginRight: 64,
+    marginRight: 88,
     marginTop: 12,
     x: { label: null, tickFormat: (m: number) => `${m}m`, ticks: 6, tickSize: 0 },
     y: { label: null, ticks: 4, tickSize: 0, domain: [0, 480] },
-    color: { domain: ["This run", "Median of last 5 runs"], range: [t.series[0], t.axis] },
     marks: [
       Plot.gridY({ stroke: t.grid, strokeOpacity: 1, ticks: 4 }),
       Plot.ruleY([0], { stroke: t.axis }),
-      Plot.areaY(current, {
+      Plot.areaY(thisRun, {
         x: "minute",
         y: "value",
         fill: t.series[0],
         fillOpacity: 0.1,
         curve: "monotone-x",
       }),
-      Plot.lineY(throughput, {
+      // The comparison line is drawn in the axis text colour, which stays
+      // readable in dark mode where the axis colour all but disappears.
+      Plot.lineY(median, {
         x: "minute",
         y: "value",
-        stroke: "series",
+        stroke: t.text,
+        strokeOpacity: 0.75,
+        strokeWidth: 2,
+        curve: "monotone-x",
+      }),
+      Plot.lineY(thisRun, {
+        x: "minute",
+        y: "value",
+        stroke: t.series[0],
         strokeWidth: 2,
         curve: "monotone-x",
       }),
@@ -105,10 +136,11 @@ const throughputChart = (t: VizTokens) => {
         y: "y",
         text: () => "GPU thermal dip",
         fill: t.text,
+        fontFamily: t.font,
         fontSize: 11,
         dy: 14,
       }),
-      Plot.dot([last], {
+      Plot.dot([now], {
         x: "minute",
         y: "value",
         r: 4,
@@ -116,7 +148,7 @@ const throughputChart = (t: VizTokens) => {
         stroke: t.surface,
         strokeWidth: 2,
       }),
-      Plot.text([last], {
+      Plot.text([now], {
         x: "minute",
         y: "value",
         text: (d: { value: number }) => `${Math.round(d.value)} rows/s`,
@@ -125,9 +157,9 @@ const throughputChart = (t: VizTokens) => {
         fill: t.ink,
         fontWeight: 600,
       }),
-      Plot.ruleX(throughput, Plot.pointerX({ x: "minute", stroke: t.axis })),
+      Plot.ruleX(thisRun, Plot.pointerX({ x: "minute", stroke: t.axis })),
       Plot.tip(
-        current,
+        thisRun,
         Plot.pointerX({
           x: "minute",
           y: "value",
@@ -137,56 +169,54 @@ const throughputChart = (t: VizTokens) => {
         })
       ),
     ],
-  } satisfies Plot.PlotOptions
-}
+  }) satisfies Plot.PlotOptions
 
-const resources: {
-  icon: typeof Box
-  kind: string
-  name: string
-  detail: string[]
-  status: Status
-  meta: string
-}[] = [
-  {
-    icon: Box,
-    kind: "SageMaker processing",
-    name: "embed-travel-1785868797",
-    detail: ["1 × ml.g5.xlarge", "us-east-1"],
-    status: "running",
-    meta: "20m 26s",
-  },
-  {
-    icon: Box,
-    kind: "SageMaker processing",
-    name: "embed-travel-1785866245",
-    detail: ["AlgorithmError", "exit code 1"],
-    status: "failed",
-    meta: "7m 38s",
-  },
-  {
-    icon: Database,
-    kind: "S3 prefix",
-    name: "lab-embeddings/travel/v4",
-    detail: ["412 objects", "3.1 GiB"],
-    status: "running",
-    meta: "+38/min",
-  },
-  {
-    icon: LayoutDashboard,
-    kind: "Linked dashboard",
-    name: "Ranked audit",
-    detail: ["localhost:8790"],
-    status: "succeeded",
-    meta: "41 ms",
-  },
-]
-
-function fmtDuration(s: number) {
-  if (!s) return "—"
-  const m = Math.floor(s / 60)
-  return m ? `${m}m ${String(s % 60).padStart(2, "0")}s` : `${s}s`
-}
+const resources = (released: boolean) =>
+  [
+    {
+      icon: Box,
+      kind: "SageMaker processing",
+      name: "embed-travel-1785866683",
+      detail: [`cell ${FAILED_CELL + 1}`, "1 × ml.g5.xlarge", "us-east-1"],
+      status: "done",
+      meta: fmtDuration(cellSeconds(FAILED_CELL + 1)),
+    },
+    {
+      icon: Box,
+      kind: "SageMaker processing",
+      name: "embed-travel-1785866245",
+      detail: [
+        `cell ${FAILED_CELL}`,
+        "AlgorithmError",
+        released ? "volume released" : "exit code 1",
+      ],
+      status: "failed",
+      meta: fmtDuration(cellSeconds(FAILED_CELL)),
+    },
+    {
+      icon: Database,
+      kind: "S3 prefix",
+      name: "lab-embeddings/travel/v4",
+      detail: [`cell ${RUNNING_CELL}`, "412 objects", "3.1 GiB"],
+      status: "running",
+      meta: "+38/min",
+    },
+    {
+      icon: LayoutDashboard,
+      kind: "Linked dashboard",
+      name: "Ranked audit",
+      detail: ["localhost:8790"],
+      status: "succeeded",
+      meta: "41 ms",
+    },
+  ] satisfies {
+    icon: typeof Box
+    kind: string
+    name: string
+    detail: string[]
+    status: Status
+    meta: string
+  }[]
 
 const cellStatus: Record<(typeof cells)[number]["state"], Status> = {
   done: "done",
@@ -206,6 +236,8 @@ export function MonitorScreen({
   status?: LiveStatus
 }) {
   const build = useCallback(throughputChart, [])
+  const [paused, setPaused] = useState(false)
+  const [released, setReleased] = useState(false)
   const maxSeconds = Math.max(...cells.map((c) => c.seconds))
   return (
     <div className="min-h-svh">
@@ -219,36 +251,38 @@ export function MonitorScreen({
             <Button variant="outline" size="sm" className="hidden sm:inline-flex">
               <NotebookPen /> Open notebook
             </Button>
-            <Button variant="outline" size="sm">
-              <Pause /> Pause
+            <Button variant="outline" size="sm" onClick={() => setPaused((p) => !p)}>
+              {paused ? <Play /> : <Pause />} {paused ? "Resume" : "Pause"}
             </Button>
           </>
         }
       />
 
       <main className="mx-auto grid max-w-[1360px] grid-cols-12 gap-4 p-4 md:gap-5 md:p-6">
-        <section className="panel col-span-12 space-y-7 p-5 md:p-7 lg:col-span-7">
+        <section className="panel col-span-12 space-y-7 p-5 lg:col-span-7">
           <div className="space-y-3">
-            <div className="flex flex-wrap items-center gap-2">
-              <StatusBadge status="running" label="Running · attempt 2" />
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
+              <StatusBadge status={paused ? "paused" : "running"} />
               <Meta
                 items={["nb/02_embeddings.ipynb", "started 14:02"]}
                 className="label-mono text-[11px] text-muted-foreground"
               />
+              <LiveIndicator status={status} className="md:hidden" />
             </div>
             <h1 className="text-[28px] leading-[1.05] md:text-[38px]">Travel channel embeddings</h1>
           </div>
           <div className="flex flex-wrap items-end gap-x-12 gap-y-5">
             <div>
               <div className="figure text-[56px] md:text-[72px]">
-                24<span className="text-muted-foreground">/25</span>
+                {settled}
+                <span className="text-muted-foreground">/{TOTAL_CELLS}</span>
               </div>
               <div className="mt-2 text-sm text-muted-foreground">cells settled</div>
             </div>
             <div>
               <div className="figure text-[32px] md:text-[40px]">≈ 6 min</div>
               <Meta
-                items={["remaining", "4–9 min", "ends ~14:52"]}
+                items={["remaining", "4–9 min", "ends ~15:06"]}
                 className="num mt-2 block text-sm text-muted-foreground"
               />
             </div>
@@ -260,29 +294,33 @@ export function MonitorScreen({
           <StatTile
             className="border-r border-b p-5"
             label="Throughput"
-            value="412"
+            value={String(Math.round(now.value))}
             unit="rows/s"
-            trend={spark(3, 16, 400, 30)}
-            delta={<Delta value={0.08} period="vs last hour" />}
+            trend={thisRun.slice(-16).map((d) => d.value)}
+            delta={
+              <Delta value={now.value / medianNow.value - 1} flatWithin={0.1} period="vs median" />
+            }
           />
           <StatTile
             className="border-b p-5"
             label="GPU utilisation"
             value="87%"
             trend={spark(5, 16, 85, 12)}
-            delta={<Delta value={-0.04} period="vs last hour" />}
+            delta={<Delta value={-0.04} flatWithin={0.1} period="vs last hour" />}
           />
           <StatTile
             className="border-r p-5"
             label="Memory"
             value="21.4"
             unit="/ 30 GiB"
+            trend={spark(9, 16, 21, 3)}
             footer={<Meter value={21.4} max={30} />}
           />
           <StatTile
             className="p-5"
             label="Spend so far"
             value="$3.82"
+            trend={Array.from({ length: 16 }, (_, i) => 0.24 * (i + 1))}
             footer={
               <span className="text-xs text-muted-foreground">projected $4.40 at finish</span>
             }
@@ -298,7 +336,11 @@ export function MonitorScreen({
                   <span className="h-0.5 w-3.5 rounded bg-series-1" /> This run
                 </span>
                 <span className="flex items-center gap-1.5">
-                  <span className="h-0.5 w-3.5 rounded bg-border-strong" /> Median of last 5 runs
+                  <span
+                    className="h-0.5 w-3.5 rounded opacity-75"
+                    style={{ background: "var(--viz-text)" }}
+                  />{" "}
+                  Median of last 5 runs
                 </span>
               </div>
             }
@@ -307,27 +349,38 @@ export function MonitorScreen({
         </section>
 
         <section className="panel col-span-12 overflow-hidden lg:col-span-5">
-          <div className="flex gap-3 border-b bg-critical/[0.06] p-4">
-            <StatusIcon status="failed" className="mt-0.5" />
-            <div className="space-y-1">
-              <div className="text-sm font-semibold">A failed job still holds a 30 GiB volume</div>
-              <p className="text-[13px] leading-relaxed text-ink-2">
-                Cell 22 retried the embedding with smaller shards and succeeded. Job{" "}
-                <span className="label-mono text-xs whitespace-nowrap">…866245</span> exited with
-                AlgorithmError and was not cleaned up.
-              </p>
-              <div className="flex gap-2 pt-2">
-                <Button size="sm" variant="destructive">
-                  Release volume
-                </Button>
-                <Button size="sm" variant="ghost">
-                  <ScrollText /> Logs
-                </Button>
+          {released ? (
+            <div className="border-b p-4">
+              <UndoNotice onUndo={() => setReleased(false)}>
+                Released the 30 GiB volume held by job{" "}
+                <span className="label-mono text-xs whitespace-nowrap">…866245</span>.
+              </UndoNotice>
+            </div>
+          ) : (
+            <div className="flex gap-3 border-b bg-critical/[0.06] p-4">
+              <StatusIcon status="failed" className="mt-0.5" />
+              <div className="space-y-1">
+                <div className="text-sm font-semibold">
+                  A failed job still holds a 30 GiB volume
+                </div>
+                <p className="text-[13px] leading-relaxed text-ink-2">
+                  Cell {FAILED_CELL + 1} retried the embedding with smaller shards and succeeded.
+                  Job <span className="label-mono text-xs whitespace-nowrap">…866245</span> exited
+                  with AlgorithmError and was not cleaned up.
+                </p>
+                <div className="flex gap-2 pt-2">
+                  <Button size="sm" variant="destructive" onClick={() => setReleased(true)}>
+                    Release volume
+                  </Button>
+                  <Button size="sm" variant="ghost">
+                    <ScrollText /> Logs
+                  </Button>
+                </div>
               </div>
             </div>
-          </div>
+          )}
           <div className="divide-y">
-            {resources.map((r) => (
+            {resources(released).map((r) => (
               <div key={r.name} className="flex items-center gap-3 px-4 py-3">
                 <div className="well grid size-8 shrink-0 place-items-center">
                   <r.icon className="size-4 text-muted-foreground" />
@@ -352,7 +405,7 @@ export function MonitorScreen({
         <section className="panel col-span-12 p-5 lg:col-span-7">
           <SectionHeader
             title="Recent cells"
-            meta={<span className="label-mono">8 of 25</span>}
+            meta={<span className="label-mono">8 of {TOTAL_CELLS}</span>}
             className="mb-3"
           />
           <div className="divide-y">
@@ -372,7 +425,7 @@ export function MonitorScreen({
                       "h-full rounded-full",
                       c.state === "failed" && "bg-critical/70",
                       c.state === "running" && "bg-primary",
-                      c.state === "done" && "bg-border-strong"
+                      c.state === "done" && "bg-faint"
                     )}
                     style={{ width: `${(c.seconds / maxSeconds) * 100}%` }}
                   />
@@ -395,9 +448,9 @@ export function MonitorScreen({
             }
             className="mb-3"
           />
-          <div className="well flex-1 space-y-2 p-3 font-mono text-[11.5px] leading-relaxed">
+          <div className="well flex-1 space-y-2 p-3 font-mono text-[13px] leading-snug">
             {logLines.map((l) => (
-              <div key={`${l.t} ${l.msg}`} className="grid grid-cols-[56px_14px_1fr] gap-2">
+              <div key={`${l.t} ${l.msg}`} className="grid grid-cols-[64px_14px_1fr] gap-2">
                 <span className="num text-muted-foreground">{l.t}</span>
                 <span
                   className={cn(

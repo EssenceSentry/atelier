@@ -1,11 +1,12 @@
 import type { VizTokens } from "@atelier/theme/viz"
 import * as Plot from "@observablehq/plot"
-import { Download, Link2 } from "lucide-react"
+import { Download } from "lucide-react"
 import type { ReactNode } from "react"
 import { useCallback } from "react"
 import { AppBar } from "@/blocks/app-bar"
 import { PlotFigure, tipStyle } from "@/blocks/plot-figure"
 import { Delta, Eyebrow, Meta } from "@/blocks/primitives"
+import { CopyButton } from "@/blocks/states"
 import { Button } from "@/components/ui/button"
 import {
   Table,
@@ -18,12 +19,30 @@ import {
 import { spend, topQueries, warehouses, weeks } from "@/lib/sample"
 import { cn } from "@/lib/utils"
 
-const money = (v: number) => (v >= 1000 ? `$${(v / 1000).toFixed(1)}K` : `$${v}`)
+const money = (v: number) => (v >= 1000 ? `$${(v / 1000).toFixed(1)}K` : `$${Math.round(v)}`)
+const percent = (v: number) => `${Math.abs(Math.round(v * 100))}%`
 const totals = weeks.map((week) => ({
   week,
   value: spend.filter((d) => d.week === week).reduce((s, d) => s + d.value, 0),
 }))
-const RESIZED = "Sep 8"
+
+// Every figure in the text comes from the weekly spend, so the prose, the
+// tiles and the chart cannot disagree.
+const RESIZED = "Sep 7"
+const cut = weeks.indexOf(RESIZED)
+const before = weeks.slice(0, cut)
+const after = weeks.slice(cut)
+const weekly = (span: string[], warehouse?: string) =>
+  spend
+    .filter((d) => span.includes(d.week) && (!warehouse || d.warehouse === warehouse))
+    .reduce((s, d) => s + d.value, 0) / span.length
+const spendBefore = weekly(before)
+const spendAfter = weekly(after)
+const change = spendAfter / spendBefore - 1
+const ingestChange = weekly(after, "Ingest") / weekly(before, "Ingest") - 1
+const shareBefore = (weekly(before, "Ad hoc") / spendBefore) * 100
+const shareAfter = (weekly(after, "Ad hoc") / spendAfter) * 100
+
 // Below this width every other week is labelled, and only the latest total.
 const NARROW = 480
 
@@ -34,7 +53,8 @@ const spendChart = (t: VizTokens, width: number) => {
   // Plot's band step with equal inner and outer padding.
   const step = inner / (weeks.length + padding)
   const narrow = width < NARROW
-  const labelled = new Set(narrow ? ["Sep 29"] : ["Sep 1", RESIZED, "Sep 29"])
+  const latest = weeks[weeks.length - 1]
+  const labelled = new Set(narrow ? [latest] : [before[before.length - 1], RESIZED, latest])
   return {
     marginLeft: margin.left,
     marginRight: margin.right,
@@ -78,6 +98,7 @@ const spendChart = (t: VizTokens, width: number) => {
         textAnchor: "start",
         text: () => "Ingest L → M",
         fill: t.text,
+        fontFamily: t.font,
         fontSize: 11,
       }),
       Plot.text(
@@ -94,8 +115,6 @@ const spendChart = (t: VizTokens, width: number) => {
     ],
   }
 }
-
-const shareOfSpend = { august: 8.3, september: 11.4 }
 
 export function ReportScreen({
   product = "Reports",
@@ -114,9 +133,7 @@ export function ReportScreen({
         crumbs={["Cost reviews", "September 2026"]}
         right={
           <>
-            <Button variant="ghost" size="sm">
-              <Link2 /> Copy link
-            </Button>
+            <CopyButton />
             <Button variant="outline" size="sm">
               <Download /> Download PDF
             </Button>
@@ -130,11 +147,12 @@ export function ReportScreen({
             <Meta items={["Cost review", "Snowflake"]} />
           </Eyebrow>
           <h1 className="text-[34px] leading-[1.08] text-balance md:text-[48px]">
-            Compute spend fell 18% after the ingestion warehouse was resized
+            Compute spend fell {percent(change)} after the ingestion warehouse was resized
           </h1>
           <p className="text-lg leading-relaxed text-pretty text-ink-2 md:text-xl">
-            September cost $48.2K against $58.8K in August. Most of the drop came from one change,
-            and ad hoc work is now the fastest-growing line.
+            Weekly spend averaged {money(spendAfter)} after the resize, against {money(spendBefore)}{" "}
+            before. Most of the drop came from one change, and ad hoc work is now the
+            fastest-growing line.
           </p>
           <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-muted-foreground">
             <span className="text-foreground">Data science</span>
@@ -148,24 +166,24 @@ export function ReportScreen({
         <section className="mt-10 grid grid-cols-1 border-y sm:grid-cols-3">
           {[
             {
-              label: "Total spend, September",
-              value: "$48.2K",
-              delta: <Delta value={-0.18} goodWhenUp={false} period="vs August" />,
+              label: "Weekly spend since 7 September",
+              value: money(spendAfter),
+              delta: <Delta value={change} goodWhenUp={false} period="vs before" />,
             },
             {
-              label: "Credits used",
-              value: "15,920",
-              delta: <Delta value={-0.16} goodWhenUp={false} period="vs August" />,
+              label: "Ingest warehouse, weekly",
+              value: money(weekly(after, "Ingest")),
+              delta: <Delta value={ingestChange} goodWhenUp={false} period="vs before" />,
             },
             {
               label: "Ad hoc share of spend",
-              value: `${shareOfSpend.september}%`,
+              value: `${shareAfter.toFixed(1)}%`,
               delta: (
                 <Delta
-                  value={shareOfSpend.september - shareOfSpend.august}
+                  value={shareAfter - shareBefore}
                   unit="pp"
                   goodWhenUp={false}
-                  period="vs August"
+                  period="vs before"
                 />
               ),
             },
@@ -187,13 +205,15 @@ export function ReportScreen({
 
         <div className="mt-10 max-w-[680px] space-y-5 text-[17px] leading-[1.7] text-ink-2">
           <p>
-            The ingestion warehouse ran at size L for every load until 5 September, although its
-            queue never exceeded two concurrent statements. Moving it to M halved its weekly cost
-            with no change in load latency at the 95th percentile.
+            The ingestion warehouse ran at size L for every load until 7 September, although its
+            queue never exceeded two concurrent statements. Moving it to M cut its weekly cost by{" "}
+            {percent(ingestChange)} with no change in load latency at the 95th percentile (Figure
+            1).
           </p>
           <p>
-            Transform and dashboard spend stayed flat. Ad hoc spend rose each week, driven by
-            thumbnail audits that scan the full image table instead of the daily partition.
+            Transform and dashboard spend stayed flat. Ad hoc spend kept rising, driven by thumbnail
+            audits that scan the full image table instead of the daily partition; Figure 2 lists the
+            queries behind it.
           </p>
         </div>
 
@@ -216,8 +236,8 @@ export function ReportScreen({
             </div>
           </div>
           <PlotFigure build={build} height={300} />
-          <figcaption className="text-xs text-muted-foreground">
-            Ingest moved from size L to M on 5 September. Weeks start on Monday; values are
+          <figcaption className="text-[13px] text-muted-foreground">
+            Ingest moved from size L to M on 7 September. Weeks start on Monday; values are
             on-demand list prices.
           </figcaption>
         </figure>
@@ -234,15 +254,14 @@ export function ReportScreen({
                 <TableHead className="hidden sm:table-cell">Warehouse</TableHead>
                 <TableHead className="hidden text-right sm:table-cell">Runs</TableHead>
                 <TableHead className="text-right sm:w-[30%] sm:text-left">Credits</TableHead>
-                <TableHead className="text-right">vs August</TableHead>
+                <TableHead className="text-right">vs before</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {topQueries.map((q) => (
                 <TableRow key={q.name}>
-                  <TableCell className="font-mono text-[12px] whitespace-normal sm:whitespace-nowrap">
-                    {/* Zero-width spaces let long names wrap after an underscore on phones. */}
-                    {q.name.replaceAll("_", "_\u200b")}
+                  <TableCell className="font-mono text-[12px] max-sm:text-[11px]">
+                    {q.name}
                   </TableCell>
                   <TableCell className="hidden sm:table-cell">
                     <span className="flex items-center gap-2">
@@ -273,7 +292,7 @@ export function ReportScreen({
                     <Delta
                       value={q.change}
                       goodWhenUp={false}
-                      flatWithin={0.05}
+                      flatWithin={0.1}
                       className="text-[13px]"
                     />
                   </TableCell>
