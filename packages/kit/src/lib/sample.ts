@@ -22,8 +22,11 @@ export const throughput = (() => {
   const rows: { minute: number; series: string; value: number }[] = []
   for (let m = 0; m <= 58; m++) {
     const warm = Math.min(1, m / 6)
+    // Cell 21's job crashed at minute 32 and cell 22 relaunched it.
+    const relaunch = m === 32 || m === 33 ? 0 : m === 34 ? 0.5 : 1
     const current =
-      warm * (395 + 22 * Math.sin(m / 5) + gaussian(r) * 9) - (m > 41 && m < 46 ? 120 : 0)
+      relaunch * warm * (395 + 22 * Math.sin(m / 5) + gaussian(r) * 9) -
+      (m > 41 && m < 46 ? 120 : 0)
     const previous = warm * (352 + 10 * Math.sin(m / 7) + gaussian(r) * 4)
     rows.push({ minute: m, series: "This run", value: Math.max(0, current) })
     rows.push({ minute: m, series: "Median of last 5 runs", value: Math.max(0, previous) })
@@ -31,20 +34,18 @@ export const throughput = (() => {
   return rows
 })()
 
-export const spark = (seed: number, n = 16, base = 50, spread = 10) => {
-  const r = rng(seed)
-  let v = base
-  return Array.from(
-    { length: n },
-    () => (v = Math.max(1, v + gaussian(r) * spread * 0.4 + (base - v) * 0.15))
-  )
-}
+// Monitor tiles: the last point of each trend is the tile's value.
+export const gpuUtilisation = [92, 93, 91, 94, 92, 90, 93, 95, 92, 91, 90, 89, 91, 88, 86, 87]
+export const memoryGiB = [
+  17.2, 17.8, 18.1, 18, 18.6, 19, 19.3, 19.2, 19.8, 20.1, 20.4, 20.3, 20.8, 21, 21.2, 21.4,
+]
+export const spendDollars = Array.from({ length: 16 }, (_, i) => (3.82 * (i + 1)) / 16)
 
 export type CellState = "done" | "running" | "failed" | "queued"
 export const cells: { index: number; name: string; state: CellState; seconds: number }[] = [
   { index: 18, name: "Load channel manifest", state: "done", seconds: 12 },
   { index: 19, name: "Resolve thumbnail URLs", state: "done", seconds: 94 },
-  { index: 20, name: "Download thumbnails · 18,327", state: "done", seconds: 611 },
+  { index: 20, name: "Download thumbnails", state: "done", seconds: 611 },
   { index: 21, name: "Launch SageMaker embedding job", state: "failed", seconds: 438 },
   { index: 22, name: "Retry with smaller shards", state: "done", seconds: 1226 },
   { index: 23, name: "Validate vector norms", state: "done", seconds: 41 },
@@ -55,14 +56,14 @@ export const cells: { index: number; name: string; state: CellState; seconds: nu
 // Times agree with the cells above: the run started at 14:02, cell 21 failed at
 // 14:34:06, cell 22 retried it until 14:54:32, and it is now 15:00.
 export const logLines: { t: string; level: "info" | "warn" | "error"; msg: string }[] = [
-  { t: "14:59:52", level: "info", msg: "shard 37/48 written · 1,204 vectors · 3.1 MiB" },
-  { t: "14:59:31", level: "info", msg: "s3://lab-embeddings/travel/v4/ +412 objects" },
+  { t: "14:59:52", level: "info", msg: "shard 27/36 written · 3.1 MiB" },
+  { t: "14:59:31", level: "info", msg: "s3://lab-embeddings/travel/v4/shard-026 uploaded" },
   { t: "14:44:20", level: "warn", msg: "throughput dipped to 268 rows/s for 4 min (GPU thermal)" },
   { t: "14:34:06", level: "error", msg: "job embed-travel-1785866245 AlgorithmError: exit code 1" },
   {
     t: "14:34:06",
     level: "info",
-    msg: "cell 22 retrying the embedding with shard size 512 (attempt 2)",
+    msg: "cell 22 retrying the embedding in smaller shards (attempt 2)",
   },
   { t: "14:31:40", level: "info", msg: "checkpoint saved · kernel state 2.4 GiB" },
 ]

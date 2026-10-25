@@ -28,7 +28,7 @@ import {
 import { LiveIndicator, UndoNotice } from "@/blocks/states"
 import { Button } from "@/components/ui/button"
 import type { LiveStatus } from "@/lib/live"
-import { cells, logLines, spark, throughput } from "@/lib/sample"
+import { cells, gpuUtilisation, logLines, memoryGiB, spendDollars, throughput } from "@/lib/sample"
 import { cn } from "@/lib/utils"
 
 const TOTAL_CELLS = 25
@@ -61,8 +61,17 @@ function fmtDuration(s: number) {
 }
 
 const cellSeconds = (index: number) => cells.find((c) => c.index === index)?.seconds ?? 0
+const last = (values: number[]) => values[values.length - 1]
+const mean = (values: number[]) => values.reduce((s, x) => s + x, 0) / values.length
 
-function CellStrip() {
+// The run started at 14:02 and it is now 15:00; about 6 minutes remain.
+const ELAPSED_MIN = 58
+const REMAINING_MIN = 6
+const spend = last(spendDollars)
+const projected = (spend / ELAPSED_MIN) * (ELAPSED_MIN + REMAINING_MIN)
+const SHARDS = { written: 27, total: 36, mib: 3.1 }
+
+function CellStrip({ paused }: { paused: boolean }) {
   return (
     <div className="space-y-2">
       <div className="flex gap-[3px]">
@@ -77,7 +86,8 @@ function CellStrip() {
                 // Only the cell that is moving takes the accent.
                 state === "done" && "bg-ink-2/55",
                 state === "failed" && "bg-critical/70",
-                state === "running" && "bg-primary motion-safe:animate-pulse",
+                state === "running" &&
+                  (paused ? "bg-primary/50" : "bg-primary motion-safe:animate-pulse"),
                 state === "queued" && "bg-muted shadow-[inset_0_0_0_1px_var(--border-strong)]"
               )}
             />
@@ -97,7 +107,8 @@ function CellStrip() {
   )
 }
 
-const throughputChart = (t: VizTokens) =>
+// Narrow charts drop the notes, which would sit on the lines.
+const throughputChart = (t: VizTokens, width: number) =>
   ({
     marginLeft: 36,
     marginRight: 88,
@@ -131,15 +142,28 @@ const throughputChart = (t: VizTokens) =>
         strokeWidth: 2,
         curve: "monotone-x",
       }),
-      Plot.text([{ x: 43.5, y: 262 }], {
-        x: "x",
-        y: "y",
-        text: () => "GPU thermal dip",
-        fill: t.text,
-        fontFamily: t.font,
-        fontSize: 11,
-        dy: 14,
-      }),
+      ...(width < 560
+        ? []
+        : [
+            Plot.text([{ x: 43.5, y: 262 }], {
+              x: "x",
+              y: "y",
+              text: () => "GPU thermal dip",
+              fill: t.text,
+              fontFamily: t.font,
+              fontSize: 11,
+              dy: 14,
+            }),
+            Plot.text([{ x: 33, y: 0 }], {
+              x: "x",
+              y: "y",
+              text: () => "job relaunched",
+              fill: t.text,
+              fontFamily: t.font,
+              fontSize: 11,
+              dy: -12,
+            }),
+          ]),
       Plot.dot([now], {
         x: "minute",
         y: "value",
@@ -171,7 +195,7 @@ const throughputChart = (t: VizTokens) =>
     ],
   }) satisfies Plot.PlotOptions
 
-const resources = (released: boolean) =>
+const resources = (released: boolean, paused: boolean) =>
   [
     {
       icon: Box,
@@ -197,9 +221,13 @@ const resources = (released: boolean) =>
       icon: Database,
       kind: "S3 prefix",
       name: "lab-embeddings/travel/v4",
-      detail: [`cell ${RUNNING_CELL}`, "412 objects", "3.1 GiB"],
-      status: "running",
-      meta: "+38/min",
+      detail: [
+        `cell ${RUNNING_CELL}`,
+        `${SHARDS.written} objects`,
+        `${Math.round(SHARDS.written * SHARDS.mib)} MiB`,
+      ],
+      status: paused ? "paused" : "running",
+      meta: `${SHARDS.written} / ${SHARDS.total} shards`,
     },
     {
       icon: LayoutDashboard,
@@ -238,6 +266,8 @@ export function MonitorScreen({
   const build = useCallback(throughputChart, [])
   const [paused, setPaused] = useState(false)
   const [released, setReleased] = useState(false)
+  // Once the undo window closes the release is final and the notice goes.
+  const [releaseFinal, setReleaseFinal] = useState(false)
   const maxSeconds = Math.max(...cells.map((c) => c.seconds))
   return (
     <div className="min-h-svh">
@@ -258,11 +288,20 @@ export function MonitorScreen({
         }
       />
 
-      <main className="mx-auto grid max-w-[1360px] grid-cols-12 gap-4 p-4 md:gap-5 md:p-6">
-        <section className="panel col-span-12 space-y-7 p-5 lg:col-span-7">
+      {/* Phones put what needs attention straight after the summary. */}
+      <main className="mx-auto grid max-w-[1360px] grid-cols-12 gap-4 p-4 md:gap-5 md:p-6 max-lg:[&>*:not(:first-child,#needs-attention)]:order-2">
+        <section className="panel col-span-12 flex flex-col gap-7 p-5 lg:col-span-7">
           <div className="space-y-3">
             <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
               <StatusBadge status={paused ? "paused" : "running"} />
+              {!released && (
+                <a
+                  href="#needs-attention"
+                  className="rounded-full outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                >
+                  <StatusBadge status="warning" label="1 needs attention" />
+                </a>
+              )}
               <Meta
                 items={["nb/02_embeddings.ipynb", "started 14:02"]}
                 className="label-mono text-[11px] text-muted-foreground"
@@ -280,14 +319,23 @@ export function MonitorScreen({
               <div className="mt-2 text-sm text-muted-foreground">cells settled</div>
             </div>
             <div>
-              <div className="figure text-[32px] md:text-[40px]">≈ 6 min</div>
+              <div className="figure text-[32px] md:text-[40px]">
+                {paused ? "Paused" : `≈ ${REMAINING_MIN} min`}
+              </div>
               <Meta
-                items={["remaining", "4–9 min", "ends ~15:06"]}
+                items={
+                  paused
+                    ? [`${REMAINING_MIN} min left when resumed`]
+                    : ["remaining", "4–9 min", "ends ~15:06"]
+                }
                 className="num mt-2 block text-sm text-muted-foreground"
               />
             </div>
           </div>
-          <CellStrip />
+          {/* Pinned to the bottom, level with the tiles' meters beside it. */}
+          <div className="mt-auto">
+            <CellStrip paused={paused} />
+          </div>
         </section>
 
         <section className="panel col-span-12 grid grid-cols-2 overflow-hidden lg:col-span-5">
@@ -304,25 +352,33 @@ export function MonitorScreen({
           <StatTile
             className="border-b p-5"
             label="GPU utilisation"
-            value="87%"
-            trend={spark(5, 16, 85, 12)}
-            delta={<Delta value={-0.04} flatWithin={0.1} period="vs last hour" />}
+            value={`${last(gpuUtilisation)}%`}
+            trend={gpuUtilisation}
+            delta={
+              <Delta
+                value={last(gpuUtilisation) / mean(gpuUtilisation) - 1}
+                flatWithin={0.1}
+                period="vs last hour"
+              />
+            }
           />
           <StatTile
             className="border-r p-5"
             label="Memory"
-            value="21.4"
+            value={String(last(memoryGiB))}
             unit="/ 30 GiB"
-            trend={spark(9, 16, 21, 3)}
-            footer={<Meter value={21.4} max={30} />}
+            trend={memoryGiB}
+            footer={<Meter value={last(memoryGiB)} max={30} />}
           />
           <StatTile
             className="p-5"
             label="Spend so far"
-            value="$3.82"
-            trend={Array.from({ length: 16 }, (_, i) => 0.24 * (i + 1))}
+            value={`$${spend.toFixed(2)}`}
+            trend={spendDollars}
             footer={
-              <span className="text-xs text-muted-foreground">projected $4.40 at finish</span>
+              <span className="text-xs text-muted-foreground">
+                projected ${projected.toFixed(2)} at finish
+              </span>
             }
           />
         </section>
@@ -348,10 +404,16 @@ export function MonitorScreen({
           <PlotFigure build={build} height={248} fill />
         </section>
 
-        <section className="panel col-span-12 overflow-hidden lg:col-span-5">
-          {released ? (
+        <section id="needs-attention" className="panel col-span-12 overflow-hidden lg:col-span-5">
+          {releaseFinal ? null : released ? (
             <div className="border-b p-4">
-              <UndoNotice onUndo={() => setReleased(false)}>
+              <UndoNotice
+                onUndo={() => setReleased(false)}
+                onExpire={() => {
+                  // Call the release API here, once the undo window has closed.
+                  setReleaseFinal(true)
+                }}
+              >
                 Released the 30 GiB volume held by job{" "}
                 <span className="label-mono text-xs whitespace-nowrap">…866245</span>.
               </UndoNotice>
@@ -380,7 +442,7 @@ export function MonitorScreen({
             </div>
           )}
           <div className="divide-y">
-            {resources(released).map((r) => (
+            {resources(released, paused).map((r) => (
               <div key={r.name} className="flex items-center gap-3 px-4 py-3">
                 <div className="well grid size-8 shrink-0 place-items-center">
                   <r.icon className="size-4 text-muted-foreground" />
