@@ -2,12 +2,12 @@ import {
   CloudCheck,
   ExternalLink,
   Flag,
-  Keyboard,
   Languages,
   ListChecks,
   ListOrdered,
   ScanSearch,
   Search,
+  SearchX,
   SkipForward,
   Undo2,
   X,
@@ -16,7 +16,8 @@ import type { ReactNode } from "react"
 import { useEffect, useId, useReducer, useRef, useState } from "react"
 
 import { AppBar } from "@/blocks/app-bar"
-import { Eyebrow, Meta, Meter, Thumb } from "@/blocks/primitives"
+import { ShortcutsHelp } from "@/blocks/keyboard"
+import { Eyebrow, Meter, Thumb } from "@/blocks/primitives"
 import { EmptyState } from "@/blocks/states"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -24,7 +25,7 @@ import { Kbd } from "@/components/ui/kbd"
 import { Switch } from "@/components/ui/switch"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Textarea } from "@/components/ui/textarea"
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
+import { useKeys } from "@/lib/keys"
 import { itemDetail, queue } from "@/lib/sample"
 import { cn } from "@/lib/utils"
 
@@ -47,6 +48,8 @@ const TOTAL = 250
 const SAVED_BEFORE = 64
 
 const ranked: Channel[] = [...queue].sort((a, b) => b.score - a.score)
+const languageNames = new Intl.DisplayNames(["en"], { type: "language" })
+const languageName = (code: string) => languageNames.of(code) ?? code
 const labelOf = (choice: Choice) => options.find((o) => o.value === choice)?.label ?? choice
 
 /** The three channels nearest in score, standing in for embedding neighbours. */
@@ -65,6 +68,8 @@ type State = {
   history: { handle: string; previous?: Choice }[]
   /** Channels saved before this slice, in earlier sessions or slices. */
   savedBefore: number
+  /** Search text that narrows the queue by name or handle. */
+  query: string
 }
 
 type Action =
@@ -76,6 +81,7 @@ type Action =
   | { type: "undo" }
   | { type: "tab"; tab: Tab }
   | { type: "next-slice" }
+  | { type: "search"; query: string }
 
 const initialState: State = {
   tab: "pending",
@@ -84,12 +90,22 @@ const initialState: State = {
   decisions: {},
   history: [],
   savedBefore: SAVED_BEFORE,
+  query: "",
 }
 
-function visible({ tab, decisions }: Pick<State, "tab" | "decisions">) {
+function visible({
+  tab,
+  decisions,
+  query = "",
+}: Pick<State, "tab" | "decisions"> & { query?: string }) {
+  const needle = query.trim().toLowerCase()
+  const matches = (c: Channel) =>
+    !needle || c.name.toLowerCase().includes(needle) || c.handle.includes(needle)
   if (tab === "flagged")
-    return ranked.filter((c) => c.state === "flagged" || decisions[c.handle] === "unsure")
-  return ranked.filter((c) => (tab === "saved") === c.handle in decisions)
+    return ranked.filter(
+      (c) => matches(c) && (c.state === "flagged" || decisions[c.handle] === "unsure")
+    )
+  return ranked.filter((c) => matches(c) && (tab === "saved") === c.handle in decisions)
 }
 
 /** The next unsaved channel after `handle`, wrapping round the slice. */
@@ -158,6 +174,8 @@ function reducer(state: State, action: Action): State {
       if (!list[0] || list.some((c) => c.handle === state.selected)) return next
       return reducer(next, { type: "select", handle: list[0].handle })
     }
+    case "search":
+      return { ...state, query: action.query }
     case "next-slice":
       // The example reloads the same channels; a real app fetches the next slice.
       return {
@@ -167,41 +185,28 @@ function reducer(state: State, action: Action): State {
   }
 }
 
-const isTyping = (target: HTMLElement) =>
-  Boolean(target.closest("textarea, select, [contenteditable='true'], input:not([type='radio'])"))
-
-/** Keys work anywhere except while typing; Enter leaves focused buttons alone. */
-function useShortcuts(dispatch: (action: Action) => void) {
-  useEffect(() => {
-    const onKey = (event: KeyboardEvent) => {
-      const target = event.target as HTMLElement
-      if (isTyping(target)) return
-      const key = event.key.toLowerCase()
-      // ⌘Z and Ctrl+Z undo too, as they do everywhere else.
-      if ((event.metaKey || event.ctrlKey) && !event.shiftKey && !event.altKey && key === "z") {
-        event.preventDefault()
-        dispatch({ type: "undo" })
-        return
-      }
-      if (event.metaKey || event.ctrlKey || event.altKey) return
-      const option = options.find((o) => o.key.toLowerCase() === key)
-      let action: Action | undefined
-      if (option) action = { type: "choose", value: option.value }
-      else if (key === "j" || key === "k") action = { type: "move", by: key === "j" ? 1 : -1 }
-      else if (event.repeat) return
-      else if (key === "z") action = { type: "undo" }
-      else if (key === "enter" && !target.closest("button, a, [role='tab'], [role='switch']"))
-        action = { type: "save" }
-      if (!action) return
-      event.preventDefault()
-      // A radio keeps focus after a mouse pick; drop it so its focus ring is
-      // not mistaken for an answer on the next channel.
-      if (action.type === "save" && target instanceof HTMLInputElement) target.blur()
-      dispatch(action)
-    }
-    window.addEventListener("keydown", onKey)
-    return () => window.removeEventListener("keydown", onKey)
-  }, [dispatch])
+/** The review keys, bound through the kit's `useKeys`. */
+function useReviewKeys(dispatch: (action: Action) => void) {
+  useKeys([
+    ...options.map((o) => ({
+      key: o.key,
+      run: () => dispatch({ type: "choose", value: o.value }),
+    })),
+    { key: "j", repeat: true, run: () => dispatch({ type: "move", by: 1 }) },
+    { key: "k", repeat: true, run: () => dispatch({ type: "move", by: -1 }) },
+    {
+      key: "Enter",
+      run: (event) => {
+        // A radio keeps focus after a mouse pick; drop it so its focus ring
+        // is not mistaken for an answer on the next channel.
+        if (event.target instanceof HTMLInputElement) event.target.blur()
+        dispatch({ type: "save" })
+      },
+    },
+    { key: "s", run: () => dispatch({ type: "skip" }) },
+    { key: "z", run: () => dispatch({ type: "undo" }) },
+    { key: "z", mod: true, run: () => dispatch({ type: "undo" }) },
+  ])
 }
 
 function Highlight({ parts }: { parts: string[] }) {
@@ -241,8 +246,9 @@ const shortcuts = [
   ["Y N U", "choose"],
   ["J K", "next or previous channel"],
   ["⏎", "save and go to the next"],
+  ["S", "skip"],
   ["Z or ⌘Z", "undo the last save"],
-]
+] as [string, string][]
 
 function DecisionActions({
   state,
@@ -274,7 +280,7 @@ function DecisionActions({
         <Undo2 />
       </Button>
       <Button variant="ghost" size="lg" onClick={() => dispatch({ type: "skip" })}>
-        <SkipForward /> Skip
+        <SkipForward /> Skip <Kbd className="ml-0.5 pointer-coarse:hidden">S</Kbd>
       </Button>
       <Button
         size="lg"
@@ -320,7 +326,7 @@ function ModelEstimate({ channel }: { channel: Channel }) {
         <span className="text-xs text-muted-foreground">calibrated</span>
       </div>
       <div className="flex items-end gap-3">
-        <span className="figure text-[34px]">{channel.score.toFixed(2)}</span>
+        <span className="figure text-[22px]">{channel.score.toFixed(2)}</span>
         <span className="num pb-1 text-xs text-muted-foreground">
           rank {rank} of {ranked.length} in this slice
         </span>
@@ -359,7 +365,12 @@ function Queue({
       <div className="space-y-3 border-b p-3">
         <div className="relative">
           <Search className="absolute top-1/2 left-2.5 size-4 -translate-y-1/2 text-muted-foreground" />
-          <Input placeholder="Search channels" className="bg-card pl-8" />
+          <Input
+            placeholder="Search channels"
+            className="bg-card pl-8"
+            value={state.query}
+            onChange={(event) => dispatch({ type: "search", query: event.target.value })}
+          />
         </div>
         <Tabs value={state.tab} onValueChange={(tab: Tab) => dispatch({ type: "tab", tab })}>
           <TabsList variant="line" className="w-full gap-0">
@@ -423,6 +434,23 @@ function Queue({
             )
           })}
         </ul>
+      ) : state.query.trim() ? (
+        <EmptyState
+          icon={<SearchX />}
+          title={`No channels match “${state.query.trim()}”`}
+          className="flex-1"
+          action={
+            <Button
+              size="sm"
+              variant="outline"
+              onClick={() => dispatch({ type: "search", query: "" })}
+            >
+              Clear search
+            </Button>
+          }
+        >
+          Search looks at names and handles.
+        </EmptyState>
       ) : state.tab === "pending" ? (
         <EmptyState
           icon={<ListChecks />}
@@ -476,7 +504,7 @@ export function ReviewScreen({
   const [queueOpen, setQueueOpen] = useState(false)
   const translateId = useId()
   const evidenceRef = useRef<HTMLElement>(null)
-  useShortcuts(dispatch)
+  useReviewKeys(dispatch)
 
   const channel = ranked.find((c) => c.handle === state.selected) ?? ranked[0]
   const detail = itemDetail(channel.handle, channel.score)
@@ -499,7 +527,8 @@ export function ReviewScreen({
         center={
           <div className="flex w-full items-center gap-3 text-xs text-muted-foreground lg:w-72">
             <span className="num whitespace-nowrap">
-              <span className="font-medium text-foreground">{savedTotal}</span> of {TOTAL} saved
+              <span className="font-medium text-foreground">{savedTotal}</span> of {TOTAL} saved in
+              topic
             </span>
             <Meter value={savedTotal} max={TOTAL} />
           </div>
@@ -519,28 +548,7 @@ export function ReviewScreen({
             >
               <ListOrdered /> Queue
             </Button>
-            <Tooltip>
-              <TooltipTrigger
-                render={
-                  <Button
-                    size="icon-sm"
-                    variant="ghost"
-                    aria-label="Keyboard shortcuts"
-                    className="pointer-coarse:hidden"
-                  />
-                }
-              >
-                <Keyboard />
-              </TooltipTrigger>
-              <TooltipContent side="bottom" className="grid grid-cols-[auto_1fr] gap-x-3 gap-y-1">
-                {shortcuts.map(([keys, does]) => (
-                  <span key={keys} className="contents">
-                    <span className="font-medium">{keys}</span>
-                    <span>{does}</span>
-                  </span>
-                ))}
-              </TooltipContent>
-            </Tooltip>
+            <ShortcutsHelp items={shortcuts} />
           </>
         }
       />
@@ -697,11 +705,13 @@ export function ReviewScreen({
                 <ul className="space-y-2.5">
                   {detail.quotes.map((q) => (
                     <li key={q.en.join("")} className="flex gap-3 text-[14px] leading-relaxed">
-                      <span className="label-mono mt-0.5 h-5 shrink-0 rounded bg-muted px-1.5 text-[11px] leading-5 text-muted-foreground uppercase">
-                        {q.lang}
-                      </span>
                       <span>
                         <Highlight parts={english ? q.en : q.text} />
+                        {q.lang !== "en" && (
+                          <span className="ml-2 text-xs whitespace-nowrap text-muted-foreground">
+                            {english ? `from ${languageName(q.lang)}` : languageName(q.lang)}
+                          </span>
+                        )}
                       </span>
                     </li>
                   ))}
@@ -710,10 +720,7 @@ export function ReviewScreen({
 
               {/* The side panel's guidance, estimate and note, until it fits */}
               <section className="panel space-y-5 p-5 xl:hidden">
-                <div className="space-y-2">
-                  <h2 className="text-[19px] leading-snug">{QUESTION}</h2>
-                  <p className="text-[13px] leading-relaxed text-muted-foreground">{GUIDANCE}</p>
-                </div>
+                <p className="text-[13px] leading-relaxed text-muted-foreground">{GUIDANCE}</p>
                 <ModelEstimate channel={channel} />
                 <Textarea
                   aria-label="Note"
@@ -734,13 +741,6 @@ export function ReviewScreen({
                   <span className="sm:hidden">Travel content?</span>
                   <span className="max-sm:hidden">{QUESTION}</span>
                 </span>
-                <Meta
-                  items={[
-                    `model ${channel.score.toFixed(2)}`,
-                    `rank ${ranked.indexOf(channel) + 1} of ${ranked.length}`,
-                  ]}
-                  className="num text-muted-foreground"
-                />
                 <SavedAs choice={state.decisions[state.selected]} />
                 {sliceDone(state) && (
                   <span className="text-muted-foreground">
