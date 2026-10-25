@@ -66,7 +66,12 @@ Do these before showing the app to anyone:
   `LiveIndicator`; the gallery's states page shows them. An empty result is
   an empty state, not an error.
 - Actions answer in place. A destructive action shows `UndoNotice` where the
-  removed thing was, and copying uses `CopyButton`, which says "Copied".
+  removed thing was, copying uses `CopyButton`, which says "Copied", and an
+  action that takes a moment (Retry, Export, Download) uses `ActionButton`,
+  which shows a spinner and a "…ing" label until it finishes.
+- Controls change what they claim to. Lift control state into the screen
+  and rebuild charts from it, as the lab does; a control that is not wired
+  yet says so.
 - Every figure on a screen comes from the same data. Derive totals, deltas
   and headline numbers from the rows the charts draw, so the prose, the
   tiles and the chart cannot disagree.

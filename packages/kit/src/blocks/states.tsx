@@ -9,7 +9,7 @@ import {
   Undo2,
   X,
 } from "lucide-react"
-import { type ReactNode, useEffect, useRef, useState } from "react"
+import { type ComponentProps, type ReactNode, useEffect, useRef, useState } from "react"
 
 import { Button } from "@/components/ui/button"
 import type { LiveStatus } from "@/lib/live"
@@ -69,7 +69,9 @@ export function ErrorState({
       <CircleAlert className="mt-0.5 size-4 shrink-0 text-critical" />
       <div className="min-w-0 space-y-1">
         <div className="text-sm font-semibold">{title}</div>
-        {children && <p className="text-[13px] leading-relaxed text-ink-2">{children}</p>}
+        {children && (
+          <p className="text-[13px] leading-relaxed text-pretty text-ink-2">{children}</p>
+        )}
         {action && <div className="flex gap-2 pt-2">{action}</div>}
       </div>
     </div>
@@ -133,9 +135,12 @@ export function UndoNotice({
   const [left, setLeft] = useState(seconds)
   const expire = useRef(onExpire)
   expire.current = onExpire
+  // The countdown holds while the pointer or focus is on the notice, so
+  // reading it or reaching for Undo never loses the chance.
+  const held = useRef(false)
 
   useEffect(() => {
-    const timer = setInterval(() => setLeft((n) => Math.max(0, n - 1)), 1000)
+    const timer = setInterval(() => setLeft((n) => (held.current ? n : Math.max(0, n - 1))), 1000)
     return () => clearInterval(timer)
   }, [])
   useEffect(() => {
@@ -145,6 +150,18 @@ export function UndoNotice({
   return (
     <div
       role="status"
+      onPointerEnter={() => {
+        held.current = true
+      }}
+      onPointerLeave={() => {
+        held.current = false
+      }}
+      onFocus={() => {
+        held.current = true
+      }}
+      onBlur={() => {
+        held.current = false
+      }}
       className={cn(
         // The minimum height keeps the layout still when the Undo button leaves.
         "flex min-h-[52px] flex-wrap items-center gap-x-3 gap-y-2 rounded-lg bg-muted px-4 py-3 text-[13px]",
@@ -231,5 +248,46 @@ export function CopyButton({
         </div>
       )}
     </span>
+  )
+}
+
+/**
+ * A button for an action that takes a moment, such as Retry, Export or
+ * Download. It disables itself and shows `pendingLabel` with a spinner until
+ * `onAction` settles, so a click always gets an answer.
+ */
+export function ActionButton({
+  onAction,
+  pendingLabel,
+  children,
+  disabled,
+  ...props
+}: Omit<ComponentProps<typeof Button>, "onClick"> & {
+  onAction: () => Promise<unknown>
+  pendingLabel: string
+}) {
+  const [pending, setPending] = useState(false)
+  return (
+    <Button
+      {...props}
+      disabled={pending || disabled}
+      aria-busy={pending}
+      onClick={async () => {
+        setPending(true)
+        try {
+          await onAction()
+        } finally {
+          setPending(false)
+        }
+      }}
+    >
+      {pending ? (
+        <>
+          <LoaderCircle className="motion-safe:animate-spin" /> {pendingLabel}
+        </>
+      ) : (
+        children
+      )}
+    </Button>
   )
 }

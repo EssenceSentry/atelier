@@ -155,7 +155,9 @@ export function Sparkline({
 }) {
   const min = Math.min(...values)
   const max = Math.max(...values)
-  const x = (i: number) => 2 + (i / (values.length - 1)) * (width - 6)
+  // Fluid lines run edge to edge so they line up with meters and rules below.
+  const x = (i: number) =>
+    fluid ? (i / (values.length - 1)) * width : 2 + (i / (values.length - 1)) * (width - 6)
   const y = (v: number) => height - 3 - ((v - min) / (max - min || 1)) * (height - 8)
   const d = values.map((v, i) => `${i ? "L" : "M"}${x(i).toFixed(1)},${y(v).toFixed(1)}`).join("")
   const last = values.length - 1

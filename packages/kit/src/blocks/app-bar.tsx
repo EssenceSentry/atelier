@@ -11,6 +11,7 @@ export function AppBar({
   center,
   right,
   className,
+  innerClassName,
 }: {
   product: string
   /** The app's own mark; atelier's default mark when omitted. */
@@ -19,6 +20,8 @@ export function AppBar({
   center?: ReactNode
   right?: ReactNode
   className?: string
+  /** Width for the bar's contents, such as `mx-auto max-w-[1360px]`, so they line up with the page. */
+  innerClassName?: string
 }) {
   return (
     <header
@@ -27,7 +30,7 @@ export function AppBar({
         className
       )}
     >
-      <div className="flex h-14 items-center gap-4 px-4 md:px-6">
+      <div className={cn("flex h-14 items-center gap-4 px-4 md:px-6", innerClassName)}>
         <div className="flex min-w-0 items-center gap-2.5">
           {icon ?? <BrandMark />}
           <span className="font-heading text-[15px] font-semibold tracking-tight">{product}</span>
