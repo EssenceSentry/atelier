@@ -28,8 +28,9 @@ Pull later improvements into a project with `uvx copier update --trust`.
 
 ## What a project gets
 
-- The kind's screen, the blocks and shadcn/ui components it is built from,
-  and example data to replace.
+- The kind's screen, every block and shadcn/ui component in the kit, and
+  example data to replace. `copier update` brings later block changes; more
+  shadcn components come from `npx shadcn add`.
 - The theme, with the direction set in `app.config.json`.
 - A placeholder app icon to replace, in the app bar and as the favicon.
 - **Commit hooks** (lefthook):
@@ -81,7 +82,3 @@ npm run try-template -- --kind review --theme editorial
 `try-template` generates a project, commits it through its own hooks and runs
 its push gates. CI runs it for every kind, and also lints, type-checks and
 screenshots the gallery.
-
-## Not built yet
-
-- A block registry that agents add pieces from with `npx shadcn add`.
