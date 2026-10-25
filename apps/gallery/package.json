@@ -11,7 +11,8 @@
     "format": "prettier --write \"**/*.{ts,tsx}\"",
     "typecheck": "tsc -b",
     "preview": "vite preview",
-    "capture": "node scripts/capture.mjs http://localhost:5188 captures"
+    "capture": "node scripts/capture.mjs http://localhost:5188 captures",
+    "build:artifact": "THEME=all ATELIER_TARGET=artifact vite build --outDir dist/artifact"
   },
   "dependencies": {
     "@atelier/theme": "*",

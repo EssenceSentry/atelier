@@ -4,16 +4,14 @@
  * Every colour is written once as light-dark(light, dark); the mode rules in
  * ../modes.css pick the side. Chart palettes passed the dataviz validator for
  * adjacent pairs on every slot and all pairs on the first three, in both modes.
+ * Fonts load from ../fonts/instrument.css or from Google Fonts, never from here.
  */
-@import "@fontsource-variable/instrument-sans";
-@import "@fontsource-variable/jetbrains-mono";
-
 :root,
 [data-direction="instrument"] {
-  --ff-sans: "Instrument Sans Variable", ui-sans-serif, system-ui, sans-serif;
-  --ff-heading: "Instrument Sans Variable", ui-sans-serif, system-ui, sans-serif;
-  --ff-mono: "JetBrains Mono Variable", ui-monospace, monospace;
-  --ff-figure: "Instrument Sans Variable", ui-sans-serif, sans-serif;
+  --ff-sans: "Instrument Sans Variable", "Instrument Sans", ui-sans-serif, system-ui, sans-serif;
+  --ff-heading: "Instrument Sans Variable", "Instrument Sans", ui-sans-serif, system-ui, sans-serif;
+  --ff-mono: "JetBrains Mono Variable", "JetBrains Mono", ui-monospace, monospace;
+  --ff-figure: "Instrument Sans Variable", "Instrument Sans", ui-sans-serif, sans-serif;
 
   --heading-weight: 600;
   --heading-tracking: -0.02em;

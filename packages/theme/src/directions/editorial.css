@@ -4,17 +4,13 @@
  * Every colour is written once as light-dark(light, dark); the mode rules in
  * ../modes.css pick the side. Chart palettes passed the dataviz validator for
  * adjacent pairs on every slot and all pairs on the first three, in both modes.
+ * Fonts load from ../fonts/editorial.css or from Google Fonts, never from here.
  */
-@import "@fontsource-variable/newsreader/opsz.css";
-@import "@fontsource-variable/newsreader/opsz-italic.css";
-@import "@fontsource-variable/hanken-grotesk";
-@import "@fontsource-variable/jetbrains-mono";
-
 [data-direction="editorial"] {
-  --ff-sans: "Hanken Grotesk Variable", ui-sans-serif, system-ui, sans-serif;
-  --ff-heading: "Newsreader Variable", Georgia, serif;
-  --ff-mono: "JetBrains Mono Variable", ui-monospace, monospace;
-  --ff-figure: "Hanken Grotesk Variable", ui-sans-serif, sans-serif;
+  --ff-sans: "Hanken Grotesk Variable", "Hanken Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --ff-heading: "Newsreader Variable", "Newsreader", Georgia, serif;
+  --ff-mono: "JetBrains Mono Variable", "JetBrains Mono", ui-monospace, monospace;
+  --ff-figure: "Hanken Grotesk Variable", "Hanken Grotesk", ui-sans-serif, sans-serif;
 
   --heading-weight: 480;
   --heading-tracking: -0.012em;

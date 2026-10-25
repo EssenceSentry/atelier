@@ -24,6 +24,9 @@ over server-sent events.
 Each project sets `theme` in its `app.config.json` to `instrument` (default),
 `editorial` or `console`. See [packages/theme](packages/theme/README.md).
 
+Any atelier app can also build as a claude.ai artifact with
+`ATELIER_TARGET=artifact`; see [apps/gallery](apps/gallery/README.md).
+
 ## Run the gallery
 
 ```bash

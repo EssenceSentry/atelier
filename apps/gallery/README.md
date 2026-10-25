@@ -26,3 +26,16 @@ renders its own direction with no direction switcher.
 
 Thumbnails are generated landscapes, so the gallery needs no network and ships
 no third-party images.
+
+## As an artifact
+
+```bash
+npm run build:artifact
+node scripts/check-artifact.mjs
+```
+
+The build writes `dist/artifact/index.html`, ready to publish as a claude.ai
+artifact. The check loads it in a page shaped like the artifact host's, with a
+similar content security policy, and fails if light or dark does not follow the
+system setting and `data-theme`, if a chart does not render in any direction or
+screen, or if the page scrolls sideways at phone width.

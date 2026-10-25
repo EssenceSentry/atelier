@@ -51,6 +51,12 @@ Light or dark follows the viewer's system setting. `data-theme="light"` or
 `data-theme="dark"` on `<html>` overrides it either way. Each colour token is a
 single `light-dark()` pair, so a direction defines every colour once.
 
+## Artifacts
+
+`ATELIER_TARGET=artifact` builds a page for a claude.ai artifact instead of an
+app: one `index.html` holding only page content (the artifact host supplies the
+document), with fonts from Google Fonts and all CSS and JavaScript inlined.
+
 ## Charts
 
 `@atelier/theme/viz` resolves chart colours from the active tokens:

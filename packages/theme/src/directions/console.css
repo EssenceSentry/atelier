@@ -4,15 +4,13 @@
  * Every colour is written once as light-dark(light, dark); the mode rules in
  * ../modes.css pick the side. Chart palettes passed the dataviz validator for
  * adjacent pairs on every slot and all pairs on the first three, in both modes.
+ * Fonts load from ../fonts/console.css or from Google Fonts, never from here.
  */
-@import "@fontsource-variable/chivo";
-@import "@fontsource-variable/chivo-mono";
-
 [data-direction="console"] {
-  --ff-sans: "Chivo Variable", ui-sans-serif, system-ui, sans-serif;
-  --ff-heading: "Chivo Variable", ui-sans-serif, system-ui, sans-serif;
-  --ff-mono: "Chivo Mono Variable", ui-monospace, monospace;
-  --ff-figure: "Chivo Mono Variable", ui-monospace, monospace;
+  --ff-sans: "Chivo Variable", "Chivo", ui-sans-serif, system-ui, sans-serif;
+  --ff-heading: "Chivo Variable", "Chivo", ui-sans-serif, system-ui, sans-serif;
+  --ff-mono: "Chivo Mono Variable", "Chivo Mono", ui-monospace, monospace;
+  --ff-figure: "Chivo Mono Variable", "Chivo Mono", ui-monospace, monospace;
 
   --heading-weight: 620;
   --heading-tracking: -0.025em;

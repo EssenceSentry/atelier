@@ -44,7 +44,7 @@ function Dock({ state, set }: { state: BoardState; set: (s: Partial<BoardState>)
     </div>
   )
   return (
-    <div className="fixed bottom-4 left-1/2 z-50 flex -translate-x-1/2 flex-wrap items-center justify-center gap-1.5 rounded-[22px] bg-neutral-900/92 p-1.5 font-[system-ui] shadow-2xl ring-1 ring-white/10 backdrop-blur">
+    <div className="fixed bottom-[calc(1rem+env(safe-area-inset-bottom,0px))] left-1/2 z-50 flex -translate-x-1/2 flex-wrap items-center justify-center gap-1.5 rounded-[22px] bg-neutral-900/92 p-1.5 font-[system-ui] shadow-2xl ring-1 ring-white/10 backdrop-blur">
       {BOARD && group(DIRECTIONS, state.direction, "direction")}
       {group(SCREENS, state.screen, "screen")}
       {group(MODES, state.mode, "mode")}
