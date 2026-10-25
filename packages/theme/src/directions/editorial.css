@@ -63,6 +63,8 @@
   --viz-grid: light-dark(#e8e1d3, #29231c);
   --viz-axis: light-dark(#cbc0ab, #463d32);
   --viz-text: var(--muted-foreground);
+  /* Low end of score ramps, which run from it to series 1; low values must stay visible. */
+  --viz-ramp-low: var(--viz-text);
   --series-1: light-dark(#2863ab, #5290d3);
   --series-2: light-dark(#c8661a, #d9772a);
   --series-3: light-dark(#8b4486, #a95fa3);

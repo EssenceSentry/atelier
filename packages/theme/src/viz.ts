@@ -2,6 +2,8 @@
 export type VizTokens = {
   surface: string
   text: string
+  /** Low end of a sequential ramp to series 1; readable against the surface. */
+  rampLow: string
   ink: string
   grid: string
   axis: string
@@ -39,6 +41,7 @@ export function readVizTokens(root: HTMLElement = document.documentElement): Viz
   const tokens = {
     surface: color("--card"),
     text: color("--viz-text"),
+    rampLow: color("--viz-ramp-low"),
     ink: color("--foreground"),
     grid: color("--viz-grid"),
     axis: color("--viz-axis"),

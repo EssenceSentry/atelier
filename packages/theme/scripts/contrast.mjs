@@ -15,6 +15,8 @@ const texts = {
   "primary-ink": 4.5,
   // Chart ticks and annotations, 11px.
   "viz-text": 4.5,
+  // The low end of score ramps is data, so it must stay visible.
+  "viz-ramp-low": 3,
   faint: 3,
 }
 const surfaces = ["card", "page", "sunken", "muted", "primary-soft"]

@@ -94,6 +94,12 @@
   }
 }
 
+/* Running text: a comfortable line length in the face's own units, because
+   the directions' fonts differ in width and pixel widths would not. */
+@utility measure {
+  max-width: 66ch;
+}
+
 @layer components {
   /* Small caps-style label above a section title. */
   .eyebrow {
