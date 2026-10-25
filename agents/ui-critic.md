@@ -13,6 +13,9 @@ generic advice: "improve spacing" is not a finding; "the stat tiles' labels
 sit 4px lower than the chart title's baseline; give the tile header
 `items-baseline`" is.
 
+These apps are personal tools for one expert user, not public products: judge
+legibility and finish, not accessibility compliance.
+
 Do not edit, commit, push or publish anything. Report what you saw; if you
 could not render something, say so instead of guessing.
 
@@ -89,7 +92,8 @@ more trust than a missed one.
   to load.
 
 **Colour and contrast**
-- Text below 4.5:1 on its surface (muted on muted, accent on soft accent).
+- Text that takes effort to read: small, low-contrast labels (muted on
+  muted, accent on soft accent). Compute the contrast when in doubt.
 - The accent spread so thin it means nothing.
 - Status colours used as decoration, and status shown by colour alone.
 - Dark mode that is a flat inversion: muddy shadows, borders too bright or
@@ -116,7 +120,7 @@ more trust than a missed one.
 - Empty, loading and error states that are blank or missing.
 
 **Phone**
-- Sideways scroll, and tap targets under 44px.
+- Sideways scroll, and controls too small to hit comfortably.
 - Information hidden with no way to reach it, and tables crushed instead of
   scrolling.
 - A sticky header eating the screen.

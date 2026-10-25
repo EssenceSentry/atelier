@@ -53,10 +53,12 @@ Do these before showing the app to anyone:
   Use series slots in order and never cycle past the last; fold the rest into
   "Other" or facet.
 - Status pairs colour with an icon and a word (`StatusBadge`).
-- Accessibility in numbers: text at least 11px, running text at least 13px;
-  text contrast at least 4.5:1, so `text-faint` is for decoration and large
-  figures only; touch targets 44×44px on phone layouts; visible keyboard focus;
-  nothing conveyed by colour alone.
+- Legibility over compliance: these are personal tools, so accessibility
+  compliance is not a goal, but reading must be effortless. Text at least
+  11px (13px for running text), about 4.5:1 contrast for text the user reads
+  (`text-faint` is for decoration and large figures), controls comfortable to
+  hit on phone layouts, keyboard paths for frequent actions, and status never
+  carried by colour alone.
 - Every view has its states: loading shows something at once, empty states
   invite the next action, and errors say what happened and how to fix it.
 - Labels say what happens ("Release volume", not "Submit"), an action keeps
@@ -81,7 +83,7 @@ the check catches breakage, not an ugly layout. Run
 Before the app is shown or published, offer two independent reviews. The
 `ui-critic` agent renders the app in both modes on desktop and phone, zooms
 into details and reports everything that looks unprofessional. The
-`hig-critic` agent judges purpose, measured accessibility, states and
+`hig-critic` agent judges purpose, measured legibility, states and
 writing against Apple's Human Interface Guidelines. They are meant to
 disagree at times; reconcile their findings with the user rather than
 applying both blindly. Agree on running them with the user first, as with

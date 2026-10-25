@@ -32,8 +32,8 @@ Run `try-template` for every kind a change can affect. For visual changes
 to the theme or the kit, offer reviews of the gallery by the `ui-critic` and
 `hig-critic` agents (`agents/`, linked into `~/.claude/agents`).
 `node packages/theme/scripts/contrast.mjs` measures every text token on every
-surface; it reports known failures today, and becomes a CI gate once the
-tokens pass. Generated code must
+surface. atelier apps are personal tools, so it is a legibility reference for
+reviews, not a compliance gate. Generated code must
 already pass its own Biome and colour checks; a failing hook fails the first
 commit.
 

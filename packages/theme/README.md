@@ -60,8 +60,9 @@ document), with fonts from Google Fonts and all CSS and JavaScript inlined.
 ## Contrast
 
 `node scripts/contrast.mjs` computes every text token against every surface,
-per direction and mode, and exits 1 below 4.5:1 (3:1 for `faint`, which is
-for decoration and large figures only).
+per direction and mode, and lists pairs below 4.5:1 (3:1 for `faint`, which
+is for decoration and large figures only). atelier apps are personal tools,
+so this is a legibility reference for reviews, not a compliance gate.
 
 ## Charts
 
