@@ -43,6 +43,13 @@ const ingestChange = weekly(after, "Ingest") / weekly(before, "Ingest") - 1
 const shareBefore = (weekly(before, "Ad hoc") / spendBefore) * 100
 const shareAfter = (weekly(after, "Ad hoc") / spendAfter) * 100
 
+// On-demand price per credit, and the share of the audit's credits that
+// partitioning by load date removes.
+const PRICE_PER_CREDIT = 3
+const PARTITION_SAVING = 0.8
+const audit = topQueries.find((q) => q.name === "adhoc_thumbnail_audit")
+const auditSaving = (audit?.credits ?? 0) * PRICE_PER_CREDIT * PARTITION_SAVING
+
 // Below this width every other week is labelled, and only the latest total.
 const NARROW = 480
 
@@ -54,7 +61,8 @@ const spendChart = (t: VizTokens, width: number) => {
   const step = inner / (weeks.length + padding)
   const narrow = width < NARROW
   const latest = weeks[weeks.length - 1]
-  const labelled = new Set(narrow ? [latest] : [before[before.length - 1], RESIZED, latest])
+  const lastBefore = before[before.length - 1]
+  const labelled = new Set(narrow ? [lastBefore, latest] : [lastBefore, RESIZED, latest])
   return {
     marginLeft: margin.left,
     marginRight: margin.right,
@@ -211,7 +219,7 @@ export function ReportScreen({
             1).
           </p>
           <p>
-            Transform and dashboard spend stayed flat. Ad hoc spend kept rising, driven by thumbnail
+            Transform and dashboard spend stayed flat. Ad hoc spend kept rising, led by thumbnail
             audits that scan the full image table instead of the daily partition; Figure 2 lists the
             queries behind it.
           </p>
@@ -223,7 +231,7 @@ export function ReportScreen({
               <Eyebrow>Figure 1</Eyebrow>
               <h2 className="text-xl md:text-[22px]">Weekly spend by warehouse</h2>
             </div>
-            <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-muted-foreground">
+            <div className="grid grid-cols-2 gap-x-4 gap-y-1 text-xs text-muted-foreground sm:flex sm:flex-wrap">
               {warehouses.map((w, i) => (
                 <span key={w} className="flex items-center gap-1.5">
                   <span
@@ -305,7 +313,10 @@ export function ReportScreen({
         <aside className="mt-12 max-w-[760px] border-t-2 border-primary pt-5">
           <Eyebrow>Recommendation</Eyebrow>
           <ol className="mt-3 list-decimal space-y-2 pl-5 text-[15px] leading-relaxed">
-            <li>Partition thumbnail audits by load date; expected saving $1.9K per month.</li>
+            <li>
+              Partition thumbnail audits by load date; expected saving $
+              {(auditSaving / 1000).toFixed(1)}K per month.
+            </li>
             <li>Move the transform warehouse to auto-suspend after 60 s instead of 600 s.</li>
             <li>Keep ingest at size M and alert if queueing exceeds 30 s for a full hour.</li>
           </ol>
