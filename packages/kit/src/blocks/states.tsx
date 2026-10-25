@@ -270,9 +270,10 @@ export function ActionButton({
   return (
     <Button
       {...props}
-      disabled={pending || disabled}
+      disabled={disabled}
       aria-busy={pending}
       onClick={async () => {
+        if (pending) return
         setPending(true)
         try {
           await onAction()
@@ -281,13 +282,45 @@ export function ActionButton({
         }
       }}
     >
-      {pending ? (
-        <>
+      {/* Both labels share one cell, so the button keeps its width while busy. */}
+      <span className="grid *:col-start-1 *:row-start-1 *:inline-flex *:items-center *:justify-center *:gap-1.5">
+        <span className={cn(pending && "invisible")}>{children}</span>
+        <span className={cn(!pending && "invisible")} aria-hidden={!pending}>
           <LoaderCircle className="motion-safe:animate-spin" /> {pendingLabel}
-        </>
-      ) : (
-        children
-      )}
+        </span>
+      </span>
     </Button>
+  )
+}
+
+/**
+ * An action the app has not built yet. A click says so in place instead of
+ * doing nothing; swap it for the real action when it exists. The
+ * check-inert-buttons script fails on a plain Button with no action.
+ */
+export function NotBuiltButton({
+  children,
+  ...props
+}: Omit<ComponentProps<typeof Button>, "onClick">) {
+  const [said, setSaid] = useState(false)
+  useEffect(() => {
+    if (!said) return
+    const timer = setTimeout(() => setSaid(false), 2500)
+    return () => clearTimeout(timer)
+  }, [said])
+  return (
+    <span className="relative inline-flex">
+      <Button {...props} onClick={() => setSaid(true)}>
+        {children}
+      </Button>
+      {said && (
+        <span
+          role="status"
+          className="absolute top-full right-0 z-30 mt-2 rounded-md border bg-popover px-2.5 py-1.5 text-xs whitespace-nowrap text-popover-foreground shadow-md"
+        >
+          Not built in this example
+        </span>
+      )}
+    </span>
   )
 }

@@ -7,19 +7,31 @@ export function Eyebrow({ children, className }: { children: ReactNode; classNam
   return <div className={cn("eyebrow", className)}>{children}</div>
 }
 
-/** Inline metadata with spaced separators; some faces set "·" too tight. */
-export function Meta({ items, className }: { items: string[]; className?: string }) {
+/**
+ * Inline metadata with spaced separators; some faces set "·" too tight. In
+ * narrow rows use `wrap`, which moves whole items to the next line instead of
+ * truncating the last one: never cut a Meta list mid-item.
+ */
+export function Meta({
+  items,
+  wrap = false,
+  className,
+}: {
+  items: string[]
+  wrap?: boolean
+  className?: string
+}) {
   return (
-    <span className={className}>
+    <span className={cn(wrap && "inline-flex flex-wrap", className)}>
       {items.map((item, position) => (
-        <Fragment key={item}>
+        <span key={item} className={cn(wrap && "whitespace-nowrap")}>
           {position > 0 && (
             <span aria-hidden className="px-[0.4em] text-faint">
               ·
             </span>
           )}
           {item}
-        </Fragment>
+        </span>
       ))}
     </span>
   )
@@ -30,10 +42,13 @@ export function SectionHeader({
   title,
   meta,
   actions,
+  level = "h3",
   className,
 }: {
   eyebrow?: string
   title: ReactNode
+  /** h2 for a page-level section such as a report figure, h3 inside a panel. */
+  level?: "h2" | "h3"
   meta?: ReactNode
   actions?: ReactNode
   className?: string
@@ -47,7 +62,11 @@ export function SectionHeader({
     >
       <div className="min-w-0 space-y-1.5">
         {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
-        <h3 className="truncate text-[15px] leading-tight">{title}</h3>
+        {level === "h2" ? (
+          <h2 className="text-xl leading-tight md:text-[22px]">{title}</h2>
+        ) : (
+          <h3 className="truncate text-[15px] leading-tight">{title}</h3>
+        )}
       </div>
       {/* Buttons alone have no text baseline; centring them keeps the title level. */}
       <div
@@ -105,18 +124,23 @@ const statusMeta: Record<Status, { label: string; icon: ReactNode; tone: string 
   },
 }
 
-/** Status always carries an icon and a word, never colour alone. */
+/**
+ * Status always carries an icon and a word, never colour alone. With `href`
+ * the badge is a link, as tall as a touch target on phones.
+ */
 export function StatusBadge({
   status,
   label,
+  href,
   className,
 }: {
   status: Status
   label?: string
+  href?: string
   className?: string
 }) {
   const meta = statusMeta[status]
-  return (
+  const badge = (
     <span
       className={cn(
         "label-mono inline-flex h-6 items-center gap-1.5 rounded-full px-2.5 text-[11px] font-medium whitespace-nowrap [&_svg]:size-3.5",
@@ -127,6 +151,15 @@ export function StatusBadge({
       {meta.icon}
       {label ?? meta.label}
     </span>
+  )
+  if (!href) return badge
+  return (
+    <a
+      href={href}
+      className="inline-flex items-center rounded-full outline-none focus-visible:ring-2 focus-visible:ring-ring pointer-coarse:min-h-11"
+    >
+      {badge}
+    </a>
   )
 }
 
@@ -270,7 +303,7 @@ export function FigureRow({
   return (
     <div
       className={cn(
-        "grid grid-cols-1 items-baseline gap-x-12 sm:grid-flow-col sm:grid-rows-[auto_auto] sm:justify-start sm:gap-y-2 max-sm:[&>*:nth-child(even)]:mb-4",
+        "grid items-baseline gap-x-12 max-sm:grid-cols-1 sm:auto-cols-max sm:grid-flow-col sm:grid-rows-[auto_auto] sm:justify-start sm:gap-y-2 max-sm:[&>*:nth-child(even)]:mb-4",
         className
       )}
     >

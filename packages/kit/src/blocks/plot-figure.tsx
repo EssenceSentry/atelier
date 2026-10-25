@@ -7,6 +7,24 @@ import { cn } from "@/lib/utils"
 
 type Build = (t: VizTokens, width: number) => Plot.PlotOptions
 
+let measurer: CanvasRenderingContext2D | null | undefined
+
+/**
+ * Width in pixels of chart text set in the direction's label font. Set
+ * margins from it rather than by hand: label fonts differ in width between
+ * directions and machines, and a hand-set margin that fits one clips another.
+ */
+export function labelWidth(
+  t: VizTokens,
+  texts: string[],
+  { size = 11, weight = 400 }: { size?: number; weight?: number } = {}
+) {
+  measurer ??= document.createElement("canvas").getContext("2d")
+  if (!measurer) return 8 * Math.max(0, ...texts.map((text) => text.length))
+  measurer.font = `${weight} ${size}px ${t.labelFont}`
+  return Math.ceil(Math.max(0, ...texts.map((text) => measurer?.measureText(text).width ?? 0)))
+}
+
 /** Shared axis and type styling so every chart recedes the same way. */
 export function baseOptions(t: VizTokens, width: number): Plot.PlotOptions {
   return {
@@ -25,7 +43,8 @@ export function baseOptions(t: VizTokens, width: number): Plot.PlotOptions {
  * Marks that only fit a wide chart, such as notes beside the data. Narrow
  * charts drop them, because there they land on the marks or on each other.
  */
-export const whenWide = (width: number, marks: Plot.Markish[], min = 560) =>
+export const NARROW_CHART = 560
+export const whenWide = (width: number, marks: Plot.Markish[], min = NARROW_CHART) =>
   width < min ? [] : marks
 
 /** Tooltip styled from the direction's popover tokens. */
@@ -40,6 +59,7 @@ export function PlotFigure({
   build,
   height,
   fill = false,
+  narrowNote,
   className,
 }: {
   build: Build
@@ -47,11 +67,21 @@ export function PlotFigure({
   height: number
   /** Grow to the height the parent flex column gives the figure. */
   fill?: boolean
+  /**
+   * What the notes say that `whenWide` drops on narrow charts, shown as a
+   * caption under the chart there so the explanation is not lost.
+   */
+  narrowNote?: string
   className?: string
 }) {
   const ref = useRef<HTMLElement>(null)
   const tokens = useVizTokens()
   const [size, setSize] = useState({ width: 0, height: 0 })
+  // Redraw once web fonts arrive, so margins measured from labels fit them.
+  const [fontsReady, setFontsReady] = useState(false)
+  useEffect(() => {
+    document.fonts?.ready.then(() => setFontsReady(true))
+  }, [])
 
   useEffect(() => {
     const el = ref.current
@@ -72,6 +102,7 @@ export function PlotFigure({
 
   const chartHeight = fill ? Math.max(height, size.height) : height
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: fontsReady redraws once web fonts load
   useEffect(() => {
     const el = ref.current
     if (!el) return
@@ -100,13 +131,20 @@ export function PlotFigure({
     el.dataset.state = "ok"
     el.replaceChildren(chart)
     return () => chart.remove()
-  }, [tokens, size.width, chartHeight, build])
+  }, [tokens, size.width, chartHeight, build, fontsReady])
 
-  return (
+  const figure = (
     <figure
       ref={ref}
       className={cn("plot-figure m-0 w-full", fill && "min-h-0 flex-1", className)}
       style={fill ? { minHeight: height } : { height }}
     />
+  )
+  if (!narrowNote || size.width === 0 || size.width >= NARROW_CHART) return figure
+  return (
+    <>
+      {figure}
+      <p className="text-xs text-muted-foreground">{narrowNote}</p>
+    </>
   )
 }

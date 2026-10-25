@@ -1,12 +1,13 @@
-import { keepUnits } from "@/lib/format"
+import { StatusIcon } from "@/blocks/primitives"
+import { keepIds, keepUnits } from "@/lib/format"
 import { cn } from "@/lib/utils"
 
 export type LogLine = { t: string; level: "info" | "warn" | "error"; msg: string }
 
 /**
  * The latest log lines, newest first. On phones each time sits above its
- * message, values keep their units, and long paths break anywhere rather
- * than overflow the panel.
+ * message, values keep their units, IDs stay whole, long paths break rather
+ * than overflow, and warnings and errors carry an icon as well as a colour.
  */
 export function LogTail({ lines, className }: { lines: LogLine[]; className?: string }) {
   return (
@@ -24,24 +25,21 @@ export function LogTail({ lines, className }: { lines: LogLine[]; className?: st
           <span className="num col-start-2 text-[11px] text-muted-foreground sm:col-start-1 sm:text-[13px]">
             {l.t}
           </span>
-          <span
-            aria-hidden
-            className={cn(
-              "mt-[6px] size-1.5 rounded-full",
-              l.level === "error"
-                ? "bg-critical"
-                : l.level === "warn"
-                  ? "bg-warning"
-                  : "bg-border-strong"
-            )}
-          />
+          {l.level === "info" ? (
+            <span aria-hidden className="mt-[6px] size-1.5 rounded-full bg-border-strong" />
+          ) : (
+            <StatusIcon
+              status={l.level === "error" ? "failed" : "warning"}
+              className="mt-0.5 [&_svg]:size-3.5"
+            />
+          )}
           <span
             className={cn(
               "[overflow-wrap:anywhere]",
               l.level === "info" ? "text-ink-2" : "text-foreground"
             )}
           >
-            {keepUnits(l.msg)}
+            {keepIds(keepUnits(l.msg))}
           </span>
         </div>
       ))}

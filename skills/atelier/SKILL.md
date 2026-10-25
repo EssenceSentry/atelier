@@ -51,7 +51,21 @@ Do these before showing the app to anyone:
   quiet while the person types, and `ShortcutsHelp` lists them on click or
   "?". Hide key hints on touch screens with `pointer-coarse:hidden`.
 - Chart notes that need room go through `whenWide(width, marks)`, so narrow
-  charts drop them instead of printing them over the data.
+  charts drop them instead of printing them over the data; pass what they
+  said to PlotFigure's `narrowNote` so phones still get it.
+- Set chart margins from `labelWidth(t, labels)`, never by hand: label fonts
+  differ between directions and machines.
+- A chart with two or more series has a `Legend` in its SectionHeader
+  `meta`, shaped like its marks, even when a neighbouring chart uses the
+  same colours. Report figures use `SectionHeader level="h2"`.
+- Every button does something. One that is not built yet is a
+  `NotBuiltButton`, which says so; a commit check fails on a bare one. A
+  disabled action says what it is waiting for ("Choose an answer").
+- Running text is set at `measure` (66ch), never a pixel width. Text sizes
+  stay on the type scale (a commit check enforces it).
+- Eyebrows classify (a resource kind, "Figure 1"); they never restate the
+  heading under them. Meta lists wrap whole items (`wrap`) rather than
+  truncate, and a filtered list shows "shown/total".
 - Colours come from theme tokens only (`bg-card`, `text-ink-2`,
   `bg-primary-soft`, `text-good`, `var(--series-1)`). A commit hook rejects hex
   values and palette classes such as `blue-500`.
