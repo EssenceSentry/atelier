@@ -1,25 +1,29 @@
 import {
+  Cloud,
   CloudCheck,
   ExternalLink,
   Flag,
   Keyboard,
   Languages,
   ListChecks,
+  ListOrdered,
+  ScanSearch,
   Search,
   SkipForward,
   Undo2,
+  X,
 } from "lucide-react"
 import type { ReactNode } from "react"
 import { useEffect, useId, useReducer, useRef, useState } from "react"
 
 import { AppBar } from "@/blocks/app-bar"
-import { Eyebrow, Meter, Thumb } from "@/blocks/primitives"
+import { Eyebrow, Meta, Meter, StatusBadge, Thumb } from "@/blocks/primitives"
 import { EmptyState } from "@/blocks/states"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Kbd } from "@/components/ui/kbd"
 import { Switch } from "@/components/ui/switch"
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Textarea } from "@/components/ui/textarea"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
 import { queue, videos } from "@/lib/sample"
@@ -28,10 +32,12 @@ import { cn } from "@/lib/utils"
 const options = [
   { key: "Y", value: "yes", label: "Yes, travel", hint: "Most uploads document trips or places" },
   { key: "N", value: "no", label: "No", hint: "Travel appears only occasionally" },
-  { key: "U", value: "unsure", label: "Unsure", hint: "Needs a second reviewer" },
+  { key: "U", value: "unsure", label: "Unsure", hint: "Flags it for a second reviewer" },
 ] as const
 
 const QUESTION = "Is this channel primarily travel content?"
+const GUIDANCE =
+  "Judge the channel as a whole. One travel video on a cooking channel is still a no."
 
 const quotes = [
   {
@@ -51,23 +57,39 @@ const quotes = [
   },
 ]
 
+const about = [
+  ["Country", "Norway"],
+  ["Languages", "Norwegian, English"],
+  ["On YouTube since", "March 2019"],
+  ["Uploads", "About one a week"],
+]
+
+const similar = [
+  { name: "Slow Rail Diaries", decision: "yes", note: "Rail journeys in every upload" },
+  { name: "Ridge & Valley", decision: "unsure", note: "Hiking or travel? Needs a second look" },
+  { name: "Gear Bench", decision: "no", note: "Product reviews filmed outdoors" },
+] as const
+
 type Choice = (typeof options)[number]["value"]
 type Channel = (typeof queue)[number]
-type Tab = "pending" | "done" | "flagged"
+type Tab = "pending" | "saved" | "flagged"
 
-// Progress before this session; the sample queue is the next slice of it.
+// The topic has 250 channels and loads them in slices; the sample queue is one.
 const TOTAL = 250
-const DONE_BEFORE = 64
+const SAVED_BEFORE = 64
 
 const ranked: Channel[] = [...queue].sort((a, b) => b.score - a.score)
+const labelOf = (choice: Choice) => options.find((o) => o.value === choice)?.label ?? choice
 
 type State = {
   tab: Tab
   selected: string
   choice: Choice | null
   decisions: Record<string, Choice>
-  /** Saved decisions, newest last, with what each one replaced. */
+  /** Saved decisions in this slice, newest last, with what each one replaced. */
   history: { handle: string; previous?: Choice }[]
+  /** Channels saved before this slice, in earlier sessions or slices. */
+  savedBefore: number
 }
 
 type Action =
@@ -78,13 +100,24 @@ type Action =
   | { type: "skip" }
   | { type: "undo" }
   | { type: "tab"; tab: Tab }
+  | { type: "next-slice" }
 
-function visible({ tab, decisions }: Pick<State, "tab" | "decisions">) {
-  if (tab === "flagged") return ranked.filter((c) => c.state === "flagged")
-  return ranked.filter((c) => (tab === "done") === c.handle in decisions)
+const initialState: State = {
+  tab: "pending",
+  selected: ranked[0].handle,
+  choice: null,
+  decisions: {},
+  history: [],
+  savedBefore: SAVED_BEFORE,
 }
 
-/** The next undecided channel after `handle`, wrapping round the queue. */
+function visible({ tab, decisions }: Pick<State, "tab" | "decisions">) {
+  if (tab === "flagged")
+    return ranked.filter((c) => c.state === "flagged" || decisions[c.handle] === "unsure")
+  return ranked.filter((c) => (tab === "saved") === c.handle in decisions)
+}
+
+/** The next unsaved channel after `handle`, wrapping round the slice. */
 function nextPending(handle: string, decisions: Record<string, Choice>) {
   const at = ranked.findIndex((c) => c.handle === handle)
   for (let step = 1; step <= ranked.length; step++) {
@@ -115,6 +148,8 @@ function reducer(state: State, action: Action): State {
     }
     case "save": {
       if (!state.choice) return state
+      // Saving the answer already saved just moves on.
+      if (state.decisions[state.selected] === state.choice) return reducer(state, { type: "skip" })
       const decisions = { ...state.decisions, [state.selected]: state.choice }
       const history = [
         ...state.history,
@@ -145,18 +180,32 @@ function reducer(state: State, action: Action): State {
       if (!list[0] || list.some((c) => c.handle === state.selected)) return next
       return reducer(next, { type: "select", handle: list[0].handle })
     }
+    case "next-slice":
+      // The example reloads the same channels; a real app fetches the next slice.
+      return {
+        ...initialState,
+        savedBefore: state.savedBefore + Object.keys(state.decisions).length,
+      }
   }
 }
+
+const isTyping = (target: HTMLElement) =>
+  Boolean(target.closest("textarea, select, [contenteditable='true'], input:not([type='radio'])"))
 
 /** Keys work anywhere except while typing; Enter leaves focused buttons alone. */
 function useShortcuts(dispatch: (action: Action) => void) {
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
-      if (event.metaKey || event.ctrlKey || event.altKey) return
       const target = event.target as HTMLElement
-      if (target.closest("textarea, select, [contenteditable='true'], input:not([type='radio'])"))
-        return
+      if (isTyping(target)) return
       const key = event.key.toLowerCase()
+      // ⌘Z and Ctrl+Z undo too, as they do everywhere else.
+      if ((event.metaKey || event.ctrlKey) && !event.shiftKey && !event.altKey && key === "z") {
+        event.preventDefault()
+        dispatch({ type: "undo" })
+        return
+      }
+      if (event.metaKey || event.ctrlKey || event.altKey) return
       const option = options.find((o) => o.key.toLowerCase() === key)
       let action: Action | undefined
       if (option) action = { type: "choose", value: option.value }
@@ -183,7 +232,11 @@ function Highlight({ parts }: { parts: string[] }) {
         const key = offset
         offset += part.length
         return position % 2 ? (
-          <mark key={key} className="rounded-[3px] bg-primary-soft px-0.5 text-foreground">
+          // The negative margin cancels the padding so punctuation stays attached.
+          <mark
+            key={key}
+            className="-mx-0.5 rounded-[3px] bg-primary-soft box-decoration-clone px-0.5 text-foreground"
+          >
             {part}
           </mark>
         ) : (
@@ -204,10 +257,10 @@ function initials(name: string) {
 }
 
 const shortcuts = [
-  ["Y N U", "decide"],
+  ["Y N U", "choose"],
   ["J K", "next or previous channel"],
   ["⏎", "save and go to the next"],
-  ["Z", "undo the last save"],
+  ["Z or ⌘Z", "undo the last save"],
 ]
 
 function DecisionActions({
@@ -219,6 +272,8 @@ function DecisionActions({
   dispatch: (action: Action) => void
   className?: string
 }) {
+  const saved = state.decisions[state.selected]
+  const label = !saved ? "Save and next" : saved === state.choice ? "Next" : "Update and next"
   return (
     <div className={cn("flex items-center gap-2", className)}>
       <Button
@@ -239,10 +294,15 @@ function DecisionActions({
         disabled={!state.choice}
         onClick={() => dispatch({ type: "save" })}
       >
-        Save and next <Kbd className="ml-1 bg-primary-foreground/20 text-primary-foreground">⏎</Kbd>
+        {label} <Kbd className="ml-1 bg-primary-foreground/20 text-primary-foreground">⏎</Kbd>
       </Button>
     </div>
   )
+}
+
+function SavedAs({ choice }: { choice?: Choice }) {
+  if (!choice) return null
+  return <StatusBadge status="done" label={`Saved: ${labelOf(choice)}`} />
 }
 
 function ModelEstimate({ channel }: { channel: Channel }) {
@@ -256,11 +316,139 @@ function ModelEstimate({ channel }: { channel: Channel }) {
       <div className="flex items-end gap-3">
         <span className="figure text-[34px]">{channel.score.toFixed(2)}</span>
         <span className="num pb-1 text-xs text-muted-foreground">
-          rank {rank} of {ranked.length} in this queue
+          rank {rank} of {ranked.length} in this slice
         </span>
       </div>
       <Meter value={channel.score} max={1} />
     </div>
+  )
+}
+
+function Queue({
+  state,
+  dispatch,
+  onPick,
+}: {
+  state: State
+  dispatch: (action: Action) => void
+  onPick?: () => void
+}) {
+  const listRef = useRef<HTMLUListElement>(null)
+  const list = visible(state)
+  const saved = Object.keys(state.decisions).length
+  const counts: Record<Tab, number> = {
+    pending: ranked.length - saved,
+    saved,
+    flagged: visible({ tab: "flagged", decisions: state.decisions }).length,
+  }
+  const left = TOTAL - state.savedBefore - saved
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: runs when the selection changes
+  useEffect(() => {
+    listRef.current?.querySelector("[aria-current='true']")?.scrollIntoView({ block: "nearest" })
+  }, [state.selected])
+
+  return (
+    <>
+      <div className="space-y-3 border-b p-3">
+        <div className="relative">
+          <Search className="absolute top-1/2 left-2.5 size-4 -translate-y-1/2 text-muted-foreground" />
+          <Input placeholder="Search channels" className="bg-card pl-8" />
+        </div>
+        <Tabs value={state.tab} onValueChange={(tab: Tab) => dispatch({ type: "tab", tab })}>
+          <TabsList variant="line" className="w-full gap-0">
+            {(
+              [
+                ["pending", "To review"],
+                ["saved", "Saved"],
+                ["flagged", "Flagged"],
+              ] as const
+            ).map(([tab, name]) => (
+              <TabsTrigger key={tab} value={tab} className="text-[13px]">
+                {name} <span className="num text-muted-foreground">{counts[tab]}</span>
+              </TabsTrigger>
+            ))}
+          </TabsList>
+        </Tabs>
+      </div>
+      {list.length ? (
+        <ul ref={listRef} className="min-h-0 flex-1 overflow-auto p-1.5">
+          {list.map((c) => {
+            const on = c.handle === state.selected
+            const decision = state.decisions[c.handle]
+            return (
+              <li key={c.handle}>
+                <button
+                  type="button"
+                  aria-current={on ? "true" : undefined}
+                  onClick={() => {
+                    dispatch({ type: "select", handle: c.handle })
+                    onPick?.()
+                  }}
+                  className={cn(
+                    "flex w-full items-center gap-3 rounded-md px-2.5 py-2 text-left outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                    on ? "bg-primary-soft" : "hover:bg-muted"
+                  )}
+                >
+                  <span className="grid size-8 shrink-0 place-items-center rounded-full bg-muted text-[11px] font-semibold text-ink-2 ring-1 ring-border">
+                    {initials(c.name)}
+                  </span>
+                  <span className="min-w-0 flex-1">
+                    <span
+                      className={cn(
+                        "block truncate text-[13px] font-medium",
+                        on && "text-primary-ink"
+                      )}
+                    >
+                      {c.name}
+                    </span>
+                    <span className="block truncate text-xs text-muted-foreground">
+                      {decision ? `Saved: ${labelOf(decision)}` : `${c.handle}, ${c.subs}`}
+                    </span>
+                  </span>
+                  {(c.state === "flagged" || decision === "unsure") && (
+                    <Flag className="size-3.5 shrink-0 text-warning" aria-label="Flagged" />
+                  )}
+                  <span className="label-mono num w-9 text-right text-xs text-ink-2">
+                    {c.score.toFixed(2)}
+                  </span>
+                </button>
+              </li>
+            )
+          })}
+        </ul>
+      ) : state.tab === "pending" ? (
+        <EmptyState
+          icon={<ListChecks />}
+          title={`Slice done: ${saved} saved`}
+          className="flex-1"
+          action={
+            <Button size="sm" onClick={() => dispatch({ type: "next-slice" })}>
+              Load next slice
+            </Button>
+          }
+        >
+          {left} channels left in this topic. Press Z to undo the last save.
+        </EmptyState>
+      ) : (
+        <EmptyState
+          icon={state.tab === "saved" ? <ListChecks /> : <Flag />}
+          title={state.tab === "saved" ? "Nothing saved in this slice" : "No flagged channels"}
+          className="flex-1"
+        >
+          {state.tab === "saved"
+            ? "Channels you save appear here."
+            : "Unsure answers and channels flagged earlier appear here."}
+        </EmptyState>
+      )}
+      <div className="flex items-center justify-between border-t px-3 py-2 text-xs text-muted-foreground">
+        <span>Sorted by model score</span>
+        <span className="flex items-center gap-1">
+          <Kbd>J</Kbd>
+          <Kbd>K</Kbd> move
+        </span>
+      </div>
+    </>
   )
 }
 
@@ -271,37 +459,24 @@ export function ReviewScreen({
   product?: string
   icon?: ReactNode
 }) {
-  const [state, dispatch] = useReducer(reducer, {
-    tab: "pending",
-    selected: ranked[0].handle,
-    choice: null,
-    decisions: {},
-    history: [],
-  })
+  const [state, dispatch] = useReducer(reducer, initialState)
   const [english, setEnglish] = useState(true)
   const [notes, setNotes] = useState<Record<string, string>>({})
+  const [queueOpen, setQueueOpen] = useState(false)
   const translateId = useId()
-  const listRef = useRef<HTMLUListElement>(null)
   const evidenceRef = useRef<HTMLElement>(null)
   useShortcuts(dispatch)
 
   const channel = ranked.find((c) => c.handle === state.selected) ?? ranked[0]
-  const decided = Object.keys(state.decisions).length
-  const list = visible(state)
+  const savedTotal = state.savedBefore + Object.keys(state.decisions).length
+  const savedThisSession = savedTotal - SAVED_BEFORE
   const note = notes[channel.handle] ?? ""
   const setNote = (value: string) => setNotes((all) => ({ ...all, [channel.handle]: value }))
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: runs when the selection changes
   useEffect(() => {
-    listRef.current?.querySelector("[aria-current='true']")?.scrollIntoView({ block: "nearest" })
     evidenceRef.current?.scrollTo({ top: 0 })
   }, [state.selected])
-
-  const counts: Record<Tab, number> = {
-    pending: TOTAL - DONE_BEFORE - decided,
-    done: DONE_BEFORE + decided,
-    flagged: ranked.filter((c) => c.state === "flagged").length,
-  }
 
   return (
     <div className="flex h-svh flex-col">
@@ -310,19 +485,27 @@ export function ReviewScreen({
         icon={icon}
         crumbs={["Travel topic", "Channel review"]}
         center={
-          <div className="flex w-72 items-center gap-3 text-xs text-muted-foreground">
+          <div className="flex w-full items-center gap-3 text-xs text-muted-foreground lg:w-72">
             <span className="num whitespace-nowrap">
-              <span className="font-medium text-foreground">{counts.done}</span> of {TOTAL}
+              <span className="font-medium text-foreground">{savedTotal}</span> of {TOTAL} saved
             </span>
-            <Meter value={counts.done} max={TOTAL} />
+            <Meter value={savedTotal} max={TOTAL} />
           </div>
         }
         right={
           <>
             <span className="mr-1 hidden items-center gap-1.5 text-xs text-muted-foreground md:flex">
-              <CloudCheck className="size-4" />
-              {decided ? `${decided} saved this session` : "Nothing saved yet"}
+              {savedThisSession ? <CloudCheck className="size-4" /> : <Cloud className="size-4" />}
+              {savedThisSession ? `${savedThisSession} saved this session` : "Nothing saved yet"}
             </span>
+            <Button
+              size="sm"
+              variant="outline"
+              className="md:hidden"
+              onClick={() => setQueueOpen(true)}
+            >
+              <ListOrdered /> Queue
+            </Button>
             <Tooltip>
               <TooltipTrigger
                 render={<Button size="icon-sm" variant="ghost" aria-label="Keyboard shortcuts" />}
@@ -342,85 +525,29 @@ export function ReviewScreen({
         }
       />
 
-      <div className="grid min-h-0 flex-1 grid-cols-1 md:grid-cols-[280px_1fr] xl:grid-cols-[300px_1fr_380px]">
-        {/* Queue */}
-        <aside className="hidden min-h-0 flex-col border-r bg-sunken/50 md:flex">
-          <div className="space-y-3 border-b p-3">
-            <div className="relative">
-              <Search className="absolute top-1/2 left-2.5 size-4 -translate-y-1/2 text-muted-foreground" />
-              <Input placeholder="Search channels" className="bg-card pl-8" />
-            </div>
-            <Tabs value={state.tab} onValueChange={(tab: Tab) => dispatch({ type: "tab", tab })}>
-              <TabsList variant="line" className="w-full justify-start gap-3">
-                {(["pending", "done", "flagged"] as const).map((tab) => (
-                  <TabsTrigger key={tab} value={tab} className="flex-none capitalize">
-                    {tab} <span className="num text-muted-foreground">{counts[tab]}</span>
-                  </TabsTrigger>
-                ))}
-              </TabsList>
-            </Tabs>
-          </div>
-          {list.length ? (
-            <ul ref={listRef} className="min-h-0 flex-1 overflow-auto p-1.5">
-              {list.map((c) => {
-                const on = c.handle === state.selected
-                const decision = options.find((o) => o.value === state.decisions[c.handle])
-                return (
-                  <li key={c.handle}>
-                    <button
-                      type="button"
-                      aria-current={on ? "true" : undefined}
-                      onClick={() => dispatch({ type: "select", handle: c.handle })}
-                      className={cn(
-                        "flex w-full items-center gap-3 rounded-md px-2.5 py-2 text-left outline-none focus-visible:ring-2 focus-visible:ring-ring",
-                        on ? "bg-primary-soft" : "hover:bg-muted"
-                      )}
-                    >
-                      <span className="grid size-8 shrink-0 place-items-center rounded-full bg-muted text-[11px] font-semibold text-ink-2 ring-1 ring-border">
-                        {initials(c.name)}
-                      </span>
-                      <span className="min-w-0 flex-1">
-                        <span
-                          className={cn(
-                            "block truncate text-[13px] font-medium",
-                            on && "text-primary-ink"
-                          )}
-                        >
-                          {c.name}
-                        </span>
-                        <span className="block truncate text-xs text-muted-foreground">
-                          {decision ? `Decided: ${decision.label}` : `${c.handle}, ${c.subs}`}
-                        </span>
-                      </span>
-                      {c.state === "flagged" && (
-                        <Flag className="size-3.5 shrink-0 text-warning" aria-label="Flagged" />
-                      )}
-                      <span className="label-mono num w-9 text-right text-xs text-ink-2">
-                        {c.score.toFixed(2)}
-                      </span>
-                    </button>
-                  </li>
-                )
-              })}
-            </ul>
-          ) : (
-            <EmptyState
-              icon={<ListChecks />}
-              title={state.tab === "pending" ? "Queue cleared" : "No decisions yet"}
-              className="flex-1"
+      {/* Phones get the queue as a full-screen sheet instead of a side column. */}
+      {queueOpen && (
+        <div className="fixed inset-0 z-30 flex flex-col bg-background md:hidden">
+          <div className="flex h-14 shrink-0 items-center justify-between border-b px-4">
+            <span className="text-[15px] font-semibold">Queue</span>
+            <Button
+              size="icon-sm"
+              variant="ghost"
+              aria-label="Close queue"
+              onClick={() => setQueueOpen(false)}
             >
-              {state.tab === "pending"
-                ? "Every channel in this slice has a decision. Press Z to undo the last one."
-                : "Decisions saved in this session appear here."}
-            </EmptyState>
-          )}
-          <div className="flex items-center justify-between border-t px-3 py-2 text-xs text-muted-foreground">
-            <span>Sorted by model score</span>
-            <span className="flex items-center gap-1">
-              <Kbd>J</Kbd>
-              <Kbd>K</Kbd> move
-            </span>
+              <X />
+            </Button>
           </div>
+          <div className="flex min-h-0 flex-1 flex-col">
+            <Queue state={state} dispatch={dispatch} onPick={() => setQueueOpen(false)} />
+          </div>
+        </div>
+      )}
+
+      <div className="grid min-h-0 flex-1 grid-cols-1 md:grid-cols-[280px_1fr] xl:grid-cols-[300px_1fr_380px]">
+        <aside className="hidden min-h-0 flex-col border-r bg-sunken/50 md:flex">
+          <Queue state={state} dispatch={dispatch} />
         </aside>
 
         {/* Evidence, with the decision bar below it until the side panel fits */}
@@ -439,7 +566,6 @@ export function ReviewScreen({
                     <span className="num">{channel.subs} subscribers</span>
                     <span className="num">412 videos</span>
                     <span>Norway</span>
-                    <span>Norwegian, English</span>
                   </div>
                 </div>
                 <Button variant="outline" size="sm">
@@ -447,8 +573,8 @@ export function ReviewScreen({
                 </Button>
               </div>
 
-              <div className="border-b">
-                <Tabs defaultValue="videos">
+              <Tabs defaultValue="videos" className="gap-6">
+                <div className="border-b">
                   <TabsList variant="line" className="gap-4">
                     <TabsTrigger value="videos" className="flex-none">
                       Recent videos <span className="num text-muted-foreground">8</span>
@@ -460,38 +586,63 @@ export function ReviewScreen({
                       Similar decisions
                     </TabsTrigger>
                   </TabsList>
-                </Tabs>
-              </div>
+                </div>
 
-              <div className="grid grid-cols-2 gap-x-4 gap-y-5 lg:grid-cols-4">
-                {videos.map((v) => (
-                  <figure key={v.seed} className="m-0 space-y-2">
-                    <div className="relative">
-                      <Thumb
-                        seed={v.seed}
-                        className={cn(
-                          "aspect-video rounded-lg",
-                          v.evidence && "ring-2 ring-primary ring-offset-2 ring-offset-background"
-                        )}
-                      />
-                      <span className="label-mono num absolute right-1.5 bottom-1.5 rounded bg-black/72 px-1.5 py-0.5 text-[11px] text-white">
-                        {v.length}
-                      </span>
-                      {v.evidence && (
-                        <span className="absolute top-1.5 left-1.5 rounded bg-primary px-1.5 py-0.5 text-[11px] font-semibold text-primary-foreground">
-                          Evidence
-                        </span>
-                      )}
-                    </div>
-                    <figcaption className="space-y-0.5">
-                      <div className="line-clamp-2 text-[13px] leading-snug font-medium text-pretty">
-                        {v.title}
-                      </div>
-                      <div className="num text-xs text-muted-foreground">{v.views} views</div>
-                    </figcaption>
-                  </figure>
-                ))}
-              </div>
+                <TabsContent value="videos">
+                  <div className="grid grid-cols-2 gap-x-4 gap-y-5 lg:grid-cols-4">
+                    {videos.map((v) => (
+                      <figure key={v.seed} className="m-0 space-y-2">
+                        <div className="relative">
+                          <Thumb seed={v.seed} className="aspect-video rounded-lg" />
+                          <span className="label-mono num absolute right-1.5 bottom-1.5 rounded bg-black/72 px-1.5 py-0.5 text-[11px] text-white">
+                            {v.length}
+                          </span>
+                          {v.evidence && (
+                            <span className="absolute top-1.5 left-1.5 inline-flex items-center gap-1 rounded bg-background/90 px-1.5 py-0.5 text-[11px] font-medium text-foreground shadow-xs backdrop-blur-sm">
+                              <ScanSearch className="size-3" /> Evidence
+                            </span>
+                          )}
+                        </div>
+                        <figcaption className="space-y-0.5">
+                          <div className="line-clamp-2 text-[13px] leading-snug font-medium text-pretty">
+                            {v.title}
+                          </div>
+                          <div className="num text-xs text-muted-foreground">{v.views} views</div>
+                        </figcaption>
+                      </figure>
+                    ))}
+                  </div>
+                </TabsContent>
+
+                <TabsContent value="about">
+                  <div className="max-w-[640px] space-y-5">
+                    <p className="text-[15px] leading-relaxed text-ink-2">
+                      Slow travel films from northern Norway: rail journeys, ferries and cabins,
+                      with full itineraries and costs in each description.
+                    </p>
+                    <dl className="grid grid-cols-[max-content_1fr] gap-x-6 gap-y-2 text-[13px]">
+                      {about.map(([term, value]) => (
+                        <div key={term} className="contents">
+                          <dt className="text-muted-foreground">{term}</dt>
+                          <dd>{value}</dd>
+                        </div>
+                      ))}
+                    </dl>
+                  </div>
+                </TabsContent>
+
+                <TabsContent value="similar">
+                  <ul className="max-w-[640px] divide-y text-[13px]">
+                    {similar.map((s) => (
+                      <li key={s.name} className="flex flex-wrap items-center gap-x-3 gap-y-1 py-3">
+                        <span className="min-w-0 flex-1 font-medium">{s.name}</span>
+                        <StatusBadge status="done" label={labelOf(s.decision)} />
+                        <span className="w-full text-muted-foreground">{s.note}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </TabsContent>
+              </Tabs>
 
               <section className="panel space-y-3 p-5">
                 <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
@@ -530,10 +681,7 @@ export function ReviewScreen({
               <section className="panel space-y-5 p-5 xl:hidden">
                 <div className="space-y-2">
                   <h2 className="text-[19px] leading-snug">{QUESTION}</h2>
-                  <p className="text-[13px] leading-relaxed text-muted-foreground">
-                    Judge the channel as a whole. One travel video on a cooking channel is still a
-                    no.
-                  </p>
+                  <p className="text-[13px] leading-relaxed text-muted-foreground">{GUIDANCE}</p>
                 </div>
                 <ModelEstimate channel={channel} />
                 <Textarea
@@ -548,34 +696,53 @@ export function ReviewScreen({
           </main>
 
           <div className="border-t bg-card px-4 pt-3 pb-[calc(0.75rem+env(safe-area-inset-bottom,0px))] md:px-7 xl:hidden">
-            <div className="mx-auto flex max-w-[920px] flex-wrap items-center gap-x-3 gap-y-2">
-              <div className="flex gap-2 max-sm:w-full">
-                {options.map((o) => {
-                  const on = state.choice === o.value
-                  return (
-                    <button
-                      key={o.value}
-                      type="button"
-                      aria-pressed={on}
-                      onClick={() => dispatch({ type: "choose", value: o.value })}
-                      className={cn(
-                        "flex h-10 flex-1 items-center justify-center gap-2 rounded-lg border bg-card px-3 text-sm font-medium whitespace-nowrap outline-none focus-visible:ring-2 focus-visible:ring-ring pointer-coarse:h-11",
-                        on
-                          ? "border-primary bg-primary-soft text-primary-ink ring-1 ring-primary"
-                          : "hover:border-border-strong hover:bg-muted/50"
-                      )}
-                    >
-                      <Kbd className={cn(on && "bg-primary text-primary-foreground")}>{o.key}</Kbd>
-                      {o.label}
-                    </button>
-                  )
-                })}
+            <div className="mx-auto max-w-[920px] space-y-2.5">
+              <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[13px]">
+                {/* Phones get the short form so the bar keeps to one line of context. */}
+                <span className="font-medium">
+                  <span className="sm:hidden">Travel content?</span>
+                  <span className="max-sm:hidden">{QUESTION}</span>
+                </span>
+                <Meta
+                  items={[
+                    `model ${channel.score.toFixed(2)}`,
+                    `rank ${ranked.indexOf(channel) + 1} of ${ranked.length}`,
+                  ]}
+                  className="num text-muted-foreground"
+                />
+                <SavedAs choice={state.decisions[state.selected]} />
               </div>
-              <DecisionActions
-                state={state}
-                dispatch={dispatch}
-                className="ml-auto max-sm:w-full"
-              />
+              <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
+                <div className="flex gap-2 max-sm:w-full">
+                  {options.map((o) => {
+                    const on = state.choice === o.value
+                    return (
+                      <button
+                        key={o.value}
+                        type="button"
+                        aria-pressed={on}
+                        onClick={() => dispatch({ type: "choose", value: o.value })}
+                        className={cn(
+                          "flex h-10 flex-1 items-center justify-center gap-2 rounded-lg border bg-card px-3 text-sm font-medium whitespace-nowrap outline-none focus-visible:ring-2 focus-visible:ring-ring pointer-coarse:h-11",
+                          on
+                            ? "border-primary bg-primary-soft text-primary-ink ring-1 ring-primary"
+                            : "hover:border-border-strong hover:bg-muted/50"
+                        )}
+                      >
+                        <Kbd className={cn(on && "bg-primary text-primary-foreground")}>
+                          {o.key}
+                        </Kbd>
+                        {o.label}
+                      </button>
+                    )
+                  })}
+                </div>
+                <DecisionActions
+                  state={state}
+                  dispatch={dispatch}
+                  className="ml-auto max-sm:w-full"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -586,13 +753,12 @@ export function ReviewScreen({
             <div className="space-y-2">
               <Eyebrow>Your decision</Eyebrow>
               <h2 className="text-[22px] leading-snug">{QUESTION}</h2>
-              <p className="text-[13px] leading-relaxed text-muted-foreground">
-                Judge the channel as a whole. One travel video on a cooking channel is still a no.
-              </p>
+              <p className="text-[13px] leading-relaxed text-muted-foreground">{GUIDANCE}</p>
             </div>
 
             <fieldset className="min-w-0 space-y-2">
               <legend className="sr-only">Decision</legend>
+              <SavedAs choice={state.decisions[state.selected]} />
               {options.map((o) => {
                 const on = state.choice === o.value
                 return (
@@ -625,7 +791,7 @@ export function ReviewScreen({
                       <span className={cn("block text-sm font-semibold", on && "text-primary-ink")}>
                         {o.label}
                       </span>
-                      <span className="block text-xs text-muted-foreground">{o.hint}</span>
+                      <span className="block text-[13px] text-muted-foreground">{o.hint}</span>
                     </span>
                   </label>
                 )
