@@ -42,6 +42,10 @@ commit.
 - Colours come from theme tokens. Wrap deliberate content colours in
   `check-colours: off` / `check-colours: on` comments that say why.
 - Keep chart series in their validated slot order; never cycle past the last.
+- atelier is general purpose. Example data in `packages/kit/src/lib/sample.ts`
+  stays short and generic, because every generated project starts with it.
+  When example figures disagree, derive them from one dataset or a small pool
+  rather than writing content for each item.
 - Keep actions pinned by commit hash with the version in a comment, and use
   the same hashes here and in `template/`.
 - `skills/atelier/SKILL.md` is the skill agents load to use atelier. Update it in the

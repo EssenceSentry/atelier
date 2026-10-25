@@ -87,64 +87,68 @@ export const queue = [
   { name: "Night Markets", handle: "@nightmarkets", subs: "97K", score: 0.79, state: "pending" },
 ] as const
 
-export const videos = [
-  {
-    seed: "fjord",
-    title: "Three days in the Lofoten fjords",
-    views: "412K",
-    length: "18:24",
-    evidence: true,
-  },
-  {
-    seed: "rail",
-    title: "Sleeper train from Oslo to Bodø",
-    views: "1.1M",
-    length: "32:10",
-    evidence: true,
-  },
-  {
-    seed: "cabin",
-    title: "Off-grid cabin tour, winter edition",
-    views: "220K",
-    length: "14:02",
-    evidence: false,
-  },
-  {
-    seed: "coast",
-    title: "Driving the Atlantic Road at dawn",
-    views: "870K",
-    length: "11:47",
-    evidence: true,
-  },
-  {
-    seed: "market",
-    title: "What I eat on a travel day",
-    views: "96K",
-    length: "09:31",
-    evidence: false,
-  },
-  {
-    seed: "summit",
-    title: "Hiking Reinebringen, 1,978 steps",
-    views: "1.4M",
-    length: "21:55",
-    evidence: true,
-  },
-  {
-    seed: "harbor",
-    title: "Packing list for 10 days in Norway",
-    views: "305K",
-    length: "13:08",
-    evidence: true,
-  },
-  {
-    seed: "aurora",
-    title: "Chasing the aurora with a rental car",
-    views: "2.2M",
-    length: "26:40",
-    evidence: true,
-  },
+type Video = { seed: string; title: string; views: string; length: string; evidence: boolean }
+/** Odd positions of `text` and `en` are the matched terms to highlight. */
+type Quote = { lang: string; text: string[]; en: string[] }
+export type ItemDetail = { uploads: number; since: number; videos: Video[]; quotes: Quote[] }
+
+const en = (...parts: string[]): Quote => ({ lang: "en", text: parts, en: parts })
+
+// Two small pools of example evidence: uploads and quotes that match the topic
+// and ones that do not. Each item draws from them in proportion to its score,
+// so the evidence never contradicts the model.
+const matching = [
+  ["Three days in the Lofoten fjords", "412K", "18:24"],
+  ["Sleeper train from Oslo to Bodø", "1.1M", "32:10"],
+  ["Driving the Atlantic Road at dawn", "870K", "11:47"],
+  ["Five islands by ferry in a week", "1.6M", "24:10"],
+  ["Slow boat down the Mekong", "980K", "22:15"],
+  ["Three nights on the Wonderland Trail", "640K", "29:18"],
 ]
+const other = [
+  ["Five weeknight curries", "95K", "13:05"],
+  ["Ultralight tent comparison", "380K", "21:40"],
+  ["Listener questions, episode 412", "6K", "31:40"],
+  ["Knife skills for beginners", "160K", "10:31"],
+  ["Ranking 20 bubble teas", "220K", "14:55"],
+  ["Choosing a sketchbook", "39K", "07:58"],
+]
+const matchingQuotes: Quote[] = [
+  {
+    lang: "no",
+    text: ["Tre dager i ", "Lofoten", " med tog, ferje og leiebil."],
+    en: ["Three days in ", "Lofoten", " by train, ferry and rental car."],
+  },
+  en("Full ", "itinerary", " and costs are in the description."),
+  en("Every ", "border crossing", " in this video, with times and fees."),
+]
+const otherQuotes: Quote[] = [
+  en("Ingredients and substitutions are in the description."),
+  en("Today: housing, transit funding and the weekend weather."),
+]
+
+function hashOf(text: string) {
+  let h = 2166136261
+  for (const ch of text) h = Math.imul(h ^ ch.charCodeAt(0), 16777619)
+  return h >>> 0
+}
+
+/** Example uploads and quotes for one queue item, consistent with its score. */
+export function itemDetail(id: string, score: number): ItemDetail {
+  const h = hashOf(id)
+  const hits = Math.round(score * 4)
+  const pick = (pool: string[][], i: number) => pool[(h + i) % pool.length]
+  const videos = Array.from({ length: 4 }, (_, i) => {
+    const evidence = i < hits
+    const [title, views, length] = evidence ? pick(matching, i) : pick(other, i)
+    return { seed: `${id}-${i}`, title, views, length, evidence }
+  })
+  const quotes =
+    score >= 0.5
+      ? [matchingQuotes[h % 3], matchingQuotes[(h + 1) % 3]]
+      : [otherQuotes[h % 2], otherQuotes[(h + 1) % 2]]
+  return { uploads: 80 + (h % 900), since: 2014 + (h % 9), videos, quotes }
+}
 
 // Lab: two-class embedding projection with a probe score.
 export const points = (() => {

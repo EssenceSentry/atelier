@@ -1,5 +1,4 @@
 import {
-  Cloud,
   CloudCheck,
   ExternalLink,
   Flag,
@@ -17,7 +16,7 @@ import type { ReactNode } from "react"
 import { useEffect, useId, useReducer, useRef, useState } from "react"
 
 import { AppBar } from "@/blocks/app-bar"
-import { Eyebrow, Meta, Meter, StatusBadge, Thumb } from "@/blocks/primitives"
+import { Eyebrow, Meta, Meter, Thumb } from "@/blocks/primitives"
 import { EmptyState } from "@/blocks/states"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -26,7 +25,7 @@ import { Switch } from "@/components/ui/switch"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Textarea } from "@/components/ui/textarea"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
-import { queue, videos } from "@/lib/sample"
+import { itemDetail, queue } from "@/lib/sample"
 import { cn } from "@/lib/utils"
 
 const options = [
@@ -39,37 +38,6 @@ const QUESTION = "Is this channel primarily travel content?"
 const GUIDANCE =
   "Judge the channel as a whole. One travel video on a cooking channel is still a no."
 
-const quotes = [
-  {
-    lang: "no",
-    text: ["Tre dager i ", "Lofoten", " med tog, ferje og leiebil."],
-    en: ["Three days in ", "Lofoten", " by train, ferry and rental car."],
-  },
-  {
-    lang: "en",
-    text: ["Full ", "itinerary", " and costs are in the description."],
-    en: ["Full ", "itinerary", " and costs are in the description."],
-  },
-  {
-    lang: "no",
-    text: ["Neste stopp: ", "Bodø", ", så nattoget sørover."],
-    en: ["Next stop: ", "Bodø", ", then the night train south."],
-  },
-]
-
-const about = [
-  ["Country", "Norway"],
-  ["Languages", "Norwegian, English"],
-  ["On YouTube since", "March 2019"],
-  ["Uploads", "About one a week"],
-]
-
-const similar = [
-  { name: "Slow Rail Diaries", decision: "yes", note: "Rail journeys in every upload" },
-  { name: "Ridge & Valley", decision: "unsure", note: "Hiking or travel? Needs a second look" },
-  { name: "Gear Bench", decision: "no", note: "Product reviews filmed outdoors" },
-] as const
-
 type Choice = (typeof options)[number]["value"]
 type Channel = (typeof queue)[number]
 type Tab = "pending" | "saved" | "flagged"
@@ -80,6 +48,13 @@ const SAVED_BEFORE = 64
 
 const ranked: Channel[] = [...queue].sort((a, b) => b.score - a.score)
 const labelOf = (choice: Choice) => options.find((o) => o.value === choice)?.label ?? choice
+
+/** The three channels nearest in score, standing in for embedding neighbours. */
+const neighbours = (channel: Channel) =>
+  ranked
+    .filter((c) => c !== channel)
+    .sort((a, b) => Math.abs(a.score - channel.score) - Math.abs(b.score - channel.score))
+    .slice(0, 3)
 
 type State = {
   tab: Tab
@@ -148,8 +123,11 @@ function reducer(state: State, action: Action): State {
     }
     case "save": {
       if (!state.choice) return state
-      // Saving the answer already saved just moves on.
-      if (state.decisions[state.selected] === state.choice) return reducer(state, { type: "skip" })
+      // Saving the answer already saved moves on, or to the next slice at the end.
+      if (state.decisions[state.selected] === state.choice)
+        return nextPending(state.selected, state.decisions)
+          ? reducer(state, { type: "skip" })
+          : reducer(state, { type: "next-slice" })
       const decisions = { ...state.decisions, [state.selected]: state.choice }
       const history = [
         ...state.history,
@@ -216,6 +194,9 @@ function useShortcuts(dispatch: (action: Action) => void) {
         action = { type: "save" }
       if (!action) return
       event.preventDefault()
+      // A radio keeps focus after a mouse pick; drop it so its focus ring is
+      // not mistaken for an answer on the next channel.
+      if (action.type === "save" && target instanceof HTMLInputElement) target.blur()
       dispatch(action)
     }
     window.addEventListener("keydown", onKey)
@@ -273,7 +254,14 @@ function DecisionActions({
   className?: string
 }) {
   const saved = state.decisions[state.selected]
-  const label = !saved ? "Save and next" : saved === state.choice ? "Next" : "Update and next"
+  const finished = sliceDone(state) && saved === state.choice
+  const label = !saved
+    ? "Save and next"
+    : saved !== state.choice
+      ? "Update and next"
+      : finished
+        ? "Load next slice"
+        : "Next"
   return (
     <div className={cn("flex items-center gap-2", className)}>
       <Button
@@ -294,16 +282,34 @@ function DecisionActions({
         disabled={!state.choice}
         onClick={() => dispatch({ type: "save" })}
       >
-        {label} <Kbd className="ml-1 bg-primary-foreground/20 text-primary-foreground">⏎</Kbd>
+        {label}{" "}
+        <Kbd className="ml-1 bg-primary-foreground/20 text-primary-foreground pointer-coarse:hidden">
+          ⏎
+        </Kbd>
       </Button>
     </div>
   )
 }
 
+/** A decision, marked with a flag only when it sends the channel to Flagged. */
+function DecisionBadge({ choice, prefix = "" }: { choice: Choice; prefix?: string }) {
+  return (
+    <span className="inline-flex h-6 items-center gap-1.5 rounded-full bg-muted px-2.5 text-xs font-medium whitespace-nowrap text-ink-2">
+      {choice === "unsure" && <Flag className="size-3.5 text-warning" />}
+      {prefix}
+      {labelOf(choice)}
+    </span>
+  )
+}
+
 function SavedAs({ choice }: { choice?: Choice }) {
   if (!choice) return null
-  return <StatusBadge status="done" label={`Saved: ${labelOf(choice)}`} />
+  return <DecisionBadge choice={choice} prefix="Saved: " />
 }
+
+const sliceDone = (state: State) => ranked.every((c) => c.handle in state.decisions)
+const leftInTopic = (state: State) =>
+  TOTAL - state.savedBefore - Object.keys(state.decisions).length
 
 function ModelEstimate({ channel }: { channel: Channel }) {
   const rank = ranked.indexOf(channel) + 1
@@ -341,7 +347,7 @@ function Queue({
     saved,
     flagged: visible({ tab: "flagged", decisions: state.decisions }).length,
   }
-  const left = TOTAL - state.savedBefore - saved
+  const left = leftInTopic(state)
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: runs when the selection changes
   useEffect(() => {
@@ -423,12 +429,17 @@ function Queue({
           title={`Slice done: ${saved} saved`}
           className="flex-1"
           action={
-            <Button size="sm" onClick={() => dispatch({ type: "next-slice" })}>
-              Load next slice
-            </Button>
+            <div className="flex gap-2">
+              <Button size="sm" variant="ghost" onClick={() => dispatch({ type: "undo" })}>
+                <Undo2 /> Undo last save
+              </Button>
+              <Button size="sm" onClick={() => dispatch({ type: "next-slice" })}>
+                Load next slice
+              </Button>
+            </div>
           }
         >
-          {left} channels left in this topic. Press Z to undo the last save.
+          {left} channels left in this topic.
         </EmptyState>
       ) : (
         <EmptyState
@@ -443,7 +454,7 @@ function Queue({
       )}
       <div className="flex items-center justify-between border-t px-3 py-2 text-xs text-muted-foreground">
         <span>Sorted by model score</span>
-        <span className="flex items-center gap-1">
+        <span className="flex items-center gap-1 pointer-coarse:hidden">
           <Kbd>J</Kbd>
           <Kbd>K</Kbd> move
         </span>
@@ -468,6 +479,7 @@ export function ReviewScreen({
   useShortcuts(dispatch)
 
   const channel = ranked.find((c) => c.handle === state.selected) ?? ranked[0]
+  const detail = itemDetail(channel.handle, channel.score)
   const savedTotal = state.savedBefore + Object.keys(state.decisions).length
   const savedThisSession = savedTotal - SAVED_BEFORE
   const note = notes[channel.handle] ?? ""
@@ -494,10 +506,11 @@ export function ReviewScreen({
         }
         right={
           <>
-            <span className="mr-1 hidden items-center gap-1.5 text-xs text-muted-foreground md:flex">
-              {savedThisSession ? <CloudCheck className="size-4" /> : <Cloud className="size-4" />}
-              {savedThisSession ? `${savedThisSession} saved this session` : "Nothing saved yet"}
-            </span>
+            {savedThisSession > 0 && (
+              <span className="mr-1 hidden items-center gap-1.5 text-xs text-muted-foreground md:flex">
+                <CloudCheck className="size-4" /> {savedThisSession} saved this session
+              </span>
+            )}
             <Button
               size="sm"
               variant="outline"
@@ -508,7 +521,14 @@ export function ReviewScreen({
             </Button>
             <Tooltip>
               <TooltipTrigger
-                render={<Button size="icon-sm" variant="ghost" aria-label="Keyboard shortcuts" />}
+                render={
+                  <Button
+                    size="icon-sm"
+                    variant="ghost"
+                    aria-label="Keyboard shortcuts"
+                    className="pointer-coarse:hidden"
+                  />
+                }
               >
                 <Keyboard />
               </TooltipTrigger>
@@ -564,8 +584,8 @@ export function ReviewScreen({
                   <div className="flex flex-wrap gap-x-4 gap-y-1 text-[13px] text-muted-foreground">
                     <span>{channel.handle}</span>
                     <span className="num">{channel.subs} subscribers</span>
-                    <span className="num">412 videos</span>
-                    <span>Norway</span>
+                    <span className="num">{detail.uploads.toLocaleString()} videos</span>
+                    <span className="num">since {detail.since}</span>
                   </div>
                 </div>
                 <Button variant="outline" size="sm">
@@ -577,7 +597,8 @@ export function ReviewScreen({
                 <div className="border-b">
                   <TabsList variant="line" className="gap-4">
                     <TabsTrigger value="videos" className="flex-none">
-                      Recent videos <span className="num text-muted-foreground">8</span>
+                      Recent videos{" "}
+                      <span className="num text-muted-foreground">{detail.videos.length}</span>
                     </TabsTrigger>
                     <TabsTrigger value="about" className="flex-none">
                       About
@@ -590,7 +611,7 @@ export function ReviewScreen({
 
                 <TabsContent value="videos">
                   <div className="grid grid-cols-2 gap-x-4 gap-y-5 lg:grid-cols-4">
-                    {videos.map((v) => (
+                    {detail.videos.map((v) => (
                       <figure key={v.seed} className="m-0 space-y-2">
                         <div className="relative">
                           <Thumb seed={v.seed} className="aspect-video rounded-lg" />
@@ -615,13 +636,15 @@ export function ReviewScreen({
                 </TabsContent>
 
                 <TabsContent value="about">
-                  <div className="max-w-[640px] space-y-5">
-                    <p className="text-[15px] leading-relaxed text-ink-2">
-                      Slow travel films from northern Norway: rail journeys, ferries and cabins,
-                      with full itineraries and costs in each description.
-                    </p>
+                  <div className="max-w-[640px]">
                     <dl className="grid grid-cols-[max-content_1fr] gap-x-6 gap-y-2 text-[13px]">
-                      {about.map(([term, value]) => (
+                      {[
+                        ["Handle", channel.handle],
+                        ["Subscribers", channel.subs],
+                        ["Uploads", detail.uploads.toLocaleString()],
+                        ["On YouTube since", String(detail.since)],
+                        ["Model score", channel.score.toFixed(2)],
+                      ].map(([term, value]) => (
                         <div key={term} className="contents">
                           <dt className="text-muted-foreground">{term}</dt>
                           <dd>{value}</dd>
@@ -633,11 +656,19 @@ export function ReviewScreen({
 
                 <TabsContent value="similar">
                   <ul className="max-w-[640px] divide-y text-[13px]">
-                    {similar.map((s) => (
-                      <li key={s.name} className="flex flex-wrap items-center gap-x-3 gap-y-1 py-3">
-                        <span className="min-w-0 flex-1 font-medium">{s.name}</span>
-                        <StatusBadge status="done" label={labelOf(s.decision)} />
-                        <span className="w-full text-muted-foreground">{s.note}</span>
+                    {neighbours(channel).map((n) => (
+                      <li key={n.handle} className="flex items-center gap-3 py-3">
+                        <span className="min-w-0 flex-1">
+                          <span className="block font-medium">{n.name}</span>
+                          <span className="num block text-muted-foreground">
+                            model {n.score.toFixed(2)}
+                          </span>
+                        </span>
+                        {state.decisions[n.handle] ? (
+                          <DecisionBadge choice={state.decisions[n.handle]} />
+                        ) : (
+                          <span className="text-muted-foreground">Not saved yet</span>
+                        )}
                       </li>
                     ))}
                   </ul>
@@ -664,7 +695,7 @@ export function ReviewScreen({
                   </div>
                 </div>
                 <ul className="space-y-2.5">
-                  {quotes.map((q) => (
+                  {detail.quotes.map((q) => (
                     <li key={q.en.join("")} className="flex gap-3 text-[14px] leading-relaxed">
                       <span className="label-mono mt-0.5 h-5 shrink-0 rounded bg-muted px-1.5 text-[11px] leading-5 text-muted-foreground uppercase">
                         {q.lang}
@@ -711,6 +742,11 @@ export function ReviewScreen({
                   className="num text-muted-foreground"
                 />
                 <SavedAs choice={state.decisions[state.selected]} />
+                {sliceDone(state) && (
+                  <span className="text-muted-foreground">
+                    Slice done, {leftInTopic(state)} left in this topic
+                  </span>
+                )}
               </div>
               <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
                 <div className="flex gap-2 max-sm:w-full">
@@ -729,7 +765,12 @@ export function ReviewScreen({
                             : "hover:border-border-strong hover:bg-muted/50"
                         )}
                       >
-                        <Kbd className={cn(on && "bg-primary text-primary-foreground")}>
+                        <Kbd
+                          className={cn(
+                            "pointer-coarse:hidden",
+                            on && "bg-primary text-primary-foreground"
+                          )}
+                        >
                           {o.key}
                         </Kbd>
                         {o.label}
@@ -765,7 +806,7 @@ export function ReviewScreen({
                   <label
                     key={o.value}
                     className={cn(
-                      "flex w-full cursor-pointer items-center gap-3 rounded-lg border bg-card px-3.5 py-3 text-left transition-colors has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-ring",
+                      "flex w-full cursor-pointer items-center gap-3 rounded-lg border bg-card px-3.5 py-3 text-left transition-colors has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-ring/50",
                       on
                         ? "border-primary bg-primary-soft ring-1 ring-primary"
                         : "hover:border-border-strong hover:bg-muted/50"
@@ -811,7 +852,14 @@ export function ReviewScreen({
               />
             </div>
           </div>
-          <DecisionActions state={state} dispatch={dispatch} className="border-t p-4" />
+          <div className="space-y-3 border-t p-4">
+            {sliceDone(state) && (
+              <p className="text-[13px] text-muted-foreground">
+                Slice done, {leftInTopic(state)} left in this topic
+              </p>
+            )}
+            <DecisionActions state={state} dispatch={dispatch} />
+          </div>
         </aside>
       </div>
     </div>
