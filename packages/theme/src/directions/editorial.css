@@ -21,7 +21,7 @@
   --eyebrow-weight: 650;
   --eyebrow-tracking: 0.14em;
   --eyebrow-transform: uppercase;
-  --eyebrow-color: var(--primary-ink);
+  --eyebrow-color: var(--muted-foreground);
   --label-font: var(--ff-sans);
 
   --radius: 0.25rem;
@@ -64,10 +64,10 @@
   --viz-axis: light-dark(#cbc0ab, #463d32);
   --viz-text: var(--muted-foreground);
   --series-1: light-dark(#2863ab, #5290d3);
-  --series-2: light-dark(#c1552c, #b44723);
-  --series-3: light-dark(#d3a23b, #b4902e);
-  --series-4: light-dark(#8b4486, #9e5598);
+  --series-2: light-dark(#c8661a, #d9772a);
+  --series-3: light-dark(#8b4486, #a95fa3);
+  --series-4: light-dark(#a87a1c, #b4902e);
   --div-neg: light-dark(#2863ab, #5290d3);
   --div-mid: light-dark(#e4ddd0, #3a3229);
-  --div-pos: light-dark(#c1552c, #b44723);
+  --div-pos: light-dark(#c8661a, #d9772a);
 }

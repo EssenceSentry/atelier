@@ -6,11 +6,12 @@ project changes direction without touching component code.
 | Direction | Character | Fonts | Accent |
 |---|---|---|---|
 | `instrument` (default) | Cool white, hairline frames, dense | Instrument Sans, JetBrains Mono | Cobalt |
-| `editorial` | Warm paper, serif headlines, printed rules | Newsreader, Hanken Grotesk | Terracotta |
-| `console` | Graphite, lit panels, monospace figures | Chivo, Chivo Mono | Violet |
+| `editorial` | Warm paper, serif headlines, printed rules | Newsreader, Hanken Grotesk | Ink blue |
+| `console` | Graphite, plain panels, monospace labels | Chivo, Chivo Mono | Violet |
 
-Each direction has light and dark tokens. Status colours (good, warning,
-serious, critical) are fixed across directions.
+Each direction has light and dark tokens. Status hues (good, warning,
+serious, critical) are the same across directions, with darker light-mode
+steps where a hue would be hard to read on a light surface.
 
 ## Use
 
