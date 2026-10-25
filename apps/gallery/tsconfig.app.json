@@ -23,8 +23,8 @@
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true,
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["../../packages/kit/src/*"]
     }
   },
-  "include": ["src"]
+  "include": ["src", "../../packages/kit/src"]
 }

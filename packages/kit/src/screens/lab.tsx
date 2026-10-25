@@ -11,7 +11,7 @@ import { Switch } from "@/components/ui/switch"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 import { contributions, neighbors, points, prCurves } from "@/lib/sample"
-import type { VizTokens } from "@/theme/board"
+import type { VizTokens } from "@atelier/theme/viz"
 
 const BRUSH = { x1: 0.55, x2: 2.45, y1: -0.15, y2: 1.75 }
 const inBrush = (p: { x: number; y: number }) => p.x >= BRUSH.x1 && p.x <= BRUSH.x2 && p.y >= BRUSH.y1 && p.y <= BRUSH.y2

@@ -6,7 +6,7 @@ import { LabScreen } from "@/screens/lab"
 import { MonitorScreen } from "@/screens/monitor"
 import { ReportScreen } from "@/screens/report"
 import { ReviewScreen } from "@/screens/review"
-import { BoardContext, DIRECTIONS, MODES, SCREENS, type BoardState, type Direction } from "@/theme/board"
+import { BoardContext, DIRECTIONS, MODES, SCREENS, type BoardState, type Direction } from "./theme/board"
 
 const screens = { monitor: MonitorScreen, review: ReviewScreen, lab: LabScreen, report: ReportScreen }
 

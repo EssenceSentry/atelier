@@ -1,7 +1,9 @@
 import * as Plot from "@observablehq/plot"
 import { useEffect, useRef, useState } from "react"
 
-import { useVizTokens, type VizTokens } from "@/theme/board"
+import type { VizTokens } from "@atelier/theme/viz"
+
+import { useVizTokens } from "@/blocks/use-viz-tokens"
 import { cn } from "@/lib/utils"
 
 type Build = (t: VizTokens, width: number) => Plot.PlotOptions

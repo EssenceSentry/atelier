@@ -9,7 +9,8 @@ export default defineConfig({
   plugins: [react(), tailwindcss(), atelierTheme()],
   resolve: {
     alias: {
-      "@": resolve(import.meta.dirname, "./src"),
+      // Screens, blocks and components live in the shared kit.
+      "@": resolve(import.meta.dirname, "../../packages/kit/src"),
     },
   },
 })

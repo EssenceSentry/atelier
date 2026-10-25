@@ -8,7 +8,7 @@ import { Delta, Meter, SectionHeader, StatTile, StatusBadge, StatusIcon, type St
 import { Button } from "@/components/ui/button"
 import { cells, logLines, spark, throughput } from "@/lib/sample"
 import { cn } from "@/lib/utils"
-import type { VizTokens } from "@/theme/board"
+import type { VizTokens } from "@atelier/theme/viz"
 
 const TOTAL_CELLS = 25
 

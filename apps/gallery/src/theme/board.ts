@@ -1,5 +1,4 @@
-import { observeTheme, readVizTokens, type VizTokens } from "@atelier/theme/viz"
-import { createContext, useContext, useEffect, useState } from "react"
+import { createContext, useContext } from "react"
 
 export const DIRECTIONS = ["instrument", "editorial", "console"] as const
 // "system" leaves data-theme unset so the page follows the viewer's setting.
@@ -19,16 +18,3 @@ export const BoardContext = createContext<BoardState>({
 })
 
 export const useBoard = () => useContext(BoardContext)
-
-export type { VizTokens } from "@atelier/theme/viz"
-
-/** Chart colours for the active direction and mode, re-read on any change. */
-export function useVizTokens(): VizTokens | null {
-  const [tokens, setTokens] = useState<VizTokens | null>(null)
-  useEffect(() => {
-    const read = () => setTokens(readVizTokens())
-    read()
-    return observeTheme(read)
-  }, [])
-  return tokens
-}

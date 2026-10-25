@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { spend, topQueries, warehouses, weeks } from "@/lib/sample"
 import { cn } from "@/lib/utils"
-import type { VizTokens } from "@/theme/board"
+import type { VizTokens } from "@atelier/theme/viz"
 
 const money = (v: number) => (v >= 1000 ? `$${(v / 1000).toFixed(1)}K` : `$${v}`)
 const totals = weeks.map((week) => ({ week, value: spend.filter((d) => d.week === week).reduce((s, d) => s + d.value, 0) }))
