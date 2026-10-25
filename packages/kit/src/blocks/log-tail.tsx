@@ -34,10 +34,7 @@ export function LogTail({ lines, className }: { lines: LogLine[]; className?: st
             />
           )}
           <span
-            className={cn(
-              "[overflow-wrap:anywhere]",
-              l.level === "info" ? "text-ink-2" : "text-foreground"
-            )}
+            className={cn("break-words", l.level === "info" ? "text-ink-2" : "text-foreground")}
           >
             {keepIds(keepUnits(l.msg))}
           </span>

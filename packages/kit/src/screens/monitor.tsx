@@ -522,8 +522,9 @@ export function MonitorScreen({
             }
             className="mb-3"
           />
-          <LogTail lines={logLines} className="flex-1" />
-          <div className="mt-3 flex items-center gap-2 text-xs text-muted-foreground">
+          <LogTail lines={logLines} />
+          {/* The footer sits on the panel floor, so a short log leaves no empty box. */}
+          <div className="mt-auto flex items-center gap-2 pt-3 text-xs text-muted-foreground">
             <FileText className="size-3.5" />
             <Meta items={["durable journal", "1,284 events"]} />
           </div>
