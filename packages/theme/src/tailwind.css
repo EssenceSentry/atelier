@@ -78,6 +78,15 @@
     font-feature-settings: "ss01" on;
     -webkit-font-smoothing: antialiased;
   }
+  /* Monospaced text keeps one glyph per cell: no "ffl" ligatures in IDs, paths or logs. */
+  .font-mono,
+  .label-mono,
+  code,
+  kbd,
+  pre,
+  samp {
+    font-variant-ligatures: none;
+  }
   body {
     @apply bg-page text-foreground;
     background-image: var(--page-texture);

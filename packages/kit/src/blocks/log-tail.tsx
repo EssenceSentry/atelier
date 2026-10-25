@@ -9,11 +9,22 @@ export type LogLine = { t: string; level: "info" | "warn" | "error"; msg: string
  * message, values keep their units, IDs stay whole, long paths break rather
  * than overflow, and warnings and errors carry an icon as well as a colour.
  */
-export function LogTail({ lines, className }: { lines: LogLine[]; className?: string }) {
+export function LogTail({
+  lines,
+  fill = false,
+  className,
+}: {
+  lines: LogLine[]
+  /** Fill the panel's height, showing the newest lines that fit and fading the rest. */
+  fill?: boolean
+  className?: string
+}) {
   return (
     <div
       className={cn(
         "well space-y-2 p-3 font-mono text-[12px] leading-snug sm:text-[13px]",
+        fill &&
+          "min-h-0 flex-1 overflow-hidden [mask-image:linear-gradient(to_bottom,black_calc(100%-2.5rem),transparent)]",
         className
       )}
     >

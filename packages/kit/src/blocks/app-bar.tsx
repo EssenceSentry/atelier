@@ -32,8 +32,15 @@ export function AppBar({
     >
       <div className={cn("flex h-14 items-center gap-4 px-4 md:px-6", innerClassName)}>
         <div className="flex min-w-0 items-center gap-2.5">
-          {icon ?? <BrandMark />}
-          <span className="font-heading text-[15px] font-semibold tracking-tight">{product}</span>
+          <span data-app-mark className="inline-flex shrink-0">
+            {icon ?? <BrandMark />}
+          </span>
+          <span
+            data-app-name
+            className="font-heading text-[15px] font-semibold tracking-tight whitespace-nowrap"
+          >
+            {product}
+          </span>
           {crumbs.map((c, i) => (
             <span
               key={c}

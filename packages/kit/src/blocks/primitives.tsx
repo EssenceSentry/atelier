@@ -30,7 +30,7 @@ export function Meta({
           {items.map((item) => (
             <span
               key={item}
-              className="relative ml-[1em] whitespace-nowrap before:absolute before:-left-[0.7em] before:text-faint before:content-['·']"
+              className="relative ml-[1em] whitespace-nowrap before:absolute before:left-[-0.5em] before:-translate-x-1/2 before:text-faint before:content-['·']"
             >
               {item}
             </span>
