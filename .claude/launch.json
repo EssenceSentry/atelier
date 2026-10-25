@@ -4,7 +4,16 @@
     {
       "name": "gallery",
       "runtimeExecutable": "npm",
-      "runtimeArgs": ["--prefix", "apps/gallery", "run", "dev:board", "--", "--port", "5188", "--strictPort"],
+      "runtimeArgs": [
+        "--prefix",
+        "apps/gallery",
+        "run",
+        "dev:board",
+        "--",
+        "--port",
+        "5188",
+        "--strictPort"
+      ],
       "port": 5188
     }
   ]

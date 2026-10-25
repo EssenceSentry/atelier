@@ -17,8 +17,14 @@ await mkdir(out, { recursive: true })
 const browser = await chromium.launch()
 const problems = []
 for (const vp of viewports) {
-  const page = await browser.newPage({ viewport: { width: vp.width, height: vp.height }, deviceScaleFactor: 2 })
-  page.on("console", (m) => m.type() === "error" && problems.push(`${page.url()} console: ${m.text()}`))
+  const page = await browser.newPage({
+    viewport: { width: vp.width, height: vp.height },
+    deviceScaleFactor: 2,
+  })
+  page.on(
+    "console",
+    (m) => m.type() === "error" && problems.push(`${page.url()} console: ${m.text()}`)
+  )
   page.on("pageerror", (e) => problems.push(`${page.url()} pageerror: ${e.message}`))
   for (const d of directions)
     for (const m of modes)
@@ -27,9 +33,15 @@ for (const vp of viewports) {
         await page.goto(`${base}/?d=${d}&m=${m}&s=${s}&chrome=0`, { waitUntil: "networkidle" })
         await page.evaluate(() => document.fonts.ready)
         await page.waitForTimeout(250)
-        const states = await page.$$eval("figure.plot-figure", (els) => els.map((e) => e.dataset.state))
-        for (const st of states) if (st !== "ok") problems.push(`${d}/${m}/${s}/${vp.name}: chart ${st}`)
-        await page.screenshot({ path: `${out}/${s}-${d}-${m}-${vp.name}.png`, fullPage: vp.name === "phone" || s === "report" })
+        const states = await page.$$eval("figure.plot-figure", (els) =>
+          els.map((e) => e.dataset.state)
+        )
+        for (const st of states)
+          if (st !== "ok") problems.push(`${d}/${m}/${s}/${vp.name}: chart ${st}`)
+        await page.screenshot({
+          path: `${out}/${s}-${d}-${m}-${vp.name}.png`,
+          fullPage: vp.name === "phone" || s === "report",
+        })
       }
   await page.close()
 }

@@ -1,7 +1,6 @@
+import type { VizTokens } from "@atelier/theme/viz"
 import * as Plot from "@observablehq/plot"
 import { useEffect, useRef, useState } from "react"
-
-import type { VizTokens } from "@atelier/theme/viz"
 
 import { useVizTokens } from "@/blocks/use-viz-tokens"
 import { cn } from "@/lib/utils"

@@ -9,6 +9,11 @@
   "scripts": {
     "gallery": "npm run dev:board --workspace @atelier/gallery",
     "typecheck": "npm run typecheck --workspaces --if-present",
-    "capture": "npm run capture --workspace @atelier/gallery"
+    "capture": "npm run capture --workspace @atelier/gallery",
+    "lint": "biome check",
+    "fix": "biome check --write"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.5.15"
   }
 }

@@ -122,7 +122,9 @@
     color: var(--card-foreground);
     border-radius: var(--panel-radius, calc(var(--radius) * 1.4));
     border-top: var(--panel-rule, 0 solid transparent);
-    box-shadow: 0 0 0 1px var(--panel-ring), var(--panel-shadow);
+    box-shadow:
+      0 0 0 1px var(--panel-ring),
+      var(--panel-shadow);
   }
   .eyebrow-index {
     display: var(--index-display, none);

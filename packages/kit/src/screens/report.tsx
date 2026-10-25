@@ -1,18 +1,27 @@
+import type { VizTokens } from "@atelier/theme/viz"
 import * as Plot from "@observablehq/plot"
 import { Download, Link2 } from "lucide-react"
 import { useCallback } from "react"
-
 import { AppBar } from "@/blocks/app-bar"
 import { PlotFigure, tipStyle } from "@/blocks/plot-figure"
 import { Delta, Eyebrow } from "@/blocks/primitives"
 import { Button } from "@/components/ui/button"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
 import { spend, topQueries, warehouses, weeks } from "@/lib/sample"
 import { cn } from "@/lib/utils"
-import type { VizTokens } from "@atelier/theme/viz"
 
 const money = (v: number) => (v >= 1000 ? `$${(v / 1000).toFixed(1)}K` : `$${v}`)
-const totals = weeks.map((week) => ({ week, value: spend.filter((d) => d.week === week).reduce((s, d) => s + d.value, 0) }))
+const totals = weeks.map((week) => ({
+  week,
+  value: spend.filter((d) => d.week === week).reduce((s, d) => s + d.value, 0),
+}))
 const labelled = new Set(["Aug 4", "Sep 8", "Sep 29"])
 
 const spendChart = (t: VizTokens, width: number) => {
@@ -33,13 +42,21 @@ const spendChart = (t: VizTokens, width: number) => {
         insetTop: 1,
         insetBottom: 1,
         order: [...warehouses],
-        title: (d: { warehouse: string; value: number; week: string }) => `${d.week} · ${d.warehouse}\n${money(d.value)}`,
+        title: (d: { warehouse: string; value: number; week: string }) =>
+          `${d.week} · ${d.warehouse}\n${money(d.value)}`,
         tip: tipStyle(t),
       }),
       Plot.ruleY([0], { stroke: t.axis }),
       Plot.text(
         totals.filter((d) => labelled.has(d.week)),
-        { x: "week", y: "value", text: (d: { value: number }) => money(d.value), dy: -9, fill: t.ink, fontWeight: 600 }
+        {
+          x: "week",
+          y: "value",
+          text: (d: { value: number }) => money(d.value),
+          dy: -9,
+          fill: t.ink,
+          fontWeight: 600,
+        }
       ),
     ],
   }
@@ -72,8 +89,8 @@ export function ReportScreen() {
             Compute spend fell 18% after the ingestion warehouse was resized
           </h1>
           <p className="text-lg leading-relaxed text-pretty text-ink-2 md:text-xl">
-            September cost $48.2K against $58.8K in August. Most of the drop came from one change, and ad hoc work is now the
-            fastest-growing line.
+            September cost $48.2K against $58.8K in August. Most of the drop came from one change,
+            and ad hoc work is now the fastest-growing line.
           </p>
           <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-muted-foreground">
             <span className="text-foreground">Data science</span>
@@ -86,11 +103,30 @@ export function ReportScreen() {
 
         <section className="mt-10 grid grid-cols-1 border-y sm:grid-cols-3">
           {[
-            { label: "Total spend, September", value: "$48.2K", delta: <Delta value={-0.18} goodWhenUp={false} period="vs August" /> },
-            { label: "Credits used", value: "15,920", delta: <Delta value={-0.16} goodWhenUp={false} period="vs August" /> },
-            { label: "Ad hoc share of spend", value: "11.4%", delta: <Delta value={0.37} goodWhenUp={false} period="vs August" /> },
+            {
+              label: "Total spend, September",
+              value: "$48.2K",
+              delta: <Delta value={-0.18} goodWhenUp={false} period="vs August" />,
+            },
+            {
+              label: "Credits used",
+              value: "15,920",
+              delta: <Delta value={-0.16} goodWhenUp={false} period="vs August" />,
+            },
+            {
+              label: "Ad hoc share of spend",
+              value: "11.4%",
+              delta: <Delta value={0.37} goodWhenUp={false} period="vs August" />,
+            },
           ].map((k, i) => (
-            <div key={k.label} className={cn("space-y-3 py-6 sm:px-6", i > 0 && "border-t sm:border-t-0 sm:border-l", i === 0 && "sm:pl-0")}>
+            <div
+              key={k.label}
+              className={cn(
+                "space-y-3 py-6 sm:px-6",
+                i > 0 && "border-t sm:border-t-0 sm:border-l",
+                i === 0 && "sm:pl-0"
+              )}
+            >
               <div className="text-sm text-muted-foreground">{k.label}</div>
               <div className="figure text-[40px]">{k.value}</div>
               {k.delta}
@@ -100,12 +136,13 @@ export function ReportScreen() {
 
         <div className="mt-10 max-w-[680px] space-y-5 text-[17px] leading-[1.7] text-ink-2">
           <p>
-            The ingestion warehouse ran at size L for every load until 5 September, although its queue never exceeded two
-            concurrent statements. Moving it to M halved its weekly cost with no change in load latency at the 95th percentile.
+            The ingestion warehouse ran at size L for every load until 5 September, although its
+            queue never exceeded two concurrent statements. Moving it to M halved its weekly cost
+            with no change in load latency at the 95th percentile.
           </p>
           <p>
-            Transform and dashboard spend stayed flat. Ad hoc spend rose each week, driven by thumbnail audits that scan the full
-            image table instead of the daily partition.
+            Transform and dashboard spend stayed flat. Ad hoc spend rose each week, driven by
+            thumbnail audits that scan the full image table instead of the daily partition.
           </p>
         </div>
 
@@ -118,7 +155,10 @@ export function ReportScreen() {
             <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-muted-foreground">
               {warehouses.map((w, i) => (
                 <span key={w} className="flex items-center gap-1.5">
-                  <span className="size-2.5 rounded-[3px]" style={{ background: `var(--series-${i + 1})` }} />
+                  <span
+                    className="size-2.5 rounded-[3px]"
+                    style={{ background: `var(--series-${i + 1})` }}
+                  />
                   {w}
                 </span>
               ))}
@@ -126,7 +166,8 @@ export function ReportScreen() {
           </div>
           <PlotFigure build={build} height={300} />
           <figcaption className="text-xs text-muted-foreground">
-            Ingest moved from size L to M on 5 September. Weeks start on Monday; values are on-demand list prices.
+            Ingest moved from size L to M on 5 September. Weeks start on Monday; values are
+            on-demand list prices.
           </figcaption>
         </figure>
 
@@ -153,7 +194,9 @@ export function ReportScreen() {
                     <span className="flex items-center gap-2">
                       <span
                         className="size-2 rounded-[2px]"
-                        style={{ background: `var(--series-${warehouses.indexOf(q.warehouse as (typeof warehouses)[number]) + 1})` }}
+                        style={{
+                          background: `var(--series-${warehouses.indexOf(q.warehouse as (typeof warehouses)[number]) + 1})`,
+                        }}
                       />
                       {q.warehouse}
                     </span>
@@ -163,11 +206,19 @@ export function ReportScreen() {
                     <span className="flex items-center gap-3">
                       <span className="num w-12 text-right">{q.credits.toLocaleString()}</span>
                       <span className="h-1.5 flex-1 rounded-full bg-muted">
-                        <span className="block h-full rounded-full bg-primary/75" style={{ width: `${(q.credits / maxCredits) * 100}%` }} />
+                        <span
+                          className="block h-full rounded-full bg-primary/75"
+                          style={{ width: `${(q.credits / maxCredits) * 100}%` }}
+                        />
                       </span>
                     </span>
                   </TableCell>
-                  <TableCell className={cn("num text-right font-medium", q.change < 0 ? "text-good" : q.change > 0.1 ? "text-critical" : "text-ink-2")}>
+                  <TableCell
+                    className={cn(
+                      "num text-right font-medium",
+                      q.change < 0 ? "text-good" : q.change > 0.1 ? "text-critical" : "text-ink-2"
+                    )}
+                  >
                     {q.change > 0 ? "+" : "−"}
                     {Math.abs(q.change * 100).toFixed(0)}%
                   </TableCell>

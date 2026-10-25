@@ -30,7 +30,9 @@ async function open(viewport, colorScheme) {
   const page = await browser.newPage({ viewport, colorScheme })
   page.on("console", (m) => m.type() === "error" && problems.push(`console: ${m.text()}`))
   page.on("pageerror", (e) => problems.push(`pageerror: ${e.message}`))
-  await page.route("https://artifact.test/", (route) => route.fulfill({ contentType: "text/html", body: host }))
+  await page.route("https://artifact.test/", (route) =>
+    route.fulfill({ contentType: "text/html", body: host })
+  )
   await page.goto("https://artifact.test/", { waitUntil: "networkidle" })
   await page.evaluate(() => document.fonts.ready)
   return page
@@ -57,7 +59,8 @@ const lightBg = seen["light/unset"].bg
 const darkBg = seen["dark/unset"].bg
 if (lightBg === darkBg) problems.push("system dark setting did not change the page")
 for (const [key, { want, bg }] of Object.entries(seen))
-  if (bg !== (want === "light" ? lightBg : darkBg)) problems.push(`${key}: expected ${want} background, got ${bg}`)
+  if (bg !== (want === "light" ? lightBg : darkBg))
+    problems.push(`${key}: expected ${want} background, got ${bg}`)
 
 // Every direction and screen through the page's own controls, in system dark.
 const page = await open({ width: 1440, height: 900 }, "dark")

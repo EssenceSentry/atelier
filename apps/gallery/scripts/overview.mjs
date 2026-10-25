@@ -9,7 +9,9 @@ const screens = ["monitor", "review", "lab", "report"]
 const browser = await chromium.launch()
 for (const mode of ["light", "dark"]) {
   const cells = screens
-    .map((s) => directions.map((d) => `<img src="file://${dir}/${s}-${d}-${mode}-desktop.png">`).join(""))
+    .map((s) =>
+      directions.map((d) => `<img src="file://${dir}/${s}-${d}-${mode}-desktop.png">`).join("")
+    )
     .join("")
   const html = `<!doctype html><meta charset="utf-8"><style>
     body{margin:0;padding:40px;background:${mode === "light" ? "#e9e9ec" : "#111114"};font:600 15px system-ui;color:${mode === "light" ? "#222" : "#ddd"}}

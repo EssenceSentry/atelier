@@ -28,9 +28,14 @@ export function AppBar({
         <BrandMark />
         <span className="font-heading text-[15px] font-semibold tracking-tight">{product}</span>
         {crumbs.map((c, i) => (
-          <span key={c} className="hidden min-w-0 items-center gap-2.5 text-sm text-muted-foreground sm:flex">
+          <span
+            key={c}
+            className="hidden min-w-0 items-center gap-2.5 text-sm text-muted-foreground sm:flex"
+          >
             <ChevronRight className="size-3.5 text-faint" />
-            <span className={cn("truncate", i === crumbs.length - 1 && "text-foreground")}>{c}</span>
+            <span className={cn("truncate", i === crumbs.length - 1 && "text-foreground")}>
+              {c}
+            </span>
           </span>
         ))}
       </div>

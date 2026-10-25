@@ -6,9 +6,21 @@ import { LabScreen } from "@/screens/lab"
 import { MonitorScreen } from "@/screens/monitor"
 import { ReportScreen } from "@/screens/report"
 import { ReviewScreen } from "@/screens/review"
-import { BoardContext, DIRECTIONS, MODES, SCREENS, type BoardState, type Direction } from "./theme/board"
+import {
+  BoardContext,
+  type BoardState,
+  DIRECTIONS,
+  type Direction,
+  MODES,
+  SCREENS,
+} from "./theme/board"
 
-const screens = { monitor: MonitorScreen, review: ReviewScreen, lab: LabScreen, report: ReportScreen }
+const screens = {
+  monitor: MonitorScreen,
+  review: ReviewScreen,
+  lab: LabScreen,
+  report: ReportScreen,
+}
 
 // Only a build with every direction can switch between them.
 const BOARD = __THEME__ === "all"
@@ -31,6 +43,7 @@ function Dock({ state, set }: { state: BoardState; set: (s: Partial<BoardState>)
     <div className="flex rounded-full bg-white/8 p-0.5">
       {options.map((o) => (
         <button
+          type="button"
           key={o}
           onClick={() => set({ [key]: o })}
           className={cn(

@@ -31,7 +31,8 @@ function readConfiguredTheme(root, configFile) {
 }
 
 function pick(name, value, allowed) {
-  if (!allowed.includes(value)) throw new Error(`Unknown ${name} "${value}". Use one of: ${allowed.join(", ")}.`)
+  if (!allowed.includes(value))
+    throw new Error(`Unknown ${name} "${value}". Use one of: ${allowed.join(", ")}.`)
   return value
 }
 
@@ -70,7 +71,11 @@ export function atelierTheme({ configFile = "app.config.json" } = {}) {
     enforce: "pre",
     config(userConfig) {
       const root = resolve(userConfig.root ?? process.cwd())
-      theme = pick("theme", process.env.THEME ?? readConfiguredTheme(root, configFile) ?? "instrument", THEMES)
+      theme = pick(
+        "theme",
+        process.env.THEME ?? readConfiguredTheme(root, configFile) ?? "instrument",
+        THEMES
+      )
       target = pick("target", process.env.ATELIER_TARGET ?? "app", TARGETS)
       file = resolve(here, target === "artifact" ? "directions" : "bundles", `${theme}.css`)
       const config = { define: { __THEME__: JSON.stringify(theme) } }
@@ -96,7 +101,8 @@ export function atelierTheme({ configFile = "app.config.json" } = {}) {
       handler(_options, bundle) {
         if (target !== "artifact") return
         const html = bundle["index.html"]?.source
-        if (typeof html !== "string") this.error("The artifact target needs index.html as the entry.")
+        if (typeof html !== "string")
+          this.error("The artifact target needs index.html as the entry.")
         const css = []
         const js = []
         for (const [name, output] of Object.entries(bundle)) {
@@ -112,7 +118,10 @@ export function atelierTheme({ configFile = "app.config.json" } = {}) {
           googleFontLinks(theme),
           `<script>document.documentElement.dataset.direction = "${direction}"</script>`,
           `<style>${css.join("\n")}</style>`,
-          html.match(/<body>([\s\S]*?)<\/body>/)[1].replace(/<script[\s\S]*?<\/script>/g, "").trim(),
+          html
+            .match(/<body>([\s\S]*?)<\/body>/)[1]
+            .replace(/<script[\s\S]*?<\/script>/g, "")
+            .trim(),
           `<script type="module">${inlineSafe(js.join("\n"))}</script>`,
         ]
         bundle["index.html"].source = `${page.join("\n")}\n`

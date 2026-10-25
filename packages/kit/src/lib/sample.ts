@@ -22,7 +22,8 @@ export const throughput = (() => {
   const rows: { minute: number; series: string; value: number }[] = []
   for (let m = 0; m <= 58; m++) {
     const warm = Math.min(1, m / 6)
-    const current = warm * (395 + 22 * Math.sin(m / 5) + gaussian(r) * 9) - (m > 41 && m < 46 ? 120 : 0)
+    const current =
+      warm * (395 + 22 * Math.sin(m / 5) + gaussian(r) * 9) - (m > 41 && m < 46 ? 120 : 0)
     const previous = warm * (352 + 10 * Math.sin(m / 7) + gaussian(r) * 4)
     rows.push({ minute: m, series: "This run", value: Math.max(0, current) })
     rows.push({ minute: m, series: "Median of last 5 runs", value: Math.max(0, previous) })
@@ -33,7 +34,10 @@ export const throughput = (() => {
 export const spark = (seed: number, n = 16, base = 50, spread = 10) => {
   const r = rng(seed)
   let v = base
-  return Array.from({ length: n }, () => (v = Math.max(1, v + gaussian(r) * spread * 0.4 + (base - v) * 0.15)))
+  return Array.from(
+    { length: n },
+    () => (v = Math.max(1, v + gaussian(r) * spread * 0.4 + (base - v) * 0.15))
+  )
 }
 
 export type CellState = "done" | "running" | "failed" | "queued"
@@ -66,26 +70,81 @@ export const queue = [
   { name: "Budget Backpacker", handle: "@budgetbp", subs: "2.4M", score: 0.97, state: "pending" },
   { name: "City Sketchbook", handle: "@citysketch", subs: "61K", score: 0.57, state: "pending" },
   { name: "Daily Commute FM", handle: "@commutefm", subs: "19K", score: 0.18, state: "pending" },
-  { name: "Island Hopping 101", handle: "@islands101", subs: "730K", score: 0.95, state: "pending" },
+  {
+    name: "Island Hopping 101",
+    handle: "@islands101",
+    subs: "730K",
+    score: 0.95,
+    state: "pending",
+  },
   { name: "Gear Bench", handle: "@gearbench", subs: "205K", score: 0.63, state: "pending" },
   { name: "Night Markets", handle: "@nightmarkets", subs: "97K", score: 0.79, state: "pending" },
 ] as const
 
 export const videos = [
-  { seed: "fjord", title: "Three days in the Lofoten fjords", views: "412K", length: "18:24", evidence: true },
-  { seed: "rail", title: "Sleeper train from Oslo to Bodø", views: "1.1M", length: "32:10", evidence: true },
-  { seed: "cabin", title: "Off-grid cabin tour, winter edition", views: "220K", length: "14:02", evidence: false },
-  { seed: "coast", title: "Driving the Atlantic Road at dawn", views: "870K", length: "11:47", evidence: true },
-  { seed: "market", title: "What I eat on a travel day", views: "96K", length: "09:31", evidence: false },
-  { seed: "summit", title: "Hiking Reinebringen, 1,978 steps", views: "1.4M", length: "21:55", evidence: true },
-  { seed: "harbor", title: "Packing list for 10 days in Norway", views: "305K", length: "13:08", evidence: true },
-  { seed: "aurora", title: "Chasing the aurora with a rental car", views: "2.2M", length: "26:40", evidence: true },
+  {
+    seed: "fjord",
+    title: "Three days in the Lofoten fjords",
+    views: "412K",
+    length: "18:24",
+    evidence: true,
+  },
+  {
+    seed: "rail",
+    title: "Sleeper train from Oslo to Bodø",
+    views: "1.1M",
+    length: "32:10",
+    evidence: true,
+  },
+  {
+    seed: "cabin",
+    title: "Off-grid cabin tour, winter edition",
+    views: "220K",
+    length: "14:02",
+    evidence: false,
+  },
+  {
+    seed: "coast",
+    title: "Driving the Atlantic Road at dawn",
+    views: "870K",
+    length: "11:47",
+    evidence: true,
+  },
+  {
+    seed: "market",
+    title: "What I eat on a travel day",
+    views: "96K",
+    length: "09:31",
+    evidence: false,
+  },
+  {
+    seed: "summit",
+    title: "Hiking Reinebringen, 1,978 steps",
+    views: "1.4M",
+    length: "21:55",
+    evidence: true,
+  },
+  {
+    seed: "harbor",
+    title: "Packing list for 10 days in Norway",
+    views: "305K",
+    length: "13:08",
+    evidence: true,
+  },
+  {
+    seed: "aurora",
+    title: "Chasing the aurora with a rental car",
+    views: "2.2M",
+    length: "26:40",
+    evidence: true,
+  },
 ]
 
 // Lab: two-class embedding projection with a probe score.
 export const points = (() => {
   const r = rng(42)
-  const out: { x: number; y: number; label: "Travel" | "Not travel"; score: number; id: number }[] = []
+  const out: { x: number; y: number; label: "Travel" | "Not travel"; score: number; id: number }[] =
+    []
   for (let i = 0; i < 2400; i++) {
     const pos = r() < 0.38
     const cx = pos ? 1.3 : -0.6
@@ -107,7 +166,7 @@ export const prCurves = (() => {
   return methods.flatMap(({ name, k, floor }) =>
     Array.from({ length: 41 }, (_, i) => {
       const recall = i / 40
-      const precision = 1 - (1 - floor) * Math.pow(recall, k)
+      const precision = 1 - (1 - floor) * recall ** k
       return { method: name, recall, precision }
     })
   )
@@ -132,7 +191,17 @@ export const neighbors = [
 ]
 
 // Report: weekly warehouse spend in dollars.
-export const weeks = ["Aug 4", "Aug 11", "Aug 18", "Aug 25", "Sep 1", "Sep 8", "Sep 15", "Sep 22", "Sep 29"]
+export const weeks = [
+  "Aug 4",
+  "Aug 11",
+  "Aug 18",
+  "Aug 25",
+  "Sep 1",
+  "Sep 8",
+  "Sep 15",
+  "Sep 22",
+  "Sep 29",
+]
 export const warehouses = ["Ingest", "Transform", "BI dashboards", "Ad hoc"] as const
 export const spend = (() => {
   const r = rng(11)
@@ -140,16 +209,31 @@ export const spend = (() => {
   return weeks.flatMap((week, i) =>
     warehouses.map((warehouse) => {
       const resized = warehouse === "Ingest" && i >= 5 ? 0.52 : 1
-      const value = base[warehouse] * resized * (1 + gaussian(r) * 0.06 + (warehouse === "Ad hoc" ? i * 0.03 : 0))
+      const value =
+        base[warehouse] *
+        resized *
+        (1 + gaussian(r) * 0.06 + (warehouse === "Ad hoc" ? i * 0.03 : 0))
       return { week, warehouse, value: Math.round(value) }
     })
   )
 })()
 
 export const topQueries = [
-  { name: "rebuild_channel_features", warehouse: "Transform", runs: 30, credits: 1284, change: -0.08 },
+  {
+    name: "rebuild_channel_features",
+    warehouse: "Transform",
+    runs: 30,
+    credits: 1284,
+    change: -0.08,
+  },
   { name: "ingest_youtube_daily", warehouse: "Ingest", runs: 30, credits: 1106, change: -0.47 },
-  { name: "dash_campaign_pacing", warehouse: "BI dashboards", runs: 2_880, credits: 742, change: 0.04 },
+  {
+    name: "dash_campaign_pacing",
+    warehouse: "BI dashboards",
+    runs: 2_880,
+    credits: 742,
+    change: 0.04,
+  },
   { name: "adhoc_thumbnail_audit", warehouse: "Ad hoc", runs: 64, credits: 391, change: 0.61 },
   { name: "refresh_brand_lift", warehouse: "Transform", runs: 4, credits: 306, change: -0.02 },
 ]

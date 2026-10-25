@@ -1,4 +1,12 @@
-import { CloudCheck, ExternalLink, Flag, Keyboard, Languages, Search, SkipForward } from "lucide-react"
+import {
+  CloudCheck,
+  ExternalLink,
+  Flag,
+  Keyboard,
+  Languages,
+  Search,
+  SkipForward,
+} from "lucide-react"
 import { useState } from "react"
 
 import { AppBar } from "@/blocks/app-bar"
@@ -19,23 +27,39 @@ const options = [
 ] as const
 
 const quotes = [
-  { lang: "no", text: ["Tre dager i ", "Lofoten", " med tog, ferje og leiebil."], en: ["Three days in ", "Lofoten", " by train, ferry and rental car."] },
-  { lang: "en", text: ["Full ", "itinerary", " and costs are in the description."], en: ["Full ", "itinerary", " and costs are in the description."] },
-  { lang: "no", text: ["Neste stopp: ", "Bodø", ", så nattoget sørover."], en: ["Next stop: ", "Bodø", ", then the night train south."] },
+  {
+    lang: "no",
+    text: ["Tre dager i ", "Lofoten", " med tog, ferje og leiebil."],
+    en: ["Three days in ", "Lofoten", " by train, ferry and rental car."],
+  },
+  {
+    lang: "en",
+    text: ["Full ", "itinerary", " and costs are in the description."],
+    en: ["Full ", "itinerary", " and costs are in the description."],
+  },
+  {
+    lang: "no",
+    text: ["Neste stopp: ", "Bodø", ", så nattoget sørover."],
+    en: ["Next stop: ", "Bodø", ", then the night train south."],
+  },
 ]
 
 function Highlight({ parts }: { parts: string[] }) {
+  // Odd positions hold the highlighted terms; character offsets make stable keys.
+  let offset = 0
   return (
     <>
-      {parts.map((p, i) =>
-        i % 2 ? (
-          <mark key={i} className="rounded-[3px] bg-primary-soft px-0.5 text-primary-ink">
-            {p}
+      {parts.map((part, position) => {
+        const key = offset
+        offset += part.length
+        return position % 2 ? (
+          <mark key={key} className="rounded-[3px] bg-primary-soft px-0.5 text-primary-ink">
+            {part}
           </mark>
         ) : (
-          <span key={i}>{p}</span>
+          <span key={key}>{part}</span>
         )
-      )}
+      })}
     </>
   )
 }
@@ -109,18 +133,31 @@ export function ReviewScreen() {
                   i === 0 ? "bg-primary-soft" : "hover:bg-muted"
                 )}
               >
-                {i === 0 && <span className="absolute top-2 bottom-2 left-0 w-[3px] rounded-full bg-primary" />}
+                {i === 0 && (
+                  <span className="absolute top-2 bottom-2 left-0 w-[3px] rounded-full bg-primary" />
+                )}
                 <div className="grid size-8 shrink-0 place-items-center rounded-full bg-muted text-[11px] font-semibold text-ink-2 ring-1 ring-border">
                   {initials(q.name)}
                 </div>
                 <div className="min-w-0 flex-1">
-                  <div className={cn("truncate text-[13px] font-medium", i === 0 && "text-primary-ink")}>{q.name}</div>
+                  <div
+                    className={cn(
+                      "truncate text-[13px] font-medium",
+                      i === 0 && "text-primary-ink"
+                    )}
+                  >
+                    {q.name}
+                  </div>
                   <div className="truncate text-xs text-muted-foreground">
                     {q.handle} · {q.subs}
                   </div>
                 </div>
-                {q.state === "flagged" && <Flag className="size-3.5 text-warning" aria-label="Flagged" />}
-                <span className="label-mono num w-9 text-right text-xs text-ink-2">{q.score.toFixed(2)}</span>
+                {q.state === "flagged" && (
+                  <Flag className="size-3.5 text-warning" aria-label="Flagged" />
+                )}
+                <span className="label-mono num w-9 text-right text-xs text-ink-2">
+                  {q.score.toFixed(2)}
+                </span>
               </li>
             ))}
           </ul>
@@ -137,7 +174,12 @@ export function ReviewScreen() {
         <main className="min-h-0 overflow-auto">
           <div className="mx-auto max-w-[920px] space-y-6 p-5 md:p-7">
             <div className="flex flex-wrap items-start gap-4">
-              <Thumb seed="wandernorth-avatar" w={160} h={160} className="size-16 shrink-0 rounded-full ring-1 ring-border" />
+              <Thumb
+                seed="wandernorth-avatar"
+                w={160}
+                h={160}
+                className="size-16 shrink-0 rounded-full ring-1 ring-border"
+              />
               <div className="min-w-0 flex-1 space-y-1">
                 <Eyebrow>Channel 65 of 250</Eyebrow>
                 <h1 className="text-[28px] leading-tight">Wander North</h1>
@@ -167,10 +209,16 @@ export function ReviewScreen() {
                   </TabsTrigger>
                 </TabsList>
               </Tabs>
-              <label className="mb-1.5 flex items-center gap-2 text-xs text-muted-foreground">
-                <Languages className="size-4" /> English
-                <Switch checked={english} onCheckedChange={setEnglish} size="sm" />
-              </label>
+              <div className="mb-1.5 flex items-center gap-2 text-xs text-muted-foreground">
+                <Languages className="size-4" aria-hidden />
+                <span id="translate-label">English</span>
+                <Switch
+                  aria-labelledby="translate-label"
+                  checked={english}
+                  onCheckedChange={setEnglish}
+                  size="sm"
+                />
+              </div>
             </div>
 
             <div className="grid grid-cols-2 gap-x-4 gap-y-5 lg:grid-cols-4">
@@ -194,7 +242,9 @@ export function ReviewScreen() {
                     )}
                   </div>
                   <figcaption className="space-y-0.5">
-                    <div className="line-clamp-2 text-[13px] leading-snug font-medium">{v.title}</div>
+                    <div className="line-clamp-2 text-[13px] leading-snug font-medium">
+                      {v.title}
+                    </div>
                     <div className="num text-xs text-muted-foreground">{v.views} views</div>
                   </figcaption>
                 </figure>
@@ -207,8 +257,8 @@ export function ReviewScreen() {
                 <span className="text-xs text-muted-foreground">from titles and descriptions</span>
               </div>
               <ul className="space-y-2.5">
-                {quotes.map((q, i) => (
-                  <li key={i} className="flex gap-3 text-[14px] leading-relaxed">
+                {quotes.map((q) => (
+                  <li key={q.en.join("")} className="flex gap-3 text-[14px] leading-relaxed">
                     <span className="label-mono mt-0.5 h-5 shrink-0 rounded bg-muted px-1.5 text-[10.5px] leading-5 text-muted-foreground uppercase">
                       {q.lang}
                     </span>
@@ -227,35 +277,54 @@ export function ReviewScreen() {
           <div className="min-h-0 flex-1 space-y-6 overflow-auto p-6">
             <div className="space-y-2">
               <Eyebrow>Your decision</Eyebrow>
-              <h2 className="text-[22px] leading-snug">Is this channel primarily travel content?</h2>
+              <h2 className="text-[22px] leading-snug">
+                Is this channel primarily travel content?
+              </h2>
               <p className="text-[13px] leading-relaxed text-muted-foreground">
                 Judge the channel as a whole. One travel video on a cooking channel is still a no.
               </p>
             </div>
 
-            <div className="space-y-2" role="radiogroup">
+            <fieldset className="min-w-0 space-y-2">
+              <legend className="sr-only">Decision</legend>
               {options.map((o) => {
                 const on = choice === o.value
                 return (
-                  <button
+                  <label
                     key={o.value}
-                    role="radio"
-                    aria-checked={on}
-                    onClick={() => setChoice(o.value)}
                     className={cn(
-                      "flex w-full items-center gap-3 rounded-lg border bg-card px-3.5 py-3 text-left transition-colors",
-                      on ? "border-primary bg-primary-soft ring-1 ring-primary" : "hover:border-border-strong hover:bg-muted/50"
+                      "flex w-full cursor-pointer items-center gap-3 rounded-lg border bg-card px-3.5 py-3 text-left transition-colors has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-ring",
+                      on
+                        ? "border-primary bg-primary-soft ring-1 ring-primary"
+                        : "hover:border-border-strong hover:bg-muted/50"
                     )}
                   >
-                    <Kbd className={cn("h-6 min-w-6 text-[12px]", on && "bg-primary text-primary-foreground")}>{o.key}</Kbd>
+                    <input
+                      type="radio"
+                      name="decision"
+                      value={o.value}
+                      checked={on}
+                      onChange={() => setChoice(o.value)}
+                      className="sr-only"
+                    />
+                    <Kbd
+                      className={cn(
+                        "h-6 min-w-6 text-[12px]",
+                        on && "bg-primary text-primary-foreground"
+                      )}
+                    >
+                      {o.key}
+                    </Kbd>
                     <span className="min-w-0">
-                      <span className={cn("block text-sm font-semibold", on && "text-primary-ink")}>{o.label}</span>
+                      <span className={cn("block text-sm font-semibold", on && "text-primary-ink")}>
+                        {o.label}
+                      </span>
                       <span className="block text-xs text-muted-foreground">{o.hint}</span>
                     </span>
-                  </button>
+                  </label>
                 )
               })}
-            </div>
+            </fieldset>
 
             <div className="well space-y-3 p-4">
               <div className="flex items-center justify-between">
@@ -264,14 +333,19 @@ export function ReviewScreen() {
               </div>
               <div className="flex items-end gap-3">
                 <span className="figure text-[34px]">0.94</span>
-                <span className="pb-1 text-xs text-muted-foreground">rank 12 of 250 · agrees with 9 of 10 neighbours</span>
+                <span className="pb-1 text-xs text-muted-foreground">
+                  rank 12 of 250 · agrees with 9 of 10 neighbours
+                </span>
               </div>
               <Meter value={0.94} max={1} />
             </div>
 
             <div className="space-y-2">
               <Eyebrow>Note</Eyebrow>
-              <Textarea placeholder="Optional. Visible to the second reviewer." className="min-h-20 bg-card text-sm" />
+              <Textarea
+                placeholder="Optional. Visible to the second reviewer."
+                className="min-h-20 bg-card text-sm"
+              />
             </div>
           </div>
           <div className="flex items-center gap-2 border-t p-4">
@@ -279,7 +353,8 @@ export function ReviewScreen() {
               <SkipForward /> Skip
             </Button>
             <Button size="lg" className="ml-auto flex-1">
-              Save and next <Kbd className="ml-1 bg-primary-foreground/20 text-primary-foreground">⏎</Kbd>
+              Save and next{" "}
+              <Kbd className="ml-1 bg-primary-foreground/20 text-primary-foreground">⏎</Kbd>
             </Button>
           </div>
         </aside>
