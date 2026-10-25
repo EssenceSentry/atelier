@@ -126,6 +126,16 @@ more trust than a missed one.
 - A sticky header eating the screen.
 - Text touching the screen edge (the gutter must be at least 16px).
 
+## Reviewing atelier itself
+
+When the app is atelier's own gallery, you are reviewing a template that every
+future project starts from, not a product. Example data there is fictional,
+short and generic on purpose: judge it for internal consistency, never for
+richness. For each finding, name the general fix that prevents the problem
+in any generated project (a block in `packages/kit/src/blocks`, a theme
+token, a shared component, a check in `template/scripts`, or a rule in
+`skills/atelier/SKILL.md`), and fix the example screen only by adopting it.
+
 ## 3. Report
 
 Start with one line: would you put your name on this as it stands, and the

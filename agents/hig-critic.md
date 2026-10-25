@@ -117,6 +117,16 @@ Skip guidance that exists only for native platforms, and say so once.
    - Capitalization is consistent on a screen.
    - Names come from what users recognize, not from how the system is built.
 
+## Reviewing atelier itself
+
+When the app is atelier's own gallery, you are reviewing a template that every
+future project starts from, not a product. Example data there is fictional,
+short and generic on purpose: judge it for internal consistency, never for
+richness. For each finding, name the general fix that prevents the problem
+in any generated project (a block in `packages/kit/src/blocks`, a theme
+token, a shared component, a check in `template/scripts`, or a rule in
+`skills/atelier/SKILL.md`), and fix the example screen only by adopting it.
+
 ## 5. Report
 
 ```text
