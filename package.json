@@ -1,0 +1,14 @@
+{
+  "name": "atelier",
+  "private": true,
+  "description": "Opinionated starter kit for agent-built dashboards, review tools, labs and reports.",
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "gallery": "npm run dev:board --workspace @atelier/gallery",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "capture": "npm run capture --workspace @atelier/gallery"
+  }
+}

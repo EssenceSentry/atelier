@@ -1,0 +1,118 @@
+/*
+ * One direction: its fonts and tokens, light and dark. Components only read
+ * tokens, so switching direction never touches component code. Chart palettes
+ * passed the dataviz validator for adjacent pairs on every slot and all pairs
+ * on the first three, in both modes. Status colours live in ../status.css.
+ */
+@import "@fontsource-variable/instrument-sans";
+@import "@fontsource-variable/jetbrains-mono";
+
+/* ── Instrument: precise, cool, hairline, dense ─────────────────────────── */
+
+[data-direction="instrument"] {
+  --ff-sans: "Instrument Sans Variable", ui-sans-serif, system-ui, sans-serif;
+  --ff-heading: "Instrument Sans Variable", ui-sans-serif, system-ui, sans-serif;
+  --ff-mono: "JetBrains Mono Variable", ui-monospace, monospace;
+  --ff-figure: "Instrument Sans Variable", ui-sans-serif, sans-serif;
+
+  --heading-weight: 600;
+  --heading-tracking: -0.02em;
+  --figure-weight: 560;
+  --figure-tracking: -0.035em;
+  --eyebrow-font: var(--ff-mono);
+  --eyebrow-size: 10.5px;
+  --eyebrow-weight: 500;
+  --eyebrow-tracking: 0.08em;
+  --eyebrow-transform: uppercase;
+  --eyebrow-color: var(--muted-foreground);
+  --label-font: var(--ff-mono);
+
+  --radius: 0.375rem;
+  --index-display: inline;
+  --panel-shadow: none;
+  --panel-ring: var(--border);
+  --page-texture: none;
+
+  --page: #f2f3f5;
+  --background: #f2f3f5;
+  --foreground: #0e1116;
+  --card: #ffffff;
+  --card-foreground: #0e1116;
+  --popover: #ffffff;
+  --popover-foreground: #0e1116;
+  --sunken: #f7f8fa;
+  --raised: #ffffff;
+  --ink-2: #3d4552;
+  --muted: #f0f2f5;
+  --muted-foreground: #6b7380;
+  --faint: #9aa1ac;
+  --border: #e1e4e9;
+  --border-strong: #c9ced6;
+  --input: #d9dde3;
+  --ring: #3665e4;
+
+  --primary: #3665e4;
+  --primary-foreground: #ffffff;
+  --primary-soft: #edf1fd;
+  --primary-ink: #2a52c9;
+  --secondary: #eef0f3;
+  --secondary-foreground: #0e1116;
+  --accent: #eef0f3;
+  --accent-foreground: #0e1116;
+  --destructive: #d03b3b;
+
+  --viz-grid: #eceef2;
+  --viz-axis: #c9ced6;
+  --viz-text: #6b7380;
+  --series-1: #3665e4;
+  --series-2: #e8721c;
+  --series-3: #be409d;
+  --series-4: #d6a20a;
+  --series-5: #8151db;
+  --series-6: #db4241;
+  --div-neg: #3665e4;
+  --div-mid: #e6e8ec;
+  --div-pos: #e8721c;
+}
+
+[data-direction="instrument"].dark {
+  --page: #0a0c0f;
+  --background: #0a0c0f;
+  --foreground: #e9ecf1;
+  --card: #111419;
+  --card-foreground: #e9ecf1;
+  --popover: #151920;
+  --popover-foreground: #e9ecf1;
+  --sunken: #0d0f13;
+  --raised: #161a20;
+  --ink-2: #b4bcc8;
+  --muted: #1a1e25;
+  --muted-foreground: #8590a0;
+  --faint: #5d6673;
+  --border: #20252d;
+  --border-strong: #2e343e;
+  --input: #2a3039;
+  --ring: #6286f3;
+
+  --primary: #507ef1;
+  --primary-foreground: #ffffff;
+  --primary-soft: #141d33;
+  --primary-ink: #84a3f7;
+  --secondary: #1a1e25;
+  --secondary-foreground: #e9ecf1;
+  --accent: #1a1e25;
+  --accent-foreground: #e9ecf1;
+
+  --viz-grid: #1a1e25;
+  --viz-axis: #2e343e;
+  --viz-text: #8590a0;
+  --series-1: #507ef1;
+  --series-2: #e16c10;
+  --series-3: #cc4da9;
+  --series-4: #bb8d0c;
+  --series-5: #8c5ee8;
+  --series-6: #e24947;
+  --div-neg: #507ef1;
+  --div-mid: #2a2f37;
+  --div-pos: #e16c10;
+}
