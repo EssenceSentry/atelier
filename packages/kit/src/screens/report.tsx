@@ -5,7 +5,7 @@ import type { ReactNode } from "react"
 import { useCallback } from "react"
 import { AppBar } from "@/blocks/app-bar"
 import { PlotFigure, tipStyle } from "@/blocks/plot-figure"
-import { Delta, Eyebrow } from "@/blocks/primitives"
+import { Delta, Eyebrow, Meta } from "@/blocks/primitives"
 import { Button } from "@/components/ui/button"
 import {
   Table,
@@ -23,16 +23,36 @@ const totals = weeks.map((week) => ({
   week,
   value: spend.filter((d) => d.week === week).reduce((s, d) => s + d.value, 0),
 }))
-const labelled = new Set(["Aug 4", "Sep 8", "Sep 29"])
+const RESIZED = "Sep 8"
+// Below this width every other week is labelled, and only the latest total.
+const NARROW = 480
 
 const spendChart = (t: VizTokens, width: number) => {
-  const band = (width - 60) / weeks.length
+  const margin = { left: 44, right: 16 }
+  const inner = width - margin.left - margin.right
+  const padding = Math.max(0.25, 1 - 30 / (inner / weeks.length))
+  // Plot's band step with equal inner and outer padding.
+  const step = inner / (weeks.length + padding)
+  const narrow = width < NARROW
+  const labelled = new Set(narrow ? ["Sep 29"] : ["Sep 1", RESIZED, "Sep 29"])
   return {
-    marginLeft: 44,
+    marginLeft: margin.left,
+    marginRight: margin.right,
     marginTop: 28,
     marginBottom: 28,
-    x: { label: null, domain: weeks, tickSize: 0, padding: Math.max(0.25, 1 - 30 / band) },
-    y: { label: null, ticks: 4, tickSize: 0, tickFormat: (v: number) => `$${v / 1000}K` },
+    x: {
+      label: null,
+      domain: weeks,
+      tickSize: 0,
+      padding,
+      ticks: narrow ? weeks.filter((_, i) => i % 2 === 0) : weeks,
+    },
+    y: {
+      label: null,
+      ticks: 4,
+      tickSize: 0,
+      tickFormat: (v: number) => (v ? `$${v / 1000}K` : "$0"),
+    },
     color: { domain: [...warehouses], range: t.series.slice(0, 4) },
     marks: [
       Plot.gridY({ stroke: t.grid, strokeOpacity: 1, ticks: 4 }),
@@ -44,10 +64,22 @@ const spendChart = (t: VizTokens, width: number) => {
         insetBottom: 1,
         order: [...warehouses],
         title: (d: { warehouse: string; value: number; week: string }) =>
-          `${d.week} · ${d.warehouse}\n${money(d.value)}`,
+          `${d.warehouse}, week of ${d.week}\n${money(d.value)}`,
         tip: tipStyle(t),
       }),
       Plot.ruleY([0], { stroke: t.axis }),
+      // The resize, drawn between the last week at L and the first at M.
+      Plot.ruleX([RESIZED], { dx: -step / 2, stroke: t.axis, strokeDasharray: "3,3" }),
+      Plot.text([RESIZED], {
+        x: (d: string) => d,
+        frameAnchor: "top",
+        dx: -step / 2 + 6,
+        dy: -18,
+        textAnchor: "start",
+        text: () => "Ingest L → M",
+        fill: t.text,
+        fontSize: 11,
+      }),
       Plot.text(
         totals.filter((d) => labelled.has(d.week)),
         {
@@ -62,6 +94,8 @@ const spendChart = (t: VizTokens, width: number) => {
     ],
   }
 }
+
+const shareOfSpend = { august: 8.3, september: 11.4 }
 
 export function ReportScreen({
   product = "Reports",
@@ -84,7 +118,7 @@ export function ReportScreen({
               <Link2 /> Copy link
             </Button>
             <Button variant="outline" size="sm">
-              <Download /> PDF
+              <Download /> Download PDF
             </Button>
           </>
         }
@@ -92,7 +126,9 @@ export function ReportScreen({
 
       <article className="mx-auto max-w-[1080px] px-5 pt-12 pb-24 md:px-8 md:pt-16">
         <header className="max-w-[760px] space-y-5">
-          <Eyebrow>Cost review · Snowflake</Eyebrow>
+          <Eyebrow>
+            <Meta items={["Cost review", "Snowflake"]} />
+          </Eyebrow>
           <h1 className="text-[34px] leading-[1.08] text-balance md:text-[48px]">
             Compute spend fell 18% after the ingestion warehouse was resized
           </h1>
@@ -123,8 +159,15 @@ export function ReportScreen({
             },
             {
               label: "Ad hoc share of spend",
-              value: "11.4%",
-              delta: <Delta value={0.37} goodWhenUp={false} period="vs August" />,
+              value: `${shareOfSpend.september}%`,
+              delta: (
+                <Delta
+                  value={shareOfSpend.september - shareOfSpend.august}
+                  unit="pp"
+                  goodWhenUp={false}
+                  period="vs August"
+                />
+              ),
             },
           ].map((k, i) => (
             <div
@@ -179,7 +222,7 @@ export function ReportScreen({
           </figcaption>
         </figure>
 
-        <section className="mt-12 space-y-4">
+        <section className="panel mt-12 space-y-4 p-5 md:p-7">
           <div className="space-y-1.5">
             <Eyebrow>Figure 2</Eyebrow>
             <h2 className="text-xl md:text-[22px]">Most expensive recurring queries</h2>
@@ -188,17 +231,20 @@ export function ReportScreen({
             <TableHeader>
               <TableRow className="hover:bg-transparent">
                 <TableHead>Query</TableHead>
-                <TableHead>Warehouse</TableHead>
-                <TableHead className="text-right">Runs</TableHead>
-                <TableHead className="w-[30%]">Credits</TableHead>
+                <TableHead className="hidden sm:table-cell">Warehouse</TableHead>
+                <TableHead className="hidden text-right sm:table-cell">Runs</TableHead>
+                <TableHead className="text-right sm:w-[30%] sm:text-left">Credits</TableHead>
                 <TableHead className="text-right">vs August</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {topQueries.map((q) => (
                 <TableRow key={q.name}>
-                  <TableCell className="font-mono text-[12px]">{q.name}</TableCell>
-                  <TableCell>
+                  <TableCell className="font-mono text-[12px] whitespace-normal sm:whitespace-nowrap">
+                    {/* Zero-width spaces let long names wrap after an underscore on phones. */}
+                    {q.name.replaceAll("_", "_\u200b")}
+                  </TableCell>
+                  <TableCell className="hidden sm:table-cell">
                     <span className="flex items-center gap-2">
                       <span
                         className="size-2 rounded-[2px]"
@@ -209,26 +255,27 @@ export function ReportScreen({
                       {q.warehouse}
                     </span>
                   </TableCell>
-                  <TableCell className="num text-right">{q.runs.toLocaleString()}</TableCell>
+                  <TableCell className="num hidden text-right sm:table-cell">
+                    {q.runs.toLocaleString()}
+                  </TableCell>
                   <TableCell>
                     <span className="flex items-center gap-3">
                       <span className="num w-12 text-right">{q.credits.toLocaleString()}</span>
-                      <span className="h-1.5 flex-1 rounded-full bg-muted">
+                      <span className="hidden h-1.5 flex-1 rounded-full bg-muted sm:block">
                         <span
-                          className="block h-full rounded-full bg-primary/75"
+                          className="block h-full rounded-full bg-muted-foreground/45"
                           style={{ width: `${(q.credits / maxCredits) * 100}%` }}
                         />
                       </span>
                     </span>
                   </TableCell>
-                  <TableCell
-                    className={cn(
-                      "num text-right font-medium",
-                      q.change < 0 ? "text-good" : q.change > 0.1 ? "text-critical" : "text-ink-2"
-                    )}
-                  >
-                    {q.change > 0 ? "+" : "−"}
-                    {Math.abs(q.change * 100).toFixed(0)}%
+                  <TableCell className="text-right">
+                    <Delta
+                      value={q.change}
+                      goodWhenUp={false}
+                      flatWithin={0.05}
+                      className="text-[13px]"
+                    />
                   </TableCell>
                 </TableRow>
               ))}
@@ -236,7 +283,7 @@ export function ReportScreen({
           </Table>
         </section>
 
-        <aside className="mt-12 max-w-[760px] rounded-[var(--radius)] border-l-[3px] border-primary bg-primary-soft/60 p-6">
+        <aside className="mt-12 max-w-[760px] border-t-2 border-primary pt-5">
           <Eyebrow>Recommendation</Eyebrow>
           <ol className="mt-3 list-decimal space-y-2 pl-5 text-[15px] leading-relaxed">
             <li>Partition thumbnail audits by load date; expected saving $1.9K per month.</li>
