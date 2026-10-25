@@ -13,7 +13,8 @@ const viewports = [
   { name: "desktop", width: 1440, height: 900 },
   // Between the lg and xl breakpoints, where side panels fold into the page.
   { name: "laptop", width: 1180, height: 820 },
-  { name: "phone", width: 390, height: 844 },
+  // Phones are emulated with touch, so coarse-pointer styles are what gets checked.
+  { name: "phone", width: 390, height: 844, touch: true },
 ]
 
 await mkdir(out, { recursive: true })
@@ -30,6 +31,8 @@ for (const colorScheme of ["light", "dark"]) {
       viewport: { width: viewport.width, height: viewport.height },
       colorScheme,
       deviceScaleFactor: 2,
+      hasTouch: Boolean(viewport.touch),
+      isMobile: Boolean(viewport.touch),
     })
     page.on(
       "console",

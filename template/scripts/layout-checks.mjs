@@ -3,7 +3,8 @@
 // - a chart that did not render;
 // - content spilling out of a panel;
 // - the page scrolling sideways;
-// - chart labels overlapping each other or running past their panel.
+// - chart labels overlapping each other or running past their panel;
+// - on touch screens, controls shorter than 40px to tap.
 // Used by scripts/check.mjs and by atelier's gallery capture.
 
 /** Returns a list of problems in the page as rendered now. */
@@ -53,6 +54,27 @@ export async function layoutProblems(page) {
       for (const label of labels) {
         if (label.box.left < left - 1 || label.box.right > right + 1)
           problems.push(`chart label "${label.text}" runs past its panel "${name(panel)}"`)
+      }
+    }
+    // Touch targets: the control's box, grown by any invisible hit area drawn
+    // with ::after (as the switch does), must be at least 40px tall.
+    if (matchMedia("(pointer: coarse)").matches) {
+      const controls = document.querySelectorAll(
+        "button, a[href], [role=tab], [role=switch], [role=combobox], select, textarea, input:not([type=hidden]):not([type=radio]):not([type=checkbox]):not([type=range])"
+      )
+      for (const control of controls) {
+        const box = control.getBoundingClientRect()
+        if (!visible(control) || box.width <= 2 || box.height <= 2) continue
+        const after = getComputedStyle(control, "::after")
+        const grow =
+          after.position === "absolute"
+            ? Math.max(0, -Number.parseFloat(after.top) || 0) +
+              Math.max(0, -Number.parseFloat(after.bottom) || 0)
+            : 0
+        if (box.height + grow < 40) {
+          const text = (control.getAttribute("aria-label") || control.textContent || "").trim()
+          problems.push(`"${text.slice(0, 40)}" is ${Math.round(box.height + grow)}px tall to tap`)
+        }
       }
     }
     return problems

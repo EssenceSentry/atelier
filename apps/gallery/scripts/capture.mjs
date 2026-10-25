@@ -15,7 +15,8 @@ const viewports = [
   { name: "desktop", width: 1440, height: 900 },
   // Between the lg and xl breakpoints, where side panels fold into the page.
   { name: "laptop", width: 1180, height: 820 },
-  { name: "phone", width: 390, height: 844 },
+  // Phones are emulated with touch, so coarse-pointer styles are what gets checked.
+  { name: "phone", width: 390, height: 844, touch: true },
 ]
 
 await mkdir(out, { recursive: true })
@@ -25,6 +26,8 @@ for (const vp of viewports) {
   const page = await browser.newPage({
     viewport: { width: vp.width, height: vp.height },
     deviceScaleFactor: 2,
+    hasTouch: Boolean(vp.touch),
+    isMobile: Boolean(vp.touch),
   })
   page.on(
     "console",

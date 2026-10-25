@@ -12,6 +12,12 @@ pre-commit:
     - name: theme colours only
       glob: "*.{ts,tsx,css}"
       run: node scripts/check-colours.mjs src
+    - name: every button does something
+      glob: "*.tsx"
+      run: node scripts/check-inert-buttons.mjs src
+    - name: text sizes on the type scale
+      glob: "*.{ts,tsx,css}"
+      run: node scripts/check-type-scale.mjs src
     - name: workflow security (zizmor)
       glob: ".github/workflows/*.yml"
       run: uvx zizmor@1.31.1 .github/workflows

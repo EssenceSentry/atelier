@@ -21,6 +21,8 @@ Every gate is a hook in `lefthook.yml`. CI runs the same hooks with
 | Types, strict | TypeScript | commit |
 | Colours come from theme tokens, not hex values or palette classes | `scripts/check-colours.mjs` | commit |
 | Workflow security | zizmor | commit, when workflows change |
+| Every button does something, or is a `NotBuiltButton` that says it is not built | `scripts/check-inert-buttons.mjs` | commit |
+| Text sizes on the type scale (11 to 18, then 20, 22, 28, 32, 40, 48, 56, 72 px) | `scripts/check-type-scale.mjs` | commit |
 | No AI co-author trailers | `scripts/check-no-ai-coauthors.mjs` | commit message |
 | Build | Vite | push |
 | Screenshots in light and dark, desktop, laptop and phone; no broken chart, console error, spilling panel, sideways scroll or colliding chart label | `scripts/check.mjs` and `scripts/layout-checks.mjs` | push |
