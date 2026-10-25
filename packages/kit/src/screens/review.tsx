@@ -93,14 +93,18 @@ const initialState: State = {
   query: "",
 }
 
+const matcher = (query: string) => {
+  const needle = query.trim().toLowerCase()
+  return (c: Channel) =>
+    !needle || c.name.toLowerCase().includes(needle) || c.handle.includes(needle)
+}
+
 function visible({
   tab,
   decisions,
   query = "",
 }: Pick<State, "tab" | "decisions"> & { query?: string }) {
-  const needle = query.trim().toLowerCase()
-  const matches = (c: Channel) =>
-    !needle || c.name.toLowerCase().includes(needle) || c.handle.includes(needle)
+  const matches = matcher(query)
   if (tab === "flagged")
     return ranked.filter(
       (c) => matches(c) && (c.state === "flagged" || decisions[c.handle] === "unsure")
@@ -108,12 +112,16 @@ function visible({
   return ranked.filter((c) => matches(c) && (tab === "saved") === c.handle in decisions)
 }
 
-/** The next unsaved channel after `handle`, wrapping round the slice. */
-function nextPending(handle: string, decisions: Record<string, Choice>) {
+/**
+ * The next unsaved channel after `handle`, wrapping round the slice. A search
+ * narrows it too, so the next channel is always one the person can see.
+ */
+function nextPending(handle: string, decisions: Record<string, Choice>, query = "") {
+  const matches = matcher(query)
   const at = ranked.findIndex((c) => c.handle === handle)
   for (let step = 1; step <= ranked.length; step++) {
     const candidate = ranked[(at + step) % ranked.length]
-    if (!(candidate.handle in decisions)) return candidate
+    if (!(candidate.handle in decisions) && matches(candidate)) return candidate
   }
 }
 
@@ -134,14 +142,14 @@ function reducer(state: State, action: Action): State {
       return next ? reducer(state, { type: "select", handle: next.handle }) : state
     }
     case "skip": {
-      const next = nextPending(state.selected, state.decisions)
+      const next = nextPending(state.selected, state.decisions, state.query)
       return next ? reducer(state, { type: "select", handle: next.handle }) : state
     }
     case "save": {
       if (!state.choice) return state
       // Saving the answer already saved moves on, or to the next slice at the end.
       if (state.decisions[state.selected] === state.choice)
-        return nextPending(state.selected, state.decisions)
+        return nextPending(state.selected, state.decisions, state.query)
           ? reducer(state, { type: "skip" })
           : reducer(state, { type: "next-slice" })
       const decisions = { ...state.decisions, [state.selected]: state.choice }
@@ -149,7 +157,7 @@ function reducer(state: State, action: Action): State {
         ...state.history,
         { handle: state.selected, previous: state.decisions[state.selected] },
       ]
-      const next = nextPending(state.selected, decisions)
+      const next = nextPending(state.selected, decisions, state.query)
       return next
         ? { ...state, decisions, history, selected: next.handle, choice: null }
         : { ...state, decisions, history }
@@ -174,8 +182,14 @@ function reducer(state: State, action: Action): State {
       if (!list[0] || list.some((c) => c.handle === state.selected)) return next
       return reducer(next, { type: "select", handle: list[0].handle })
     }
-    case "search":
-      return { ...state, query: action.query }
+    case "search": {
+      // A filter never hides the channel being decided: if it would, the
+      // selection moves to the first match.
+      const next = { ...state, query: action.query }
+      const list = visible(next)
+      if (!list[0] || list.some((c) => c.handle === state.selected)) return next
+      return reducer(next, { type: "select", handle: list[0].handle })
+    }
     case "next-slice":
       // The example reloads the same channels; a real app fetches the next slice.
       return {
@@ -300,10 +314,7 @@ function DecisionActions({
         disabled={!state.choice}
         onClick={() => dispatch({ type: "save" })}
       >
-        {label}{" "}
-        <Kbd className="ml-1 bg-primary-foreground/20 text-primary-foreground pointer-coarse:hidden">
-          ⏎
-        </Kbd>
+        {label} <Kbd className="ml-1 pointer-coarse:hidden">⏎</Kbd>
       </Button>
     </div>
   )

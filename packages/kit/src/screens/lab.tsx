@@ -3,6 +3,7 @@ import * as Plot from "@observablehq/plot"
 import { ChevronDown, Download, Layers, SlidersHorizontal, Upload } from "lucide-react"
 import { type ReactNode, useCallback, useId, useState } from "react"
 import { AppBar } from "@/blocks/app-bar"
+import { ChartPanel, ChartRow } from "@/blocks/chart-panel"
 import { Legend, LegendMark } from "@/blocks/legend"
 import { labelWidth, PlotFigure, tipStyle } from "@/blocks/plot-figure"
 import { Eyebrow, Meta, SectionHeader, Thumb } from "@/blocks/primitives"
@@ -540,7 +541,7 @@ export function LabScreen({
               pendingLabel="Exporting…"
               onAction={async () => exportSelection(settings.temperature)}
             >
-              <Download /> Export
+              <Download /> Export {selection.length} selected
             </ActionButton>
           </>
         }
@@ -605,34 +606,37 @@ export function LabScreen({
                 />
                 <PlotFigure build={buildScatter} height={360} fill />
               </section>
-              <div className="grid gap-4 md:grid-cols-[1.25fr_1fr]">
-                <section className="panel space-y-2 p-5">
-                  <SectionHeader title="Precision against recall" />
+              <ChartRow className="md:grid-cols-[1.25fr_1fr]">
+                <ChartPanel
+                  title="Precision against recall"
+                  note="Methods are labelled at the line ends."
+                >
                   <PlotFigure build={buildPr} height={176} />
-                </section>
-                <section className="panel space-y-2 p-5">
-                  <SectionHeader
-                    title="Score distribution"
-                    meta={
-                      <Legend
-                        items={LABELS.map((l) => ({
-                          label: l,
-                          colour: labelSwatch(l),
-                          mark: "square" as const,
-                        }))}
-                      />
-                    }
-                  />
-                  <Meta
-                    items={[
-                      `${selection.length} selected`,
-                      `${(travelShare * 100).toFixed(0)}% travel`,
-                    ]}
-                    className="num block text-xs text-muted-foreground"
-                  />
+                </ChartPanel>
+                <ChartPanel
+                  title="Score distribution"
+                  meta={
+                    <Legend
+                      items={LABELS.map((l) => ({
+                        label: l,
+                        colour: labelSwatch(l),
+                        mark: "square" as const,
+                      }))}
+                    />
+                  }
+                  note={
+                    <Meta
+                      items={[
+                        `${selection.length} selected`,
+                        `${(travelShare * 100).toFixed(0)}% travel`,
+                      ]}
+                      className="num"
+                    />
+                  }
+                >
                   <PlotFigure build={buildHist} height={176} />
-                </section>
-              </div>
+                </ChartPanel>
+              </ChartRow>
 
               <section className="panel p-5 xl:hidden">
                 <Inspector settings={settings} wide />

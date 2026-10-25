@@ -221,12 +221,12 @@ export function ReportScreen({
             The ingestion warehouse ran at size L for every load until 7 September, although its
             queue never exceeded two concurrent statements. Moving it to M cut its weekly cost by{" "}
             {percent(ingestChange)} with no change in load latency at the 95th percentile (Figure
-            1).
+            {"\u00a0"}1).
           </p>
           <p>
             Transform and dashboard spend stayed flat. Ad hoc spend kept rising, led by thumbnail
-            audits that scan the full image table instead of the daily partition; Figure 2 lists the
-            queries behind it.
+            audits that scan the full image table instead of the daily partition; Figure{"\u00a0"}2
+            lists the queries behind it.
           </p>
         </div>
 
@@ -322,7 +322,7 @@ export function ReportScreen({
           </Table>
         </section>
 
-        <aside className="measure mt-12 border-t-2 border-primary pt-5">
+        <aside className="measure mt-12 border-t-2 border-foreground pt-5">
           <Eyebrow>Recommendation</Eyebrow>
           <ol className="mt-3 list-decimal space-y-2 pl-5 text-[17px] leading-[1.7]">
             <li>
