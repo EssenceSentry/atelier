@@ -17,26 +17,28 @@ import type { LiveStatus } from "@/lib/live"
 const statuses: Status[] = ["running", "done", "succeeded", "failed", "warning", "queued", "paused"]
 const liveStatuses: LiveStatus[] = ["example", "connecting", "live", "offline"]
 
-/** The undo notice after a release; releasing again restarts the countdown. */
+/** The undo notice after a release; once it closes, the demo can run again. */
 function ReleaseExample() {
   const [round, setRound] = useState(0)
-  const [released, setReleased] = useState(true)
-  return released ? (
-    <UndoNotice key={round} onUndo={() => setReleased(false)}>
-      Released the 30 GiB volume held by job{" "}
-      <span className="label-mono text-xs whitespace-nowrap">…866245</span>.
-    </UndoNotice>
-  ) : (
-    <Button
-      size="sm"
-      variant="destructive"
-      onClick={() => {
-        setRound((n) => n + 1)
-        setReleased(true)
-      }}
-    >
-      Release volume
-    </Button>
+  const [phase, setPhase] = useState<"released" | "undone" | "final">("released")
+  const release = () => {
+    setRound((n) => n + 1)
+    setPhase("released")
+  }
+  if (phase === "released")
+    return (
+      <UndoNotice key={round} onUndo={() => setPhase("undone")} onExpire={() => setPhase("final")}>
+        Released the 30 GiB volume held by job{" "}
+        <span className="label-mono text-xs whitespace-nowrap">…866245</span>.
+      </UndoNotice>
+    )
+  return (
+    <div className="flex items-center justify-between gap-3 text-[13px] text-muted-foreground">
+      {phase === "final" ? "The release is final." : "Release undone."}
+      <Button size="sm" variant="destructive" onClick={release}>
+        {phase === "final" ? "Release again" : "Release volume"}
+      </Button>
+    </div>
   )
 }
 
@@ -67,10 +69,16 @@ export function StatesScreen() {
         <div className="col-span-12 flex flex-col gap-4 md:gap-5 lg:col-span-5">
           <section className="panel space-y-5 p-5">
             <SectionHeader title="Status" />
-            <div className="flex flex-wrap gap-2">
-              {statuses.map((status) => (
-                <StatusBadge key={status} status={status} />
-              ))}
+            <div className="space-y-2">
+              <div className="flex flex-wrap gap-2">
+                {statuses.map((status) => (
+                  <StatusBadge key={status} status={status} />
+                ))}
+              </div>
+              <p className="text-xs text-muted-foreground">
+                Done is routine completion. Succeeded, the only green one, marks an outcome worth
+                noticing, such as a healthy service.
+              </p>
             </div>
             <div className="space-y-3">
               <div className="text-xs text-muted-foreground">

@@ -19,9 +19,10 @@ With `dev:board` running on port 5188:
 npm run capture
 ```
 
-It screenshots every direction, mode and screen at desktop size, plus the
-four screens at phone width, into `captures/`. It fails on a chart that
-did not render or a console error.
+It screenshots every direction, mode and screen at 1440, 1180 and 390px
+into `captures/`, full page, with a second `-end` shot for screens that
+scroll inside a panel. It fails on a chart that did not render, a console
+error, content spilling out of a panel, or a page that scrolls sideways.
 
 `node scripts/check-theme.mjs <url> <png>` confirms that a single-theme build
 renders its own direction with no direction switcher.

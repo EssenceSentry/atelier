@@ -51,10 +51,20 @@ for (const vp of viewports) {
         if (layout.sideways) problems.push(`${d}/${m}/${s}/${vp.name}: page scrolls sideways`)
         for (const panel of layout.spills)
           problems.push(`${d}/${m}/${s}/${vp.name}: content spills out of panel "${panel}"`)
-        await page.screenshot({
-          path: `${out}/${s}-${d}-${m}-${vp.name}.png`,
-          fullPage: vp.name === "phone" || s === "report",
+        await page.screenshot({ path: `${out}/${s}-${d}-${m}-${vp.name}.png`, fullPage: true })
+        // Screens that scroll inside a panel instead of the page get a second
+        // shot scrolled to the end, so what sits below the fold is seen too.
+        const scrolled = await page.evaluate(() => {
+          const inner = [...document.querySelectorAll("main, aside")].filter(
+            (e) => e.getClientRects().length > 0 && e.scrollHeight > e.clientHeight + 2
+          )
+          for (const e of inner) e.scrollTop = e.scrollHeight
+          return inner.length > 0
         })
+        if (scrolled) {
+          await page.waitForTimeout(150)
+          await page.screenshot({ path: `${out}/${s}-${d}-${m}-${vp.name}-end.png` })
+        }
       }
   await page.close()
 }
