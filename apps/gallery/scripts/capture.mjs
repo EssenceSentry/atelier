@@ -1,5 +1,6 @@
-// Screenshot every direction × mode × screen and fail on broken charts or
-// console errors. Usage: node scripts/capture.mjs [baseUrl] [outDir]
+// Screenshot every direction × mode × screen and fail on broken charts,
+// console errors, content spilling out of a panel, or a page that scrolls
+// sideways. Usage: node scripts/capture.mjs [baseUrl] [outDir]
 import { mkdir } from "node:fs/promises"
 import { chromium } from "playwright"
 
@@ -10,7 +11,9 @@ const modes = ["light", "dark"]
 const screens = ["monitor", "review", "lab", "report", "states"]
 const viewports = [
   { name: "desktop", width: 1440, height: 900 },
-  { name: "phone", width: 390, height: 844, only: ["monitor", "review", "lab", "report"] },
+  // Between the lg and xl breakpoints, where side panels fold into the page.
+  { name: "laptop", width: 1180, height: 820 },
+  { name: "phone", width: 390, height: 844 },
 ]
 
 await mkdir(out, { recursive: true })
@@ -39,6 +42,15 @@ for (const vp of viewports) {
         )
         for (const st of states)
           if (st !== "ok") problems.push(`${d}/${m}/${s}/${vp.name}: chart ${st}`)
+        const layout = await page.evaluate(() => ({
+          sideways: document.documentElement.scrollWidth > document.documentElement.clientWidth,
+          spills: [...document.querySelectorAll(".panel")]
+            .filter((e) => e.getClientRects().length > 0 && e.scrollHeight > e.clientHeight + 2)
+            .map((e) => e.querySelector("h1, h2, h3, summary")?.textContent ?? e.className),
+        }))
+        if (layout.sideways) problems.push(`${d}/${m}/${s}/${vp.name}: page scrolls sideways`)
+        for (const panel of layout.spills)
+          problems.push(`${d}/${m}/${s}/${vp.name}: content spills out of panel "${panel}"`)
         await page.screenshot({
           path: `${out}/${s}-${d}-${m}-${vp.name}.png`,
           fullPage: vp.name === "phone" || s === "report",

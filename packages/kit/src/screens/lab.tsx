@@ -1,10 +1,11 @@
 import type { VizTokens } from "@atelier/theme/viz"
 import * as Plot from "@observablehq/plot"
-import { ChevronDown, Crosshair, Download, SlidersHorizontal, Upload } from "lucide-react"
-import { type ReactNode, useCallback, useId } from "react"
+import { ChevronDown, Crosshair, Download, Layers, SlidersHorizontal, Upload } from "lucide-react"
+import { type ReactNode, useCallback, useId, useState } from "react"
 import { AppBar } from "@/blocks/app-bar"
 import { PlotFigure, tipStyle } from "@/blocks/plot-figure"
 import { Eyebrow, Meta, SectionHeader, Thumb } from "@/blocks/primitives"
+import { EmptyState } from "@/blocks/states"
 import { Button } from "@/components/ui/button"
 import { Slider } from "@/components/ui/slider"
 import { Switch } from "@/components/ui/switch"
@@ -264,7 +265,7 @@ function Controls() {
       <div className="well space-y-2 p-3.5">
         <Eyebrow>Probe</Eyebrow>
         <div className="font-mono text-[13px]">p = σ((w·x + b) / T)</div>
-        <p className="text-xs leading-relaxed text-muted-foreground">
+        <p className="text-[13px] leading-relaxed text-muted-foreground">
           Linear probe fitted in the browser on 1,920 reviewed items. Hold-out AUC{" "}
           <span className="num text-foreground">0.913</span>.
         </p>
@@ -322,6 +323,14 @@ function Inspector() {
   )
 }
 
+const VIEWS = [
+  ["space", "Space"],
+  ["rank", "Rankings"],
+  ["evidence", "Evidence"],
+  ["uncertainty", "Uncertainty"],
+] as const
+type View = (typeof VIEWS)[number][0]
+
 export function LabScreen({
   product = "Embedding lab",
   icon,
@@ -329,6 +338,7 @@ export function LabScreen({
   product?: string
   icon?: ReactNode
 }) {
+  const [view, setView] = useState<View>("space")
   const buildScatter = useCallback(scatter, [])
   const buildPr = useCallback(prChart, [])
   const buildHist = useCallback(histogram, [])
@@ -340,12 +350,13 @@ export function LabScreen({
         product={product}
         icon={icon}
         center={
-          <Tabs defaultValue="space">
+          <Tabs value={view} onValueChange={(next: View) => setView(next)}>
             <TabsList>
-              <TabsTrigger value="space">Space</TabsTrigger>
-              <TabsTrigger value="rank">Rankings</TabsTrigger>
-              <TabsTrigger value="evidence">Evidence</TabsTrigger>
-              <TabsTrigger value="uncertainty">Uncertainty</TabsTrigger>
+              {VIEWS.map(([value, name]) => (
+                <TabsTrigger key={value} value={value}>
+                  {name}
+                </TabsTrigger>
+              ))}
             </TabsList>
           </Tabs>
         }
@@ -383,65 +394,85 @@ export function LabScreen({
             </div>
           </details>
 
-          <section className="panel flex flex-col gap-3 p-5 lg:min-h-0 lg:flex-1">
-            <SectionHeader
-              title="Channel embeddings, UMAP"
-              meta={
-                <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
-                  {LABELS.map((l, i) => (
-                    <span key={l} className="flex items-center gap-1.5">
-                      <Swatch colour={`var(--series-${i + 1})`} />
-                      {l}
-                    </span>
-                  ))}
-                  <span className="hidden items-center gap-1.5 md:flex">
-                    <Crosshair className="size-3.5" /> shift-drag to select
-                  </span>
-                </div>
-              }
-            />
-            <PlotFigure build={buildScatter} height={360} fill />
-          </section>
-          <div className="grid gap-4 md:grid-cols-[1.25fr_1fr]">
-            <section className="panel space-y-2 p-5">
-              <SectionHeader
-                title="Precision against recall"
-                meta={
-                  <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
-                    {METHODS.map((m, i) => (
-                      <span key={m} className="flex items-center gap-1.5">
-                        <Swatch
-                          line
-                          colour={i === 0 ? "var(--foreground)" : `var(--series-${i + 2})`}
-                        />
-                        {m}
+          {view !== "space" ? (
+            <section className="panel flex flex-1 items-center justify-center">
+              <EmptyState
+                icon={<Layers />}
+                title={`${VIEWS.find(([value]) => value === view)?.[1]} isn't built in this example`}
+                action={
+                  <Button size="sm" variant="outline" onClick={() => setView("space")}>
+                    Back to Space
+                  </Button>
+                }
+              >
+                The example builds the Space view only. Build this one from the same selection and
+                probe scores.
+              </EmptyState>
+            </section>
+          ) : (
+            <>
+              {/* Only wide windows fit the scatter to the screen; narrower ones scroll. */}
+              <section className="panel flex flex-col gap-3 p-5 xl:min-h-[28rem] xl:flex-1">
+                <SectionHeader
+                  title="Channel embeddings, UMAP"
+                  meta={
+                    <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
+                      {LABELS.map((l, i) => (
+                        <span key={l} className="flex items-center gap-1.5">
+                          <Swatch colour={`var(--series-${i + 1})`} />
+                          {l}
+                        </span>
+                      ))}
+                      <span className="hidden items-center gap-1.5 md:flex">
+                        <Crosshair className="size-3.5" /> shift-drag to select
                       </span>
-                    ))}
-                  </div>
-                }
-              />
-              <PlotFigure build={buildPr} height={176} />
-            </section>
-            <section className="panel space-y-2 p-5">
-              <SectionHeader
-                title="Score distribution"
-                meta={
-                  <Meta
-                    items={[
-                      `${selection.length} selected`,
-                      `${(travelShare * 100).toFixed(0)}% travel`,
-                    ]}
-                    className="num"
+                    </div>
+                  }
+                />
+                <PlotFigure build={buildScatter} height={360} fill />
+              </section>
+              <div className="grid gap-4 md:grid-cols-[1.25fr_1fr]">
+                <section className="panel space-y-2 p-5">
+                  <SectionHeader
+                    title="Precision against recall"
+                    meta={
+                      <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+                        {METHODS.map((m, i) => (
+                          <span key={m} className="flex items-center gap-1.5">
+                            <Swatch
+                              line
+                              colour={i === 0 ? "var(--foreground)" : `var(--series-${i + 2})`}
+                            />
+                            {m}
+                          </span>
+                        ))}
+                      </div>
+                    }
                   />
-                }
-              />
-              <PlotFigure build={buildHist} height={176} />
-            </section>
-          </div>
+                  <PlotFigure build={buildPr} height={176} />
+                </section>
+                <section className="panel space-y-2 p-5">
+                  <SectionHeader
+                    title="Score distribution"
+                    meta={
+                      <Meta
+                        items={[
+                          `${selection.length} selected`,
+                          `${(travelShare * 100).toFixed(0)}% travel`,
+                        ]}
+                        className="num"
+                      />
+                    }
+                  />
+                  <PlotFigure build={buildHist} height={176} />
+                </section>
+              </div>
 
-          <section className="panel p-5 xl:hidden">
-            <Inspector />
-          </section>
+              <section className="panel p-5 xl:hidden">
+                <Inspector />
+              </section>
+            </>
+          )}
         </main>
 
         <aside className="hidden min-h-0 overflow-auto border-l bg-card p-5 xl:block">
