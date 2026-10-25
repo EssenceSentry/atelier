@@ -39,5 +39,7 @@ commit.
 - Keep chart series in their validated slot order; never cycle past the last.
 - Keep actions pinned by commit hash with the version in a comment, and use
   the same hashes here and in `template/`.
+- `skills/atelier/SKILL.md` is the skill agents load to use atelier. Update it in the
+  same commit as any change to what projects get or how to start one.
 - Commit messages never credit an AI assistant as an author. Stage explicit
   paths, never `git add -A` or `git add .`.
