@@ -53,6 +53,14 @@ Do these before showing the app to anyone:
   Use series slots in order and never cycle past the last; fold the rest into
   "Other" or facet.
 - Status pairs colour with an icon and a word (`StatusBadge`).
+- Accessibility in numbers: text at least 11px, running text at least 13px;
+  text contrast at least 4.5:1, so `text-faint` is for decoration and large
+  figures only; touch targets 44×44px on phone layouts; visible keyboard focus;
+  nothing conveyed by colour alone.
+- Every view has its states: loading shows something at once, empty states
+  invite the next action, and errors say what happened and how to fix it.
+- Labels say what happens ("Release volume", not "Submit"), an action keeps
+  its name through the flow, and capitalization is sentence case throughout.
 - Change the direction only through `theme` in `app.config.json`; never edit
   `theme/`.
 - Live state: `useLiveState(url, example)` in `src/lib/live.ts` reads the
@@ -69,6 +77,15 @@ fails on a broken chart, a console error or sideways scrolling.
 Open those screenshots after every visual change and fix what looks wrong;
 the check catches breakage, not an ugly layout. Run
 `npx lefthook run pre-push --all-files` before saying the work is done.
+
+Before the app is shown or published, offer two independent reviews. The
+`ui-critic` agent renders the app in both modes on desktop and phone, zooms
+into details and reports everything that looks unprofessional. The
+`hig-critic` agent judges purpose, measured accessibility, states and
+writing against Apple's Human Interface Guidelines. They are meant to
+disagree at times; reconcile their findings with the user rather than
+applying both blindly. Agree on running them with the user first, as with
+any agent.
 
 ## Publish as a claude.ai artifact
 
