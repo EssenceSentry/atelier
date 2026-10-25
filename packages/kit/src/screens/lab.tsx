@@ -21,11 +21,13 @@ const selection = points.filter(inBrush)
 const selected = points
   .filter((p) => p.label === "Travel" && inBrush(p))
   .sort((a, b) => b.score - a.score)[40]
-// On this screen series 1 and 2 always mean these labels; other charts use
-// ink and series 3 onwards so no colour means two things.
+// Travel, the class under study, takes series 1; everything else is neutral so
+// the eye goes to it. Other charts use ink and series 3 onwards, so no colour
+// means two things.
 const LABELS = ["Travel", "Not travel"]
 const METHODS = ["Weighted", "Max", "RRF"]
-const labelColours = (t: VizTokens) => ({ domain: LABELS, range: [t.series[0], t.series[1]] })
+const labelColours = (t: VizTokens) => ({ domain: LABELS, range: [t.series[0], t.text] })
+const labelSwatch = (label: string) => (label === "Travel" ? "var(--series-1)" : "var(--viz-text)")
 const methodColours = (t: VizTokens) => [t.ink, t.series[2], t.series[3]]
 
 const scatter = (t: VizTokens) => ({
@@ -71,6 +73,10 @@ const scatter = (t: VizTokens) => ({
       dy: -9,
       fill: t.ink,
       fontWeight: 600,
+      // A halo in the surface colour keeps the label readable over points.
+      stroke: t.surface,
+      strokeWidth: 4,
+      paintOrder: "stroke",
     }),
     Plot.tip(
       points,
@@ -127,7 +133,7 @@ const prChart = (t: VizTokens) => {
       Plot.text([{ x: 0.6, y: 1 }], {
         x: "x",
         y: "y",
-        text: () => "capacity 600",
+        text: () => "review capacity 600",
         dx: 4,
         textAnchor: "start",
         fill: t.text,
@@ -180,7 +186,7 @@ const contributionChart = (t: VizTokens) => ({
       x: "value",
       y: "feature",
       // Pushes towards a label take that label's colour.
-      fill: (d: { value: number }) => (d.value > 0 ? t.series[0] : t.series[1]),
+      fill: (d: { value: number }) => (d.value > 0 ? t.series[0] : t.text),
       rx2: 3,
       insetTop: 4,
       insetBottom: 4,
@@ -274,33 +280,36 @@ function Controls() {
   )
 }
 
-function Inspector() {
+/** In the side column it stacks; `wide` sets the same parts in two columns. */
+function Inspector({ wide = false }: { wide?: boolean }) {
   const buildContrib = useCallback(contributionChart, [])
-  return (
-    <div className="space-y-6">
-      <div className="space-y-3">
-        <Eyebrow>Inspector</Eyebrow>
-        <Thumb seed="fjord" className="aspect-video rounded-lg" />
+  const summary = (
+    <div className="space-y-3">
+      <Eyebrow>Inspector</Eyebrow>
+      <Thumb seed="fjord" className="aspect-video max-w-[320px] rounded-lg" />
+      <div>
+        <h2 className="text-xl leading-tight">Wander North</h2>
+        <Meta
+          items={[`item ${selected.id}`, "UCx9…f3Qa"]}
+          className="label-mono mt-1 block text-[11px] text-muted-foreground"
+        />
+      </div>
+      <div className="flex items-end gap-6">
         <div>
-          <h2 className="text-xl leading-tight">Wander North</h2>
-          <Meta
-            items={[`item ${selected.id}`, "UCx9…f3Qa"]}
-            className="label-mono mt-1 block text-[11px] text-muted-foreground"
-          />
+          <div className="figure text-[34px]">{selected.score.toFixed(3)}</div>
+          <div className="mt-1 text-xs text-muted-foreground">probe score at T = 0.70</div>
         </div>
-        <div className="flex items-end gap-6">
-          <div>
-            <div className="figure text-[34px]">{selected.score.toFixed(3)}</div>
-            <div className="mt-1 text-xs text-muted-foreground">probe score at T = 0.70</div>
+        <div>
+          <div className="flex items-center gap-1.5 pb-1 text-sm font-medium">
+            <Swatch colour="var(--series-1)" /> Travel
           </div>
-          <div>
-            <div className="flex items-center gap-1.5 pb-1 text-sm font-medium">
-              <Swatch colour="var(--series-1)" /> Travel
-            </div>
-            <div className="text-xs text-muted-foreground">reviewed label</div>
-          </div>
+          <div className="text-xs text-muted-foreground">reviewed label</div>
         </div>
       </div>
+    </div>
+  )
+  const details = (
+    <>
       <div className="space-y-2">
         <SectionHeader title="Feature contributions" />
         <PlotFigure build={buildContrib} height={contributions.length * CONTRIBUTION_ROW + 8} />
@@ -310,7 +319,7 @@ function Inspector() {
         <ul className="divide-y text-[13px]">
           {neighbors.map((n) => (
             <li key={n.name} className="flex items-center gap-2.5 py-2">
-              <Swatch colour={`var(--series-${n.label === "Travel" ? 1 : 2})`} />
+              <Swatch colour={labelSwatch(n.label)} />
               <span className="flex-1 truncate">{n.name}</span>
               <span className="label-mono num text-xs text-muted-foreground">
                 {n.sim.toFixed(3)}
@@ -319,6 +328,17 @@ function Inspector() {
           ))}
         </ul>
       </div>
+    </>
+  )
+  return wide ? (
+    <div className="grid gap-x-8 gap-y-6 md:grid-cols-[280px_1fr]">
+      {summary}
+      <div className="space-y-6">{details}</div>
+    </div>
+  ) : (
+    <div className="space-y-6">
+      {summary}
+      {details}
     </div>
   )
 }
@@ -417,9 +437,9 @@ export function LabScreen({
                   title="Channel embeddings, UMAP"
                   meta={
                     <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
-                      {LABELS.map((l, i) => (
+                      {LABELS.map((l) => (
                         <span key={l} className="flex items-center gap-1.5">
-                          <Swatch colour={`var(--series-${i + 1})`} />
+                          <Swatch colour={labelSwatch(l)} />
                           {l}
                         </span>
                       ))}
@@ -433,22 +453,7 @@ export function LabScreen({
               </section>
               <div className="grid gap-4 md:grid-cols-[1.25fr_1fr]">
                 <section className="panel space-y-2 p-5">
-                  <SectionHeader
-                    title="Precision against recall"
-                    meta={
-                      <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
-                        {METHODS.map((m, i) => (
-                          <span key={m} className="flex items-center gap-1.5">
-                            <Swatch
-                              line
-                              colour={i === 0 ? "var(--foreground)" : `var(--series-${i + 2})`}
-                            />
-                            {m}
-                          </span>
-                        ))}
-                      </div>
-                    }
-                  />
+                  <SectionHeader title="Precision against recall" />
                   <PlotFigure build={buildPr} height={176} />
                 </section>
                 <section className="panel space-y-2 p-5">
@@ -469,7 +474,7 @@ export function LabScreen({
               </div>
 
               <section className="panel p-5 xl:hidden">
-                <Inspector />
+                <Inspector wide />
               </section>
             </>
           )}
