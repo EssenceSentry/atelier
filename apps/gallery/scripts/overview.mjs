@@ -5,7 +5,7 @@ import { chromium } from "playwright"
 
 const dir = resolve(process.argv[2] ?? "captures")
 const directions = ["instrument", "editorial", "console"]
-const screens = ["monitor", "review", "lab", "report"]
+const screens = ["monitor", "review", "lab", "report", "states"]
 const browser = await chromium.launch()
 for (const mode of ["light", "dark"]) {
   const cells = screens

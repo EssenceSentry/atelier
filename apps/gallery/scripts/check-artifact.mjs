@@ -66,7 +66,7 @@ for (const [key, { want, bg }] of Object.entries(seen))
 const page = await open({ width: 1440, height: 900 }, "dark")
 for (const d of ["instrument", "editorial", "console"]) {
   await click(page, d)
-  for (const s of ["monitor", "review", "lab", "report"]) {
+  for (const s of ["monitor", "review", "lab", "report", "states"]) {
     await click(page, s)
     await page.waitForTimeout(150)
     const states = await page.$$eval("figure.plot-figure", (els) =>
@@ -82,7 +82,7 @@ await page.close()
 
 // Phone width: the body must never scroll sideways.
 const phone = await open({ width: 390, height: 844 }, "light")
-for (const s of ["monitor", "review", "lab", "report"]) {
+for (const s of ["monitor", "review", "lab", "report", "states"]) {
   await click(phone, s)
   await phone.waitForTimeout(150)
   const { scroll, client } = await phone.evaluate(() => ({

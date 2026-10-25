@@ -7,10 +7,10 @@ const base = process.argv[2] ?? "http://localhost:5188"
 const out = process.argv[3] ?? "captures"
 const directions = ["instrument", "editorial", "console"]
 const modes = ["light", "dark"]
-const screens = ["monitor", "review", "lab", "report"]
+const screens = ["monitor", "review", "lab", "report", "states"]
 const viewports = [
   { name: "desktop", width: 1440, height: 900 },
-  { name: "phone", width: 390, height: 844, only: ["monitor", "report"] },
+  { name: "phone", width: 390, height: 844, only: ["monitor", "review", "lab", "report"] },
 ]
 
 await mkdir(out, { recursive: true })

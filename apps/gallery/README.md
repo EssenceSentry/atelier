@@ -1,7 +1,8 @@
 # @atelier/gallery
 
 Renders the kit's four screens (monitor, review, lab, report) in every
-direction and mode. The screens, blocks and components live in
+direction and mode, plus a states page with the loading, empty, error and
+status blocks. The screens, blocks and components live in
 `packages/kit`; this app adds only the switcher. It is the visual check for
 the theme and the kit, and so for what generated projects start from.
 
@@ -19,7 +20,7 @@ npm run capture
 ```
 
 It screenshots every direction, mode and screen at desktop size, plus the
-monitor and report at phone width, into `captures/`. It fails on a chart that
+four screens at phone width, into `captures/`. It fails on a chart that
 did not render or a console error.
 
 `node scripts/check-theme.mjs <url> <png>` confirms that a single-theme build
