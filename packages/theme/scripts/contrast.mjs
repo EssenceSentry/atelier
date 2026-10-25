@@ -13,6 +13,8 @@ const texts = {
   "ink-2": 4.5,
   "muted-foreground": 4.5,
   "primary-ink": 4.5,
+  // Chart ticks and annotations, 11px.
+  "viz-text": 4.5,
   faint: 3,
 }
 const surfaces = ["card", "page", "sunken", "muted", "primary-soft"]
@@ -43,6 +45,9 @@ function tokens(direction) {
     else if (/^#[0-9a-f]{6}$/i.test(value.trim()))
       values[name] = { light: value.trim(), dark: value.trim() }
   }
+  // Aliases such as `--viz-text: var(--muted-foreground)` take their target's pair.
+  for (const [, name, target] of css.matchAll(/--([\w-]+):\s*var\(--([\w-]+)\);/g))
+    if (values[target]) values[name] = values[target]
   return values
 }
 

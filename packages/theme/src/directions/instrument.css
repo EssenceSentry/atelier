@@ -60,7 +60,7 @@
 
   --viz-grid: light-dark(#eceef2, #1a1e25);
   --viz-axis: light-dark(#c9ced6, #2e343e);
-  --viz-text: light-dark(#6b7380, #8590a0);
+  --viz-text: var(--muted-foreground);
   --series-1: light-dark(#3665e4, #507ef1);
   --series-2: light-dark(#e8721c, #e16c10);
   --series-3: light-dark(#be409d, #cc4da9);
