@@ -1,6 +1,7 @@
-import { CircleAlert, CircleDashed, Inbox } from "lucide-react"
-import type { ReactNode } from "react"
+import { Check, CircleAlert, CircleCheck, CircleDashed, Inbox, Link2, Undo2 } from "lucide-react"
+import { type ReactNode, useEffect, useRef, useState } from "react"
 
+import { Button } from "@/components/ui/button"
 import type { LiveStatus } from "@/lib/live"
 import { cn } from "@/lib/utils"
 
@@ -96,5 +97,91 @@ export function LiveIndicator({ status, className }: { status: LiveStatus; class
       {(status === "example" || status === "connecting") && <CircleDashed />}
       {liveLabel[status]}
     </span>
+  )
+}
+
+/**
+ * Confirms an action that removed or changed something and offers to take it
+ * back for `seconds` before it becomes final. Render it where the removed
+ * thing was, so the confirmation appears where the person is looking.
+ */
+export function UndoNotice({
+  children,
+  onUndo,
+  onExpire,
+  seconds = 10,
+  className,
+}: {
+  children: ReactNode
+  onUndo: () => void
+  /** Called once the undo window closes; make the action final here. */
+  onExpire?: () => void
+  seconds?: number
+  className?: string
+}) {
+  const [left, setLeft] = useState(seconds)
+  const expire = useRef(onExpire)
+  expire.current = onExpire
+
+  useEffect(() => {
+    const timer = setInterval(() => setLeft((n) => Math.max(0, n - 1)), 1000)
+    return () => clearInterval(timer)
+  }, [])
+  useEffect(() => {
+    if (left === 0) expire.current?.()
+  }, [left])
+
+  return (
+    <div
+      role="status"
+      className={cn(
+        "flex flex-wrap items-center gap-x-3 gap-y-2 rounded-lg bg-muted px-4 py-3 text-[13px]",
+        className
+      )}
+    >
+      <CircleCheck className="size-4 shrink-0 text-muted-foreground" />
+      <span className="min-w-0 flex-1">{children}</span>
+      {left > 0 && (
+        <Button size="sm" variant="outline" onClick={onUndo}>
+          <Undo2 /> Undo <span className="num text-muted-foreground">{left} s</span>
+        </Button>
+      )}
+    </div>
+  )
+}
+
+/** Copies text, the page address by default, and says whether it worked. */
+export function CopyButton({
+  value,
+  label = "Copy link",
+  className,
+}: {
+  value?: string
+  label?: string
+  className?: string
+}) {
+  const [state, setState] = useState<"idle" | "copied" | "failed">("idle")
+
+  useEffect(() => {
+    if (state === "idle") return
+    const timer = setTimeout(() => setState("idle"), 2000)
+    return () => clearTimeout(timer)
+  }, [state])
+
+  async function copy() {
+    try {
+      await navigator.clipboard.writeText(value ?? location.href)
+      setState("copied")
+    } catch {
+      // Sandboxed pages, such as artifacts, may refuse clipboard access.
+      setState("failed")
+    }
+  }
+
+  return (
+    <Button variant="ghost" size="sm" className={className} onClick={copy}>
+      {state === "copied" ? <Check /> : <Link2 />}
+      {state === "copied" ? "Copied" : state === "failed" ? "Copy blocked" : label}
+    </Button>
   )
 }

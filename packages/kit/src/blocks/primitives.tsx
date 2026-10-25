@@ -49,7 +49,13 @@ export function SectionHeader({
         {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
         <h3 className="truncate text-[15px] leading-tight">{title}</h3>
       </div>
-      <div className="flex shrink-0 items-center gap-2 text-xs text-muted-foreground">
+      {/* Buttons alone have no text baseline; centring them keeps the title level. */}
+      <div
+        className={cn(
+          "flex shrink-0 items-center gap-2 text-xs text-muted-foreground",
+          !meta && "self-center"
+        )}
+      >
         {meta}
         {actions}
       </div>
@@ -130,15 +136,21 @@ export function StatusIcon({ status, className }: { status: Status; className?: 
   )
 }
 
+/**
+ * A small trend line ending in a dot. `fluid` stretches it to its container's
+ * width; the dot is then drawn outside the SVG so it stays round.
+ */
 export function Sparkline({
   values,
   width = 96,
   height = 28,
+  fluid = false,
   className,
 }: {
   values: number[]
   width?: number
   height?: number
+  fluid?: boolean
   className?: string
 }) {
   const min = Math.min(...values)
@@ -147,8 +159,8 @@ export function Sparkline({
   const y = (v: number) => height - 3 - ((v - min) / (max - min || 1)) * (height - 8)
   const d = values.map((v, i) => `${i ? "L" : "M"}${x(i).toFixed(1)},${y(v).toFixed(1)}`).join("")
   const last = values.length - 1
-  return (
-    <svg width={width} height={height} className={cn("overflow-visible", className)} aria-hidden>
+  const lines = (
+    <>
       <path
         d={`${d}L${x(last)},${height}L${x(0)},${height}Z`}
         fill="var(--primary)"
@@ -161,7 +173,33 @@ export function Sparkline({
         strokeWidth={2}
         strokeLinejoin="round"
         strokeLinecap="round"
+        vectorEffect="non-scaling-stroke"
       />
+    </>
+  )
+  if (fluid)
+    return (
+      <div className={cn("relative w-full", className)} style={{ height }} aria-hidden>
+        <svg
+          viewBox={`0 0 ${width} ${height}`}
+          preserveAspectRatio="none"
+          className="absolute inset-0 size-full overflow-visible"
+          aria-hidden
+        >
+          {lines}
+        </svg>
+        <span
+          className="absolute size-2.5 translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-card bg-primary"
+          style={{
+            right: `${((width - x(last)) / width) * 100}%`,
+            top: `${(y(values[last]) / height) * 100}%`,
+          }}
+        />
+      </div>
+    )
+  return (
+    <svg width={width} height={height} className={cn("overflow-visible", className)} aria-hidden>
+      {lines}
       <circle
         cx={x(last)}
         cy={y(values[last])}
@@ -178,14 +216,15 @@ export function Sparkline({
  * A change against a named period. The number stays in ink and only the arrow
  * takes the good or bad colour. Use "pp" for changes in a share, so 8.3% to
  * 11.4% reads as 3.1 pp rather than a relative 37%. Changes smaller than
- * `flatWithin` keep a neutral arrow.
+ * `flatWithin` (5% by default) keep a neutral arrow, so routine drift does not
+ * borrow the colours of real failures and successes.
  */
 export function Delta({
   value,
   goodWhenUp = true,
   period,
   unit = "%",
-  flatWithin = 0,
+  flatWithin = 0.05,
   className,
 }: {
   value: number
@@ -235,17 +274,15 @@ export function StatTile({
   return (
     <div className={cn("flex h-full min-w-0 flex-col gap-3", className)}>
       <div className="text-xs text-muted-foreground">{label}</div>
-      <div className="flex items-end justify-between gap-3">
-        <div className="figure text-[28px] text-foreground">
-          {value}
-          {unit && (
-            <span className="ml-1 text-sm font-normal tracking-normal text-muted-foreground">
-              {unit}
-            </span>
-          )}
-        </div>
-        {trend && <Sparkline values={trend} className="hidden shrink-0 sm:block" />}
+      <div className="figure text-[28px] text-foreground">
+        {value}
+        {unit && (
+          <span className="ml-1 text-sm font-normal tracking-normal text-muted-foreground">
+            {unit}
+          </span>
+        )}
       </div>
+      {trend && <Sparkline values={trend} fluid height={36} />}
       {(delta || footer) && (
         // Pinned to the bottom so tiles in a row share their top and bottom edges.
         <div className="mt-auto space-y-2">

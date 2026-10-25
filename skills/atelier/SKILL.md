@@ -63,7 +63,13 @@ Do these before showing the app to anyone:
 - Every view has its states: loading shows something at once, empty states
   invite the next action, and errors say what happened and how to fix it.
   `src/blocks/states.tsx` has `Skeleton`, `EmptyState`, `ErrorState` and
-  `LiveIndicator`; the gallery's states page shows them.
+  `LiveIndicator`; the gallery's states page shows them. An empty result is
+  an empty state, not an error.
+- Actions answer in place. A destructive action shows `UndoNotice` where the
+  removed thing was, and copying uses `CopyButton`, which says "Copied".
+- Every figure on a screen comes from the same data. Derive totals, deltas
+  and headline numbers from the rows the charts draw, so the prose, the
+  tiles and the chart cannot disagree.
 - Labels say what happens ("Release volume", not "Submit"), an action keeps
   its name through the flow, and capitalization is sentence case throughout.
 - Change the direction only through `theme` in `app.config.json`; never edit
