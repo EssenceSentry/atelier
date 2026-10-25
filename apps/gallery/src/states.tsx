@@ -9,6 +9,7 @@ import {
   EmptyState,
   ErrorState,
   LiveIndicator,
+  NotBuiltButton,
   Skeleton,
   UndoNotice,
 } from "@/blocks/states"
@@ -139,9 +140,9 @@ export function StatesScreen() {
             icon={<Play />}
             title="No runs yet"
             action={
-              <Button size="sm">
+              <NotBuiltButton size="sm">
                 <Play /> Start a run
-              </Button>
+              </NotBuiltButton>
             }
           >
             Runs started from a notebook appear here as soon as their first cell starts.
@@ -154,9 +155,9 @@ export function StatesScreen() {
             icon={<CalendarSearch />}
             title="No rows for September"
             action={
-              <Button size="sm" variant="outline">
+              <NotBuiltButton size="sm" variant="outline">
                 Change month
-              </Button>
+              </NotBuiltButton>
             }
           >
             The query ran and returned nothing for this month.

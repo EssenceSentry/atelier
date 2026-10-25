@@ -14,8 +14,9 @@ import {
 import type { ReactNode } from "react"
 import { useCallback, useState } from "react"
 import { AppBar } from "@/blocks/app-bar"
+import { Legend } from "@/blocks/legend"
 import { LogTail } from "@/blocks/log-tail"
-import { PlotFigure, tipStyle, whenWide } from "@/blocks/plot-figure"
+import { labelWidth, PlotFigure, tipStyle, whenWide } from "@/blocks/plot-figure"
 import {
   Delta,
   FigureRow,
@@ -27,7 +28,7 @@ import {
   StatusBadge,
   StatusIcon,
 } from "@/blocks/primitives"
-import { LiveIndicator, UndoNotice } from "@/blocks/states"
+import { LiveIndicator, NotBuiltButton, UndoNotice } from "@/blocks/states"
 import { Button } from "@/components/ui/button"
 import type { LiveStatus } from "@/lib/live"
 import { cells, gpuUtilisation, logLines, memoryGiB, spendDollars, throughput } from "@/lib/sample"
@@ -111,8 +112,8 @@ function CellStrip({ paused }: { paused: boolean }) {
 
 const throughputChart = (t: VizTokens, width: number) =>
   ({
-    marginLeft: 36,
-    marginRight: 88,
+    marginLeft: labelWidth(t, ["400"]) + 14,
+    marginRight: labelWidth(t, [`${Math.round(now.value)} rows/s`], { weight: 600 }) + 20,
     marginTop: 12,
     x: { label: null, tickFormat: (m: number) => `${m}m`, ticks: 6, tickSize: 0 },
     y: { label: null, ticks: 4, tickSize: 0, domain: [0, 480] },
@@ -281,9 +282,9 @@ export function MonitorScreen({
         right={
           <>
             <LiveIndicator status={status} className="mr-2 hidden md:inline-flex" />
-            <Button variant="outline" size="sm" className="hidden sm:inline-flex">
+            <NotBuiltButton variant="outline" size="sm" className="hidden sm:inline-flex">
               <NotebookPen /> Open notebook
-            </Button>
+            </NotBuiltButton>
             <Button variant="outline" size="sm" onClick={() => setPaused((p) => !p)}>
               {paused ? <Play /> : <Pause />} {paused ? "Resume" : "Pause"}
             </Button>
@@ -298,12 +299,7 @@ export function MonitorScreen({
             <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
               <StatusBadge status={paused ? "paused" : "running"} />
               {!released && (
-                <a
-                  href="#needs-attention"
-                  className="rounded-full outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                >
-                  <StatusBadge status="warning" label="1 needs attention" />
-                </a>
+                <StatusBadge status="warning" label="1 needs attention" href="#needs-attention" />
               )}
               <Meta
                 items={["nb/02_embeddings.ipynb", "started 14:02"]}
@@ -311,7 +307,7 @@ export function MonitorScreen({
               />
               <LiveIndicator status={status} className="md:hidden" />
             </div>
-            <h1 className="text-[28px] leading-[1.05] md:text-[38px]">Travel channel embeddings</h1>
+            <h1 className="text-[28px] leading-[1.05] md:text-[40px]">Travel channel embeddings</h1>
           </div>
           <FigureRow
             items={[
@@ -398,21 +394,20 @@ export function MonitorScreen({
           <SectionHeader
             title="Rows per second, last hour"
             meta={
-              <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
-                <span className="flex items-center gap-1.5">
-                  <span className="h-0.5 w-3.5 rounded bg-series-1" /> This run
-                </span>
-                <span className="flex items-center gap-1.5">
-                  <span
-                    className="h-0.5 w-3.5 rounded opacity-75"
-                    style={{ background: "var(--viz-text)" }}
-                  />{" "}
-                  Median of last 5 runs
-                </span>
-              </div>
+              <Legend
+                items={[
+                  { label: "This run", colour: "var(--series-1)", mark: "line" },
+                  { label: "Median of last 5 runs", colour: "var(--viz-text)", mark: "line" },
+                ]}
+              />
             }
           />
-          <PlotFigure build={build} height={248} fill />
+          <PlotFigure
+            build={build}
+            height={248}
+            fill
+            narrowNote="32m: job relaunched · 43m: GPU thermal dip"
+          />
         </section>
 
         <section id="needs-attention" className="panel col-span-12 overflow-hidden lg:col-span-5">
@@ -445,7 +440,13 @@ export function MonitorScreen({
                   <Button size="sm" variant="destructive" onClick={() => setReleased(true)}>
                     Release volume
                   </Button>
-                  <Button size="sm" variant="ghost">
+                  <Button
+                    size="sm"
+                    variant="ghost"
+                    onClick={() =>
+                      document.getElementById("log-tail")?.scrollIntoView({ behavior: "smooth" })
+                    }
+                  >
                     <ScrollText /> Logs
                   </Button>
                 </div>
@@ -461,7 +462,7 @@ export function MonitorScreen({
                 <div className="min-w-0 flex-1">
                   <div className="eyebrow">{r.kind}</div>
                   <div className="truncate text-[13px] font-medium">{r.name}</div>
-                  <Meta items={r.detail} className="block truncate text-xs text-muted-foreground" />
+                  <Meta items={r.detail} wrap className="text-xs text-muted-foreground" />
                 </div>
                 <div className="flex flex-col items-end gap-1">
                   <StatusBadge
@@ -511,13 +512,13 @@ export function MonitorScreen({
           </div>
         </section>
 
-        <section className="panel col-span-12 flex flex-col p-5 lg:col-span-5">
+        <section id="log-tail" className="panel col-span-12 flex flex-col p-5 lg:col-span-5">
           <SectionHeader
             title="Log tail"
             actions={
-              <Button size="icon-xs" variant="ghost" aria-label="Open full log">
+              <NotBuiltButton size="icon-xs" variant="ghost" aria-label="Open full log">
                 <ExternalLink />
-              </Button>
+              </NotBuiltButton>
             }
             className="mb-3"
           />

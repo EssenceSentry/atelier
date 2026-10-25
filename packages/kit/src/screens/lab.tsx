@@ -3,9 +3,10 @@ import * as Plot from "@observablehq/plot"
 import { ChevronDown, Download, Layers, SlidersHorizontal, Upload } from "lucide-react"
 import { type ReactNode, useCallback, useId, useState } from "react"
 import { AppBar } from "@/blocks/app-bar"
-import { PlotFigure, tipStyle } from "@/blocks/plot-figure"
+import { Legend, LegendMark } from "@/blocks/legend"
+import { labelWidth, PlotFigure, tipStyle } from "@/blocks/plot-figure"
 import { Eyebrow, Meta, SectionHeader, Thumb } from "@/blocks/primitives"
-import { EmptyState } from "@/blocks/states"
+import { ActionButton, EmptyState, NotBuiltButton } from "@/blocks/states"
 import { Button } from "@/components/ui/button"
 import {
   Select,
@@ -19,7 +20,6 @@ import { Switch } from "@/components/ui/switch"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 import { contributions, neighbors, points, prCurves } from "@/lib/sample"
-import { cn } from "@/lib/utils"
 
 type Point = (typeof points)[number]
 
@@ -75,6 +75,17 @@ const labelColours = (t: VizTokens) => ({ domain: LABELS, range: [t.series[0], t
 const labelSwatch = (label: string) => (label === "Travel" ? "var(--series-1)" : "var(--viz-text)")
 const methodColours = (t: VizTokens) => [t.ink, t.series[2], t.series[3]]
 
+/** Downloads the selection with its scores at the current temperature as CSV. */
+function exportSelection(temperature: number) {
+  const rows = [
+    "id,label,score",
+    ...selection.map((p) => `${p.id},${p.label},${scoreAt(p, temperature).toFixed(4)}`),
+  ]
+  const url = URL.createObjectURL(new Blob([rows.join("\n")], { type: "text/csv" }))
+  Object.assign(document.createElement("a"), { href: url, download: "selection.csv" }).click()
+  URL.revokeObjectURL(url)
+}
+
 const extent = (values: number[]) => [Math.min(...values), Math.max(...values)]
 
 const scatter = (t: VizTokens, s: Settings) => {
@@ -90,14 +101,14 @@ const scatter = (t: VizTokens, s: Settings) => {
   const boundary = [-4, 5].map((x) => project({ x, y: (0.6 - 1.9 * x) / 0.9 }, s.projection))
   const pin = placed.find((p) => p.id === selected.id) ?? placed[0]
   return {
-    marginLeft: 28,
+    marginLeft: labelWidth(t, ["−3.5"]) + 12,
     marginBottom: 24,
     x: { label: null, ticks: 6, tickSize: 0, domain: xDomain },
     y: { label: null, ticks: 5, tickSize: 0, domain: yDomain },
     color:
       s.colourBy === "label"
         ? labelColours(t)
-        : { type: "linear" as const, domain: [0, 1], range: [t.grid, t.series[0]] },
+        : { type: "linear" as const, domain: [0, 1], range: [t.rampLow, t.series[0]] },
     marks: [
       Plot.gridX({ stroke: t.grid, strokeOpacity: 1, ticks: 6 }),
       Plot.gridY({ stroke: t.grid, strokeOpacity: 1, ticks: 5 }),
@@ -181,8 +192,8 @@ const prChart = (t: VizTokens) => {
   }
   const ends = METHODS.map(lastPoint)
   return {
-    marginLeft: 32,
-    marginRight: 62,
+    marginLeft: labelWidth(t, ["0.8"]) + 14,
+    marginRight: labelWidth(t, METHODS) + 18,
     marginBottom: 26,
     x: { label: null, domain: [0, 1], ticks: 5, tickSize: 0 },
     y: { label: null, domain: [0.3, 1], ticks: 4, tickSize: 0 },
@@ -228,7 +239,7 @@ const prChart = (t: VizTokens) => {
 }
 
 const histogram = (t: VizTokens, s: Settings) => ({
-  marginLeft: 28,
+  marginLeft: labelWidth(t, ["200"]) + 14,
   marginBottom: 24,
   x: { label: null, domain: [0, 1], ticks: 5, tickSize: 0 },
   y: { label: null, ticks: 3, tickSize: 0 },
@@ -258,8 +269,12 @@ const histogram = (t: VizTokens, s: Settings) => ({
 const CONTRIBUTION_ROW = 24
 
 const contributionChart = (t: VizTokens) => ({
-  marginLeft: 156,
-  marginRight: 40,
+  marginLeft:
+    labelWidth(
+      t,
+      contributions.map((c) => c.feature)
+    ) + 14,
+  marginRight: labelWidth(t, ["+0.41"]) + 12,
   marginTop: 4,
   marginBottom: 4,
   x: { label: null, axis: null, domain: [-0.32, 0.48] },
@@ -292,15 +307,6 @@ const contributionChart = (t: VizTokens) => ({
     ),
   ],
 })
-
-function Swatch({ colour, line = false }: { colour: string; line?: boolean }) {
-  return (
-    <span
-      className={cn("shrink-0", line ? "h-0.5 w-3.5 rounded" : "size-2 rounded-full")}
-      style={{ background: colour }}
-    />
-  )
-}
 
 function Field({ label, value, children }: { label: string; value?: string; children: ReactNode }) {
   return (
@@ -414,7 +420,7 @@ function Inspector({ settings, wide = false }: { settings: Settings; wide?: bool
       </div>
       <div className="flex items-end gap-6">
         <div>
-          <div className="figure text-[34px]">
+          <div className="figure text-[32px]">
             {scoreAt(selected, settings.temperature).toFixed(3)}
           </div>
           <div className="num mt-1 text-xs text-muted-foreground">
@@ -423,7 +429,7 @@ function Inspector({ settings, wide = false }: { settings: Settings; wide?: bool
         </div>
         <div>
           <div className="flex items-center gap-1.5 pb-1 text-sm font-medium">
-            <Swatch colour="var(--series-1)" /> Travel
+            <LegendMark colour="var(--series-1)" /> Travel
           </div>
           <div className="text-xs text-muted-foreground">reviewed label</div>
         </div>
@@ -444,8 +450,10 @@ function Inspector({ settings, wide = false }: { settings: Settings; wide?: bool
         <ul className="divide-y text-[13px]">
           {neighbors.slice(0, settings.k).map((n) => (
             <li key={n.name} className="flex items-center gap-2.5 py-2">
-              <Swatch colour={labelSwatch(n.label)} />
-              <span className="flex-1 truncate">{n.name}</span>
+              <LegendMark colour={labelSwatch(n.label)} />
+              <span className="min-w-0 flex-1 truncate">{n.name}</span>
+              {/* The label in words too, so it never rests on colour alone. */}
+              <span className="text-xs text-muted-foreground">{n.label}</span>
               <span className="label-mono num text-xs text-muted-foreground">
                 {n.sim.toFixed(3)}
               </span>
@@ -523,12 +531,17 @@ export function LabScreen({
               items={["travel-channels", "2,400", "768-d"]}
               className="label-mono mr-1 hidden rounded-full border px-2.5 py-1 text-[11px] text-ink-2 md:inline"
             />
-            <Button variant="ghost" size="sm">
+            <NotBuiltButton variant="ghost" size="sm">
               <Upload /> Import
-            </Button>
-            <Button variant="outline" size="sm">
+            </NotBuiltButton>
+            <ActionButton
+              variant="outline"
+              size="sm"
+              pendingLabel="Exporting…"
+              onAction={async () => exportSelection(settings.temperature)}
+            >
               <Download /> Export
-            </Button>
+            </ActionButton>
           </>
         }
       />
@@ -574,21 +587,15 @@ export function LabScreen({
                   title={`Channel embeddings, ${projectionName}`}
                   meta={
                     settings.colourBy === "label" ? (
-                      <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
-                        {LABELS.map((l) => (
-                          <span key={l} className="flex items-center gap-1.5">
-                            <Swatch colour={labelSwatch(l)} />
-                            {l}
-                          </span>
-                        ))}
-                      </div>
+                      <Legend items={LABELS.map((l) => ({ label: l, colour: labelSwatch(l) }))} />
                     ) : (
                       <span className="flex items-center gap-2">
                         probe score <span className="num">0</span>
                         <span
                           className="h-2 w-20 rounded-full"
                           style={{
-                            background: "linear-gradient(90deg, var(--viz-grid), var(--series-1))",
+                            background:
+                              "linear-gradient(90deg, var(--viz-ramp-low), var(--series-1))",
                           }}
                         />
                         <span className="num">1</span>
@@ -607,14 +614,21 @@ export function LabScreen({
                   <SectionHeader
                     title="Score distribution"
                     meta={
-                      <Meta
-                        items={[
-                          `${selection.length} selected`,
-                          `${(travelShare * 100).toFixed(0)}% travel`,
-                        ]}
-                        className="num"
+                      <Legend
+                        items={LABELS.map((l) => ({
+                          label: l,
+                          colour: labelSwatch(l),
+                          mark: "square" as const,
+                        }))}
                       />
                     }
+                  />
+                  <Meta
+                    items={[
+                      `${selection.length} selected`,
+                      `${(travelShare * 100).toFixed(0)}% travel`,
+                    ]}
+                    className="num block text-xs text-muted-foreground"
                   />
                   <PlotFigure build={buildHist} height={176} />
                 </section>

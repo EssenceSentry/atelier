@@ -18,7 +18,7 @@ import { useEffect, useId, useReducer, useRef, useState } from "react"
 import { AppBar } from "@/blocks/app-bar"
 import { ShortcutsHelp } from "@/blocks/keyboard"
 import { Eyebrow, Meter, Thumb } from "@/blocks/primitives"
-import { EmptyState } from "@/blocks/states"
+import { EmptyState, NotBuiltButton } from "@/blocks/states"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Kbd } from "@/components/ui/kbd"
@@ -204,6 +204,13 @@ function useReviewKeys(dispatch: (action: Action) => void) {
       },
     },
     { key: "s", run: () => dispatch({ type: "skip" }) },
+    {
+      key: "/",
+      run: () =>
+        [...document.querySelectorAll<HTMLInputElement>("[data-search]")]
+          .find((input) => input.getClientRects().length > 0)
+          ?.focus(),
+    },
     { key: "z", run: () => dispatch({ type: "undo" }) },
     { key: "z", mod: true, run: () => dispatch({ type: "undo" }) },
   ])
@@ -248,6 +255,8 @@ const shortcuts = [
   ["⏎", "save and go to the next"],
   ["S", "skip"],
   ["Z or ⌘Z", "undo the last save"],
+  ["/", "search the queue"],
+  ["Esc", "leave the search"],
 ] as [string, string][]
 
 function DecisionActions({
@@ -261,13 +270,16 @@ function DecisionActions({
 }) {
   const saved = state.decisions[state.selected]
   const finished = sliceDone(state) && saved === state.choice
-  const label = !saved
-    ? "Save and next"
-    : saved !== state.choice
-      ? "Update and next"
-      : finished
-        ? "Load next slice"
-        : "Next"
+  // A disabled action says what it is waiting for.
+  const label = !state.choice
+    ? "Choose an answer"
+    : !saved
+      ? "Save and next"
+      : saved !== state.choice
+        ? "Update and next"
+        : finished
+          ? "Load next slice"
+          : "Next"
   return (
     <div className={cn("flex items-center gap-2", className)}>
       <Button
@@ -367,6 +379,7 @@ function Queue({
           <Search className="absolute top-1/2 left-2.5 size-4 -translate-y-1/2 text-muted-foreground" />
           <Input
             placeholder="Search channels"
+            data-search
             className="bg-card pl-8"
             value={state.query}
             onChange={(event) => dispatch({ type: "search", query: event.target.value })}
@@ -382,7 +395,13 @@ function Queue({
               ] as const
             ).map(([tab, name]) => (
               <TabsTrigger key={tab} value={tab} className="text-[13px]">
-                {name} <span className="num text-muted-foreground">{counts[tab]}</span>
+                {name}{" "}
+                <span className="num text-muted-foreground">
+                  {/* A filtered list shows how many match out of how many. */}
+                  {state.query.trim()
+                    ? `${visible({ tab, decisions: state.decisions, query: state.query }).length}/${counts[tab]}`
+                    : counts[tab]}
+                </span>
               </TabsTrigger>
             ))}
           </TabsList>
@@ -596,9 +615,9 @@ export function ReviewScreen({
                     <span className="num">since {detail.since}</span>
                   </div>
                 </div>
-                <Button variant="outline" size="sm">
+                <NotBuiltButton variant="outline" size="sm">
                   <ExternalLink /> Open channel
-                </Button>
+                </NotBuiltButton>
               </div>
 
               <Tabs defaultValue="videos" className="gap-6">
@@ -792,7 +811,6 @@ export function ReviewScreen({
         <aside className="hidden min-h-0 flex-col border-l bg-card xl:flex">
           <div className="min-h-0 flex-1 space-y-6 overflow-auto p-6">
             <div className="space-y-2">
-              <Eyebrow>Your decision</Eyebrow>
               <h2 className="text-[22px] leading-snug">{QUESTION}</h2>
               <p className="text-[13px] leading-relaxed text-muted-foreground">{GUIDANCE}</p>
             </div>

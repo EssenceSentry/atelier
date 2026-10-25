@@ -4,8 +4,9 @@ import { Download } from "lucide-react"
 import type { ReactNode } from "react"
 import { useCallback } from "react"
 import { AppBar } from "@/blocks/app-bar"
-import { PlotFigure, tipStyle, whenWide } from "@/blocks/plot-figure"
-import { Delta, Eyebrow, Meta } from "@/blocks/primitives"
+import { Legend } from "@/blocks/legend"
+import { labelWidth, PlotFigure, tipStyle, whenWide } from "@/blocks/plot-figure"
+import { Delta, Eyebrow, Meta, SectionHeader } from "@/blocks/primitives"
 import { CopyButton } from "@/blocks/states"
 import { Button } from "@/components/ui/button"
 import {
@@ -54,7 +55,7 @@ const auditSaving = (audit?.credits ?? 0) * PRICE_PER_CREDIT * PARTITION_SAVING
 const NARROW = 480
 
 const spendChart = (t: VizTokens, width: number) => {
-  const margin = { left: 44, right: 16 }
+  const margin = { left: labelWidth(t, ["$12K"]) + 14, right: 16 }
   const inner = width - margin.left - margin.right
   const padding = Math.max(0.25, 1 - 30 / (inner / weeks.length))
   // Plot's band step with equal inner and outer padding.
@@ -145,8 +146,9 @@ export function ReportScreen({
         right={
           <>
             <CopyButton />
-            <Button variant="outline" size="sm">
-              <Download /> Download PDF
+            {/* The browser's print dialog saves the page as a PDF. */}
+            <Button variant="outline" size="sm" onClick={() => window.print()}>
+              <Download /> Save as PDF
             </Button>
           </>
         }
@@ -157,10 +159,10 @@ export function ReportScreen({
           <Eyebrow>
             <Meta items={["Cost review", "Snowflake"]} />
           </Eyebrow>
-          <h1 className="text-[34px] leading-[1.08] text-balance md:text-[48px]">
+          <h1 className="text-[32px] leading-[1.08] text-balance md:text-[48px]">
             Compute spend fell {percent(change)} after the ingestion warehouse was resized
           </h1>
-          <p className="text-lg leading-relaxed text-pretty text-ink-2 md:text-xl">
+          <p className="measure text-lg leading-relaxed text-pretty text-ink-2 md:text-xl">
             Weekly spend averaged {money(spendAfter)} after the resize, against {money(spendBefore)}{" "}
             before. Most of the drop came from one change, and ad hoc work is now the
             fastest‑growing line.
@@ -214,7 +216,7 @@ export function ReportScreen({
           ))}
         </section>
 
-        <div className="mt-10 max-w-[680px] space-y-5 text-[17px] leading-[1.7] text-ink-2">
+        <div className="measure mt-10 space-y-5 text-[17px] leading-[1.7] text-ink-2">
           <p>
             The ingestion warehouse ran at size L for every load until 7 September, although its
             queue never exceeded two concurrent statements. Moving it to M cut its weekly cost by{" "}
@@ -229,23 +231,20 @@ export function ReportScreen({
         </div>
 
         <figure className="panel mt-12 space-y-4 p-5 md:p-7">
-          <div className="flex flex-wrap items-end justify-between gap-4">
-            <div className="space-y-1.5">
-              <Eyebrow>Figure 1</Eyebrow>
-              <h2 className="text-xl md:text-[22px]">Weekly spend by warehouse</h2>
-            </div>
-            <div className="grid grid-cols-2 gap-x-4 gap-y-1 text-xs text-muted-foreground sm:flex sm:flex-wrap">
-              {warehouses.map((w, i) => (
-                <span key={w} className="flex items-center gap-1.5">
-                  <span
-                    className="size-2.5 rounded-[3px]"
-                    style={{ background: `var(--series-${i + 1})` }}
-                  />
-                  {w}
-                </span>
-              ))}
-            </div>
-          </div>
+          <SectionHeader
+            level="h2"
+            eyebrow="Figure 1"
+            title="Weekly spend by warehouse"
+            meta={
+              <Legend
+                items={warehouses.map((w, i) => ({
+                  label: w,
+                  colour: `var(--series-${i + 1})`,
+                  mark: "square" as const,
+                }))}
+              />
+            }
+          />
           <PlotFigure build={build} height={300} />
           <figcaption className="text-[13px] text-muted-foreground">
             Ingest moved from size L to M on 7 September. Weeks start on Monday; values are
@@ -254,10 +253,7 @@ export function ReportScreen({
         </figure>
 
         <section className="panel mt-12 space-y-4 p-5 md:p-7">
-          <div className="space-y-1.5">
-            <Eyebrow>Figure 2</Eyebrow>
-            <h2 className="text-xl md:text-[22px]">Most expensive recurring queries</h2>
-          </div>
+          <SectionHeader level="h2" eyebrow="Figure 2" title="Most expensive recurring queries" />
           <Table className="text-[13px]">
             <TableHeader>
               <TableRow className="hover:bg-transparent">
@@ -326,9 +322,9 @@ export function ReportScreen({
           </Table>
         </section>
 
-        <aside className="mt-12 max-w-[760px] border-t-2 border-primary pt-5">
+        <aside className="measure mt-12 border-t-2 border-primary pt-5">
           <Eyebrow>Recommendation</Eyebrow>
-          <ol className="mt-3 list-decimal space-y-2 pl-5 text-[15px] leading-relaxed">
+          <ol className="mt-3 list-decimal space-y-2 pl-5 text-[17px] leading-[1.7]">
             <li>
               Partition thumbnail audits by load date; expected saving $
               {(auditSaving / 1000).toFixed(1)}K per month.
