@@ -17,7 +17,7 @@
   --figure-weight: 500;
   --figure-tracking: -0.04em;
   --eyebrow-font: var(--ff-mono);
-  --eyebrow-size: 10.5px;
+  --eyebrow-size: 11px;
   --eyebrow-weight: 500;
   --eyebrow-tracking: 0.14em;
   --eyebrow-transform: uppercase;
@@ -53,8 +53,8 @@
   --raised: light-dark(#ffffff, #141722);
   --ink-2: light-dark(#43455a, #b3b8cc);
   --muted: light-dark(#efeff5, #161925);
-  --muted-foreground: light-dark(#6e7088, #7e849c);
-  --faint: light-dark(#a0a2b6, #545a70);
+  --muted-foreground: light-dark(#656780, #7e849c);
+  --faint: light-dark(#86889e, #5f6680);
   --border: light-dark(#e3e3ec, #1b1f2c);
   --border-strong: light-dark(#d0d0de, #2a2f42);
   --input: light-dark(#dcdce6, #252a3b);

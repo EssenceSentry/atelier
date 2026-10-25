@@ -43,8 +43,8 @@
   --raised: light-dark(#fdfcf9, #231e18);
   --ink-2: light-dark(#4f473d, #cbc1b2);
   --muted: light-dark(#ece6da, #26211b);
-  --muted-foreground: light-dark(#7a7063, #9a8f80);
-  --faint: light-dark(#a69c8d, #6d6458);
+  --muted-foreground: light-dark(#6d6457, #9a8f80);
+  --faint: light-dark(#898070, #756b5f);
   --border: light-dark(#e2dacb, #302921);
   --border-strong: light-dark(#cbc0ab, #463d32);
   --input: light-dark(#d8cfbe, #3a3229);
