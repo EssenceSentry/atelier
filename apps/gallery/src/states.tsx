@@ -4,6 +4,7 @@ import { useState } from "react"
 import { AppBar } from "@/blocks/app-bar"
 import { SectionHeader, type Status, StatusBadge } from "@/blocks/primitives"
 import {
+  ActionButton,
   CopyButton,
   EmptyState,
   ErrorState,
@@ -42,11 +43,45 @@ function ReleaseExample() {
   )
 }
 
+/** Retry shows its progress, then the outcome; the demo can be replayed. */
+function RetryExample() {
+  const [fixed, setFixed] = useState(false)
+  if (fixed)
+    return (
+      <div className="flex items-center justify-between gap-3 rounded-lg bg-muted px-4 py-3 text-[13px]">
+        <span>Query finished in 4.2 s, 128 rows.</span>
+        <Button size="sm" variant="ghost" onClick={() => setFixed(false)}>
+          Show the error again
+        </Button>
+      </div>
+    )
+  return (
+    <ErrorState
+      title="Query timed out after 30 s"
+      action={
+        <ActionButton
+          size="sm"
+          variant="outline"
+          pendingLabel="Retrying…"
+          onAction={async () => {
+            await new Promise((done) => setTimeout(done, 1500))
+            setFixed(true)
+          }}
+        >
+          <RotateCw /> Retry
+        </ActionButton>
+      }
+    >
+      The warehouse was suspended while the query queued. Retry resumes it first.
+    </ErrorState>
+  )
+}
+
 /** The blocks an app shows before, without and instead of its content. */
 export function StatesScreen() {
   return (
     <div className="min-h-svh">
-      <AppBar product="Atelier" crumbs={["States"]} />
+      <AppBar product="Atelier" crumbs={["States"]} innerClassName="mx-auto max-w-[1360px]" />
 
       <main className="mx-auto grid max-w-[1360px] grid-cols-12 gap-4 p-4 md:gap-5 md:p-6">
         <section className="panel col-span-12 space-y-5 p-5 lg:col-span-7">
@@ -94,16 +129,7 @@ export function StatesScreen() {
 
           <section className="panel flex-1 space-y-4 p-5">
             <SectionHeader title="Errors" />
-            <ErrorState
-              title="Query timed out after 30 s"
-              action={
-                <Button size="sm" variant="outline">
-                  <RotateCw /> Retry
-                </Button>
-              }
-            >
-              The warehouse was suspended while the query queued. Retry resumes it first.
-            </ErrorState>
+            <RetryExample />
           </section>
         </div>
 
