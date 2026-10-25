@@ -90,6 +90,7 @@
     font-family: var(--ff-heading);
     font-weight: var(--heading-weight);
     letter-spacing: var(--heading-tracking);
+    text-wrap: balance;
   }
 }
 
@@ -126,12 +127,6 @@
     box-shadow:
       0 0 0 1px var(--panel-ring),
       var(--panel-shadow);
-  }
-  .eyebrow-index {
-    display: var(--index-display, none);
-  }
-  .glow {
-    box-shadow: var(--glow, none);
   }
   .well {
     background: var(--sunken);

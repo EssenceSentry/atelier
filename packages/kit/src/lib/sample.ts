@@ -57,7 +57,11 @@ export const logLines: { t: string; level: "info" | "warn" | "error"; msg: strin
   { t: "14:45:51", level: "info", msg: "s3://lab-embeddings/travel/v4/ +412 objects" },
   { t: "14:45:20", level: "warn", msg: "throughput dipped to 268 rows/s for 4 min (GPU thermal)" },
   { t: "14:41:07", level: "error", msg: "job embed-travel-1785866245 AlgorithmError: exit code 1" },
-  { t: "14:41:07", level: "info", msg: "retrying cell 22 with shard size 512 (attempt 2)" },
+  {
+    t: "14:41:07",
+    level: "info",
+    msg: "cell 22 retrying the embedding with shard size 512 (attempt 2)",
+  },
   { t: "14:38:44", level: "info", msg: "checkpoint saved · kernel state 2.4 GiB" },
 ]
 
@@ -173,7 +177,7 @@ export const prCurves = (() => {
 })()
 
 export const contributions = [
-  { feature: "landscape · wide shot", value: 0.41 },
+  { feature: "wide landscape shot", value: 0.41 },
   { feature: "title mentions a place", value: 0.33 },
   { feature: "transport in frame", value: 0.21 },
   { feature: "itinerary language", value: 0.14 },

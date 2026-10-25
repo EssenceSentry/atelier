@@ -1,44 +1,52 @@
 import { CircleAlert, CircleCheck, CircleDashed, CirclePause, TriangleAlert } from "lucide-react"
-import type { ReactNode } from "react"
+import { Fragment, type ReactNode } from "react"
 
 import { cn } from "@/lib/utils"
 
-export function Eyebrow({
-  children,
-  index,
-  className,
-}: {
-  children: ReactNode
-  index?: string
-  className?: string
-}) {
+export function Eyebrow({ children, className }: { children: ReactNode; className?: string }) {
+  return <div className={cn("eyebrow", className)}>{children}</div>
+}
+
+/** Inline metadata with spaced separators; some faces set "·" too tight. */
+export function Meta({ items, className }: { items: string[]; className?: string }) {
   return (
-    <div className={cn("eyebrow flex items-center gap-2", className)}>
-      {index && <span className="eyebrow-index text-faint">{index}</span>}
-      <span>{children}</span>
-    </div>
+    <span className={className}>
+      {items.map((item, position) => (
+        <Fragment key={item}>
+          {position > 0 && (
+            <span aria-hidden className="px-[0.4em] text-faint">
+              ·
+            </span>
+          )}
+          {item}
+        </Fragment>
+      ))}
+    </span>
   )
 }
 
 export function SectionHeader({
   eyebrow,
-  index,
   title,
   meta,
   actions,
   className,
 }: {
   eyebrow?: string
-  index?: string
   title: ReactNode
   meta?: ReactNode
   actions?: ReactNode
   className?: string
 }) {
   return (
-    <div className={cn("flex flex-wrap items-end justify-between gap-x-4 gap-y-2", className)}>
+    <div
+      className={cn(
+        "flex flex-wrap items-baseline-last justify-between gap-x-4 gap-y-2",
+        className
+      )}
+    >
       <div className="min-w-0 space-y-1.5">
-        {eyebrow && <Eyebrow index={index}>{eyebrow}</Eyebrow>}
+        {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
         <h3 className="truncate text-[15px] leading-tight">{title}</h3>
       </div>
       <div className="flex shrink-0 items-center gap-2 text-xs text-muted-foreground">
@@ -49,13 +57,20 @@ export function SectionHeader({
   )
 }
 
-export type Status = "running" | "succeeded" | "failed" | "warning" | "queued" | "paused"
+// "done" is routine completion; "succeeded" is a success worth noticing, the
+// only one shown in green.
+export type Status = "running" | "done" | "succeeded" | "failed" | "warning" | "queued" | "paused"
 
 const statusMeta: Record<Status, { label: string; icon: ReactNode; tone: string }> = {
   running: {
     label: "Running",
     icon: <span className="live-dot !size-1.5" />,
     tone: "bg-primary-soft text-primary-ink",
+  },
+  done: {
+    label: "Done",
+    icon: <CircleCheck className="text-muted-foreground" />,
+    tone: "bg-muted text-ink-2",
   },
   succeeded: {
     label: "Succeeded",
@@ -159,22 +174,43 @@ export function Sparkline({
   )
 }
 
+/**
+ * A change against a named period. The number stays in ink and only the arrow
+ * takes the good or bad colour. Use "pp" for changes in a share, so 8.3% to
+ * 11.4% reads as 3.1 pp rather than a relative 37%. Changes smaller than
+ * `flatWithin` keep a neutral arrow.
+ */
 export function Delta({
   value,
   goodWhenUp = true,
   period,
+  unit = "%",
+  flatWithin = 0,
+  className,
 }: {
   value: number
   goodWhenUp?: boolean
-  period: string
+  period?: string
+  unit?: "%" | "pp"
+  flatWithin?: number
+  className?: string
 }) {
   const good = value >= 0 === goodWhenUp
+  const tone =
+    Math.abs(value) < flatWithin ? "text-muted-foreground" : good ? "text-good" : "text-critical"
+  const amount =
+    unit === "%" ? `${Math.abs(value * 100).toFixed(0)}%` : `${Math.abs(value).toFixed(1)} pp`
   return (
-    <span className="inline-flex items-center gap-1.5 text-xs text-muted-foreground">
-      <span className={cn("num font-medium", good ? "text-good" : "text-critical")}>
-        {value >= 0 ? "▲" : "▼"} {Math.abs(value * 100).toFixed(0)}%
+    <span
+      className={cn("inline-flex items-center gap-1.5 text-xs text-muted-foreground", className)}
+    >
+      <span className="num inline-flex items-center gap-1 font-medium text-foreground">
+        <span aria-hidden className={tone}>
+          {value >= 0 ? "▲" : "▼"}
+        </span>
+        {amount}
       </span>
-      <span>{period}</span>
+      {period && <span>{period}</span>}
     </span>
   )
 }
@@ -197,7 +233,7 @@ export function StatTile({
   className?: string
 }) {
   return (
-    <div className={cn("flex min-w-0 flex-col gap-3", className)}>
+    <div className={cn("flex h-full min-w-0 flex-col gap-3", className)}>
       <div className="text-xs text-muted-foreground">{label}</div>
       <div className="flex items-end justify-between gap-3">
         <div className="figure text-[28px] text-foreground">
@@ -210,8 +246,13 @@ export function StatTile({
         </div>
         {trend && <Sparkline values={trend} className="hidden shrink-0 sm:block" />}
       </div>
-      {delta}
-      {footer}
+      {(delta || footer) && (
+        // Pinned to the bottom so tiles in a row share their top and bottom edges.
+        <div className="mt-auto space-y-2">
+          {delta}
+          {footer}
+        </div>
+      )}
     </div>
   )
 }
