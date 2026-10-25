@@ -57,6 +57,12 @@ single `light-dark()` pair, so a direction defines every colour once.
 app: one `index.html` holding only page content (the artifact host supplies the
 document), with fonts from Google Fonts and all CSS and JavaScript inlined.
 
+## Contrast
+
+`node scripts/contrast.mjs` computes every text token against every surface,
+per direction and mode, and exits 1 below 4.5:1 (3:1 for `faint`, which is
+for decoration and large figures only).
+
 ## Charts
 
 `@atelier/theme/viz` resolves chart colours from the active tokens:
