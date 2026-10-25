@@ -32,47 +32,74 @@ export const tipStyle = (t: VizTokens) => ({
 export function PlotFigure({
   build,
   height,
+  fill = false,
   className,
 }: {
   build: Build
+  /** Chart height in pixels; with `fill`, the minimum height. */
   height: number
+  /** Grow to the height the parent flex column gives the figure. */
+  fill?: boolean
   className?: string
 }) {
   const ref = useRef<HTMLElement>(null)
   const tokens = useVizTokens()
-  const [width, setWidth] = useState(0)
+  const [size, setSize] = useState({ width: 0, height: 0 })
 
   useEffect(() => {
     const el = ref.current
     if (!el) return
     // Measure once up front: ResizeObserver waits for a rendered frame, which
     // background tabs and headless captures may never produce.
-    setWidth(Math.floor(el.getBoundingClientRect().width))
-    const ro = new ResizeObserver(([entry]) => setWidth(Math.floor(entry.contentRect.width)))
+    const box = el.getBoundingClientRect()
+    setSize({ width: Math.floor(box.width), height: Math.floor(box.height) })
+    const ro = new ResizeObserver(([entry]) =>
+      setSize({
+        width: Math.floor(entry.contentRect.width),
+        height: Math.floor(entry.contentRect.height),
+      })
+    )
     ro.observe(el)
     return () => ro.disconnect()
   }, [])
+
+  const chartHeight = fill ? Math.max(height, size.height) : height
 
   useEffect(() => {
     const el = ref.current
     if (!el) return
     // data-state lets screenshot QA tell a slow chart from a broken one.
-    if (!tokens || width === 0) {
+    if (!tokens || size.width === 0) {
       el.dataset.state = tokens ? "no-width" : "no-tokens"
       return
     }
     let chart: ReturnType<typeof Plot.plot>
     try {
-      chart = Plot.plot({ ...baseOptions(tokens, width), height, ...build(tokens, width) })
+      chart = Plot.plot({
+        ...baseOptions(tokens, size.width),
+        height: chartHeight,
+        ...build(tokens, size.width),
+      })
     } catch (error) {
-      el.dataset.state = `error: ${(error as Error).message}`
+      const message = (error as Error).message
+      el.dataset.state = `error: ${message}`
       console.error("chart failed", error)
+      const note = document.createElement("p")
+      note.className = "flex h-full items-center justify-center text-xs text-muted-foreground"
+      note.textContent = `Chart failed: ${message}`
+      el.replaceChildren(note)
       return
     }
     el.dataset.state = "ok"
     el.replaceChildren(chart)
     return () => chart.remove()
-  }, [tokens, width, height, build])
+  }, [tokens, size.width, chartHeight, build])
 
-  return <figure ref={ref} className={cn("plot-figure m-0 w-full", className)} style={{ height }} />
+  return (
+    <figure
+      ref={ref}
+      className={cn("plot-figure m-0 w-full", fill && "min-h-0 flex-1", className)}
+      style={fill ? { minHeight: height } : { height }}
+    />
+  )
 }

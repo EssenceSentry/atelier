@@ -45,7 +45,8 @@ Do these before showing the app to anyone:
 
 - Reshape the generated screen rather than starting a new one. Reuse
   `src/blocks` (app bar, stat tiles, status badges, sparklines, meters, chart
-  frame) and `src/components/ui`; add components with `npx shadcn add <name>`.
+  frame, states) and `src/components/ui`; add components with
+  `npx shadcn add <name>`.
 - Colours come from theme tokens only (`bg-card`, `text-ink-2`,
   `bg-primary-soft`, `text-good`, `var(--series-1)`). A commit hook rejects hex
   values and palette classes such as `blue-500`.
@@ -61,12 +62,17 @@ Do these before showing the app to anyone:
   carried by colour alone.
 - Every view has its states: loading shows something at once, empty states
   invite the next action, and errors say what happened and how to fix it.
+  `src/blocks/states.tsx` has `Skeleton`, `EmptyState`, `ErrorState` and
+  `LiveIndicator`; the gallery's states page shows them.
 - Labels say what happens ("Release volume", not "Submit"), an action keeps
   its name through the flow, and capitalization is sentence case throughout.
 - Change the direction only through `theme` in `app.config.json`; never edit
   `theme/`.
 - Live state: `useLiveState(url, example)` in `src/lib/live.ts` reads the
-  server-sent events a lathe service project sends (see the lathe skill). That
+  server-sent events a lathe service project sends (see the lathe skill). It
+  returns `{ state, status }`; the state is null until the first event, so
+  show skeletons until then and pass `status` to `LiveIndicator` (the monitor
+  screen takes it as a prop) so example figures never pass for live ones. That
   service can also serve the built app with `create_app(static_dir=Path("dist"))`.
 
 ## Check

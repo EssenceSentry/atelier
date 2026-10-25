@@ -11,7 +11,9 @@ atelier, in the [[ theme ]] direction.
 [%- if kind == 'monitor' %]
    For live state, `useLiveState(url, example)` in `src/lib/live.ts` reads
    server-sent events from a service such as a lathe service project, which
-   sends the current state on connect and each new state after it.
+   sends the current state on connect and each new state after it. Pass its
+   `status` to the screen's `status` prop, and show skeletons from
+   `src/blocks/states.tsx` while the state is still null.
 [%- endif %]
 2. **Icon.** Design an icon for this app and put it in both
    `src/app-icon.tsx` (the app bar) and `public/favicon.svg` (the browser

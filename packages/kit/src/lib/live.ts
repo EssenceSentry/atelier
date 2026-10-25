@@ -6,13 +6,15 @@ export type LiveStatus = "example" | "connecting" | "live" | "offline"
  * State pushed by a service as server-sent events on `/events`, sending the
  * current state on connect and each new one after it. That is the shape
  * lathe's service projects serve. Without a base URL the example state is
- * returned, so the page still renders offline and as an artifact.
+ * returned, so the page still renders offline and as an artifact. With one,
+ * the state is null until the first event arrives, so example figures are
+ * never shown as live; render the status instead.
  */
 export function useLiveState<T>(
   baseUrl: string | undefined,
   example: T
-): { state: T; status: LiveStatus } {
-  const [state, setState] = useState<T>(example)
+): { state: T | null; status: LiveStatus } {
+  const [state, setState] = useState<T | null>(baseUrl ? null : example)
   const [status, setStatus] = useState<LiveStatus>(baseUrl ? "connecting" : "example")
 
   useEffect(() => {
