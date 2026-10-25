@@ -26,7 +26,7 @@
 
   --radius: 0.25rem;
   --panel-radius: 0;
-  --panel-rule: 2px solid var(--foreground);
+  --panel-rule: 2px solid light-dark(#1d1914, #463d32);
   --panel-bg: transparent;
   --panel-shadow: none;
   --panel-ring: transparent;
@@ -48,12 +48,12 @@
   --border: light-dark(#e2dacb, #302921);
   --border-strong: light-dark(#cbc0ab, #463d32);
   --input: light-dark(#d8cfbe, #3a3229);
-  --ring: light-dark(#b04a24, #d9764c);
+  --ring: light-dark(#2863ab, #5290d3);
 
-  --primary: light-dark(#b04a24, #d9764c);
-  --primary-foreground: light-dark(#ffffff, #1a0f09);
-  --primary-soft: light-dark(#f6e6dc, #2e1e15);
-  --primary-ink: light-dark(#9c3f1c, #e8936c);
+  --primary: light-dark(#2863ab, #5290d3);
+  --primary-foreground: light-dark(#ffffff, #0b1220);
+  --primary-soft: light-dark(#e4e9f1, #18202c);
+  --primary-ink: light-dark(#1f5394, #8fb6e6);
   --secondary: light-dark(#ece6da, #26211b);
   --secondary-foreground: light-dark(#1d1914, #f0eae0);
   --accent: light-dark(#ece6da, #26211b);
@@ -63,8 +63,8 @@
   --viz-grid: light-dark(#e8e1d3, #29231c);
   --viz-axis: light-dark(#cbc0ab, #463d32);
   --viz-text: light-dark(#7a7063, #9a8f80);
-  --series-1: light-dark(#c1552c, #b44723);
-  --series-2: light-dark(#2863ab, #5290d3);
+  --series-1: light-dark(#2863ab, #5290d3);
+  --series-2: light-dark(#c1552c, #b44723);
   --series-3: light-dark(#d3a23b, #b4902e);
   --series-4: light-dark(#8b4486, #9e5598);
   --div-neg: light-dark(#2863ab, #5290d3);

@@ -37,7 +37,7 @@ Do these before showing the app to anyone:
    geometric mark tied to what the app does, legible at 16 px, on the accent
    colour. Put it in `src/app-icon.tsx` (uses `var(--primary)`, so it follows
    the theme) and `public/favicon.svg` (needs a literal colour: `#3665e4`
-   instrument, `#b04a24` editorial, `#7552db` console). Both start as an
+   instrument, `#2863ab` editorial, `#7552db` console). Both start as an
    initials placeholder.
 3. **Copy.** Rename the screen's sections and labels in the users' terms.
 
