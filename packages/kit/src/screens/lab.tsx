@@ -1,7 +1,7 @@
 import type { VizTokens } from "@atelier/theme/viz"
 import * as Plot from "@observablehq/plot"
 import { ChevronDown, Crosshair, Download, Upload } from "lucide-react"
-import { useCallback } from "react"
+import { type ReactNode, useCallback } from "react"
 import { AppBar } from "@/blocks/app-bar"
 import { PlotFigure, tipStyle } from "@/blocks/plot-figure"
 import { Eyebrow, SectionHeader, Thumb } from "@/blocks/primitives"
@@ -181,15 +181,7 @@ const contributionChart = (t: VizTokens) => ({
   ],
 })
 
-function Field({
-  label,
-  value,
-  children,
-}: {
-  label: string
-  value?: string
-  children: React.ReactNode
-}) {
+function Field({ label, value, children }: { label: string; value?: string; children: ReactNode }) {
   return (
     <div className="space-y-2.5">
       <div className="flex items-baseline justify-between">
@@ -201,7 +193,13 @@ function Field({
   )
 }
 
-export function LabScreen() {
+export function LabScreen({
+  product = "Embedding lab",
+  icon,
+}: {
+  product?: string
+  icon?: ReactNode
+}) {
   const buildScatter = useCallback(scatter, [])
   const buildPr = useCallback(prChart, [])
   const buildHist = useCallback(histogram, [])
@@ -211,7 +209,8 @@ export function LabScreen() {
   return (
     <div className="flex h-svh flex-col">
       <AppBar
-        product="Embedding lab"
+        product={product}
+        icon={icon}
         center={
           <Tabs defaultValue="space">
             <TabsList>

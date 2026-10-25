@@ -1,0 +1,99 @@
+# atelier: a Copier template for dashboards, review tools, labs and reports.
+# The template's screens, blocks, components and theme are links to
+# packages/kit and packages/theme, so projects get exactly what the gallery
+# checks. Template syntax is [[ ]] and [% %], leaving ${{ }} to GitHub Actions.
+
+_min_copier_version: "9.4"
+_subdirectory: template
+_templates_suffix: .jinja
+_answers_file: .copier-answers.yml
+_exclude:
+  - node_modules
+  - dist
+  - captures
+  - checks
+  - "*.tsbuildinfo"
+_envops:
+  block_start_string: "[%"
+  block_end_string: "%]"
+  variable_start_string: "[["
+  variable_end_string: "]]"
+  comment_start_string: "[#"
+  comment_end_string: "#]"
+  keep_trailing_newline: true
+
+_tasks:
+  - git init -q -b main
+  - npm install
+  - npx playwright install chromium
+
+_message_after_copy: |
+  [[ project_name ]] is ready in [[ _copier_conf.dst_path ]].
+
+  npm run dev        starts it with hot reload
+  npm run check      builds screenshots in checks/ and fails on broken charts
+
+  Replace the example data in src/lib/sample.ts and design the app's icon
+  (src/app-icon.tsx and public/favicon.svg); AGENTS.md has the details.
+
+project_name:
+  type: str
+  help: App name, as people will see it
+  placeholder: Run Watch
+  validator: "[% if not project_name.strip() %]Required.[% endif %]"
+
+description:
+  type: str
+  help: One sentence on what the app does
+  validator: "[% if not description.strip() %]Required.[% endif %]"
+
+distribution_name:
+  type: str
+  help: Package and repository name
+  default: "[[ project_name | lower | replace(' ', '-') | replace('_', '-') ]]"
+  validator: >-
+    [% if not (distribution_name | regex_search('^[a-z][a-z0-9-]*[a-z0-9]$')) %]
+    Lowercase letters, digits and dashes, starting with a letter.
+    [% endif %]
+
+kind:
+  type: str
+  help: What the app is for; it picks the starting screen
+  choices:
+    "Monitor: live status of a job or system, readable on a phone": monitor
+    "Review station: a queue, the evidence and a decision": review
+    "Lab: linked charts, controls and an inspector": lab
+    "Report: an analysis to read, with figures and tables": report
+  default: monitor
+
+theme:
+  type: str
+  help: Visual direction (change later in app.config.json)
+  choices:
+    "Instrument: cool, precise, dense": instrument
+    "Editorial: warm paper, serif headlines": editorial
+    "Console: dark-first, luminous, monospace figures": console
+  default: instrument
+
+artifact:
+  type: bool
+  help: Also build it as a claude.ai artifact?
+  default: true
+
+visibility:
+  type: str
+  help: GitHub repository visibility
+  choices:
+    Private: private
+    Public: public
+  default: private
+
+pages:
+  type: bool
+  help: Publish the app to GitHub Pages? (Private repositories need a paid plan for Pages.)
+  default: "[[ visibility == 'public' ]]"
+
+github_owner:
+  type: str
+  help: GitHub user or organization that owns the repository
+  default: EssenceSentry

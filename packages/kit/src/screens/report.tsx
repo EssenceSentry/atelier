@@ -1,6 +1,7 @@
 import type { VizTokens } from "@atelier/theme/viz"
 import * as Plot from "@observablehq/plot"
 import { Download, Link2 } from "lucide-react"
+import type { ReactNode } from "react"
 import { useCallback } from "react"
 import { AppBar } from "@/blocks/app-bar"
 import { PlotFigure, tipStyle } from "@/blocks/plot-figure"
@@ -62,13 +63,20 @@ const spendChart = (t: VizTokens, width: number) => {
   }
 }
 
-export function ReportScreen() {
+export function ReportScreen({
+  product = "Reports",
+  icon,
+}: {
+  product?: string
+  icon?: ReactNode
+}) {
   const build = useCallback(spendChart, [])
   const maxCredits = Math.max(...topQueries.map((q) => q.credits))
   return (
     <div className="min-h-svh">
       <AppBar
-        product="Reports"
+        product={product}
+        icon={icon}
         crumbs={["Cost reviews", "September 2026"]}
         right={
           <>

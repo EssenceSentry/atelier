@@ -1,0 +1,54 @@
+# [[ project_name ]]: notes for coding agents
+
+[[ description.strip().rstrip('.') ]]. A [[ kind ]] app generated from
+atelier, in the [[ theme ]] direction.
+
+## First tasks
+
+1. **Data.** `src/lib/sample.ts` holds example data that ships with the
+   template. Replace it with the app's real data or its loader before showing
+   the app to anyone, and never present example figures as real ones.
+[%- if kind == 'monitor' %]
+   For live state, `useLiveState(url, example)` in `src/lib/live.ts` reads
+   server-sent events from a service such as a lathe service project, which
+   sends the current state on connect and each new state after it.
+[%- endif %]
+2. **Icon.** Design an icon for this app and put it in both
+   `src/app-icon.tsx` (the app bar) and `public/favicon.svg` (the browser
+   tab); both hold an initials placeholder now. Make it a simple geometric
+   mark tied to what the app does, legible at 16 px, on the accent colour.
+   The component uses `var(--primary)` so it follows the theme; the favicon
+   cannot read page styles, so it takes the accent as a hex value.
+3. **Name and copy.** The screen's labels are examples too. Rename sections
+   and write labels in the users' own terms.
+
+## Commands
+
+```bash
+npm run dev          # hot reload
+npm run fix          # format and apply safe lint fixes
+npx lefthook run pre-commit --all-files   # every commit gate
+npx lefthook run pre-push --all-files     # build, screenshots[% if artifact %], artifact[% endif %]
+```
+
+`npm run check` writes screenshots to `checks/` (light and dark, desktop and
+phone). Look at them after every visual change; the check catches broken
+charts and overflow, not ugly layouts.
+
+## Rules
+
+- Colours come from theme tokens only (`bg-card`, `text-ink-2`,
+  `bg-primary-soft`, `text-good`, `var(--series-1)` and so on). Never write a
+  hex value or a Tailwind palette colour such as `blue-500` in a component.
+- Charts go through `PlotFigure` in `src/blocks/plot-figure.tsx`, which reads
+  colours from the theme. Assign series slots in order and never cycle past the
+  last one; fold extra series into "Other" or facet instead.
+- Build from `src/blocks` and `src/components/ui` before writing new
+  components. Add shadcn components with `npx shadcn add <name>`.
+- Status always pairs a colour with an icon and a word (`StatusBadge`).
+- Change the direction only through `theme` in `app.config.json`
+  (`instrument`, `editorial` or `console`); never edit `theme/`, which
+  `copier update` replaces.
+- Keep every gate green, and never weaken one to get there.
+- Commit messages never credit an AI assistant as an author; a hook rejects
+  them. Stage explicit paths, never `git add -A` or `git add .`.

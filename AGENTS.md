@@ -1,0 +1,43 @@
+# atelier: notes for coding agents
+
+atelier is a starter kit and a Copier template. To start a new app, generate
+it (see README.md) instead of copying files from here. These notes are for
+working on atelier itself.
+
+## Where things live
+
+- `packages/theme`: the three directions. Tokens are single `light-dark()`
+  pairs; the Vite plugin picks the direction and builds artifacts.
+- `packages/kit/src`: the screens, blocks, shadcn components and example data
+  that both the gallery and generated projects use. Files import each other
+  through `@/`.
+- `apps/gallery`: renders every screen in every direction and mode; its
+  scripts take the screenshots.
+- `template/` and `copier.yml`: the project template. Most of its code is
+  symlinks into `packages/`, so a kit change reaches new projects without
+  copying. Template syntax is `[[ ]]` and `[% %]`; a literal `[[` needs
+  `[% raw %]`.
+
+## Before committing
+
+```bash
+npm run lint && npm run typecheck
+node template/scripts/check-colours.mjs packages/kit/src
+npm run gallery              # then, in another shell:
+npm run capture              # screenshots of every screen, direction and mode
+npm run try-template -- --kind <kind> --theme <theme>
+```
+
+Run `try-template` for every kind a change can affect. Generated code must
+already pass its own Biome and colour checks; a failing hook fails the first
+commit.
+
+## Rules
+
+- Colours come from theme tokens. Wrap deliberate content colours in
+  `check-colours: off` / `check-colours: on` comments that say why.
+- Keep chart series in their validated slot order; never cycle past the last.
+- Keep actions pinned by commit hash with the version in a comment, and use
+  the same hashes here and in `template/`.
+- Commit messages never credit an AI assistant as an author. Stage explicit
+  paths, never `git add -A` or `git add .`.

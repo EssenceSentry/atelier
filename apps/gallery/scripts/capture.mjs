@@ -34,7 +34,8 @@ for (const vp of viewports) {
         await page.evaluate(() => document.fonts.ready)
         await page.waitForTimeout(250)
         const states = await page.$$eval("figure.plot-figure", (els) =>
-          els.map((e) => e.dataset.state)
+          // Charts in panels hidden at this width never get a size; skip them.
+          els.filter((e) => e.getClientRects().length > 0).map((e) => e.dataset.state)
         )
         for (const st of states)
           if (st !== "ok") problems.push(`${d}/${m}/${s}/${vp.name}: chart ${st}`)

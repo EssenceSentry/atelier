@@ -10,6 +10,7 @@ import {
   Pause,
   ScrollText,
 } from "lucide-react"
+import type { ReactNode } from "react"
 import { useCallback } from "react"
 import { AppBar } from "@/blocks/app-bar"
 import { PlotFigure, tipStyle } from "@/blocks/plot-figure"
@@ -178,13 +179,20 @@ function fmtDuration(s: number) {
   return m ? `${m}m ${String(s % 60).padStart(2, "0")}s` : `${s}s`
 }
 
-export function MonitorScreen() {
+export function MonitorScreen({
+  product = "Runline",
+  icon,
+}: {
+  product?: string
+  icon?: ReactNode
+}) {
   const build = useCallback(throughputChart, [])
   const maxSeconds = Math.max(...cells.map((c) => c.seconds))
   return (
     <div className="min-h-svh">
       <AppBar
-        product="Runline"
+        product={product}
+        icon={icon}
         crumbs={["travel-embeddings", "run 0412"]}
         right={
           <>

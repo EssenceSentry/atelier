@@ -7,6 +7,7 @@ import {
   Search,
   SkipForward,
 } from "lucide-react"
+import type { ReactNode } from "react"
 import { useState } from "react"
 
 import { AppBar } from "@/blocks/app-bar"
@@ -73,14 +74,21 @@ function initials(name: string) {
     .join("")
 }
 
-export function ReviewScreen() {
+export function ReviewScreen({
+  product = "Review desk",
+  icon,
+}: {
+  product?: string
+  icon?: ReactNode
+}) {
   const [choice, setChoice] = useState<string>("yes")
   const [english, setEnglish] = useState(true)
 
   return (
     <div className="flex h-svh flex-col">
       <AppBar
-        product="Review desk"
+        product={product}
+        icon={icon}
         crumbs={["Travel topic", "Channel review"]}
         center={
           <div className="flex w-72 items-center gap-3 text-xs text-muted-foreground">

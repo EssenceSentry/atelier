@@ -69,7 +69,10 @@ for (const d of ["instrument", "editorial", "console"]) {
   for (const s of ["monitor", "review", "lab", "report"]) {
     await click(page, s)
     await page.waitForTimeout(150)
-    const states = await page.$$eval("figure.plot-figure", (els) => els.map((e) => e.dataset.state))
+    const states = await page.$$eval("figure.plot-figure", (els) =>
+      // Charts in panels hidden at this width never get a size; skip them.
+      els.filter((e) => e.getClientRects().length > 0).map((e) => e.dataset.state)
+    )
     for (const st of states) if (st !== "ok") problems.push(`${d}/${s}: chart ${st}`)
   }
   await click(page, "monitor")

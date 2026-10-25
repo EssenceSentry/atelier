@@ -1,8 +1,9 @@
 # @atelier/gallery
 
-Four sample screens (monitor, review, lab, report) in every direction. It is
-the visual check for `@atelier/theme` and the place new blocks are tried before
-they go into templates.
+Renders the kit's four screens (monitor, review, lab, report) in every
+direction and mode. The screens, blocks and components live in
+`packages/kit`; this app adds only the switcher. It is the visual check for
+the theme and the kit, and so for what generated projects start from.
 
 ```bash
 npm run dev:board   # every direction; ?d=, ?m= and ?s= pick direction, mode, screen

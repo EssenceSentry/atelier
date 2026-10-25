@@ -1,0 +1,1 @@
+../../apps/gallery/src/env.d.ts

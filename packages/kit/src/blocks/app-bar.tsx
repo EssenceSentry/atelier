@@ -6,12 +6,15 @@ import { cn } from "@/lib/utils"
 
 export function AppBar({
   product,
+  icon,
   crumbs = [],
   center,
   right,
   className,
 }: {
   product: string
+  /** The app's own mark; atelier's default mark when omitted. */
+  icon?: ReactNode
   crumbs?: string[]
   center?: ReactNode
   right?: ReactNode
@@ -25,7 +28,7 @@ export function AppBar({
       )}
     >
       <div className="flex min-w-0 items-center gap-2.5">
-        <BrandMark />
+        {icon ?? <BrandMark />}
         <span className="font-heading text-[15px] font-semibold tracking-tight">{product}</span>
         {crumbs.map((c, i) => (
           <span

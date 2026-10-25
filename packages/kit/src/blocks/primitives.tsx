@@ -241,6 +241,8 @@ export function Meter({
   )
 }
 
+// check-colours: off. Landscape illustrations have their own palette; they
+// are picture content, not interface colour.
 const SCENES = [
   {
     sky: ["#f6c9a8", "#f3e3d3"],
@@ -367,6 +369,8 @@ export function Thumb({
     </div>
   )
 }
+
+// check-colours: on
 
 export function BrandMark({ className }: { className?: string }) {
   return (

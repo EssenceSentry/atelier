@@ -1,0 +1,75 @@
+# Development
+
+## Set up
+
+```bash
+npm install                     # also installs the git hooks (lefthook)
+npx playwright install chromium # once per machine, for the screenshot check
+```
+
+The workflow security hook runs zizmor through `uvx`, so it needs
+[uv](https://docs.astral.sh/uv/).
+
+## Quality gates
+
+Every gate is a hook in `lefthook.yml`. CI runs the same hooks with
+`--all-files`, so passing locally means passing in CI.
+
+| Gate | Tool | Runs on |
+|---|---|---|
+| Lint and format | Biome | commit |
+| Types, strict | TypeScript | commit |
+| Colours come from theme tokens, not hex values or palette classes | `scripts/check-colours.mjs` | commit |
+| Workflow security | zizmor | commit, when workflows change |
+| No AI co-author trailers | `scripts/check-no-ai-coauthors.mjs` | commit message |
+| Build | Vite | push |
+| Screenshots in light and dark, desktop and phone; no broken chart, console error or sideways scroll | `scripts/check.mjs` | push |
+[%- if artifact %]
+| Artifact page: light/dark switching, charts and phone layout inside an artifact-like host | `scripts/check-artifact.mjs` | push |
+[%- endif %]
+
+```bash
+npx lefthook run pre-commit --all-files
+npx lefthook run pre-push --all-files
+```
+
+CI also audits runtime dependencies with `npm audit`, weekly as well as on
+every change, and keeps the screenshots as a downloadable run artifact.
+
+## Theme
+
+`theme` in `app.config.json` picks the direction: `instrument`, `editorial` or
+`console`. `THEME=<name> npm run dev` tries another one without changing the
+file. Light or dark follows the system setting; `data-theme="light"` or
+`"dark"` on `<html>` overrides it.
+
+The theme package lives in `theme/` and comes from atelier; don't edit it
+here.
+[%- if artifact %]
+
+## Artifact
+
+`npm run build:artifact` writes `dist/artifact/index.html`: page content only,
+fonts from Google Fonts, everything else inlined, as claude.ai artifacts
+require. `npm run check:artifact` loads it in an artifact-like host first.
+[%- endif %]
+[%- if pages %]
+
+## GitHub Pages
+
+On push to `main`, the pages workflow publishes the app. Enable Pages once
+under Settings › Pages with "GitHub Actions" as the source.
+[%- endif %]
+
+## Dependencies
+
+Dependabot proposes grouped weekly updates for npm and GitHub Actions,
+skipping versions younger than a week. Actions are pinned by commit hash.
+
+## Template updates
+
+Pull later atelier improvements, including theme and component fixes, with:
+
+```bash
+uvx copier update --trust
+```

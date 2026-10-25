@@ -1,0 +1,33 @@
+# Every quality gate is a hook here, and CI runs these same hooks with
+# --all-files, so local checks and CI cannot drift apart.
+pre-commit:
+  parallel: true
+  jobs:
+    - name: lint and format (biome)
+      glob: "*.{js,mjs,ts,tsx,json,jsonc,css}"
+      run: npx biome check
+    - name: type check
+      glob: "*.{ts,tsx}"
+      run: npx tsc -b
+    - name: theme colours only
+      glob: "*.{ts,tsx,css}"
+      run: node scripts/check-colours.mjs src
+    - name: workflow security (zizmor)
+      glob: ".github/workflows/*.yml"
+      run: uvx zizmor@1.31.1 .github/workflows
+
+commit-msg:
+  jobs:
+    - name: no AI co-author trailers
+      run: node scripts/check-no-ai-coauthors.mjs {1}
+
+pre-push:
+  jobs:
+    - name: build
+      run: npm run build
+    - name: screenshots, charts and phone layout
+      run: npm run check
+[%- if artifact %]
+    - name: artifact build and check
+      run: npm run build:artifact && npm run check:artifact
+[%- endif %]

@@ -1,0 +1,12 @@
+[%- set screen = kind | capitalize ~ 'Screen' -%]
+import { AppIcon } from "@/app-icon"
+import { TooltipProvider } from "@/components/ui/tooltip"
+import { [[ screen ]] } from "@/screens/[[ kind ]]"
+
+export default function App() {
+  return (
+    <TooltipProvider>
+      <[[ screen ]] product="[[ project_name ]]" icon={<AppIcon />} />
+    </TooltipProvider>
+  )
+}

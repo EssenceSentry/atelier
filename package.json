@@ -1,7 +1,7 @@
 {
   "name": "atelier",
   "private": true,
-  "description": "Opinionated starter kit for agent-built dashboards, review tools, labs and reports.",
+  "description": "Opinionated starter kit and project generator for agent-built dashboards, review tools, labs and reports.",
   "workspaces": [
     "packages/*",
     "apps/*"
@@ -11,7 +11,8 @@
     "typecheck": "npm run typecheck --workspaces --if-present",
     "capture": "npm run capture --workspace @atelier/gallery",
     "lint": "biome check",
-    "fix": "biome check --write"
+    "fix": "biome check --write",
+    "try-template": "node scripts/try-template.mjs"
   },
   "devDependencies": {
     "@biomejs/biome": "2.5.15"

@@ -1,0 +1,25 @@
+[%- set initials = (project_name.split() | map('first') | join)[:2] | upper -%]
+import { cn } from "@/lib/utils"
+
+/**
+ * Placeholder mark: the app's initials on its accent colour. Replace it with
+ * an icon designed for this app, and update public/favicon.svg to match.
+ */
+export function AppIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 32 32" className={cn("size-6", className)} aria-hidden="true">
+      <rect width="32" height="32" rx="8" fill="var(--primary)" />
+      <text
+        x="16"
+        y="21.5"
+        textAnchor="middle"
+        fontSize="[[ 14 if initials | length == 1 else 13 ]]"
+        fontWeight="700"
+        fill="var(--primary-foreground)"
+        fontFamily="var(--ff-sans)"
+      >
+        [[ initials ]]
+      </text>
+    </svg>
+  )
+}

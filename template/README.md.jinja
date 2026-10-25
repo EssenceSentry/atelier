@@ -1,0 +1,45 @@
+[%- set repo = 'https://github.com/' ~ github_owner ~ '/' ~ distribution_name -%]
+[%- set site = 'https://' ~ (github_owner | lower) ~ '.github.io/' ~ distribution_name ~ '/' -%]
+# [[ project_name ]]
+
+[![ci]([[ repo ]]/actions/workflows/ci.yml/badge.svg?branch=main)]([[ repo ]]/actions/workflows/ci.yml)
+[%- if pages %]
+[![app](https://img.shields.io/badge/app-GitHub%20Pages-blue)]([[ site ]])
+[%- endif %]
+[![theme](https://img.shields.io/badge/atelier-[[ theme ]]-blue)](app.config.json)
+[![TypeScript](https://img.shields.io/badge/TypeScript-strict-blue?logo=typescript&logoColor=white)](tsconfig.app.json)
+[![Biome](https://img.shields.io/badge/lint-Biome-blue?logo=biome&logoColor=white)](biome.json)
+[![lefthook](https://img.shields.io/badge/hooks-lefthook-blue)](lefthook.yml)
+
+[[ description.strip().rstrip('.') ]].
+
+## Run
+
+```bash
+npm install
+npm run dev
+```
+[%- if pages %]
+
+The latest `main` is live at [[ site ]]
+[%- endif %]
+[%- if artifact %]
+
+## As a claude.ai artifact
+
+```bash
+npm run build:artifact
+```
+
+`dist/artifact/index.html` is a single page ready to publish as an artifact.
+[%- endif %]
+
+## Develop
+
+Every quality gate is a git hook, and CI runs the same hooks: lint and
+format, strict types, workflow security, and before a push a build plus
+screenshots in light and dark on desktop and phone that fail on a broken chart,
+a console error or a sideways scroll. [DEVELOPMENT.md](DEVELOPMENT.md) has
+the details.
+
+Built with [atelier](https://github.com/EssenceSentry/atelier).

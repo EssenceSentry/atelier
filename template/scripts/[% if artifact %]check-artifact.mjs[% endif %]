@@ -1,0 +1,87 @@
+// Load the artifact page inside a document shaped like the claude.ai artifact
+// host's, with a similar content security policy, and check that light and
+// dark follow the system setting and data-theme, that every chart renders,
+// and that nothing scrolls sideways on a phone. Run `npm run build:artifact`
+// first.
+import { mkdir, readFile } from "node:fs/promises"
+import { chromium } from "playwright"
+
+const pagePath = process.argv[2] ?? "dist/artifact/index.html"
+const out = "checks"
+const content = await readFile(pagePath, "utf8")
+const csp = [
+  "default-src 'none'",
+  "script-src 'unsafe-inline' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://unpkg.com",
+  "style-src 'unsafe-inline' https://fonts.googleapis.com",
+  "font-src https://fonts.gstatic.com data:",
+  "img-src data: blob:",
+].join("; ")
+const host = `<!doctype html><html><head><meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="${csp}">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom)}
+body{margin:0;font:14px system-ui}img{max-width:100%}[hidden]{display:none!important}</style>
+</head><body>${content}</body></html>`
+
+await mkdir(out, { recursive: true })
+const browser = await chromium.launch()
+const problems = []
+
+async function open(viewport, colorScheme) {
+  const page = await browser.newPage({ viewport, colorScheme })
+  page.on("console", (m) => m.type() === "error" && problems.push(`console: ${m.text()}`))
+  page.on("pageerror", (e) => problems.push(`page error: ${e.message}`))
+  await page.route("https://artifact.test/", (route) =>
+    route.fulfill({ contentType: "text/html", body: host })
+  )
+  await page.goto("https://artifact.test/", { waitUntil: "networkidle" })
+  await page.evaluate(() => document.fonts.ready)
+  await page.waitForTimeout(250)
+  return page
+}
+
+// The viewer's theme: the system setting, overridden by data-theme on <html>.
+const modes = [
+  { scheme: "light", attr: null, want: "light" },
+  { scheme: "dark", attr: null, want: "dark" },
+  { scheme: "dark", attr: "light", want: "light" },
+  { scheme: "light", attr: "dark", want: "dark" },
+]
+const backgrounds = {}
+for (const mode of modes) {
+  const page = await open({ width: 1440, height: 900 }, mode.scheme)
+  if (mode.attr) {
+    await page.evaluate((attr) => {
+      document.documentElement.dataset.theme = attr
+    }, mode.attr)
+  }
+  backgrounds[`${mode.scheme}/${mode.attr ?? "unset"}`] = {
+    want: mode.want,
+    bg: await page.evaluate(() => getComputedStyle(document.body).backgroundColor),
+  }
+  const charts = await page.$$eval("figure.plot-figure", (els) =>
+    // Charts in panels hidden at this width never get a size; skip them.
+    els.filter((e) => e.getClientRects().length > 0).map((e) => e.dataset.state)
+  )
+  for (const state of charts) if (state !== "ok") problems.push(`${mode.scheme}: chart ${state}`)
+  await page.close()
+}
+const light = backgrounds["light/unset"].bg
+const dark = backgrounds["dark/unset"].bg
+if (light === dark) problems.push("the system dark setting did not change the page")
+for (const [key, { want, bg }] of Object.entries(backgrounds)) {
+  if (bg !== (want === "light" ? light : dark)) problems.push(`${key}: expected ${want}, got ${bg}`)
+}
+
+const phone = await open({ width: 390, height: 844 }, "light")
+const { scroll, client } = await phone.evaluate(() => ({
+  scroll: document.documentElement.scrollWidth,
+  client: document.documentElement.clientWidth,
+}))
+if (scroll > client) problems.push(`phone: page scrolls sideways (${scroll} > ${client})`)
+await phone.screenshot({ path: `${out}/artifact-phone.png`, fullPage: true })
+await phone.close()
+await browser.close()
+
+console.log(problems.length ? problems.join("\n") : "artifact checks clean")
+process.exit(problems.length ? 1 : 0)
