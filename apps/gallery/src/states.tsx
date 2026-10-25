@@ -1,13 +1,44 @@
-import { Play, RotateCw, SearchX } from "lucide-react"
+import { CalendarSearch, Play, RotateCw } from "lucide-react"
+import { useState } from "react"
 
 import { AppBar } from "@/blocks/app-bar"
 import { SectionHeader, type Status, StatusBadge } from "@/blocks/primitives"
-import { EmptyState, ErrorState, LiveIndicator, Skeleton } from "@/blocks/states"
+import {
+  CopyButton,
+  EmptyState,
+  ErrorState,
+  LiveIndicator,
+  Skeleton,
+  UndoNotice,
+} from "@/blocks/states"
 import { Button } from "@/components/ui/button"
 import type { LiveStatus } from "@/lib/live"
 
 const statuses: Status[] = ["running", "done", "succeeded", "failed", "warning", "queued", "paused"]
 const liveStatuses: LiveStatus[] = ["example", "connecting", "live", "offline"]
+
+/** The undo notice after a release; releasing again restarts the countdown. */
+function ReleaseExample() {
+  const [round, setRound] = useState(0)
+  const [released, setReleased] = useState(true)
+  return released ? (
+    <UndoNotice key={round} onUndo={() => setReleased(false)}>
+      Released the 30 GiB volume held by job{" "}
+      <span className="label-mono text-xs whitespace-nowrap">…866245</span>.
+    </UndoNotice>
+  ) : (
+    <Button
+      size="sm"
+      variant="destructive"
+      onClick={() => {
+        setRound((n) => n + 1)
+        setReleased(true)
+      }}
+    >
+      Release volume
+    </Button>
+  )
+}
 
 /** The blocks an app shows before, without and instead of its content. */
 export function StatesScreen() {
@@ -26,35 +57,51 @@ export function StatesScreen() {
               <div key={tile} className="space-y-3">
                 <Skeleton className="h-3 w-20" />
                 <Skeleton className="h-7 w-24" />
-                <Skeleton className="h-3 w-28" />
+                <Skeleton className="h-9 w-full" />
               </div>
             ))}
           </div>
           <Skeleton className="h-52 w-full" />
         </section>
 
-        <section className="panel col-span-12 space-y-6 p-5 lg:col-span-5">
-          <SectionHeader title="Status" />
-          <div className="flex flex-wrap gap-2">
-            {statuses.map((status) => (
-              <StatusBadge key={status} status={status} />
-            ))}
-          </div>
-          <div className="space-y-3">
-            <div className="text-xs text-muted-foreground">
-              Live source, from <code className="label-mono">useLiveState</code>
-            </div>
-            <div className="flex flex-wrap gap-x-6 gap-y-3">
-              {liveStatuses.map((status) => (
-                <LiveIndicator key={status} status={status} />
+        <div className="col-span-12 flex flex-col gap-4 md:gap-5 lg:col-span-5">
+          <section className="panel space-y-5 p-5">
+            <SectionHeader title="Status" />
+            <div className="flex flex-wrap gap-2">
+              {statuses.map((status) => (
+                <StatusBadge key={status} status={status} />
               ))}
             </div>
-          </div>
-        </section>
+            <div className="space-y-3">
+              <div className="text-xs text-muted-foreground">
+                Live source, from <code className="label-mono">useLiveState</code>
+              </div>
+              <div className="flex flex-wrap gap-x-6 gap-y-3">
+                {liveStatuses.map((status) => (
+                  <LiveIndicator key={status} status={status} />
+                ))}
+              </div>
+            </div>
+          </section>
+
+          <section className="panel flex-1 space-y-4 p-5">
+            <SectionHeader title="Errors" />
+            <ErrorState
+              title="Query timed out after 30 s"
+              action={
+                <Button size="sm" variant="outline">
+                  <RotateCw /> Retry
+                </Button>
+              }
+            >
+              The warehouse was suspended while the query queued. Retry resumes it first.
+            </ErrorState>
+          </section>
+        </div>
 
         <section className="panel col-span-12 flex md:col-span-6 lg:col-span-4">
           <EmptyState
-            className="flex-1"
+            className="flex-1 justify-start"
             icon={<Play />}
             title="No runs yet"
             action={
@@ -69,34 +116,26 @@ export function StatesScreen() {
 
         <section className="panel col-span-12 flex md:col-span-6 lg:col-span-4">
           <EmptyState
-            className="flex-1"
-            icon={<SearchX />}
-            title="No channels match “rail”"
+            className="flex-1 justify-start"
+            icon={<CalendarSearch />}
+            title="No rows for September"
             action={
               <Button size="sm" variant="outline">
-                Clear search
+                Change month
               </Button>
             }
           >
-            Search looks at channel names and handles. Try a shorter term.
+            The query ran and returned nothing for this month.
           </EmptyState>
         </section>
 
         <section className="panel col-span-12 space-y-4 p-5 lg:col-span-4">
-          <SectionHeader title="Errors" />
-          <ErrorState
-            title="Couldn’t reach the run service"
-            action={
-              <Button size="sm" variant="outline">
-                <RotateCw /> Retry
-              </Button>
-            }
-          >
-            localhost:8790 refused the connection. Start the service, then retry.
-          </ErrorState>
-          <ErrorState title="Chart failed: no rows for September">
-            The query returned nothing for this month. Check the date filter.
-          </ErrorState>
+          <SectionHeader title="Feedback" />
+          <ReleaseExample />
+          <div className="flex items-center justify-between gap-3 text-[13px] text-muted-foreground">
+            Copy confirms itself
+            <CopyButton />
+          </div>
         </section>
       </main>
     </div>
