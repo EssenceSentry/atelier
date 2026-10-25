@@ -4,8 +4,19 @@
  * Vite plugin, so this file is the same for every project.
  */
 @import "./status.css";
+@import "./modes.css";
 
-@custom-variant dark (&:is(.dark *));
+/* Matches the same conditions as modes.css, for shadcn's dark: classes. */
+@custom-variant dark {
+  &:where([data-theme="dark"], [data-theme="dark"] *) {
+    @slot;
+  }
+  @media (prefers-color-scheme: dark) {
+    &:where(:root:not([data-theme="light"]), :root:not([data-theme="light"]) *) {
+      @slot;
+    }
+  }
+}
 
 @theme inline {
   --font-sans: var(--ff-sans);

@@ -47,7 +47,9 @@ Set `theme` in the project's `app.config.json`:
 switch at runtime; the gallery uses it. A build bundles only the chosen
 direction's fonts and tokens, and an unknown name fails the build.
 
-Light and dark follow the `dark` class on `<html>`.
+Light or dark follows the viewer's system setting. `data-theme="light"` or
+`data-theme="dark"` on `<html>` overrides it either way. Each colour token is a
+single `light-dark()` pair, so a direction defines every colour once.
 
 ## Charts
 

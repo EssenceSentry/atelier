@@ -1,14 +1,14 @@
 /*
- * One direction: its fonts and tokens, light and dark. Components only read
- * tokens, so switching direction never touches component code. Chart palettes
- * passed the dataviz validator for adjacent pairs on every slot and all pairs
- * on the first three, in both modes. Status colours live in ../status.css.
+ * Instrument: precise, cool, hairline, dense.
+ *
+ * Every colour is written once as light-dark(light, dark); the mode rules in
+ * ../modes.css pick the side. Chart palettes passed the dataviz validator for
+ * adjacent pairs on every slot and all pairs on the first three, in both modes.
  */
 @import "@fontsource-variable/instrument-sans";
 @import "@fontsource-variable/jetbrains-mono";
 
-/* ── Instrument: precise, cool, hairline, dense ─────────────────────────── */
-
+:root,
 [data-direction="instrument"] {
   --ff-sans: "Instrument Sans Variable", ui-sans-serif, system-ui, sans-serif;
   --ff-heading: "Instrument Sans Variable", ui-sans-serif, system-ui, sans-serif;
@@ -33,86 +33,44 @@
   --panel-ring: var(--border);
   --page-texture: none;
 
-  --page: #f2f3f5;
-  --background: #f2f3f5;
-  --foreground: #0e1116;
-  --card: #ffffff;
-  --card-foreground: #0e1116;
-  --popover: #ffffff;
-  --popover-foreground: #0e1116;
-  --sunken: #f7f8fa;
-  --raised: #ffffff;
-  --ink-2: #3d4552;
-  --muted: #f0f2f5;
-  --muted-foreground: #6b7380;
-  --faint: #9aa1ac;
-  --border: #e1e4e9;
-  --border-strong: #c9ced6;
-  --input: #d9dde3;
-  --ring: #3665e4;
+  --page: light-dark(#f2f3f5, #0a0c0f);
+  --background: light-dark(#f2f3f5, #0a0c0f);
+  --foreground: light-dark(#0e1116, #e9ecf1);
+  --card: light-dark(#ffffff, #111419);
+  --card-foreground: light-dark(#0e1116, #e9ecf1);
+  --popover: light-dark(#ffffff, #151920);
+  --popover-foreground: light-dark(#0e1116, #e9ecf1);
+  --sunken: light-dark(#f7f8fa, #0d0f13);
+  --raised: light-dark(#ffffff, #161a20);
+  --ink-2: light-dark(#3d4552, #b4bcc8);
+  --muted: light-dark(#f0f2f5, #1a1e25);
+  --muted-foreground: light-dark(#6b7380, #8590a0);
+  --faint: light-dark(#9aa1ac, #5d6673);
+  --border: light-dark(#e1e4e9, #20252d);
+  --border-strong: light-dark(#c9ced6, #2e343e);
+  --input: light-dark(#d9dde3, #2a3039);
+  --ring: light-dark(#3665e4, #6286f3);
 
-  --primary: #3665e4;
+  --primary: light-dark(#3665e4, #507ef1);
   --primary-foreground: #ffffff;
-  --primary-soft: #edf1fd;
-  --primary-ink: #2a52c9;
-  --secondary: #eef0f3;
-  --secondary-foreground: #0e1116;
-  --accent: #eef0f3;
-  --accent-foreground: #0e1116;
+  --primary-soft: light-dark(#edf1fd, #141d33);
+  --primary-ink: light-dark(#2a52c9, #84a3f7);
+  --secondary: light-dark(#eef0f3, #1a1e25);
+  --secondary-foreground: light-dark(#0e1116, #e9ecf1);
+  --accent: light-dark(#eef0f3, #1a1e25);
+  --accent-foreground: light-dark(#0e1116, #e9ecf1);
   --destructive: #d03b3b;
 
-  --viz-grid: #eceef2;
-  --viz-axis: #c9ced6;
-  --viz-text: #6b7380;
-  --series-1: #3665e4;
-  --series-2: #e8721c;
-  --series-3: #be409d;
-  --series-4: #d6a20a;
-  --series-5: #8151db;
-  --series-6: #db4241;
-  --div-neg: #3665e4;
-  --div-mid: #e6e8ec;
-  --div-pos: #e8721c;
-}
-
-[data-direction="instrument"].dark {
-  --page: #0a0c0f;
-  --background: #0a0c0f;
-  --foreground: #e9ecf1;
-  --card: #111419;
-  --card-foreground: #e9ecf1;
-  --popover: #151920;
-  --popover-foreground: #e9ecf1;
-  --sunken: #0d0f13;
-  --raised: #161a20;
-  --ink-2: #b4bcc8;
-  --muted: #1a1e25;
-  --muted-foreground: #8590a0;
-  --faint: #5d6673;
-  --border: #20252d;
-  --border-strong: #2e343e;
-  --input: #2a3039;
-  --ring: #6286f3;
-
-  --primary: #507ef1;
-  --primary-foreground: #ffffff;
-  --primary-soft: #141d33;
-  --primary-ink: #84a3f7;
-  --secondary: #1a1e25;
-  --secondary-foreground: #e9ecf1;
-  --accent: #1a1e25;
-  --accent-foreground: #e9ecf1;
-
-  --viz-grid: #1a1e25;
-  --viz-axis: #2e343e;
-  --viz-text: #8590a0;
-  --series-1: #507ef1;
-  --series-2: #e16c10;
-  --series-3: #cc4da9;
-  --series-4: #bb8d0c;
-  --series-5: #8c5ee8;
-  --series-6: #e24947;
-  --div-neg: #507ef1;
-  --div-mid: #2a2f37;
-  --div-pos: #e16c10;
+  --viz-grid: light-dark(#eceef2, #1a1e25);
+  --viz-axis: light-dark(#c9ced6, #2e343e);
+  --viz-text: light-dark(#6b7380, #8590a0);
+  --series-1: light-dark(#3665e4, #507ef1);
+  --series-2: light-dark(#e8721c, #e16c10);
+  --series-3: light-dark(#be409d, #cc4da9);
+  --series-4: light-dark(#d6a20a, #bb8d0c);
+  --series-5: light-dark(#8151db, #8c5ee8);
+  --series-6: light-dark(#db4241, #e24947);
+  --div-neg: light-dark(#3665e4, #507ef1);
+  --div-mid: light-dark(#e6e8ec, #2a2f37);
+  --div-pos: light-dark(#e8721c, #e16c10);
 }

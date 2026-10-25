@@ -60,7 +60,8 @@ export default function App() {
   useLayoutEffect(() => {
     const root = document.documentElement
     root.dataset.direction = state.direction
-    root.classList.toggle("dark", state.mode === "dark")
+    if (state.mode === "system") delete root.dataset.theme
+    else root.dataset.theme = state.mode
   }, [state.direction, state.mode])
 
   useEffect(() => {

@@ -1,15 +1,14 @@
 /*
- * One direction: its fonts and tokens, light and dark. Components only read
- * tokens, so switching direction never touches component code. Chart palettes
- * passed the dataviz validator for adjacent pairs on every slot and all pairs
- * on the first three, in both modes. Status colours live in ../status.css.
+ * Editorial: warm paper, serif display, generous.
+ *
+ * Every colour is written once as light-dark(light, dark); the mode rules in
+ * ../modes.css pick the side. Chart palettes passed the dataviz validator for
+ * adjacent pairs on every slot and all pairs on the first three, in both modes.
  */
 @import "@fontsource-variable/newsreader/opsz.css";
 @import "@fontsource-variable/newsreader/opsz-italic.css";
 @import "@fontsource-variable/hanken-grotesk";
 @import "@fontsource-variable/jetbrains-mono";
-
-/* ── Editorial: warm paper, serif display, generous ─────────────────────── */
 
 [data-direction="editorial"] {
   --ff-sans: "Hanken Grotesk Variable", ui-sans-serif, system-ui, sans-serif;
@@ -37,82 +36,42 @@
   --panel-ring: transparent;
   --page-texture: none;
 
-  --page: #f3efe6;
-  --background: #f3efe6;
-  --foreground: #1d1914;
-  --card: #faf8f3;
-  --card-foreground: #1d1914;
-  --popover: #fdfcf9;
-  --popover-foreground: #1d1914;
-  --sunken: #efeadf;
-  --raised: #fdfcf9;
-  --ink-2: #4f473d;
-  --muted: #ece6da;
-  --muted-foreground: #7a7063;
-  --faint: #a69c8d;
-  --border: #e2dacb;
-  --border-strong: #cbc0ab;
-  --input: #d8cfbe;
-  --ring: #b04a24;
+  --page: light-dark(#f3efe6, #15120e);
+  --background: light-dark(#f3efe6, #15120e);
+  --foreground: light-dark(#1d1914, #f0eae0);
+  --card: light-dark(#faf8f3, #1d1914);
+  --card-foreground: light-dark(#1d1914, #f0eae0);
+  --popover: light-dark(#fdfcf9, #231e18);
+  --popover-foreground: light-dark(#1d1914, #f0eae0);
+  --sunken: light-dark(#efeadf, #120f0c);
+  --raised: light-dark(#fdfcf9, #231e18);
+  --ink-2: light-dark(#4f473d, #cbc1b2);
+  --muted: light-dark(#ece6da, #26211b);
+  --muted-foreground: light-dark(#7a7063, #9a8f80);
+  --faint: light-dark(#a69c8d, #6d6458);
+  --border: light-dark(#e2dacb, #302921);
+  --border-strong: light-dark(#cbc0ab, #463d32);
+  --input: light-dark(#d8cfbe, #3a3229);
+  --ring: light-dark(#b04a24, #d9764c);
 
-  --primary: #b04a24;
-  --primary-foreground: #ffffff;
-  --primary-soft: #f6e6dc;
-  --primary-ink: #9c3f1c;
-  --secondary: #ece6da;
-  --secondary-foreground: #1d1914;
-  --accent: #ece6da;
-  --accent-foreground: #1d1914;
+  --primary: light-dark(#b04a24, #d9764c);
+  --primary-foreground: light-dark(#ffffff, #1a0f09);
+  --primary-soft: light-dark(#f6e6dc, #2e1e15);
+  --primary-ink: light-dark(#9c3f1c, #e8936c);
+  --secondary: light-dark(#ece6da, #26211b);
+  --secondary-foreground: light-dark(#1d1914, #f0eae0);
+  --accent: light-dark(#ece6da, #26211b);
+  --accent-foreground: light-dark(#1d1914, #f0eae0);
   --destructive: #d03b3b;
 
-  --viz-grid: #e8e1d3;
-  --viz-axis: #cbc0ab;
-  --viz-text: #7a7063;
-  --series-1: #c1552c;
-  --series-2: #2863ab;
-  --series-3: #d3a23b;
-  --series-4: #8b4486;
-  --div-neg: #2863ab;
-  --div-mid: #e4ddd0;
-  --div-pos: #c1552c;
-}
-
-[data-direction="editorial"].dark {
-  --page: #15120e;
-  --background: #15120e;
-  --foreground: #f0eae0;
-  --card: #1d1914;
-  --card-foreground: #f0eae0;
-  --popover: #231e18;
-  --popover-foreground: #f0eae0;
-  --sunken: #120f0c;
-  --raised: #231e18;
-  --ink-2: #cbc1b2;
-  --muted: #26211b;
-  --muted-foreground: #9a8f80;
-  --faint: #6d6458;
-  --border: #302921;
-  --border-strong: #463d32;
-  --input: #3a3229;
-  --ring: #d9764c;
-
-  --primary: #d9764c;
-  --primary-foreground: #1a0f09;
-  --primary-soft: #2e1e15;
-  --primary-ink: #e8936c;
-  --secondary: #26211b;
-  --secondary-foreground: #f0eae0;
-  --accent: #26211b;
-  --accent-foreground: #f0eae0;
-
-  --viz-grid: #29231c;
-  --viz-axis: #463d32;
-  --viz-text: #9a8f80;
-  --series-1: #b44723;
-  --series-2: #5290d3;
-  --series-3: #b4902e;
-  --series-4: #9e5598;
-  --div-neg: #5290d3;
-  --div-mid: #3a3229;
-  --div-pos: #b44723;
+  --viz-grid: light-dark(#e8e1d3, #29231c);
+  --viz-axis: light-dark(#cbc0ab, #463d32);
+  --viz-text: light-dark(#7a7063, #9a8f80);
+  --series-1: light-dark(#c1552c, #b44723);
+  --series-2: light-dark(#2863ab, #5290d3);
+  --series-3: light-dark(#d3a23b, #b4902e);
+  --series-4: light-dark(#8b4486, #9e5598);
+  --div-neg: light-dark(#2863ab, #5290d3);
+  --div-mid: light-dark(#e4ddd0, #3a3229);
+  --div-pos: light-dark(#c1552c, #b44723);
 }

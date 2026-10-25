@@ -21,37 +21,55 @@ export type VizTokens = {
 }
 
 /**
- * Reads tokens as literal values. SVG presentation attributes do not accept
- * var(), so chart libraries need resolved colours, read again on every theme
- * change.
+ * Reads tokens as literal colours. Tokens hold light-dark() pairs and SVG
+ * presentation attributes accept neither var() nor light-dark(), so each
+ * colour goes through a probe element that resolves it for the current mode.
  */
 export function readVizTokens(root: HTMLElement = document.documentElement): VizTokens {
   const css = getComputedStyle(root)
-  const v = (name: string) => css.getPropertyValue(name).trim()
-  return {
-    surface: v("--card"),
-    text: v("--viz-text"),
-    ink: v("--foreground"),
-    grid: v("--viz-grid"),
-    axis: v("--viz-axis"),
-    primary: v("--primary"),
-    popover: v("--popover"),
-    border: v("--border"),
-    series: [1, 2, 3, 4, 5, 6].map((i) => v(`--series-${i}`)).filter(Boolean),
-    divNeg: v("--div-neg"),
-    divMid: v("--div-mid"),
-    divPos: v("--div-pos"),
-    good: v("--status-good"),
-    warning: v("--status-warning"),
-    critical: v("--status-critical"),
-    font: v("--ff-sans"),
-    labelFont: v("--label-font"),
+  const raw = (name: string) => css.getPropertyValue(name).trim()
+  const probe = document.createElement("span")
+  probe.hidden = true
+  root.appendChild(probe)
+  const color = (name: string) => {
+    if (!raw(name)) return ""
+    probe.style.color = `var(${name})`
+    return getComputedStyle(probe).color
   }
+  const tokens = {
+    surface: color("--card"),
+    text: color("--viz-text"),
+    ink: color("--foreground"),
+    grid: color("--viz-grid"),
+    axis: color("--viz-axis"),
+    primary: color("--primary"),
+    popover: color("--popover"),
+    border: color("--border"),
+    series: [1, 2, 3, 4, 5, 6].map((i) => color(`--series-${i}`)).filter(Boolean),
+    divNeg: color("--div-neg"),
+    divMid: color("--div-mid"),
+    divPos: color("--div-pos"),
+    good: color("--status-good"),
+    warning: color("--status-warning"),
+    critical: color("--status-critical"),
+    font: raw("--ff-sans"),
+    labelFont: raw("--label-font"),
+  }
+  probe.remove()
+  return tokens
 }
 
-/** Calls back when the direction or light/dark mode changes on <html>. */
+/**
+ * Calls back when the direction or mode changes: data-direction or data-theme
+ * on <html>, or the system setting while data-theme is unset.
+ */
 export function observeTheme(callback: () => void, root: HTMLElement = document.documentElement) {
   const observer = new MutationObserver(callback)
-  observer.observe(root, { attributes: true, attributeFilter: ["data-direction", "class"] })
-  return () => observer.disconnect()
+  observer.observe(root, { attributes: true, attributeFilter: ["data-direction", "data-theme"] })
+  const media = matchMedia("(prefers-color-scheme: dark)")
+  media.addEventListener("change", callback)
+  return () => {
+    observer.disconnect()
+    media.removeEventListener("change", callback)
+  }
 }
