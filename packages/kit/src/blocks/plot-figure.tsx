@@ -21,6 +21,13 @@ export function baseOptions(t: VizTokens, width: number): Plot.PlotOptions {
   }
 }
 
+/**
+ * Marks that only fit a wide chart, such as notes beside the data. Narrow
+ * charts drop them, because there they land on the marks or on each other.
+ */
+export const whenWide = (width: number, marks: Plot.Markish[], min = 560) =>
+  width < min ? [] : marks
+
 /** Tooltip styled from the direction's popover tokens. */
 export const tipStyle = (t: VizTokens) => ({
   fill: t.popover,

@@ -44,9 +44,14 @@ Do these before showing the app to anyone:
 ## Build
 
 - Reshape the generated screen rather than starting a new one. Reuse
-  `src/blocks` (app bar, stat tiles, status badges, sparklines, meters, chart
-  frame, states) and `src/components/ui`; add components with
-  `npx shadcn add <name>`.
+  `src/blocks` (app bar, stat tiles, figure rows, status badges, sparklines,
+  meters, chart frame, log tail, keyboard help, states) and
+  `src/components/ui`; add components with `npx shadcn add <name>`.
+- Keyboard shortcuts go through `useKeys` in `src/lib/keys.ts`, which stays
+  quiet while the person types, and `ShortcutsHelp` lists them on click or
+  "?". Hide key hints on touch screens with `pointer-coarse:hidden`.
+- Chart notes that need room go through `whenWide(width, marks)`, so narrow
+  charts drop them instead of printing them over the data.
 - Colours come from theme tokens only (`bg-card`, `text-ink-2`,
   `bg-primary-soft`, `text-good`, `var(--series-1)`). A commit hook rejects hex
   values and palette classes such as `blue-500`.
@@ -90,8 +95,9 @@ Do these before showing the app to anyone:
 
 Commit hooks run Biome, TypeScript, the colour check, zizmor and the AI
 co-author check. Push hooks build the app and run `npm run check`, which
-writes screenshots to `checks/` in light and dark, desktop and phone, and
-fails on a broken chart, a console error or sideways scrolling.
+writes screenshots to `checks/` in light and dark at desktop, laptop and
+phone widths, and fails on a broken chart, a console error, content spilling out of a panel,
+sideways scrolling, or chart labels that overlap or run past their panel.
 
 Open those screenshots after every visual change and fix what looks wrong;
 the check catches breakage, not an ugly layout. Run

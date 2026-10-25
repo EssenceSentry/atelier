@@ -256,6 +256,34 @@ export function Delta({
   )
 }
 
+/**
+ * Big figures side by side, each with a caption under it. The figures share
+ * one baseline whatever their sizes; phones stack the pairs.
+ */
+export function FigureRow({
+  items,
+  className,
+}: {
+  items: { id: string; value: ReactNode; caption: ReactNode; size?: string }[]
+  className?: string
+}) {
+  return (
+    <div
+      className={cn(
+        "grid grid-cols-1 items-baseline gap-x-12 sm:grid-flow-col sm:grid-rows-[auto_auto] sm:justify-start sm:gap-y-2 max-sm:[&>*:nth-child(even)]:mb-4",
+        className
+      )}
+    >
+      {items.map((item) => (
+        <Fragment key={item.id}>
+          <div className={cn("figure", item.size ?? "text-[40px]")}>{item.value}</div>
+          <div className="text-sm text-muted-foreground">{item.caption}</div>
+        </Fragment>
+      ))}
+    </div>
+  )
+}
+
 export function StatTile({
   label,
   value,
