@@ -1,12 +1,19 @@
 import type { VizTokens } from "@atelier/theme/viz"
 import * as Plot from "@observablehq/plot"
-import { ChevronDown, Crosshair, Download, Layers, SlidersHorizontal, Upload } from "lucide-react"
+import { ChevronDown, Download, Layers, SlidersHorizontal, Upload } from "lucide-react"
 import { type ReactNode, useCallback, useId, useState } from "react"
 import { AppBar } from "@/blocks/app-bar"
 import { PlotFigure, tipStyle } from "@/blocks/plot-figure"
 import { Eyebrow, Meta, SectionHeader, Thumb } from "@/blocks/primitives"
 import { EmptyState } from "@/blocks/states"
 import { Button } from "@/components/ui/button"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 import { Slider } from "@/components/ui/slider"
 import { Switch } from "@/components/ui/switch"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -14,6 +21,43 @@ import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 import { contributions, neighbors, points, prCurves } from "@/lib/sample"
 import { cn } from "@/lib/utils"
 
+type Point = (typeof points)[number]
+
+/** Everything the controls change; the charts are rebuilt from it. */
+type Settings = {
+  projection: "pca" | "umap" | "polar"
+  colourBy: "label" | "score"
+  temperature: number
+  k: number
+  boundary: boolean
+}
+
+const PROJECTIONS = [
+  ["pca", "PCA"],
+  ["umap", "UMAP"],
+  ["polar", "Polarity"],
+] as const
+const COLOUR_BY = [
+  { value: "label", label: "Reviewed label" },
+  { value: "score", label: "Probe score" },
+]
+
+// The sample's scores are at T = 0.7. Recovering the probe's raw logit lets
+// any temperature rescale them, and puts the boundary where the logit is 0.
+const SAMPLE_T = 0.7
+const logit = (p: Point) => Math.log(p.score / (1 - p.score)) * SAMPLE_T
+const scoreAt = (p: Point, temperature: number) => 1 / (1 + Math.exp(-logit(p) / temperature))
+
+/** Where each projection puts a point; UMAP is the sample's own layout. */
+const project = (p: { x: number; y: number }, projection: Settings["projection"]) =>
+  projection === "pca"
+    ? { x: 0.8 * p.x + 0.35 * p.y, y: 0.6 * p.y - 0.3 * p.x }
+    : projection === "polar"
+      ? { x: 0.9 * p.x + 0.43 * p.y - 0.29, y: 0.43 * p.x - 0.9 * p.y }
+      : { x: p.x, y: p.y }
+
+// The selection is made in the UMAP layout and stays the same items when the
+// projection changes.
 const BRUSH = { x1: 0.55, x2: 2.45, y1: -0.15, y2: 1.75 }
 const inBrush = (p: { x: number; y: number }) =>
   p.x >= BRUSH.x1 && p.x <= BRUSH.x2 && p.y >= BRUSH.y1 && p.y <= BRUSH.y2
@@ -21,6 +65,7 @@ const selection = points.filter(inBrush)
 const selected = points
   .filter((p) => p.label === "Travel" && inBrush(p))
   .sort((a, b) => b.score - a.score)[40]
+
 // Travel, the class under study, takes series 1; everything else is neutral so
 // the eye goes to it. Other charts use ink and series 3 onwards, so no colour
 // means two things.
@@ -30,66 +75,104 @@ const labelColours = (t: VizTokens) => ({ domain: LABELS, range: [t.series[0], t
 const labelSwatch = (label: string) => (label === "Travel" ? "var(--series-1)" : "var(--viz-text)")
 const methodColours = (t: VizTokens) => [t.ink, t.series[2], t.series[3]]
 
-const scatter = (t: VizTokens) => ({
-  marginLeft: 28,
-  marginBottom: 24,
-  x: { label: null, ticks: 6, tickSize: 0 },
-  y: { label: null, ticks: 5, tickSize: 0 },
-  color: labelColours(t),
-  marks: [
-    Plot.gridX({ stroke: t.grid, strokeOpacity: 1, ticks: 6 }),
-    Plot.gridY({ stroke: t.grid, strokeOpacity: 1, ticks: 5 }),
-    Plot.rect([BRUSH], {
-      x1: "x1",
-      x2: "x2",
-      y1: "y1",
-      y2: "y2",
-      fill: t.ink,
-      fillOpacity: 0.04,
-      stroke: t.ink,
-      strokeOpacity: 0.5,
-    }),
-    Plot.dot(points, {
-      x: "x",
-      y: "y",
-      r: 2.2,
-      fill: "label",
-      fillOpacity: (d: { x: number; y: number }) => (inBrush(d) ? 0.9 : 0.5),
-    }),
-    Plot.dot([selected], {
-      x: "x",
-      y: "y",
-      r: 7,
-      fill: t.series[0],
-      stroke: t.surface,
-      strokeWidth: 2.5,
-    }),
-    Plot.dot([selected], { x: "x", y: "y", r: 11, stroke: t.ink, strokeWidth: 1.25 }),
-    Plot.text([BRUSH], {
-      x: "x2",
-      y: "y2",
-      text: () => `${selection.length} selected`,
-      textAnchor: "end",
-      dy: -9,
-      fill: t.ink,
-      fontWeight: 600,
-      // A halo in the surface colour keeps the label readable over points.
-      stroke: t.surface,
-      strokeWidth: 4,
-      paintOrder: "stroke",
-    }),
-    Plot.tip(
-      points,
-      Plot.pointer({
+const extent = (values: number[]) => [Math.min(...values), Math.max(...values)]
+
+const scatter = (t: VizTokens, s: Settings) => {
+  const placed = points.map((p) => ({
+    ...p,
+    ...project(p, s.projection),
+    at: scoreAt(p, s.temperature),
+  }))
+  const xDomain = extent(placed.map((p) => p.x))
+  const yDomain = extent(placed.map((p) => p.y))
+  // The probe's boundary, 1.9x + 0.9y = 0.6 in the UMAP layout, carried through
+  // the same linear projection as the points.
+  const boundary = [-4, 5].map((x) => project({ x, y: (0.6 - 1.9 * x) / 0.9 }, s.projection))
+  const pin = placed.find((p) => p.id === selected.id) ?? placed[0]
+  return {
+    marginLeft: 28,
+    marginBottom: 24,
+    x: { label: null, ticks: 6, tickSize: 0, domain: xDomain },
+    y: { label: null, ticks: 5, tickSize: 0, domain: yDomain },
+    color:
+      s.colourBy === "label"
+        ? labelColours(t)
+        : { type: "linear" as const, domain: [0, 1], range: [t.grid, t.series[0]] },
+    marks: [
+      Plot.gridX({ stroke: t.grid, strokeOpacity: 1, ticks: 6 }),
+      Plot.gridY({ stroke: t.grid, strokeOpacity: 1, ticks: 5 }),
+      ...(s.projection === "umap"
+        ? [
+            Plot.rect([BRUSH], {
+              x1: "x1",
+              x2: "x2",
+              y1: "y1",
+              y2: "y2",
+              fill: t.ink,
+              fillOpacity: 0.04,
+              stroke: t.ink,
+              strokeOpacity: 0.5,
+            }),
+          ]
+        : []),
+      Plot.dot(placed, {
         x: "x",
         y: "y",
-        title: (d: { label: string; score: number; id: number }) =>
-          `item ${d.id}\n${d.label}\nscore ${d.score.toFixed(3)}`,
-        ...tipStyle(t),
-      })
-    ),
-  ],
-})
+        r: 2.2,
+        fill: s.colourBy === "label" ? "label" : "at",
+        fillOpacity: (d: Point) => (inBrush(d) ? 0.9 : 0.5),
+      }),
+      ...(s.boundary
+        ? [
+            Plot.line(boundary, {
+              x: "x",
+              y: "y",
+              stroke: t.ink,
+              strokeWidth: 1.5,
+              strokeDasharray: "5,4",
+              clip: true,
+            }),
+          ]
+        : []),
+      Plot.dot([pin], {
+        x: "x",
+        y: "y",
+        r: 7,
+        fill: t.series[0],
+        stroke: t.surface,
+        strokeWidth: 2.5,
+      }),
+      Plot.dot([pin], { x: "x", y: "y", r: 11, stroke: t.ink, strokeWidth: 1.25 }),
+      ...(s.projection === "umap"
+        ? [
+            Plot.text([BRUSH], {
+              x: "x2",
+              y: "y2",
+              text: () => `${selection.length} selected`,
+              textAnchor: "end",
+              dy: -9,
+              fill: t.ink,
+              fontWeight: 600,
+              // A halo in the surface colour keeps the label readable over points.
+              stroke: t.surface,
+              strokeWidth: 4,
+              paintOrder: "stroke",
+            }),
+          ]
+        : []),
+      Plot.tip(
+        placed,
+        Plot.pointer({
+          x: "x",
+          y: "y",
+          title: (d: Point & { at: number }) =>
+            `item ${d.id}\n${d.label}\nscore ${d.at.toFixed(3)}`,
+          ...tipStyle(t),
+        })
+      ),
+    ],
+  }
+}
 
 const prChart = (t: VizTokens) => {
   const lastPoint = (method: string) => {
@@ -133,17 +216,18 @@ const prChart = (t: VizTokens) => {
       Plot.text([{ x: 0.6, y: 1 }], {
         x: "x",
         y: "y",
-        text: () => "review capacity 600",
+        text: () => "recall target 0.6",
         dx: 4,
         textAnchor: "start",
         fill: t.text,
+        fontFamily: t.font,
         fontSize: 11,
       }),
     ],
   }
 }
 
-const histogram = (t: VizTokens) => ({
+const histogram = (t: VizTokens, s: Settings) => ({
   marginLeft: 28,
   marginBottom: 24,
   x: { label: null, domain: [0, 1], ticks: 5, tickSize: 0 },
@@ -152,11 +236,11 @@ const histogram = (t: VizTokens) => ({
   marks: [
     Plot.gridY({ stroke: t.grid, strokeOpacity: 1, ticks: 3 }),
     Plot.rectY(
-      selection,
+      selection.map((p) => ({ label: p.label, at: scoreAt(p, s.temperature) })),
       Plot.binX<Plot.RectYOptions>(
         { y: "count" },
         {
-          x: "score",
+          x: "at",
           fill: "label",
           thresholds: 20,
           // A surface-coloured edge keeps the stacked labels apart.
@@ -174,7 +258,7 @@ const histogram = (t: VizTokens) => ({
 const CONTRIBUTION_ROW = 24
 
 const contributionChart = (t: VizTokens) => ({
-  marginLeft: 150,
+  marginLeft: 156,
   marginRight: 40,
   marginTop: 4,
   marginBottom: 4,
@@ -230,49 +314,83 @@ function Field({ label, value, children }: { label: string; value?: string; chil
   )
 }
 
-function Controls() {
+function Controls({
+  settings,
+  change,
+}: {
+  settings: Settings
+  change: (next: Partial<Settings>) => void
+}) {
   const boundaryId = useId()
   return (
     <div className="space-y-7">
       <Field label="Projection">
         <ToggleGroup
-          defaultValue={["umap"]}
+          value={[settings.projection]}
+          onValueChange={(value: string[]) =>
+            value[0] && change({ projection: value[0] as Settings["projection"] })
+          }
           variant="outline"
           size="sm"
           spacing={0}
           className="w-full"
         >
-          <ToggleGroupItem value="pca" className="flex-1">
-            PCA
-          </ToggleGroupItem>
-          <ToggleGroupItem value="umap" className="flex-1">
-            UMAP
-          </ToggleGroupItem>
-          <ToggleGroupItem value="polar" className="flex-1">
-            Polarity
-          </ToggleGroupItem>
+          {PROJECTIONS.map(([value, name]) => (
+            <ToggleGroupItem key={value} value={value} className="flex-1">
+              {name}
+            </ToggleGroupItem>
+          ))}
         </ToggleGroup>
       </Field>
       <Field label="Colour by">
-        <Button variant="outline" size="sm" className="w-full justify-between bg-card font-normal">
-          Reviewed label <ChevronDown className="text-muted-foreground" />
-        </Button>
+        <Select
+          items={COLOUR_BY}
+          value={settings.colourBy}
+          onValueChange={(value) => value && change({ colourBy: value as Settings["colourBy"] })}
+        >
+          <SelectTrigger size="sm" className="w-full bg-card">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            {COLOUR_BY.map((option) => (
+              <SelectItem key={option.value} value={option.value}>
+                {option.label}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       </Field>
-      <Field label="Temperature" value="0.70">
-        <Slider defaultValue={[0.7]} min={0.1} max={2} step={0.05} />
+      <Field label="Temperature" value={settings.temperature.toFixed(2)}>
+        <Slider
+          value={[settings.temperature]}
+          onValueChange={(value) => change({ temperature: (value as number[])[0] })}
+          min={0.1}
+          max={2}
+          step={0.05}
+        />
       </Field>
-      <Field label="Neighbours" value="k = 12">
-        <Slider defaultValue={[12]} min={1} max={50} step={1} />
+      <Field label="Neighbours" value={`k = ${settings.k}`}>
+        <Slider
+          value={[settings.k]}
+          onValueChange={(value) => change({ k: (value as number[])[0] })}
+          min={1}
+          max={neighbors.length}
+          step={1}
+        />
       </Field>
       <div className="flex items-center justify-between text-[13px] font-medium">
         <span id={boundaryId}>Decision boundary</span>
-        <Switch aria-labelledby={boundaryId} defaultChecked />
+        <Switch
+          aria-labelledby={boundaryId}
+          checked={settings.boundary}
+          onCheckedChange={(boundary) => change({ boundary })}
+        />
       </div>
       <div className="well space-y-2 p-3.5">
         <Eyebrow>Probe</Eyebrow>
         <div className="font-mono text-[13px]">p = σ((w·x + b) / T)</div>
         <p className="text-[13px] leading-relaxed text-muted-foreground">
-          Linear probe fitted in the browser on 1,920 reviewed items. Hold-out AUC{" "}
+          Linear probe fitted in the browser on 1,920 reviewed items. Hold‑out AUC{" "}
           <span className="num text-foreground">0.913</span>.
         </p>
       </div>
@@ -281,7 +399,7 @@ function Controls() {
 }
 
 /** In the side column it stacks; `wide` sets the same parts in two columns. */
-function Inspector({ wide = false }: { wide?: boolean }) {
+function Inspector({ settings, wide = false }: { settings: Settings; wide?: boolean }) {
   const buildContrib = useCallback(contributionChart, [])
   const summary = (
     <div className="space-y-3">
@@ -296,8 +414,12 @@ function Inspector({ wide = false }: { wide?: boolean }) {
       </div>
       <div className="flex items-end gap-6">
         <div>
-          <div className="figure text-[34px]">{selected.score.toFixed(3)}</div>
-          <div className="mt-1 text-xs text-muted-foreground">probe score at T = 0.70</div>
+          <div className="figure text-[34px]">
+            {scoreAt(selected, settings.temperature).toFixed(3)}
+          </div>
+          <div className="num mt-1 text-xs text-muted-foreground">
+            probe score at T = {settings.temperature.toFixed(2)}
+          </div>
         </div>
         <div>
           <div className="flex items-center gap-1.5 pb-1 text-sm font-medium">
@@ -315,9 +437,12 @@ function Inspector({ wide = false }: { wide?: boolean }) {
         <PlotFigure build={buildContrib} height={contributions.length * CONTRIBUTION_ROW + 8} />
       </div>
       <div className="space-y-2">
-        <SectionHeader title="Closest by cosine" />
+        <SectionHeader
+          title="Closest by cosine"
+          meta={<span className="label-mono num">k = {settings.k}</span>}
+        />
         <ul className="divide-y text-[13px]">
-          {neighbors.map((n) => (
+          {neighbors.slice(0, settings.k).map((n) => (
             <li key={n.name} className="flex items-center gap-2.5 py-2">
               <Swatch colour={labelSwatch(n.label)} />
               <span className="flex-1 truncate">{n.name}</span>
@@ -359,10 +484,22 @@ export function LabScreen({
   icon?: ReactNode
 }) {
   const [view, setView] = useState<View>("space")
-  const buildScatter = useCallback(scatter, [])
+  const [settings, setSettings] = useState<Settings>({
+    projection: "umap",
+    colourBy: "label",
+    temperature: SAMPLE_T,
+    k: 5,
+    boundary: true,
+  })
+  const change = (next: Partial<Settings>) => setSettings((now) => ({ ...now, ...next }))
+  const buildScatter = useCallback((t: VizTokens) => scatter(t, settings), [settings])
   const buildPr = useCallback(prChart, [])
-  const buildHist = useCallback(histogram, [])
+  const buildHist = useCallback((t: VizTokens) => histogram(t, settings), [settings])
   const travelShare = selection.filter((p) => p.label === "Travel").length / selection.length
+  const projectionName =
+    settings.projection === "polar"
+      ? "along the probe"
+      : PROJECTIONS.find(([value]) => value === settings.projection)?.[1]
 
   return (
     <div className="flex min-h-svh flex-col lg:h-svh">
@@ -386,8 +523,8 @@ export function LabScreen({
               items={["travel-channels", "2,400", "768-d"]}
               className="label-mono mr-1 hidden rounded-full border px-2.5 py-1 text-[11px] text-ink-2 md:inline"
             />
-            <Button variant="ghost" size="icon-sm" aria-label="Import dataset">
-              <Upload />
+            <Button variant="ghost" size="sm">
+              <Upload /> Import
             </Button>
             <Button variant="outline" size="sm">
               <Download /> Export
@@ -399,7 +536,7 @@ export function LabScreen({
       <div className="grid flex-1 grid-cols-1 lg:min-h-0 lg:grid-cols-[264px_1fr] xl:grid-cols-[264px_1fr_320px] 2xl:grid-cols-[264px_1fr_340px]">
         <aside className="hidden min-h-0 space-y-7 overflow-auto border-r bg-sunken/50 p-5 lg:block">
           <Eyebrow>Controls</Eyebrow>
-          <Controls />
+          <Controls settings={settings} change={change} />
         </aside>
 
         <main className="flex flex-col gap-4 p-4 md:p-5 lg:min-h-0 lg:overflow-auto">
@@ -410,7 +547,7 @@ export function LabScreen({
               <ChevronDown className="ml-auto size-4 text-muted-foreground transition-transform group-open:rotate-180" />
             </summary>
             <div className="border-t p-5">
-              <Controls />
+              <Controls settings={settings} change={change} />
             </div>
           </details>
 
@@ -434,19 +571,29 @@ export function LabScreen({
               {/* Only wide windows fit the scatter to the screen; narrower ones scroll. */}
               <section className="panel flex flex-col gap-3 p-5 xl:min-h-[28rem] xl:flex-1">
                 <SectionHeader
-                  title="Channel embeddings, UMAP"
+                  title={`Channel embeddings, ${projectionName}`}
                   meta={
-                    <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
-                      {LABELS.map((l) => (
-                        <span key={l} className="flex items-center gap-1.5">
-                          <Swatch colour={labelSwatch(l)} />
-                          {l}
-                        </span>
-                      ))}
-                      <span className="hidden items-center gap-1.5 md:flex">
-                        <Crosshair className="size-3.5" /> shift-drag to select
+                    settings.colourBy === "label" ? (
+                      <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
+                        {LABELS.map((l) => (
+                          <span key={l} className="flex items-center gap-1.5">
+                            <Swatch colour={labelSwatch(l)} />
+                            {l}
+                          </span>
+                        ))}
+                      </div>
+                    ) : (
+                      <span className="flex items-center gap-2">
+                        probe score <span className="num">0</span>
+                        <span
+                          className="h-2 w-20 rounded-full"
+                          style={{
+                            background: "linear-gradient(90deg, var(--viz-grid), var(--series-1))",
+                          }}
+                        />
+                        <span className="num">1</span>
                       </span>
-                    </div>
+                    )
                   }
                 />
                 <PlotFigure build={buildScatter} height={360} fill />
@@ -474,14 +621,14 @@ export function LabScreen({
               </div>
 
               <section className="panel p-5 xl:hidden">
-                <Inspector wide />
+                <Inspector settings={settings} wide />
               </section>
             </>
           )}
         </main>
 
         <aside className="hidden min-h-0 overflow-auto border-l bg-card p-5 xl:block">
-          <Inspector />
+          <Inspector settings={settings} />
         </aside>
       </div>
     </div>

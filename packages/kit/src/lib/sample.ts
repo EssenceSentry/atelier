@@ -58,8 +58,16 @@ export const cells: { index: number; name: string; state: CellState; seconds: nu
 export const logLines: { t: string; level: "info" | "warn" | "error"; msg: string }[] = [
   { t: "14:59:52", level: "info", msg: "shard 27/36 written · 3.1 MiB" },
   { t: "14:59:31", level: "info", msg: "s3://lab-embeddings/travel/v4/shard-026 uploaded" },
-  { t: "14:44:20", level: "warn", msg: "throughput dipped to 268 rows/s for 4 min (GPU thermal)" },
-  { t: "14:34:06", level: "error", msg: "job embed-travel-1785866245 AlgorithmError: exit code 1" },
+  {
+    t: "14:44:20",
+    level: "warn",
+    msg: "throughput dipped to 268 rows/s for 4 min (GPU thermal)",
+  },
+  {
+    t: "14:34:06",
+    level: "error",
+    msg: "job embed-travel-1785866245 AlgorithmError: exit code 1",
+  },
   {
     t: "14:34:06",
     level: "info",
@@ -199,6 +207,9 @@ export const neighbors = [
   { name: "Ridge & Valley", sim: 0.861, label: "Travel" },
   { name: "Gear Bench", sim: 0.802, label: "Not travel" },
   { name: "Night Markets", sim: 0.794, label: "Travel" },
+  { name: "City Sketchbook", sim: 0.781, label: "Not travel" },
+  { name: "Budget Backpacker", sim: 0.766, label: "Travel" },
+  { name: "Kitchen Atlas", sim: 0.744, label: "Not travel" },
 ]
 
 // Report: weekly warehouse spend in dollars.
