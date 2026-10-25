@@ -4,7 +4,9 @@
 // - content spilling out of a panel;
 // - the page scrolling sideways;
 // - chart labels overlapping each other or running past their panel;
-// - on touch screens, controls shorter than 40px to tap.
+// - on touch screens, controls shorter than 40px to tap;
+// - running text set at `measure` longer than 75 characters a line;
+// - a status note, such as a toast or "Not built yet", outside the screen.
 // Used by scripts/check.mjs and by atelier's gallery capture.
 
 /** Returns a list of problems in the page as rendered now. */
@@ -76,6 +78,22 @@ export async function layoutProblems(page) {
           problems.push(`"${text.slice(0, 40)}" is ${Math.round(box.height + grow)}px tall to tap`)
         }
       }
+    }
+    // Line length: the average letter of each `measure` block's own font.
+    const ruler = document.createElement("canvas").getContext("2d")
+    const letters = "the quick brown fox jumps over the lazy dog "
+    for (const block of document.querySelectorAll(".measure")) {
+      if (!visible(block) || !ruler) continue
+      const style = getComputedStyle(block)
+      ruler.font = `${style.fontWeight} ${style.fontSize} ${style.fontFamily}`
+      const perLine = block.clientWidth / (ruler.measureText(letters).width / letters.length)
+      if (perLine > 75) problems.push(`text runs ${Math.round(perLine)} characters a line`)
+    }
+
+    for (const note of document.querySelectorAll("[role=status]")) {
+      const box = note.getBoundingClientRect()
+      if (visible(note) && (box.left < 0 || box.right > window.innerWidth))
+        problems.push(`status note "${note.textContent?.trim().slice(0, 30)}" runs off the screen`)
     }
     return problems
   })
