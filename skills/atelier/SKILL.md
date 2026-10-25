@@ -59,13 +59,19 @@ Do these before showing the app to anyone:
   `meta`, shaped like its marks, even when a neighbouring chart uses the
   same colours. Report figures use `SectionHeader level="h2"`.
 - Every button does something. One that is not built yet is a
-  `NotBuiltButton`, which says so; a commit check fails on a bare one. A
+  `NotBuiltButton`, which says "Not built yet"; a commit check fails on a
+  bare one. A label names its object when the action covers less than the
+  screen shows ("Export 640 selected"). A
   disabled action says what it is waiting for ("Choose an answer").
-- Running text is set at `measure` (66ch), never a pixel width. Text sizes
+- Running text is set at `measure` (32em, about 65–70 characters), never a
+  pixel width; the layout check fails text over 75 characters a line. Text sizes
   stay on the type scale (a commit check enforces it).
 - Eyebrows classify (a resource kind, "Figure 1"); they never restate the
   heading under them. Meta lists wrap whole items (`wrap`) rather than
-  truncate, and a filtered list shows "shown/total".
+  truncate, and a filtered list shows "shown/total". A filter never hides
+  the item being acted on, and "next" steps through what the filter shows.
+- Charts side by side go in a `ChartRow` of `ChartPanel`s, so their plots
+  line up whatever each header holds.
 - Colours come from theme tokens only (`bg-card`, `text-ink-2`,
   `bg-primary-soft`, `text-good`, `var(--series-1)`). A commit hook rejects hex
   values and palette classes such as `blue-500`.

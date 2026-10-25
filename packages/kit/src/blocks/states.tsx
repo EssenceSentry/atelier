@@ -12,6 +12,7 @@ import {
 import { type ComponentProps, type ReactNode, useEffect, useRef, useState } from "react"
 
 import { Button } from "@/components/ui/button"
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
 import type { LiveStatus } from "@/lib/live"
 import { cn } from "@/lib/utils"
 
@@ -221,7 +222,7 @@ export function CopyButton({
         {state === "copied" ? "Copied" : label}
       </Button>
       {state === "failed" && (
-        <div className="absolute top-full right-0 z-30 mt-2 w-72 space-y-2 rounded-lg border bg-popover p-3 text-popover-foreground shadow-md">
+        <div className="fixed inset-x-4 top-16 z-30 space-y-2 rounded-lg border bg-popover p-3 text-popover-foreground shadow-md sm:absolute sm:inset-x-auto sm:top-full sm:right-0 sm:mt-2 sm:w-72">
           <div className="flex items-center justify-between gap-2 text-[13px] font-medium">
             <span className="flex items-center gap-1.5">
               <CircleAlert className="size-4 text-warning" /> Copying is blocked here
@@ -294,7 +295,7 @@ export function ActionButton({
 }
 
 /**
- * An action the app has not built yet. A click says so in place instead of
+ * An action the app has not built yet. A click says "Not built yet" instead of
  * doing nothing; swap it for the real action when it exists. The
  * check-inert-buttons script fails on a plain Button with no action.
  */
@@ -308,19 +309,16 @@ export function NotBuiltButton({
     const timer = setTimeout(() => setSaid(false), 2500)
     return () => clearTimeout(timer)
   }, [said])
+  // The tooltip's positioner keeps the note on screen whichever edge the
+  // button sits at.
   return (
-    <span className="relative inline-flex">
-      <Button {...props} onClick={() => setSaid(true)}>
+    <Tooltip open={said} onOpenChange={(open) => !open && setSaid(false)}>
+      <TooltipTrigger render={<Button {...props} onClick={() => setSaid(true)} />}>
         {children}
-      </Button>
-      {said && (
-        <span
-          role="status"
-          className="absolute top-full right-0 z-30 mt-2 rounded-md border bg-popover px-2.5 py-1.5 text-xs whitespace-nowrap text-popover-foreground shadow-md"
-        >
-          Not built in this example
-        </span>
-      )}
-    </span>
+      </TooltipTrigger>
+      <TooltipContent side="bottom" role="status">
+        Not built yet
+      </TooltipContent>
+    </Tooltip>
   )
 }

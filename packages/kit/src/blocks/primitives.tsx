@@ -21,10 +21,27 @@ export function Meta({
   wrap?: boolean
   className?: string
 }) {
+  if (wrap)
+    // Each separator hangs in the gap before its item; the one starting a new
+    // line falls in the clipped margin, so no line begins with "·".
+    return (
+      <span className={cn("block overflow-hidden", className)}>
+        <span className="-ml-[1em] flex flex-wrap">
+          {items.map((item) => (
+            <span
+              key={item}
+              className="relative ml-[1em] whitespace-nowrap before:absolute before:-left-[0.7em] before:text-faint before:content-['·']"
+            >
+              {item}
+            </span>
+          ))}
+        </span>
+      </span>
+    )
   return (
-    <span className={cn(wrap && "inline-flex flex-wrap", className)}>
+    <span className={className}>
       {items.map((item, position) => (
-        <span key={item} className={cn(wrap && "whitespace-nowrap")}>
+        <span key={item}>
           {position > 0 && (
             <span aria-hidden className="px-[0.4em] text-faint">
               ·

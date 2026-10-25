@@ -94,10 +94,11 @@
   }
 }
 
-/* Running text: a comfortable line length in the face's own units, because
-   the directions' fonts differ in width and pixel widths would not. */
+/* Running text: a comfortable 65-70 characters a line in every direction.
+   Measured in em, which tracks average letters; ch is the width of "0",
+   which is much wider than a letter in some faces. */
 @utility measure {
-  max-width: 66ch;
+  max-width: 32em;
 }
 
 @layer components {
