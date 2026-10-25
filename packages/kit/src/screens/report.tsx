@@ -4,7 +4,7 @@ import { Download } from "lucide-react"
 import type { ReactNode } from "react"
 import { useCallback } from "react"
 import { AppBar } from "@/blocks/app-bar"
-import { PlotFigure, tipStyle } from "@/blocks/plot-figure"
+import { PlotFigure, tipStyle, whenWide } from "@/blocks/plot-figure"
 import { Delta, Eyebrow, Meta } from "@/blocks/primitives"
 import { CopyButton } from "@/blocks/states"
 import { Button } from "@/components/ui/button"
@@ -98,17 +98,20 @@ const spendChart = (t: VizTokens, width: number) => {
       Plot.ruleY([0], { stroke: t.axis }),
       // The resize, drawn between the last week at L and the first at M.
       Plot.ruleX([RESIZED], { dx: -step / 2, stroke: t.axis, strokeDasharray: "3,3" }),
-      Plot.text([RESIZED], {
-        x: (d: string) => d,
-        frameAnchor: "top",
-        dx: -step / 2 + 6,
-        dy: -18,
-        textAnchor: "start",
-        text: () => "Ingest L → M",
-        fill: t.text,
-        fontFamily: t.font,
-        fontSize: 11,
-      }),
+      // The rule stays at every width; its label needs room beside it.
+      ...whenWide(width, [
+        Plot.text([RESIZED], {
+          x: (d: string) => d,
+          frameAnchor: "top",
+          dx: -step / 2 + 6,
+          dy: -18,
+          textAnchor: "start",
+          text: () => "Ingest L → M",
+          fill: t.text,
+          fontFamily: t.font,
+          fontSize: 11,
+        }),
+      ]),
       Plot.text(
         totals.filter((d) => labelled.has(d.week)),
         {
@@ -160,7 +163,7 @@ export function ReportScreen({
           <p className="text-lg leading-relaxed text-pretty text-ink-2 md:text-xl">
             Weekly spend averaged {money(spendAfter)} after the resize, against {money(spendBefore)}{" "}
             before. Most of the drop came from one change, and ad hoc work is now the
-            fastest-growing line.
+            fastest‑growing line.
           </p>
           <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-muted-foreground">
             <span className="text-foreground">Data science</span>
@@ -261,7 +264,10 @@ export function ReportScreen({
                 <TableHead>Query</TableHead>
                 <TableHead className="hidden sm:table-cell">Warehouse</TableHead>
                 <TableHead className="hidden text-right sm:table-cell">Runs</TableHead>
-                <TableHead className="text-right sm:w-[30%] sm:text-left">Credits</TableHead>
+                <TableHead className="sm:w-[30%]">
+                  {/* As wide as the numbers below, so the label sits over their edge. */}
+                  <span className="inline-block w-12 text-right">Credits</span>
+                </TableHead>
                 <TableHead className="text-right">vs before</TableHead>
               </TableRow>
             </TableHeader>
@@ -270,6 +276,16 @@ export function ReportScreen({
                 <TableRow key={q.name}>
                   <TableCell className="font-mono text-[12px] max-sm:text-[11px]">
                     {q.name}
+                    {/* Phones fold the warehouse and runs columns into this line. */}
+                    <span className="mt-1 flex items-center gap-1.5 font-sans text-[11px] text-muted-foreground sm:hidden">
+                      <span
+                        className="size-2 rounded-[2px]"
+                        style={{
+                          background: `var(--series-${warehouses.indexOf(q.warehouse as (typeof warehouses)[number]) + 1})`,
+                        }}
+                      />
+                      {q.warehouse}, {q.runs.toLocaleString()} runs
+                    </span>
                   </TableCell>
                   <TableCell className="hidden sm:table-cell">
                     <span className="flex items-center gap-2">

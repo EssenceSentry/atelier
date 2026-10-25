@@ -14,9 +14,11 @@ import {
 import type { ReactNode } from "react"
 import { useCallback, useState } from "react"
 import { AppBar } from "@/blocks/app-bar"
-import { PlotFigure, tipStyle } from "@/blocks/plot-figure"
+import { LogTail } from "@/blocks/log-tail"
+import { PlotFigure, tipStyle, whenWide } from "@/blocks/plot-figure"
 import {
   Delta,
+  FigureRow,
   Meta,
   Meter,
   SectionHeader,
@@ -107,7 +109,6 @@ function CellStrip({ paused }: { paused: boolean }) {
   )
 }
 
-// Narrow charts drop the notes, which would sit on the lines.
 const throughputChart = (t: VizTokens, width: number) =>
   ({
     marginLeft: 36,
@@ -142,28 +143,29 @@ const throughputChart = (t: VizTokens, width: number) =>
         strokeWidth: 2,
         curve: "monotone-x",
       }),
-      ...(width < 560
-        ? []
-        : [
-            Plot.text([{ x: 43.5, y: 262 }], {
-              x: "x",
-              y: "y",
-              text: () => "GPU thermal dip",
-              fill: t.text,
-              fontFamily: t.font,
-              fontSize: 11,
-              dy: 14,
-            }),
-            Plot.text([{ x: 33, y: 0 }], {
-              x: "x",
-              y: "y",
-              text: () => "job relaunched",
-              fill: t.text,
-              fontFamily: t.font,
-              fontSize: 11,
-              dy: -12,
-            }),
-          ]),
+      ...whenWide(width, [
+        Plot.text([{ x: 43.5, y: 262 }], {
+          x: "x",
+          y: "y",
+          text: () => "GPU thermal dip",
+          fill: t.text,
+          fontFamily: t.font,
+          fontSize: 11,
+          dy: 14,
+        }),
+        // Beside the rising edge, so the line does not cross the words.
+        Plot.text([{ x: 34, y: 0 }], {
+          x: "x",
+          y: "y",
+          text: () => "job relaunched",
+          fill: t.text,
+          fontFamily: t.font,
+          fontSize: 11,
+          textAnchor: "start",
+          dx: 8,
+          dy: -10,
+        }),
+      ]),
       Plot.dot([now], {
         x: "minute",
         y: "value",
@@ -275,6 +277,7 @@ export function MonitorScreen({
         product={product}
         icon={icon}
         crumbs={["travel-embeddings", "run 0412"]}
+        innerClassName="mx-auto max-w-[1360px]"
         right={
           <>
             <LiveIndicator status={status} className="mr-2 hidden md:inline-flex" />
@@ -310,28 +313,36 @@ export function MonitorScreen({
             </div>
             <h1 className="text-[28px] leading-[1.05] md:text-[38px]">Travel channel embeddings</h1>
           </div>
-          <div className="flex flex-wrap items-end gap-x-12 gap-y-5">
-            <div>
-              <div className="figure text-[56px] md:text-[72px]">
-                {settled}
-                <span className="text-muted-foreground">/{TOTAL_CELLS}</span>
-              </div>
-              <div className="mt-2 text-sm text-muted-foreground">cells settled</div>
-            </div>
-            <div>
-              <div className="figure text-[32px] md:text-[40px]">
-                {paused ? "Paused" : `≈ ${REMAINING_MIN} min`}
-              </div>
-              <Meta
-                items={
-                  paused
-                    ? [`${REMAINING_MIN} min left when resumed`]
-                    : ["remaining", "4–9 min", "ends ~15:06"]
-                }
-                className="num mt-2 block text-sm text-muted-foreground"
-              />
-            </div>
-          </div>
+          <FigureRow
+            items={[
+              {
+                id: "settled",
+                value: (
+                  <>
+                    {settled}
+                    <span className="text-muted-foreground">/{TOTAL_CELLS}</span>
+                  </>
+                ),
+                caption: "cells settled",
+                size: "text-[56px] md:text-[72px]",
+              },
+              {
+                id: "remaining",
+                value: paused ? "Paused" : `≈ ${REMAINING_MIN} min`,
+                caption: (
+                  <Meta
+                    items={
+                      paused
+                        ? [`${REMAINING_MIN} min left when resumed`]
+                        : ["remaining", "4–9 min", "ends ~15:06"]
+                    }
+                    className="num"
+                  />
+                ),
+                size: "text-[32px] md:text-[40px]",
+              },
+            ]}
+          />
           {/* Pinned to the bottom, level with the tiles' meters beside it. */}
           <div className="mt-auto">
             <CellStrip paused={paused} />
@@ -510,26 +521,7 @@ export function MonitorScreen({
             }
             className="mb-3"
           />
-          <div className="well flex-1 space-y-2 p-3 font-mono text-[13px] leading-snug">
-            {logLines.map((l) => (
-              <div key={`${l.t} ${l.msg}`} className="grid grid-cols-[64px_14px_1fr] gap-2">
-                <span className="num text-muted-foreground">{l.t}</span>
-                <span
-                  className={cn(
-                    "mt-[6px] size-1.5 rounded-full",
-                    l.level === "error"
-                      ? "bg-critical"
-                      : l.level === "warn"
-                        ? "bg-warning"
-                        : "bg-border-strong"
-                  )}
-                />
-                <span className={cn(l.level === "info" ? "text-ink-2" : "text-foreground")}>
-                  {l.msg}
-                </span>
-              </div>
-            ))}
-          </div>
+          <LogTail lines={logLines} className="flex-1" />
           <div className="mt-3 flex items-center gap-2 text-xs text-muted-foreground">
             <FileText className="size-3.5" />
             <Meta items={["durable journal", "1,284 events"]} />
