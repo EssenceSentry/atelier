@@ -61,13 +61,16 @@ jobs:
         run: |
           npm run build:artifact
           node scripts/check-artifact.mjs
+      # Screenshots help review, but a full artifact quota must not fail the run.
       - name: keep the screenshots
         if: always()
+        continue-on-error: true
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: gallery-screenshots
           path: apps/gallery/captures/
           if-no-files-found: ignore
+          retention-days: 7
 
   generated:
     name: generate ${{ matrix.kind }} (${{ matrix.theme }}) and run its gates
