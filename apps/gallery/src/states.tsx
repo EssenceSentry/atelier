@@ -85,7 +85,7 @@ export function StatesScreen() {
       <AppBar product="Atelier" crumbs={["States"]} innerClassName="mx-auto max-w-[1360px]" />
 
       <main className="mx-auto grid max-w-[1360px] grid-cols-12 gap-4 p-4 md:gap-5 md:p-6">
-        <section className="panel col-span-12 space-y-5 p-5 lg:col-span-7">
+        <section className="panel col-span-12 flex flex-col gap-5 p-5 lg:col-span-7">
           <SectionHeader
             title="Loading"
             meta={<span>skeletons shaped like what they replace</span>}
@@ -99,7 +99,7 @@ export function StatesScreen() {
               </div>
             ))}
           </div>
-          <Skeleton className="h-52 w-full" />
+          <Skeleton className="min-h-52 w-full flex-1" />
         </section>
 
         <div className="col-span-12 flex flex-col gap-4 md:gap-5 lg:col-span-5">

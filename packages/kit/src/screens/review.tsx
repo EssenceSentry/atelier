@@ -42,6 +42,16 @@ const GUIDANCE =
 type Choice = (typeof options)[number]["value"]
 type Channel = (typeof queue)[number]
 type Tab = "pending" | "saved" | "flagged"
+const TABS = [
+  ["pending", "To review"],
+  ["saved", "Saved"],
+  ["flagged", "Flagged"],
+] as const
+const TAB_NOUNS: Record<Tab, string> = {
+  pending: "channels to review",
+  saved: "saved channels",
+  flagged: "flagged channels",
+}
 
 // The topic has 250 channels and loads them in slices; the sample queue is one.
 const TOTAL = 250
@@ -82,6 +92,8 @@ type Action =
   | { type: "tab"; tab: Tab }
   | { type: "next-slice" }
   | { type: "search"; query: string }
+  | { type: "advance" }
+  | { type: "clear-and-next" }
 
 const initialState: State = {
   tab: "pending",
@@ -145,13 +157,17 @@ function reducer(state: State, action: Action): State {
       const next = nextPending(state.selected, state.decisions, state.query)
       return next ? reducer(state, { type: "select", handle: next.handle }) : state
     }
+    case "advance": {
+      const step = nextStep(state)
+      return step.action ? reducer(state, step.action) : state
+    }
+    case "clear-and-next": {
+      const cleared = { ...state, query: "" }
+      const next = nextPending(state.selected, state.decisions)
+      return next ? reducer(cleared, { type: "select", handle: next.handle }) : cleared
+    }
     case "save": {
-      if (!state.choice) return state
-      // Saving the answer already saved moves on, or to the next slice at the end.
-      if (state.decisions[state.selected] === state.choice)
-        return nextPending(state.selected, state.decisions, state.query)
-          ? reducer(state, { type: "skip" })
-          : reducer(state, { type: "next-slice" })
+      if (!state.choice || state.decisions[state.selected] === state.choice) return state
       const decisions = { ...state.decisions, [state.selected]: state.choice }
       const history = [
         ...state.history,
@@ -199,6 +215,26 @@ function reducer(state: State, action: Action): State {
   }
 }
 
+/**
+ * What the main button and Enter do next. Label and effect come from this one
+ * place, so the button never promises one thing and does another: a new slice
+ * loads only when the slice is done, and a search that hides the work says so.
+ */
+function nextStep(state: State): { label: string; action: Action | null } {
+  if (!state.choice) return { label: "Choose an answer", action: null }
+  const channel = ranked.find((c) => c.handle === state.selected)
+  if (state.query.trim() && channel && !matcher(state.query)(channel))
+    return { label: "Clear search", action: { type: "search", query: "" } }
+  const saved = state.decisions[state.selected]
+  if (saved !== state.choice)
+    return { label: saved ? "Update and next" : "Save and next", action: { type: "save" } }
+  if (nextPending(state.selected, state.decisions, state.query))
+    return { label: "Next", action: { type: "skip" } }
+  if (!sliceDone(state))
+    return { label: "Clear search and next", action: { type: "clear-and-next" } }
+  return { label: "Load next slice", action: { type: "next-slice" } }
+}
+
 /** The review keys, bound through the kit's `useKeys`. */
 function useReviewKeys(dispatch: (action: Action) => void) {
   useKeys([
@@ -214,7 +250,7 @@ function useReviewKeys(dispatch: (action: Action) => void) {
         // A radio keeps focus after a mouse pick; drop it so its focus ring
         // is not mistaken for an answer on the next channel.
         if (event.target instanceof HTMLInputElement) event.target.blur()
-        dispatch({ type: "save" })
+        dispatch({ type: "advance" })
       },
     },
     { key: "s", run: () => dispatch({ type: "skip" }) },
@@ -282,18 +318,8 @@ function DecisionActions({
   dispatch: (action: Action) => void
   className?: string
 }) {
-  const saved = state.decisions[state.selected]
-  const finished = sliceDone(state) && saved === state.choice
   // A disabled action says what it is waiting for.
-  const label = !state.choice
-    ? "Choose an answer"
-    : !saved
-      ? "Save and next"
-      : saved !== state.choice
-        ? "Update and next"
-        : finished
-          ? "Load next slice"
-          : "Next"
+  const { label } = nextStep(state)
   return (
     <div className={cn("flex items-center gap-2", className)}>
       <Button
@@ -312,7 +338,7 @@ function DecisionActions({
         size="lg"
         className="ml-auto flex-1"
         disabled={!state.choice}
-        onClick={() => dispatch({ type: "save" })}
+        onClick={() => dispatch({ type: "advance" })}
       >
         {label} <Kbd className="ml-1 pointer-coarse:hidden">⏎</Kbd>
       </Button>
@@ -398,13 +424,7 @@ function Queue({
         </div>
         <Tabs value={state.tab} onValueChange={(tab: Tab) => dispatch({ type: "tab", tab })}>
           <TabsList variant="line" className="w-full gap-0">
-            {(
-              [
-                ["pending", "To review"],
-                ["saved", "Saved"],
-                ["flagged", "Flagged"],
-              ] as const
-            ).map(([tab, name]) => (
+            {TABS.map(([tab, name]) => (
               <TabsTrigger key={tab} value={tab} className="text-[13px]">
                 {name}{" "}
                 <span className="num text-muted-foreground">
@@ -467,16 +487,27 @@ function Queue({
       ) : state.query.trim() ? (
         <EmptyState
           icon={<SearchX />}
-          title={`No channels match “${state.query.trim()}”`}
+          title={`No ${TAB_NOUNS[state.tab]} match “${state.query.trim()}”`}
           className="flex-1"
           action={
-            <Button
-              size="sm"
-              variant="outline"
-              onClick={() => dispatch({ type: "search", query: "" })}
-            >
-              Clear search
-            </Button>
+            <div className="flex flex-wrap justify-center gap-2">
+              {/* An empty filtered list names its scope and points to any scope with matches. */}
+              {TABS.filter(([tab]) => tab !== state.tab).map(([tab, name]) => {
+                const found = visible({ tab, decisions: state.decisions, query: state.query })
+                return found.length ? (
+                  <Button key={tab} size="sm" onClick={() => dispatch({ type: "tab", tab })}>
+                    Show {found.length} {name.toLowerCase()}
+                  </Button>
+                ) : null
+              })}
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={() => dispatch({ type: "search", query: "" })}
+              >
+                Clear search
+              </Button>
+            </div>
           }
         >
           Search looks at names and handles.

@@ -541,7 +541,7 @@ export function LabScreen({
               pendingLabel="Exporting…"
               onAction={async () => exportSelection(settings.temperature)}
             >
-              <Download /> Export {selection.length} selected
+              <Download /> Export<span className="max-sm:hidden"> {selection.length} selected</span>
             </ActionButton>
           </>
         }
@@ -607,10 +607,7 @@ export function LabScreen({
                 <PlotFigure build={buildScatter} height={360} fill />
               </section>
               <ChartRow className="md:grid-cols-[1.25fr_1fr]">
-                <ChartPanel
-                  title="Precision against recall"
-                  note="Methods are labelled at the line ends."
-                >
+                <ChartPanel title="Precision against recall">
                   <PlotFigure build={buildPr} height={176} />
                 </ChartPanel>
                 <ChartPanel

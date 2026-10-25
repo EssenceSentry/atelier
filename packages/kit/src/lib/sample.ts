@@ -74,6 +74,9 @@ export const logLines: { t: string; level: "info" | "warn" | "error"; msg: strin
     msg: "cell 22 retrying the embedding in smaller shards (attempt 2)",
   },
   { t: "14:31:40", level: "info", msg: "checkpoint saved · kernel state 2.4 GiB" },
+  { t: "14:26:48", level: "info", msg: "cell 21 launched job embed-travel-1785866245" },
+  { t: "14:16:37", level: "info", msg: "cell 20 downloaded thumbnails in 10m 11s" },
+  { t: "14:14:59", level: "info", msg: "cell 19 resolved thumbnail URLs" },
 ]
 
 // Review: queue of channels and the selected channel's evidence.
