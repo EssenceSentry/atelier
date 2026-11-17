@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="360" viewBox="0 0 1200 360" role="img" aria-labelledby="title desc">
+<title id="title">atelier</title>
+<desc id="desc">Start with a useful screen. Build your own instrument. Decorative illustration of the project’s workflow.</desc>
+<defs>
+  <linearGradient id="background" x2="1" y2="1"><stop stop-color="#111C27"/><stop offset="1" stop-color="#172A34"/></linearGradient>
+  <pattern id="grid" width="28" height="28" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r=".7" fill="#728995" opacity=".18"/></pattern>
+</defs>
+<rect width="1200" height="360" rx="16" fill="url(#background)"/>
+<rect x="768" y="25" width="406" height="310" fill="url(#grid)"/>
+<path d="M748 48V312" stroke="#354550" stroke-width="1"/>
+<g font-family="Arial, Helvetica, sans-serif">
+<rect x="54" y="64" width="20" height="3" rx="1" fill="#C3B2F3" stroke="none"/>
+<text x="86" y="70" font-size="11" fill="#BDCACD" letter-spacing="1.8">INTERFACE KIT / PROJECT GENERATOR</text>
+<text x="52" y="160" font-size="64" fill="#EEF2ED" font-weight="700" letter-spacing="-2">atelier</text>
+<text x="55" y="211" font-size="25" fill="#CFD9DC" >Start with a useful screen.</text>
+<text x="55" y="245" font-size="25" fill="#CFD9DC" >Build your own instrument.</text>
+<text x="56" y="309" font-size="10" fill="#9DB1BA" letter-spacing="1.3">REVIEW   /   MONITOR   /   LAB   /   REPORT</text>
+<rect x="806" y="89" width="94" height="176" rx="6" fill="none" stroke="#304352"/><rect x="816" y="101" width="24" height="4" rx="2" fill="#C3B2F3" stroke="none"/><path d="M816 118L890 118" fill="none" stroke="#304352" stroke-width="1" /><rect x="816" y="130" width="74" height="47" rx="4" fill="#243B43" stroke="none"/><rect x="816" y="188" width="33" height="58" rx="4" fill="#243B43" stroke="none"/><rect x="857" y="188" width="33" height="58" rx="4" fill="#243B43" stroke="none"/><rect x="917" y="89" width="94" height="176" rx="6" fill="none" stroke="#304352"/><rect x="927" y="101" width="24" height="4" rx="2" fill="#C3B2F3" stroke="none"/><path d="M927 118L1001 118" fill="none" stroke="#304352" stroke-width="1" /><rect x="927" y="131" width="62" height="4" rx="2" fill="#647888" stroke="none"/><rect x="927" y="143" width="71" height="4" rx="2" fill="#647888" stroke="none"/><rect x="927" y="164" width="48" height="4" rx="2" fill="#C3B2F3" stroke="none"/><rect x="927" y="183" width="74" height="4" rx="2" fill="#647888" stroke="none"/><rect x="927" y="196" width="66" height="4" rx="2" fill="#647888" stroke="none"/><rect x="927" y="219" width="55" height="4" rx="2" fill="#647888" stroke="none"/><rect x="927" y="232" width="70" height="4" rx="2" fill="#647888" stroke="none"/><rect x="1028" y="89" width="94" height="176" rx="6" fill="none" stroke="#304352"/><rect x="1038" y="101" width="24" height="4" rx="2" fill="#C3B2F3" stroke="none"/><path d="M1038 118L1112 118" fill="none" stroke="#304352" stroke-width="1" /><rect x="1038" y="134" width="13" height="13" rx="2" fill="#304352" stroke="none"/><path d="M1060 140L1108 140" fill="none" stroke="#647888" stroke-width="3" /><rect x="1038" y="167" width="13" height="13" rx="2" fill="#C3B2F3" stroke="none"/><path d="M1060 173L1108 173" fill="none" stroke="#647888" stroke-width="3" /><rect x="1038" y="200" width="13" height="13" rx="2" fill="#304352" stroke="none"/><path d="M1060 206L1108 206" fill="none" stroke="#647888" stroke-width="3" /><rect x="1038" y="233" width="13" height="13" rx="2" fill="#304352" stroke="none"/><path d="M1060 239L1108 239" fill="none" stroke="#647888" stroke-width="3" /><text x="806" y="289" font-size="13" fill="#647888" >INSTRUMENT</text><text x="917" y="289" font-size="13" fill="#647888" >EDITORIAL</text><text x="1028" y="289" font-size="13" fill="#647888" >CONSOLE</text>
+</g>
+</svg>

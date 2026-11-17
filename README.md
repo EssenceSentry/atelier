@@ -1,18 +1,22 @@
+![atelier — Start with a useful screen. Build your own instrument.](.github/assets/banner.svg)
+
 # atelier
 
 [![Quality](https://github.com/EssenceSentry/atelier/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/EssenceSentry/atelier/actions/workflows/ci.yml)
 [![Node.js](https://img.shields.io/badge/Node.js-24-2563eb?logo=nodedotjs&logoColor=white)](package.json)
 [![Gallery](https://img.shields.io/badge/Gallery-open-2563eb)](https://essencesentry.github.io/atelier/)
 
-Build a review station, monitor, lab, or report from a working screen. A new project starts with a layout for the task, example data you can replace, and checks that catch broken charts or panels that overflow on phones.
+**Go from an idea to a working review station, monitor, lab, or report.** Atelier gives a new tool its first useful screen, a coherent visual system, and checks for the details that tend to break as an interface grows.
 
-![Atelier’s review-station template with synthetic data in the light Instrument theme.](docs/media/review-station.webp)
+**[Explore the gallery →](https://essencesentry.github.io/atelier/)** · [Compare starter and finished apps](https://essencesentry.github.io/atelier/?s=examples) · [Generate a project](#start-a-project)
 
-**[Compare the starter with a finished application →](https://essencesentry.github.io/atelier/?s=examples)** Explore the review station beside Aside’s transcript editor, or open the lab template and trace a posterior draw in Probability Lab. [Browse all live screens](https://essencesentry.github.io/atelier/?s=review).
+- **Begin with the task.** Choose a review station, monitor, lab, or report, then replace the example data with your own.
+- **Change the visual direction coherently.** Instrument, Editorial, and Console each carry their tokens through screens, components, and charts.
+- **Keep the kit useful after day one.** Generated projects include local hooks, GitHub Actions, responsive checks, and an update path through Copier.
 
-**Explore the gallery.** From a fresh checkout, run `npm ci` and `npm run gallery`, then open the address Vite prints. Choose **Review**, switch between the Instrument, Editorial, and Console directions, and narrow the browser to see how the same screen adapts. [Gallery guide](apps/gallery/README.md)
+![Atelier’s review station with synthetic data in the Instrument direction.](docs/media/review-station.webp)
 
-**Build your own.** Use the Copier command below to choose a screen, theme and output format. Generated projects can pull later kit improvements with `copier update`.
+Aside’s transcript editor and Probability Lab show how the same kit becomes two different applications. [Browse the examples](https://essencesentry.github.io/atelier/?s=examples), or run `npm ci` and `npm run gallery` to explore locally.
 
 ## Start a project
 
