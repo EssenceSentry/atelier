@@ -6,6 +6,7 @@ import { LabScreen } from "@/screens/lab"
 import { MonitorScreen } from "@/screens/monitor"
 import { ReportScreen } from "@/screens/report"
 import { ReviewScreen } from "@/screens/review"
+import { Showcase } from "./showcase"
 import { StatesScreen } from "./states"
 import {
   BoardContext,
@@ -22,6 +23,7 @@ const screens = {
   lab: LabScreen,
   report: ReportScreen,
   states: StatesScreen,
+  examples: Showcase,
 }
 
 // Only a build with every direction can switch between them.

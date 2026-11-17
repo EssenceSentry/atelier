@@ -3,7 +3,7 @@ import { createContext, useContext } from "react"
 export const DIRECTIONS = ["instrument", "editorial", "console"] as const
 // "system" leaves data-theme unset so the page follows the viewer's setting.
 export const MODES = ["system", "light", "dark"] as const
-export const SCREENS = ["monitor", "review", "lab", "report", "states"] as const
+export const SCREENS = ["monitor", "review", "lab", "report", "states", "examples"] as const
 
 export type Direction = (typeof DIRECTIONS)[number]
 export type Mode = (typeof MODES)[number]

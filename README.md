@@ -6,6 +6,8 @@ Build a review station, monitor, lab, or report from a working screen. A new pro
 
 ![Atelier’s review-station template with synthetic data in the light Instrument theme.](docs/media/review-station.webp)
 
+**[Compare the starter with a finished application →](https://essencesentry.github.io/atelier/?s=examples)** Open the lab template, then inspect the same design in Probability Lab. [Browse all live screens](https://essencesentry.github.io/atelier/?s=review).
+
 **Explore the gallery.** From a fresh checkout, run `npm ci` and `npm run gallery`, then open the address Vite prints. Choose **Review**, switch between the Instrument, Editorial, and Console directions, and narrow the browser to see how the same screen adapts. [Gallery guide](apps/gallery/README.md)
 
 **Build your own.** Use the Copier command below to choose a screen, theme and output format. Generated projects can pull later kit improvements with `copier update`.
