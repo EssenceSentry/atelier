@@ -2,10 +2,13 @@
 
 [![ci](https://github.com/EssenceSentry/atelier/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/EssenceSentry/atelier/actions/workflows/ci.yml)
 
-An opinionated starter kit for the tools I build with agents: live job
-monitors, human review stations, explorable labs and analytical reports. An
-agent starts from finished, consistent pieces instead of building a plain
-version from scratch.
+Build a review station, monitor, lab, or report from a working screen. A new project starts with a layout for the task, example data you can replace, and checks that catch broken charts or panels that overflow on phones.
+
+![Atelier’s review-station template with synthetic data in the light Instrument theme.](docs/media/review-station.webp)
+
+**Explore the gallery.** From a fresh checkout, run `npm ci` and `npm run gallery`, then open the address Vite prints. Choose **Review**, switch between the Instrument, Editorial, and Console directions, and narrow the browser to see how the same screen adapts. [Gallery guide](apps/gallery/README.md)
+
+**Build your own.** Use the Copier command below to choose a screen, theme and output format. Generated projects can pull later kit improvements with `copier update`.
 
 ## Start a project
 
