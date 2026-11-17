@@ -66,9 +66,16 @@ for (const [key, { want, bg }] of Object.entries(seen))
 const page = await open({ width: 1440, height: 900 }, "dark")
 for (const d of ["instrument", "editorial", "console"]) {
   await click(page, d)
-  for (const s of ["monitor", "review", "lab", "report", "states"]) {
+  for (const s of ["monitor", "review", "lab", "report", "states", "examples"]) {
     await click(page, s)
     await page.waitForTimeout(150)
+    if (s === "examples") {
+      const loaded = await page.locator("article img").evaluateAll(async (images) => {
+        await Promise.all(images.map((image) => image.decode()))
+        return images.length === 4 && images.every((image) => image.naturalWidth > 0)
+      })
+      if (!loaded) problems.push(`${d}: missing showcase screenshots`)
+    }
     const states = await page.$$eval("figure.plot-figure", (els) =>
       // Charts in panels hidden at this width never get a size; skip them.
       els.filter((e) => e.getClientRects().length > 0).map((e) => e.dataset.state)
@@ -82,7 +89,7 @@ await page.close()
 
 // Phone width: the body must never scroll sideways.
 const phone = await open({ width: 390, height: 844 }, "light")
-for (const s of ["monitor", "review", "lab", "report", "states"]) {
+for (const s of ["monitor", "review", "lab", "report", "states", "examples"]) {
   await click(phone, s)
   await phone.waitForTimeout(150)
   const { scroll, client } = await phone.evaluate(() => ({
@@ -91,6 +98,7 @@ for (const s of ["monitor", "review", "lab", "report", "states"]) {
   }))
   if (scroll > client) problems.push(`phone ${s}: page scrolls sideways (${scroll} > ${client})`)
 }
+await click(phone, "report")
 await phone.screenshot({ path: `${out}/report-phone.png`, fullPage: true })
 await phone.close()
 await browser.close()

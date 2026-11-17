@@ -2,8 +2,8 @@
 
 Renders the kit's four screens (monitor, review, lab, report) in every
 direction and mode, plus a states page with the loading, empty, error and
-status blocks. The screens, blocks and components live in
-`packages/kit`; this app adds only the switcher. It is the visual check for
+status blocks. Its examples page pairs the starters with Aside and Probability Lab.
+The screens, blocks and components live in `packages/kit`. It is the visual check for
 the theme and the kit, and so for what generated projects start from.
 
 ```bash
