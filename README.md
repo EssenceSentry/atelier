@@ -65,8 +65,8 @@ Pull later improvements into a project with `uvx copier update --trust`.
 - **Docs**: a README with badges, `AGENTS.md` (and `CLAUDE.md` pointing to
   it) and `DEVELOPMENT.md`.
 
-Live state for monitors comes from a [lathe](https://github.com/EssenceSentry/lathe)
-service project through `useLiveState`.
+Connect a monitor to your own service with [`useLiveState`](packages/kit/src/lib/live.ts).
+It reads server-sent events, starting with the service's current state when the connection opens.
 
 ## Layout
 
