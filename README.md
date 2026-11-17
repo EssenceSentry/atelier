@@ -1,6 +1,8 @@
 # atelier
 
-[![ci](https://github.com/EssenceSentry/atelier/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/EssenceSentry/atelier/actions/workflows/ci.yml)
+[![Quality](https://github.com/EssenceSentry/atelier/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/EssenceSentry/atelier/actions/workflows/ci.yml)
+[![Node.js](https://img.shields.io/badge/Node.js-24-2563eb?logo=nodedotjs&logoColor=white)](package.json)
+[![Gallery](https://img.shields.io/badge/Gallery-open-2563eb)](https://essencesentry.github.io/atelier/)
 
 Build a review station, monitor, lab, or report from a working screen. A new project starts with a layout for the task, example data you can replace, and checks that catch broken charts or panels that overflow on phones.
 
