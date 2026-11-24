@@ -27,9 +27,7 @@ try {
   assert.equal(await titlesOnly.locator("img").count(), 0)
   assert.equal(await titlesOnly.getByText("Only titles were supplied for review.").count(), 1)
   assert.equal(
-    await row
-      .getByRole("link", { name: "Meet shuttle pilot Eileen Collins" })
-      .getAttribute("target"),
+    await row.getByRole("link", { name: "Eileen Collins: Space Pioneer" }).getAttribute("target"),
     "_blank"
   )
   await page.setViewportSize({ width: 390, height: 844 })

@@ -26,9 +26,9 @@ const channels = [
       },
       {
         id: "collins",
-        title: "Meet shuttle pilot Eileen Collins",
+        title: "Eileen Collins: Space Pioneer",
         thumbnail: astronaut,
-        href: "https://www.nasa.gov/people/eileen-m-collins/",
+        href: "https://www.youtube.com/watch?v=SMlCj6og5JA",
       },
       { id: "field", title: "What a deep-field exposure reveals", thumbnail: field },
       { id: "orbit", title: "How engineers choose a launch window" },
