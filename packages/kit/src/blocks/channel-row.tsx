@@ -1,3 +1,4 @@
+import { ChevronLeft, ChevronRight } from "lucide-react"
 import { useEffect, useRef, useState } from "react"
 import "./channel-row.css"
 
@@ -115,7 +116,7 @@ function VideoStrip({ videos, name }: { videos: ChannelVideo[]; name: string }) 
             aria-disabled={edges.start}
             onClick={() => !edges.start && move(-1)}
           >
-            ‹
+            <ChevronLeft aria-hidden="true" />
           </button>
           <button
             type="button"
@@ -123,7 +124,7 @@ function VideoStrip({ videos, name }: { videos: ChannelVideo[]; name: string }) 
             aria-disabled={edges.end}
             onClick={() => !edges.end && move(1)}
           >
-            ›
+            <ChevronRight aria-hidden="true" />
           </button>
         </div>
       )}
