@@ -66,7 +66,12 @@ export function ErrorState({
   className?: string
 }) {
   return (
-    <div className={cn("flex gap-3 rounded-lg bg-critical/[0.06] p-4", className)}>
+    <div
+      className={cn(
+        "flex gap-3 rounded-lg bg-critical/[0.06] p-4 ring-1 ring-critical/15 ring-inset",
+        className
+      )}
+    >
       <CircleAlert className="mt-0.5 size-4 shrink-0 text-critical" />
       <div className="min-w-0 space-y-1">
         <div className="text-sm font-semibold">{title}</div>
@@ -81,12 +86,7 @@ export function ErrorState({
 
 /** Stands in for content while it loads; give it the shape of what it replaces. */
 export function Skeleton({ className }: { className?: string }) {
-  return (
-    <div
-      aria-hidden
-      className={cn("rounded-md bg-foreground/10 motion-safe:animate-pulse", className)}
-    />
-  )
+  return <div aria-hidden className={cn("skeleton rounded-md", className)} />
 }
 
 const liveLabel: Record<LiveStatus, string> = {
@@ -101,7 +101,7 @@ export function LiveIndicator({ status, className }: { status: LiveStatus; class
   return (
     <span
       className={cn(
-        "label-mono inline-flex items-center gap-2 text-[11px] text-muted-foreground [&_svg]:size-3.5",
+        "label-status inline-flex items-center gap-2 text-muted-foreground [&_svg]:size-3.5",
         className
       )}
     >
@@ -165,7 +165,7 @@ export function UndoNotice({
       }}
       className={cn(
         // The minimum height keeps the layout still when the Undo button leaves.
-        "flex min-h-[52px] flex-wrap items-center gap-x-3 gap-y-2 rounded-lg bg-muted px-4 py-3 text-[13px]",
+        "flex min-h-[52px] flex-wrap items-center gap-x-3 gap-y-2 rounded-lg bg-muted px-4 py-3 text-[13px] ring-1 ring-border ring-inset",
         className
       )}
     >
@@ -222,7 +222,7 @@ export function CopyButton({
         {state === "copied" ? "Copied" : label}
       </Button>
       {state === "failed" && (
-        <div className="fixed inset-x-4 top-16 z-30 space-y-2 rounded-lg border bg-popover p-3 text-popover-foreground shadow-md sm:absolute sm:inset-x-auto sm:top-full sm:right-0 sm:mt-2 sm:w-72">
+        <div className="fixed inset-x-4 top-16 z-30 space-y-2 rounded-lg bg-popover p-3 text-popover-foreground shadow-overlay sm:absolute sm:inset-x-auto sm:top-full sm:right-0 sm:mt-2 sm:w-72">
           <div className="flex items-center justify-between gap-2 text-[13px] font-medium">
             <span className="flex items-center gap-1.5">
               <CircleAlert className="size-4 text-warning" /> Copying is blocked here

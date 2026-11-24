@@ -59,6 +59,24 @@
   --color-series-2: var(--series-2);
   --color-series-3: var(--series-3);
   --color-series-4: var(--series-4);
+  /* State tints mixed from the text colour, so they show on any surface in
+     either mode: bg-hover under the pointer or the keyboard's highlight,
+     bg-track behind a meter, progress bar or slider. */
+  --color-hover: var(--hover);
+  --color-track: var(--track);
+
+  /* Elevation steps, set per direction: shadow-control for inputs and quiet
+     buttons, shadow-action for the primary button, shadow-overlay for anything
+     that floats, shadow-panel for a panel's ring and shadow on another box. */
+  --shadow-control: var(--elevation-control);
+  --shadow-action: var(--elevation-action);
+  --shadow-overlay: var(--elevation-overlay);
+  --shadow-panel: 0 0 0 1px var(--panel-ring), var(--panel-shadow);
+
+  --animate-shimmer: shimmer 2s linear infinite;
+
+  /* State changes settle quickly and never bounce: an exponential ease-out. */
+  --default-transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
 
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
@@ -76,7 +94,35 @@
   html {
     @apply font-sans;
     font-feature-settings: "ss01" on;
+    font-optical-sizing: auto;
+    font-synthesis-weight: none;
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scrollbar-color: var(--border-strong) transparent;
+  }
+  /* Scrolling regions inside the page keep a slim bar in the theme's border colour. */
+  :where(body *) {
+    scrollbar-width: thin;
+  }
+  ::selection {
+    background: color-mix(in oklab, var(--primary) 24%, transparent);
+  }
+  /* The parts a browser draws by default carry the theme too. */
+  :root {
+    accent-color: var(--primary);
+    caret-color: var(--primary);
+  }
+  a {
+    text-decoration-thickness: from-font;
+    text-underline-offset: 0.2em;
+  }
+  /* Running text avoids a short last line. */
+  p {
+    text-wrap: pretty;
+  }
+  /* Icons are drawn at one weight per direction, matched to its text. */
+  .lucide {
+    stroke-width: var(--icon-stroke, 2);
   }
   /* Monospaced text keeps one glyph per cell: no "ffl" ligatures in IDs, paths or logs. */
   .font-mono,
@@ -89,8 +135,9 @@
   }
   body {
     @apply bg-page text-foreground;
+    /* A direction may light the top of the page; the image never repeats. */
     background-image: var(--page-texture);
-    background-size: 18px 18px;
+    background-repeat: no-repeat;
     min-height: 100svh;
   }
   h1,
@@ -116,6 +163,7 @@
     color: var(--masthead-ink);
     background: var(--masthead-fill);
     border-bottom: 1px solid var(--masthead-edge);
+    box-shadow: var(--masthead-shadow, none);
   }
   .atelier-masthead [data-app-name] {
     font-size: var(--masthead-name-size);
@@ -124,9 +172,12 @@
   .atelier-masthead [data-app-mark] {
     color: var(--primary-ink);
   }
+  /* The one panel a screen leads with. A direction gives it its own fill,
+     mode and, where panels are ruled, a heavier rule. */
   .atelier-lead {
     color-scheme: var(--lead-mode, inherit);
     --panel-bg: var(--lead-fill);
+    --panel-rule: var(--lead-rule);
     color: var(--foreground);
   }
   .atelier-section-title {
@@ -158,6 +209,12 @@
   .label-mono {
     font-family: var(--label-font);
   }
+  /* A status word: "Running", "Example data". A direction sets it in its
+     sans unless mono labels are its voice. */
+  .label-status {
+    font-family: var(--status-font, var(--ff-sans));
+    font-size: var(--status-size, 0.75rem);
+  }
   .panel {
     background: var(--panel-bg, var(--card));
     color: var(--card-foreground);
@@ -170,7 +227,42 @@
   .well {
     background: var(--sunken);
     border-radius: var(--radius);
-    box-shadow: inset 0 0 0 1px var(--border);
+    box-shadow:
+      inset 0 0 0 1px var(--border),
+      var(--well-shadow, 0 0 0 transparent);
+  }
+  /* Anything floating takes shadow-overlay, and with it the page's mode: a
+     panel opened from a dark app bar on a light page is a light panel. */
+  .shadow-overlay {
+    color-scheme: var(--page-scheme, inherit);
+  }
+  /* A loading placeholder. A band of light crosses it at one speed whatever
+     its size, and every placeholder starts together, so a screenful moves as
+     one. The band is moved with a transform, which costs nothing to paint. */
+  .skeleton {
+    position: relative;
+    overflow: hidden;
+    background-color: color-mix(in oklab, var(--foreground) 9%, transparent);
+  }
+  .skeleton::after {
+    content: "";
+    position: absolute;
+    inset-block: 0;
+    left: 0;
+    width: 40vw;
+    background-image: linear-gradient(
+      100deg,
+      transparent 20%,
+      light-dark(rgb(255 255 255 / 0.65), rgb(255 255 255 / 0.07)) 50%,
+      transparent 80%
+    );
+    transform: translateX(-40vw);
+    animation: var(--animate-shimmer);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .skeleton::after {
+      display: none;
+    }
   }
   .live-dot {
     position: relative;
@@ -207,10 +299,32 @@
   }
 }
 
+@keyframes shimmer {
+  0% {
+    transform: translateX(-40vw);
+  }
+  60%,
+  100% {
+    transform: translateX(100vw);
+  }
+}
+
 /* Plot output inherits the direction's type and recedes into the panel. */
 figure.plot-figure svg {
   overflow: visible;
 }
+/* A chart's tooltip floats like any other overlay. Its first line names the
+   point and its last line is the value, which is the one set in ink. */
+figure.plot-figure [aria-label="tip"] path {
+  filter: drop-shadow(0 6px 14px light-dark(rgb(0 0 0 / 0.14), rgb(0 0 0 / 0.5)));
+}
 figure.plot-figure [aria-label="tip"] text {
   font-family: var(--ff-sans);
+  fill: var(--foreground);
+}
+figure.plot-figure [aria-label="tip"] text > tspan:first-child:not(:last-child) {
+  fill: var(--muted-foreground);
+}
+figure.plot-figure [aria-label="tip"] text > tspan:last-child {
+  font-weight: 600;
 }

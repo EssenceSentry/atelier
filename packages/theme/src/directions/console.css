@@ -2,7 +2,10 @@
  * Console: dark-first, luminous, mono labels.
  *
  * Every colour is written once as light-dark(light, dark); the mode rules in
- * ../modes.css pick the side. Chart palettes passed the dataviz validator for
+ * ../modes.css pick the side. Neutrals share one indigo-graphite hue and step
+ * evenly: in dark each surface is lighter than the one it sits on (page,
+ * sunken, card, raised, muted, popover) and borders strengthen from border to
+ * border-strong to input. Chart palettes passed the dataviz validator for
  * adjacent pairs on every slot and all pairs on the first three, in both modes.
  * Fonts load from ../fonts/console.css or from Google Fonts, never from here.
  */
@@ -15,7 +18,7 @@
   --heading-weight: 620;
   --heading-tracking: -0.025em;
   --figure-weight: 500;
-  --figure-tracking: -0.04em;
+  --figure-tracking: -0.03em;
   --eyebrow-font: var(--ff-mono);
   --eyebrow-size: 11px;
   --eyebrow-weight: 500;
@@ -23,56 +26,85 @@
   --eyebrow-transform: uppercase;
   --eyebrow-color: var(--primary-ink);
   --label-font: var(--ff-mono);
+  /* Mono labels are this direction's voice, status words included. */
+  --status-font: var(--ff-mono);
+  --status-size: 0.6875rem;
+  --icon-stroke: 1.75;
 
   --radius: 0.4375rem;
   --panel-bg: var(--card);
+
+  /* Elevation is declared once per mode: in light, panels float on a soft
+     violet-tinted shadow with no outline; in dark, where a shadow cannot
+     show, they are edged and catch light on their top edge. */
+  --panel-ring: light-dark(transparent, var(--border));
   --panel-shadow:
-    inset 0 1px 0 light-dark(transparent, rgb(255 255 255 / 0.035)),
-    0 1px 2px light-dark(rgb(20 18 40 / 0.05), transparent),
-    0 10px 28px -14px light-dark(rgb(40 30 90 / 0.12), rgb(0 0 0 / 0.6));
-  --panel-ring: var(--border);
+    inset 0 1px 0 light-dark(transparent, rgb(255 255 255 / 0.05)),
+    0 0 0 1px light-dark(rgb(40 30 90 / 0.04), transparent),
+    0 1px 2px light-dark(rgb(40 30 90 / 0.07), rgb(0 0 0 / 0.3)),
+    0 14px 30px -16px light-dark(rgb(40 30 90 / 0.22), transparent);
+  --elevation-control:
+    inset 0 1px 0 light-dark(transparent, rgb(255 255 255 / 0.06)),
+    0 1px 1.5px light-dark(rgb(40 30 90 / 0.08), rgb(0 0 0 / 0.35));
+  --elevation-action:
+    inset 0 1px 0 rgb(255 255 255 / 0.18),
+    0 1px 1px light-dark(rgb(40 30 90 / 0.3), rgb(0 0 0 / 0.45));
+  --elevation-overlay:
+    0 0 0 1px light-dark(rgb(40 30 90 / 0.08), rgb(255 255 255 / 0.07)),
+    0 4px 10px -2px light-dark(rgb(40 30 90 / 0.1), rgb(0 0 0 / 0.45)),
+    0 24px 48px -12px light-dark(rgb(40 30 90 / 0.26), rgb(0 0 0 / 0.75));
+  --well-shadow: inset 0 1px 2px light-dark(rgb(40 30 90 / 0.05), rgb(0 0 0 / 0.3));
+
   --page-texture: none;
   --masthead-mode: dark;
-  --masthead-fill: #242239;
+  --masthead-fill: linear-gradient(180deg, #29273f 0%, #1f1d32 100%);
   --masthead-ink: #f1edff;
-  --masthead-edge: #655987;
+  --masthead-edge: #544a7a;
+  --masthead-shadow: inset 0 1px 0 rgb(255 255 255 / 0.07);
   --masthead-name-size: 1.0625rem;
   --section-size: 1.0625rem;
-  --section-fill: light-dark(#eeeef6, #252639);
-  --lead-fill: light-dark(#edebf7, #242437);
+  --section-fill: light-dark(#f3f3fa, #212133);
+  /* The lead surface follows the page's mode: pale lavender on light, a lit
+     graphite panel on dark. That light lead is what sets Console apart from
+     Instrument, whose lead stays dark. */
+  --lead-fill: linear-gradient(
+    180deg,
+    light-dark(#f0eefa, #27263b) 0%,
+    light-dark(#e9e6f6, #201f33) 100%
+  );
   --lead-mode: initial;
-  --table-head-fill: light-dark(#e9e8f3, #2d2e43);
+  --table-head-fill: light-dark(#ececf6, #28293c);
 
-  --page: light-dark(#f3f3f7, #10101b);
-  --background: light-dark(#f3f3f7, #10101b);
-  --foreground: light-dark(#12121c, #e7e9f3);
-  --card: light-dark(#ffffff, #191a29);
-  --card-foreground: light-dark(#12121c, #e7e9f3);
-  --popover: light-dark(#ffffff, #141722);
-  --popover-foreground: light-dark(#12121c, #e7e9f3);
-  --sunken: light-dark(#f7f7fb, #121320);
-  --raised: light-dark(#ffffff, #141722);
-  --ink-2: light-dark(#43455a, #b3b8cc);
-  --muted: light-dark(#efeff5, #161925);
-  --muted-foreground: light-dark(#5c6078, #abb0c7);
-  --faint: light-dark(#86889e, #5f6680);
-  --border: light-dark(#d8d9e6, #35374b);
-  --border-strong: light-dark(#d0d0de, #2a2f42);
-  --input: light-dark(#dcdce6, #4e516b);
+  --page: light-dark(#f2f2f7, #0d0d19);
+  --background: light-dark(#f2f2f7, #0d0d19);
+  --foreground: light-dark(#12121d, #eaeaf3);
+  --card: light-dark(#ffffff, #1a1a2a);
+  --card-foreground: light-dark(#12121d, #eaeaf3);
+  --popover: light-dark(#ffffff, #222336);
+  --popover-foreground: light-dark(#12121d, #eaeaf3);
+  --sunken: light-dark(#f6f6fb, #121320);
+  --raised: light-dark(#ffffff, #212133);
+  --ink-2: light-dark(#434358, #b9bace);
+  --muted: light-dark(#efeff6, #232336);
+  --muted-foreground: light-dark(#5f5f78, #aeafc6);
+  --faint: light-dark(#828299, #72738d);
+  --border: light-dark(#dcdce8, #313246);
+  --border-strong: light-dark(#cacadb, #41415a);
+  --input: light-dark(#bebed2, #50516c);
   --ring: light-dark(#7552db, #9a84f5);
 
   --primary: light-dark(#7552db, #8d73f0);
   --primary-foreground: light-dark(#ffffff, #0d0b1a);
-  --primary-soft: light-dark(#f0ecfd, #1a1530);
+  --primary-soft: light-dark(#efecfe, #251f42);
   --primary-ink: light-dark(#6141cf, #ad9bff);
-  --secondary: light-dark(#efeff5, #161925);
-  --secondary-foreground: light-dark(#12121c, #e7e9f3);
-  --accent: light-dark(#efeff5, #161925);
-  --accent-foreground: light-dark(#12121c, #e7e9f3);
+  --secondary: light-dark(#ebebf4, #26273a);
+  --secondary-foreground: light-dark(#12121d, #eaeaf3);
+  --accent: light-dark(#ebebf4, #26273a);
+  --accent-foreground: light-dark(#12121d, #eaeaf3);
   --destructive: #d03b3b;
 
-  --viz-grid: light-dark(#ededf3, #151824);
-  --viz-axis: light-dark(#d0d0de, #2a2f42);
+  --viz-grid: light-dark(#ececf3, #252537);
+  --viz-axis: light-dark(#cacad9, #414158);
   --viz-text: var(--muted-foreground);
   /* Low end of score ramps, which run from it to series 1; low values must stay visible. */
   --viz-ramp-low: var(--viz-text);
@@ -82,6 +114,6 @@
   --series-4: light-dark(#0b8bc0, #259ed6);
   --series-5: light-dark(#cfaf1d, #ae931d);
   --div-neg: light-dark(#7552db, #8d73f0);
-  --div-mid: light-dark(#e6e6ee, #262a38);
+  --div-mid: light-dark(#e5e5ee, #2f2f43);
   --div-pos: light-dark(#e48e26, #d37e01);
 }

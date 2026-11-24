@@ -4,6 +4,11 @@
 //   node packages/theme/scripts/contrast.mjs --all      # every pair
 // Exits 1 when a text token falls below 4.5:1 on a surface. `faint` is meant
 // for decoration and large text only, so it is held to 3:1.
+//
+// The lead panel and the app bar are surfaces too. Their fills may be
+// gradients, so text is measured on every colour stop, and where a direction
+// gives them their own mode (a dark lead on a light page) the text tokens are
+// read from that mode's side.
 import { readFileSync } from "node:fs"
 import { join } from "node:path"
 
@@ -19,7 +24,18 @@ const texts = {
   "viz-ramp-low": 3,
   faint: 3,
 }
-const surfaces = ["card", "page", "sunken", "muted", "primary-soft"]
+const surfaces = [
+  "card",
+  "page",
+  "sunken",
+  "muted",
+  "primary-soft",
+  "raised",
+  "popover",
+  "secondary",
+]
+// Surfaces with a fill and a mode of their own.
+const ownMode = ["lead", "masthead"]
 const showAll = process.argv.includes("--all")
 
 function luminance(hex) {
@@ -50,25 +66,62 @@ function tokens(direction) {
   // Aliases such as `--viz-text: var(--muted-foreground)` take their target's pair.
   for (const [, name, target] of css.matchAll(/--([\w-]+):\s*var\(--([\w-]+)\);/g))
     if (values[target]) values[name] = values[target]
-  return values
+  return { values, css }
+}
+
+/** The colour stops of a surface's fill and the mode it forces, if any. */
+function ownSurface(css, values, name) {
+  const fill = css.match(new RegExp(`--${name}-fill:\\s*([^;]+);`))?.[1] ?? ""
+  const mode = css.match(new RegExp(`--${name}-mode:\\s*([\\w-]+);`))?.[1]
+  const alias = fill.match(/^var\(--([\w-]+)\)$/)
+  const stops = alias
+    ? [values[alias[1]]].filter(Boolean)
+    : [...fill.matchAll(/light-dark\((#[0-9a-f]{6}),\s*(#[0-9a-f]{6})\)|(#[0-9a-f]{6})/gi)].map(
+        ([, light, dark, flat]) => ({ light: light ?? flat, dark: dark ?? flat })
+      )
+  return { stops, forced: mode === "light" || mode === "dark" ? mode : null }
 }
 
 let failures = 0
+function report(direction, mode, text, surface, value, minimum) {
+  const failed = value < minimum
+  failures += failed ? 1 : 0
+  if (!failed && !showAll) return
+  const mark = failed ? "FAIL" : "ok  "
+  console.log(
+    `${mark} ${direction.padEnd(10)} ${mode.padEnd(5)} ${text.padEnd(16)} on ${surface.padEnd(15)} ${value.toFixed(2)}:1 (needs ${minimum}:1)`
+  )
+}
+
 for (const direction of directions) {
-  const values = tokens(direction)
+  const { values, css } = tokens(direction)
   for (const mode of ["light", "dark"]) {
     for (const [text, minimum] of Object.entries(texts)) {
+      if (!values[text]) continue
       for (const surface of surfaces) {
-        if (!values[text] || !values[surface]) continue
-        const value = ratio(values[text][mode], values[surface][mode])
-        const failed = value < minimum
-        failures += failed ? 1 : 0
-        if (failed || showAll) {
-          const mark = failed ? "FAIL" : "ok  "
-          console.log(
-            `${mark} ${direction.padEnd(10)} ${mode.padEnd(5)} ${text.padEnd(16)} on ${surface.padEnd(12)} ${value.toFixed(2)}:1 (needs ${minimum}:1)`
+        if (!values[surface]) continue
+        report(
+          direction,
+          mode,
+          text,
+          surface,
+          ratio(values[text][mode], values[surface][mode]),
+          minimum
+        )
+      }
+      for (const name of ownMode) {
+        const { stops, forced } = ownSurface(css, values, name)
+        const side = forced ?? mode
+        stops.forEach((stop, index) => {
+          report(
+            direction,
+            mode,
+            text,
+            `${name} stop ${index + 1}`,
+            ratio(values[text][side], stop[side]),
+            minimum
           )
-        }
+        })
       }
     }
   }

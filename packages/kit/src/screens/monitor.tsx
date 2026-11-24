@@ -16,7 +16,7 @@ import { useCallback, useState } from "react"
 import { AppBar } from "@/blocks/app-bar"
 import { Legend } from "@/blocks/legend"
 import { LogTail } from "@/blocks/log-tail"
-import { labelWidth, PlotFigure, tipStyle, whenWide } from "@/blocks/plot-figure"
+import { fadeFill, labelWidth, PlotFigure, tipStyle, whenWide } from "@/blocks/plot-figure"
 import {
   Delta,
   FigureRow,
@@ -91,7 +91,7 @@ function CellStrip({ paused }: { paused: boolean }) {
                 state === "failed" && "bg-critical/70",
                 state === "running" &&
                   (paused ? "bg-primary/50" : "bg-primary motion-safe:animate-pulse"),
-                state === "queued" && "bg-muted shadow-[inset_0_0_0_1px_var(--border-strong)]"
+                state === "queued" && "shadow-[inset_0_0_0_1.5px_var(--faint)]"
               )}
             />
           </div>
@@ -110,8 +110,9 @@ function CellStrip({ paused }: { paused: boolean }) {
   )
 }
 
-const throughputChart = (t: VizTokens, width: number) =>
-  ({
+const throughputChart = (t: VizTokens, width: number) => {
+  const fade = fadeFill(t.series[0])
+  return {
     marginLeft: labelWidth(t, ["400"]) + 14,
     marginRight: labelWidth(t, [`${Math.round(now.value)} rows/s`], { weight: 600 }) + 20,
     marginTop: 12,
@@ -120,11 +121,11 @@ const throughputChart = (t: VizTokens, width: number) =>
     marks: [
       Plot.gridY({ stroke: t.grid, strokeOpacity: 1, ticks: 4 }),
       Plot.ruleY([0], { stroke: t.axis }),
+      fade.defs,
       Plot.areaY(thisRun, {
         x: "minute",
         y: "value",
-        fill: t.series[0],
-        fillOpacity: 0.1,
+        fill: fade.fill,
         curve: "monotone-x",
       }),
       // The comparison line is drawn in the axis text colour, which stays
@@ -196,7 +197,8 @@ const throughputChart = (t: VizTokens, width: number) =>
         })
       ),
     ],
-  }) satisfies Plot.PlotOptions
+  } satisfies Plot.PlotOptions
+}
 
 const resources = (released: boolean, paused: boolean) =>
   [
@@ -493,7 +495,7 @@ export function MonitorScreen({
                 <span className={cn("truncate", c.state === "queued" && "text-muted-foreground")}>
                   {c.name}
                 </span>
-                <div className="hidden h-1.5 rounded-full bg-muted sm:block">
+                <div className="hidden h-1.5 rounded-full bg-track sm:block">
                   <div
                     className={cn(
                       "h-full rounded-full",

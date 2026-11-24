@@ -92,10 +92,41 @@ Do these before showing the app to anyone:
 - Colours come from theme tokens only (`bg-card`, `text-ink-2`,
   `bg-primary-soft`, `text-good`, `var(--series-1)`). A commit hook rejects hex
   values and palette classes such as `blue-500`.
+- Depth comes from the direction's elevation steps, never a hand-written
+  shadow, and a surface declares it once: a hairline or a shadow, not a
+  border under a soft shadow. A section sits on `panel`, a recessed area on
+  `well`; inputs and quiet buttons take `shadow-control`, a filled primary
+  control `shadow-action`, and anything that floats (menus, popovers,
+  notices over the page) `shadow-overlay`, which draws its own hairline, so
+  it needs no border, and returns the panel to the page's light or dark
+  mode when it opens from a dark app bar or lead panel. A direction with printed rules,
+  such as editorial, turns the same classes flat. In dark, a surface is
+  lighter than the one it sits on: `bg-sunken` below a card, `bg-raised` or
+  `bg-muted` on it, `bg-popover` above it.
+- State shows on every surface in both modes through two tints mixed from
+  the text colour: `hover:bg-hover` (and `focus:bg-hover` in menus) for what
+  the pointer or keyboard is on, and `bg-track` behind a meter, progress bar
+  or slider, so the bar has a visible end. A solid `bg-muted` hover vanishes
+  on dark surfaces. A selected segment or row carries more than a tint: the
+  accent text and a hairline or `bg-primary-soft`.
+- The area under a line fades out instead of sitting as a flat tint:
+  `const fade = fadeFill(t.series[0])`, then `fade.defs` among the marks and
+  `fill: fade.fill` on the area mark. In a chart tip's `title`, name the
+  point on the first line and put the value on the last; the theme sets the
+  value in ink.
 - Charts go through `PlotFigure`; take colours from the tokens it passes in.
   Use series slots in order and never cycle past the last; fold the rest into
   "Other" or facet.
-- Status pairs colour with an icon and a word (`StatusBadge`).
+- Status pairs colour with an icon and a word (`StatusBadge`). Status words
+  take `label-status`, which a direction sets in its sans unless mono labels
+  are its voice; `label-mono` and `font-mono` are for data: numbers, IDs,
+  paths, code and logs.
+- Arrows, chevrons, ticks and triangles are drawn icons (lucide, or a small
+  SVG as in `Delta`), never characters such as ‹ › ▲ ▼ ✓: a glyph sits on
+  the text baseline and never centres. Icons take the direction's stroke
+  weight on their own.
+- Tabs that underline (`TabsList variant="line"`) draw their own baseline
+  across the row; do not wrap them in a bordered box.
 - Legibility over compliance: these are personal tools, so accessibility
   compliance is not a goal, but reading must be effortless. Text at least
   11px (13px for running text), about 4.5:1 contrast for text the user reads

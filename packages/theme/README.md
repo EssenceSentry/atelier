@@ -52,6 +52,51 @@ Light or dark follows the viewer's system setting. `data-theme="light"` or
 `data-theme="dark"` on `<html>` overrides it either way. Each colour token is a
 single `light-dark()` pair, so a direction defines every colour once.
 
+## Surfaces and elevation
+
+Each direction's neutrals share one hue and step evenly. Surfaces stack in a
+fixed order, `page`, `sunken`, `card`, `raised`, `muted`, `popover`, and in
+dark each is lighter than the one before it. Outlines strengthen from `border`
+to `border-strong` to `input`.
+
+Depth is a token too, so a direction decides how much of it there is:
+
+| Token | Utility or class | Use |
+|---|---|---|
+| `--panel-ring`, `--panel-shadow` | `.panel`, `shadow-panel` | A section's surface |
+| `--well-shadow` | `.well` | A recessed area inside a panel |
+| `--elevation-control` | `shadow-control` | Inputs, selects, quiet buttons |
+| `--elevation-action` | `shadow-action` | The filled primary button |
+| `--elevation-overlay` | `shadow-overlay` | Menus, popovers and tooltips; includes a hairline |
+| `--lead-fill`, `--lead-mode`, `--lead-rule` | `.atelier-lead` | The one panel a screen leads with |
+| `--masthead-fill`, `--masthead-shadow` | `.atelier-masthead` | The app bar |
+| `--page-texture` | `body` | An optional image behind the page; no direction sets one, and it never repeats |
+
+Each direction declares a panel's depth once. Instrument draws panels with a
+hairline and only a contact shadow. Console floats them on a soft shadow with
+no outline in light, and edges them with light in dark, where a shadow cannot
+show. Editorial keeps panels flat under printed rules and gives only overlays
+a shadow. Instrument's lead panel is dark in both modes; Console's and
+Editorial's follow the page.
+
+A direction also sets how words and icons are drawn: `--status-font` and
+`--status-size` for status words (`.label-status`), which are the sans except
+in Console, where mono labels are the voice; `--icon-stroke` for the weight of
+every lucide icon; and `--figure-tracking` for large figures, kept loose
+enough that a decimal point never touches its neighbours.
+
+`shadow-overlay` also returns a floating panel to the page's mode
+(`--page-scheme`, set beside `color-scheme` in `modes.css`), so a menu opened
+from a dark app bar on a light page is a light menu.
+
+Two tints mixed from the text colour show state on any surface in either
+mode: `bg-hover` for what the pointer or keyboard is on, and `bg-track` behind
+a meter, progress bar or slider.
+
+`.skeleton` is the loading placeholder. A band of light crosses each one at
+the same speed and they all start together, so a screenful moves as one; it
+holds still under reduced motion.
+
 ## Artifacts
 
 `ATELIER_TARGET=artifact` builds a page for a claude.ai artifact instead of an
@@ -62,7 +107,9 @@ document), with fonts from Google Fonts and all CSS and JavaScript inlined.
 
 `node scripts/contrast.mjs` computes every text token against every surface,
 per direction and mode, and lists pairs below 4.5:1 (3:1 for `faint`, which
-is for decoration and large figures only). atelier apps are personal tools,
+is for decoration and large figures only). The lead panel and the app bar
+count as surfaces: text is measured on each colour stop of their fills, in
+the mode the direction gives them. atelier apps are personal tools,
 so this is a legibility reference for reviews, not a compliance gate.
 
 ## Charts

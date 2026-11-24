@@ -299,7 +299,7 @@ export function ReportScreen({
                   <TableCell>
                     <span className="flex items-center gap-3">
                       <span className="num w-12 text-right">{q.credits.toLocaleString()}</span>
-                      <span className="hidden h-1.5 flex-1 rounded-full bg-muted sm:block">
+                      <span className="hidden h-1.5 flex-1 rounded-full bg-track sm:block">
                         <span
                           className="block h-full rounded-full bg-muted-foreground/45"
                           style={{ width: `${(q.credits / maxCredits) * 100}%` }}

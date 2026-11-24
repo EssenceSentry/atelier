@@ -2,18 +2,37 @@
  * Light or dark follows the viewer's system setting unless the page sets
  * data-theme="light" or data-theme="dark" on <html>; an explicit choice wins
  * both ways. color-scheme picks the side of every light-dark() token and makes
- * native controls and scrollbars match.
+ * native controls and scrollbars match. --page-scheme repeats the page's mode
+ * as a value, so anything floating out of a surface with its own mode (a dark
+ * app bar or lead panel) can return to the page's.
  */
 :root {
   color-scheme: light;
+  --page-scheme: light;
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     color-scheme: dark;
+    --page-scheme: dark;
   }
 }
 
 :root[data-theme="dark"] {
   color-scheme: dark;
+  --page-scheme: dark;
+}
+
+/*
+ * State tints, the same in every direction. They are mixed from the text
+ * colour, so they show on any surface: --hover under the pointer or the
+ * keyboard's highlight, stronger in dark where a solid fill would vanish,
+ * and --track behind a meter, progress bar or slider.
+ */
+:root {
+  --hover: light-dark(
+    color-mix(in oklab, currentColor 6%, transparent),
+    color-mix(in oklab, currentColor 12%, transparent)
+  );
+  --track: color-mix(in oklab, var(--foreground) 15%, transparent);
 }

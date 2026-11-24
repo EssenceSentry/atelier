@@ -2,8 +2,11 @@
  * Instrument: precise, cool, hairline, dense.
  *
  * Every colour is written once as light-dark(light, dark); the mode rules in
- * ../modes.css pick the side. Chart palettes passed the dataviz validator for
- * adjacent pairs on every slot and all pairs on the first three, in both modes.
+ * ../modes.css pick the side. Neutrals share one slate hue and step evenly:
+ * in dark each surface is lighter than the one it sits on (page, sunken, card,
+ * raised, muted, popover) and borders strengthen from border to border-strong
+ * to input. Chart palettes passed the dataviz validator for adjacent pairs on
+ * every slot and all pairs on the first three, in both modes.
  * Fonts load from ../fonts/instrument.css or from Google Fonts, never from here.
  */
 :root,
@@ -16,7 +19,7 @@
   --heading-weight: 650;
   --heading-tracking: -0.02em;
   --figure-weight: 600;
-  --figure-tracking: -0.035em;
+  --figure-tracking: -0.025em;
   --eyebrow-font: var(--ff-mono);
   --eyebrow-size: 11px;
   --eyebrow-weight: 500;
@@ -24,52 +27,75 @@
   --eyebrow-transform: uppercase;
   --eyebrow-color: var(--muted-foreground);
   --label-font: var(--ff-mono);
+  /* Status words are words, so they take the sans; mono is kept for data. */
+  --status-font: var(--ff-sans);
+  --status-size: 0.75rem;
+  --icon-stroke: 1.75;
 
   --radius: 0.375rem;
-  --panel-shadow: 0 2px 4px -3px light-dark(#233d56, #000000);
-  --panel-ring: var(--border);
+
+  /* Elevation is declared once: panels are drawn with a hairline, and the only
+     shadow is the contact line under it. Dark surfaces add a lit top edge. */
+  --panel-ring: light-dark(rgb(15 40 66 / 0.14), var(--border));
+  --panel-shadow:
+    inset 0 1px 0 light-dark(transparent, rgb(255 255 255 / 0.04)),
+    0 1px 2px light-dark(rgb(15 40 66 / 0.05), rgb(0 0 0 / 0.25));
+  --elevation-control:
+    inset 0 1px 0 light-dark(transparent, rgb(255 255 255 / 0.05)),
+    0 1px 1.5px light-dark(rgb(15 40 66 / 0.08), rgb(0 0 0 / 0.3));
+  --elevation-action:
+    inset 0 1px 0 rgb(255 255 255 / 0.16),
+    0 1px 1px light-dark(rgb(15 40 66 / 0.3), rgb(0 0 0 / 0.45));
+  --elevation-overlay:
+    0 0 0 1px light-dark(rgb(15 40 66 / 0.08), rgb(255 255 255 / 0.06)),
+    0 4px 10px -2px light-dark(rgb(15 40 66 / 0.1), rgb(0 0 0 / 0.4)),
+    0 20px 40px -12px light-dark(rgb(15 40 66 / 0.24), rgb(0 0 0 / 0.65));
+  --well-shadow: inset 0 1px 2px light-dark(rgb(15 40 66 / 0.05), rgb(0 0 0 / 0.25));
+
   --page-texture: none;
   --masthead-mode: dark;
-  --masthead-fill: #182f45;
+  --masthead-fill: linear-gradient(180deg, #19324b 0%, #152b41 100%);
   --masthead-ink: #edf4fa;
-  --masthead-edge: #42607a;
+  --masthead-edge: #3d5a75;
+  --masthead-shadow: inset 0 1px 0 rgb(255 255 255 / 0.06);
   --masthead-name-size: 1.0625rem;
   --section-size: 1.0625rem;
-  --section-fill: light-dark(#f0f5f8, #1b2d3d);
-  --lead-fill: #19374c;
+  --section-fill: light-dark(#f2f6fa, #192939);
+  /* The lead surface is deep slate in both modes: the one inverted panel. */
+  --lead-fill: linear-gradient(180deg, #17344d 0%, #112638 100%);
   --lead-mode: dark;
-  --table-head-fill: light-dark(#e6eef3, #233545);
+  --table-head-fill: light-dark(#e9eff6, #213142);
 
-  --page: light-dark(#eaf0f5, #0d1722);
-  --background: light-dark(#eaf0f5, #0d1722);
-  --foreground: light-dark(#0e1116, #e9ecf1);
+  --page: light-dark(#ebf1f6, #0a141f);
+  --background: light-dark(#ebf1f6, #0a141f);
+  --foreground: light-dark(#0c151d, #e9eef2);
   --card: light-dark(#ffffff, #142231);
-  --card-foreground: light-dark(#0e1116, #e9ecf1);
-  --popover: light-dark(#ffffff, #151920);
-  --popover-foreground: light-dark(#0e1116, #e9ecf1);
-  --sunken: light-dark(#f3f7fa, #101d29);
-  --raised: light-dark(#ffffff, #161a20);
-  --ink-2: light-dark(#3d4552, #b4bcc8);
-  --muted: light-dark(#f0f2f5, #1a1e25);
-  --muted-foreground: light-dark(#586777, #a0b2c1);
-  --faint: light-dark(#838a95, #646d7b);
-  --border: light-dark(#d5dfe7, #2c3d4d);
-  --border-strong: light-dark(#c9ced6, #2e343e);
-  --input: light-dark(#bac9d6, #405465);
+  --card-foreground: light-dark(#0c151d, #e9eef2);
+  --popover: light-dark(#ffffff, #1b2b3c);
+  --popover-foreground: light-dark(#0c151d, #e9eef2);
+  --sunken: light-dark(#f3f7fa, #0e1a27);
+  --raised: light-dark(#ffffff, #1a293a);
+  --ink-2: light-dark(#374553, #b6c1cc);
+  --muted: light-dark(#edf2f6, #1c2c3c);
+  --muted-foreground: light-dark(#556576, #a2b1c2);
+  --faint: light-dark(#798694, #707f8f);
+  --border: light-dark(#d9e1e9, #293849);
+  --border-strong: light-dark(#c3ced9, #37485b);
+  --input: light-dark(#b4c3d1, #45576b);
   --ring: light-dark(#3665e4, #6286f3);
 
   --primary: light-dark(#3665e4, #507ef1);
-  --primary-foreground: light-dark(#ffffff, #0d1722);
-  --primary-soft: light-dark(#edf1fd, #141d33);
+  --primary-foreground: light-dark(#ffffff, #0a141f);
+  --primary-soft: light-dark(#ebf0ff, #1a2645);
   --primary-ink: light-dark(#2a52c9, #84a3f7);
-  --secondary: light-dark(#eef0f3, #1a1e25);
-  --secondary-foreground: light-dark(#0e1116, #e9ecf1);
-  --accent: light-dark(#eef0f3, #1a1e25);
-  --accent-foreground: light-dark(#0e1116, #e9ecf1);
+  --secondary: light-dark(#e7edf4, #1f2f40);
+  --secondary-foreground: light-dark(#0c151d, #e9eef2);
+  --accent: light-dark(#e7edf4, #1f2f40);
+  --accent-foreground: light-dark(#0c151d, #e9eef2);
   --destructive: #d03b3b;
 
-  --viz-grid: light-dark(#eceef2, #1a1e25);
-  --viz-axis: light-dark(#c9ced6, #2e343e);
+  --viz-grid: light-dark(#e9eef2, #1f2e3d);
+  --viz-axis: light-dark(#c4ced8, #39495b);
   --viz-text: var(--muted-foreground);
   /* Low end of score ramps, which run from it to series 1; low values must stay visible. */
   --viz-ramp-low: var(--viz-text);
@@ -80,6 +106,6 @@
   --series-5: light-dark(#8151db, #8c5ee8);
   --series-6: light-dark(#db4241, #e24947);
   --div-neg: light-dark(#3665e4, #507ef1);
-  --div-mid: light-dark(#e6e8ec, #2a2f37);
+  --div-mid: light-dark(#e1e7ed, #283746);
   --div-pos: light-dark(#e8721c, #e16c10);
 }

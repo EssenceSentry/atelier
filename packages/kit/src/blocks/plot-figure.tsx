@@ -47,12 +47,44 @@ export const NARROW_CHART = 560
 export const whenWide = (width: number, marks: Plot.Markish[], min = NARROW_CHART) =>
   width < min ? [] : marks
 
+let fades = 0
+
+/**
+ * A fill that fades one colour out toward the baseline, for the area under a
+ * line: a flat tint competes with the line, a fade lets it lead. Put `defs`
+ * among the chart's marks and give `fill` to the area mark, at full opacity.
+ */
+export function fadeFill(colour: string, { from = 0.14, to = 0 } = {}) {
+  const id = `plot-fade-${++fades}`
+  const defs: Plot.Markish = () => {
+    const ns = "http://www.w3.org/2000/svg"
+    const gradient = document.createElementNS(ns, "linearGradient")
+    gradient.id = id
+    for (const [name, value] of Object.entries({ x1: 0, y1: 0, x2: 0, y2: 1 }))
+      gradient.setAttribute(name, String(value))
+    for (const [offset, opacity] of [
+      [0, from],
+      [1, to],
+    ]) {
+      const stop = document.createElementNS(ns, "stop")
+      stop.setAttribute("offset", String(offset))
+      stop.setAttribute("stop-color", colour)
+      stop.setAttribute("stop-opacity", String(opacity))
+      gradient.append(stop)
+    }
+    const holder = document.createElementNS(ns, "defs")
+    holder.append(gradient)
+    return holder
+  }
+  return { defs, fill: `url(#${id})` }
+}
+
 /** Tooltip styled from the direction's popover tokens. */
 export const tipStyle = (t: VizTokens) => ({
   fill: t.popover,
   stroke: t.border,
   textPadding: 8,
-  fontSize: 11,
+  fontSize: 12,
 })
 
 export function PlotFigure({

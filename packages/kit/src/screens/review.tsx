@@ -430,7 +430,7 @@ function Queue({
 
   return (
     <>
-      <div className="space-y-3 border-b p-3">
+      <div className="space-y-3 px-3 pt-3">
         <div className="relative">
           <Search className="absolute top-1/2 left-2.5 size-4 -translate-y-1/2 text-muted-foreground" />
           <Input
@@ -443,7 +443,7 @@ function Queue({
           />
         </div>
         <Tabs value={state.tab} onValueChange={(tab: Tab) => dispatch({ type: "tab", tab })}>
-          <TabsList variant="line" className="w-full gap-0">
+          <TabsList variant="line" className="-mx-3 gap-0 px-3">
             {TABS.map(([tab, name]) => (
               <TabsTrigger key={tab} value={tab} className="text-[13px]">
                 {name}{" "}
@@ -474,7 +474,7 @@ function Queue({
                   }}
                   className={cn(
                     "flex w-full items-center gap-3 rounded-md px-2.5 py-2 text-left outline-none focus-visible:ring-2 focus-visible:ring-ring",
-                    on ? "bg-primary-soft" : "hover:bg-muted"
+                    on ? "bg-primary-soft" : "hover:bg-hover"
                   )}
                 >
                   <span className="grid size-8 shrink-0 place-items-center rounded-full bg-muted text-[11px] font-semibold text-ink-2 ring-1 ring-border">
@@ -697,7 +697,7 @@ export function ReviewScreen({
               </div>
 
               <Tabs defaultValue="videos" className="gap-6">
-                <div className="border-b">
+                <div>
                   <TabsList variant="line" className="gap-4">
                     <TabsTrigger value="videos" className="flex-none">
                       Recent videos{" "}
@@ -851,7 +851,7 @@ export function ReviewScreen({
                           "flex h-10 flex-1 items-center justify-center gap-2 rounded-lg border bg-card px-3 text-sm font-medium whitespace-nowrap outline-none focus-visible:ring-2 focus-visible:ring-ring pointer-coarse:h-11",
                           on
                             ? "border-primary bg-primary-soft text-primary-ink ring-1 ring-primary"
-                            : "hover:border-border-strong hover:bg-muted/50"
+                            : "hover:border-border-strong hover:bg-hover"
                         )}
                       >
                         <Kbd
@@ -897,7 +897,7 @@ export function ReviewScreen({
                       "flex w-full cursor-pointer items-center gap-3 rounded-lg border bg-card px-3.5 py-3 text-left transition-colors has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-ring/50",
                       on
                         ? "border-primary bg-primary-soft ring-1 ring-primary"
-                        : "hover:border-border-strong hover:bg-muted/50"
+                        : "hover:border-border-strong hover:bg-hover"
                     )}
                   >
                     <input

@@ -1,5 +1,5 @@
 import { CircleAlert, CircleCheck, CircleDashed, CirclePause, TriangleAlert } from "lucide-react"
-import { Fragment, type ReactNode } from "react"
+import { Fragment, type ReactNode, useId } from "react"
 
 import { cn } from "@/lib/utils"
 
@@ -107,37 +107,37 @@ const statusMeta: Record<Status, { label: string; icon: ReactNode; tone: string 
   running: {
     label: "Running",
     icon: <span className="live-dot !size-1.5" />,
-    tone: "bg-primary-soft text-primary-ink",
+    tone: "bg-primary-soft text-primary-ink ring-primary/25",
   },
   done: {
     label: "Done",
     icon: <CircleCheck className="text-muted-foreground" />,
-    tone: "bg-muted text-ink-2",
+    tone: "bg-muted text-ink-2 ring-border-strong/70",
   },
   succeeded: {
     label: "Succeeded",
     icon: <CircleCheck className="text-good" />,
-    tone: "bg-muted text-ink-2",
+    tone: "bg-muted text-ink-2 ring-border-strong/70",
   },
   failed: {
     label: "Failed",
     icon: <CircleAlert className="text-critical" />,
-    tone: "bg-critical/10 text-foreground",
+    tone: "bg-critical/10 text-foreground ring-critical/25",
   },
   warning: {
     label: "Attention",
     icon: <TriangleAlert className="text-warning" />,
-    tone: "bg-warning/12 text-foreground",
+    tone: "bg-warning/12 text-foreground ring-warning/35",
   },
   queued: {
     label: "Queued",
     icon: <CircleDashed className="text-faint" />,
-    tone: "bg-muted text-muted-foreground",
+    tone: "bg-muted text-muted-foreground ring-border-strong/70",
   },
   paused: {
     label: "Paused",
     icon: <CirclePause className="text-muted-foreground" />,
-    tone: "bg-muted text-ink-2",
+    tone: "bg-muted text-ink-2 ring-border-strong/70",
   },
 }
 
@@ -160,7 +160,7 @@ export function StatusBadge({
   const badge = (
     <span
       className={cn(
-        "label-mono inline-flex h-6 items-center gap-1.5 rounded-full px-2.5 text-[11px] font-medium whitespace-nowrap [&_svg]:size-3.5",
+        "label-status inline-flex h-6 items-center gap-1.5 rounded-full px-2.5 font-medium whitespace-nowrap ring-1 ring-inset [&_svg]:size-3.5",
         meta.tone,
         className
       )}
@@ -211,18 +211,21 @@ export function Sparkline({
   const y = (v: number) => height - 3 - ((v - min) / (max - min || 1)) * (height - 8)
   const d = values.map((v, i) => `${i ? "L" : "M"}${x(i).toFixed(1)},${y(v).toFixed(1)}`).join("")
   const last = values.length - 1
+  const fade = `spark-${useId().replace(/\W/g, "")}`
   const lines = (
     <>
-      <path
-        d={`${d}L${x(last)},${height}L${x(0)},${height}Z`}
-        fill="var(--primary)"
-        opacity={0.1}
-      />
+      <defs>
+        <linearGradient id={fade} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" style={{ stopColor: "var(--primary)", stopOpacity: 0.24 }} />
+          <stop offset="1" style={{ stopColor: "var(--primary)", stopOpacity: 0 }} />
+        </linearGradient>
+      </defs>
+      <path d={`${d}L${x(last)},${height}L${x(0)},${height}Z`} fill={`url(#${fade})`} />
       <path
         d={d}
         fill="none"
         stroke="var(--primary)"
-        strokeWidth={2}
+        strokeWidth={1.75}
         strokeLinejoin="round"
         strokeLinecap="round"
         vectorEffect="non-scaling-stroke"
@@ -296,9 +299,14 @@ export function Delta({
       className={cn("inline-flex items-center gap-1.5 text-xs text-muted-foreground", className)}
     >
       <span className="num inline-flex items-center gap-1 font-medium text-foreground">
-        <span aria-hidden className={tone}>
-          {value >= 0 ? "▲" : "▼"}
-        </span>
+        {/* A drawn triangle, not the ▲ ▼ characters: it sits on the figures'
+            optical centre in every face. */}
+        <svg viewBox="0 0 8 7" aria-hidden className={cn("h-[7px] w-2 shrink-0", tone)}>
+          <path
+            d={value >= 0 ? "M4 0.5 7.5 6.5H0.5Z" : "M4 6.5 0.5 0.5H7.5Z"}
+            fill="currentColor"
+          />
+        </svg>
         {amount}
       </span>
       {period && <span>{period}</span>}
@@ -388,11 +396,14 @@ export function Meter({
     <div
       className={cn(
         "h-1.5 w-full overflow-hidden rounded-full",
-        tone === "primary" ? "bg-primary-soft" : "bg-warning/20"
+        tone === "primary" ? "bg-track" : "bg-warning/20"
       )}
     >
       <div
-        className={cn("h-full rounded-full", tone === "primary" ? "bg-primary" : "bg-warning")}
+        className={cn(
+          "h-full rounded-full transition-[width] duration-500 ease-out motion-reduce:transition-none",
+          tone === "primary" ? "bg-primary" : "bg-warning"
+        )}
         style={{ width: `${pct}%` }}
       />
     </div>

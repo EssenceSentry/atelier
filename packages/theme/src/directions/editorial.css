@@ -2,8 +2,12 @@
  * Editorial: warm paper, serif display, generous.
  *
  * Every colour is written once as light-dark(light, dark); the mode rules in
- * ../modes.css pick the side. Chart palettes passed the dataviz validator for
- * adjacent pairs on every slot and all pairs on the first three, in both modes.
+ * ../modes.css pick the side. Neutrals share one paper hue and step evenly:
+ * borders strengthen from border to border-strong to input, and in dark each
+ * raised surface is lighter than the card it sits on. Depth comes from printed
+ * rules, not shadows; only overlays cast one. Chart palettes passed the
+ * dataviz validator for adjacent pairs on every slot and all pairs on the
+ * first three, in both modes.
  * Fonts load from ../fonts/editorial.css or from Google Fonts, never from here.
  */
 [data-direction="editorial"] {
@@ -15,7 +19,7 @@
   --heading-weight: 530;
   --heading-tracking: -0.012em;
   --figure-weight: 600;
-  --figure-tracking: -0.03em;
+  --figure-tracking: -0.025em;
   --eyebrow-font: var(--ff-sans);
   --eyebrow-size: 11px;
   --eyebrow-weight: 650;
@@ -23,6 +27,9 @@
   --eyebrow-transform: uppercase;
   --eyebrow-color: light-dark(#874733, #e0a88b);
   --label-font: var(--ff-sans);
+  --status-font: var(--ff-sans);
+  --status-size: 0.75rem;
+  --icon-stroke: 1.5;
 
   --radius: 0.25rem;
   --panel-radius: 0;
@@ -30,48 +37,61 @@
   --panel-bg: transparent;
   --panel-shadow: 0 0 0 transparent;
   --panel-ring: transparent;
+  --elevation-control: 0 1px 0 light-dark(rgb(60 45 20 / 0.06), rgb(0 0 0 / 0.3));
+  --elevation-action:
+    inset 0 1px 0 rgb(255 255 255 / 0.14),
+    0 1px 0 light-dark(rgb(20 40 80 / 0.25), rgb(0 0 0 / 0.4));
+  --elevation-overlay:
+    0 0 0 1px light-dark(rgb(60 45 20 / 0.12), rgb(255 240 220 / 0.08)),
+    0 6px 14px -4px light-dark(rgb(60 45 20 / 0.14), rgb(0 0 0 / 0.45)),
+    0 22px 44px -14px light-dark(rgb(60 45 20 / 0.24), rgb(0 0 0 / 0.7));
+  --well-shadow: 0 0 0 transparent;
+
   --page-texture: none;
   --masthead-mode: initial;
   --masthead-fill: var(--card);
   --masthead-ink: var(--foreground);
   --masthead-edge: var(--foreground);
+  --masthead-shadow: none;
   --masthead-name-size: 1.375rem;
   --section-size: 1.375rem;
   --section-fill: var(--card);
+  /* The lead story sits on paper under a heavy rule, as on a front page. */
   --lead-fill: var(--card);
   --lead-mode: initial;
-  --table-head-fill: light-dark(#eae2d0, #342d23);
+  --lead-rule: 3px solid light-dark(var(--foreground), #b9ab97);
+  --table-head-fill: light-dark(#ebe2d1, #30291f);
 
-  --page: light-dark(#f6f1e6, #15120e);
-  --background: light-dark(#f6f1e6, #15120e);
-  --foreground: light-dark(#1d1914, #f0eae0);
+  --page: light-dark(#f6f1e6, #14110e);
+  --background: light-dark(#f6f1e6, #14110e);
+  --foreground: light-dark(#1c1913, #f1eae0);
   --card: light-dark(#fffcf5, #1d1914);
-  --card-foreground: light-dark(#1d1914, #f0eae0);
-  --popover: light-dark(#fdfcf9, #231e18);
-  --popover-foreground: light-dark(#1d1914, #f0eae0);
-  --sunken: light-dark(#efeadf, #120f0c);
-  --raised: light-dark(#fdfcf9, #231e18);
-  --ink-2: light-dark(#4f473d, #cbc1b2);
-  --muted: light-dark(#ece6da, #26211b);
-  --muted-foreground: light-dark(#6d6457, #b2a48e);
-  --faint: light-dark(#898070, #756b5f);
-  --border: light-dark(#d8cdb6, #42382b);
-  --border-strong: light-dark(#cbc0ab, #463d32);
-  --input: light-dark(#d8cfbe, #3a3229);
+  --card-foreground: light-dark(#1c1913, #f1eae0);
+  --popover: light-dark(#fffcf8, #27221b);
+  --popover-foreground: light-dark(#1c1913, #f1eae0);
+  --sunken: light-dark(#f0eade, #100e0a);
+  --raised: light-dark(#fffcf8, #24201a);
+  --ink-2: light-dark(#4d473b, #ccc1b3);
+  --muted: light-dark(#ede7da, #28231c);
+  --muted-foreground: light-dark(#6a6253, #b6a792);
+  --faint: light-dark(#887f6e, #7a7062);
+  --border: light-dark(#dad0bb, #3e3529);
+  --border-strong: light-dark(#c7bba4, #4f4537);
+  --input: light-dark(#bbb099, #5b5143);
   --ring: light-dark(#2863ab, #5290d3);
 
   --primary: light-dark(#2863ab, #5290d3);
   --primary-foreground: light-dark(#ffffff, #0b1220);
-  --primary-soft: light-dark(#e4e9f1, #18202c);
+  --primary-soft: light-dark(#e4e9f1, #1a2533);
   --primary-ink: light-dark(#1f5394, #8fb6e6);
-  --secondary: light-dark(#ece6da, #26211b);
-  --secondary-foreground: light-dark(#1d1914, #f0eae0);
-  --accent: light-dark(#ece6da, #26211b);
-  --accent-foreground: light-dark(#1d1914, #f0eae0);
+  --secondary: light-dark(#e9e3d5, #2b261f);
+  --secondary-foreground: light-dark(#1c1913, #f1eae0);
+  --accent: light-dark(#e9e3d5, #2b261f);
+  --accent-foreground: light-dark(#1c1913, #f1eae0);
   --destructive: #d03b3b;
 
-  --viz-grid: light-dark(#e8e1d3, #29231c);
-  --viz-axis: light-dark(#cbc0ab, #463d32);
+  --viz-grid: light-dark(#e9e2d4, #2b251e);
+  --viz-axis: light-dark(#c6bba6, #4f4538);
   --viz-text: var(--muted-foreground);
   /* Low end of score ramps, which run from it to series 1; low values must stay visible. */
   --viz-ramp-low: var(--viz-text);
@@ -80,6 +100,6 @@
   --series-3: light-dark(#8b4486, #a95fa3);
   --series-4: light-dark(#a87a1c, #b4902e);
   --div-neg: light-dark(#2863ab, #5290d3);
-  --div-mid: light-dark(#e4ddd0, #3a3229);
+  --div-mid: light-dark(#e4ddcf, #3b3329);
   --div-pos: light-dark(#c8661a, #d9772a);
 }
