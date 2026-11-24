@@ -372,8 +372,10 @@ function Controls({
           </SelectContent>
         </Select>
       </Field>
+      {/* Centered thumbs use the value directly, even when the disclosure mounted at zero width. */}
       <Field id={temperatureId} label="Temperature" value={settings.temperature.toFixed(2)}>
         <Slider
+          thumbAlignment="center"
           aria-labelledby={temperatureId}
           value={[settings.temperature]}
           onValueChange={(value) => change({ temperature: (value as number[])[0] })}
@@ -394,6 +396,7 @@ function Controls({
       </Field>
       <Field id={neighboursId} label="Neighbours" value={`k = ${settings.k}`}>
         <Slider
+          thumbAlignment="center"
           aria-labelledby={neighboursId}
           value={[settings.k]}
           onValueChange={(value) => change({ k: (value as number[])[0] })}
