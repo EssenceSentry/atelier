@@ -10,7 +10,7 @@
   --ff-sans: "Chivo Variable", "Chivo", ui-sans-serif, system-ui, sans-serif;
   --ff-heading: "Chivo Variable", "Chivo", ui-sans-serif, system-ui, sans-serif;
   --ff-mono: "Chivo Mono Variable", "Chivo Mono", ui-monospace, monospace;
-  --ff-figure: "Chivo Variable", "Chivo", ui-sans-serif, sans-serif;
+  --ff-figure: var(--ff-mono);
 
   --heading-weight: 620;
   --heading-tracking: -0.025em;
@@ -19,12 +19,12 @@
   --eyebrow-font: var(--ff-mono);
   --eyebrow-size: 11px;
   --eyebrow-weight: 500;
-  --eyebrow-tracking: 0.14em;
+  --eyebrow-tracking: 0.09em;
   --eyebrow-transform: uppercase;
-  --eyebrow-color: var(--muted-foreground);
+  --eyebrow-color: var(--primary-ink);
   --label-font: var(--ff-mono);
 
-  --radius: 0.75rem;
+  --radius: 0.4375rem;
   --panel-bg: var(--card);
   --panel-shadow:
     inset 0 1px 0 light-dark(transparent, rgb(255 255 255 / 0.035)),
@@ -32,23 +32,33 @@
     0 10px 28px -14px light-dark(rgb(40 30 90 / 0.12), rgb(0 0 0 / 0.6));
   --panel-ring: var(--border);
   --page-texture: none;
+  --masthead-mode: dark;
+  --masthead-fill: #242239;
+  --masthead-ink: #f1edff;
+  --masthead-edge: #655987;
+  --masthead-name-size: 1.0625rem;
+  --section-size: 1.0625rem;
+  --section-fill: light-dark(#eeeef6, #252639);
+  --lead-fill: light-dark(#edebf7, #242437);
+  --lead-mode: initial;
+  --table-head-fill: light-dark(#e9e8f3, #2d2e43);
 
-  --page: light-dark(#f3f3f7, #07080c);
-  --background: light-dark(#f3f3f7, #07080c);
+  --page: light-dark(#f3f3f7, #10101b);
+  --background: light-dark(#f3f3f7, #10101b);
   --foreground: light-dark(#12121c, #e7e9f3);
-  --card: light-dark(#ffffff, #0e1017);
+  --card: light-dark(#ffffff, #191a29);
   --card-foreground: light-dark(#12121c, #e7e9f3);
   --popover: light-dark(#ffffff, #141722);
   --popover-foreground: light-dark(#12121c, #e7e9f3);
-  --sunken: light-dark(#f7f7fb, #0a0b10);
+  --sunken: light-dark(#f7f7fb, #121320);
   --raised: light-dark(#ffffff, #141722);
   --ink-2: light-dark(#43455a, #b3b8cc);
   --muted: light-dark(#efeff5, #161925);
-  --muted-foreground: light-dark(#656780, #7e849c);
+  --muted-foreground: light-dark(#5c6078, #abb0c7);
   --faint: light-dark(#86889e, #5f6680);
-  --border: light-dark(#e3e3ec, #1b1f2c);
+  --border: light-dark(#d8d9e6, #35374b);
   --border-strong: light-dark(#d0d0de, #2a2f42);
-  --input: light-dark(#dcdce6, #252a3b);
+  --input: light-dark(#dcdce6, #4e516b);
   --ring: light-dark(#7552db, #9a84f5);
 
   --primary: light-dark(#7552db, #8d73f0);

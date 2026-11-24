@@ -114,10 +114,19 @@ Do these before showing the app to anyone:
 - Controls change what they claim to. Lift control state into the screen
   and rebuild charts from it, as the lab does; a control that is not wired
   yet says so.
+- For repeated channels with video evidence, use `ChannelRow` from
+  `@/blocks/channel-row` with a `ChannelEvidence` record. Supply independent
+  verdict badges, rank or score metadata, the rationale and any expandable
+  details. Videos use stable IDs, optional links and supplied thumbnail URLs
+  or data URIs. Use `evidenceNote` for title-only evidence; an absent score
+  or citation stays absent. The portable notebook recipe is `channel-rows`.
 - In a lab, keep selection membership by stable item ID as the projection
   changes. Transform the selection outline with the marks. Check that the
   highlighted items and the actual CSV rows agree. Show the original score
   when a parameter changes it and give the user a way to restore it.
+- Use the direction’s masthead, section title, panel and table-header tokens.
+  Give the main run summary the lead surface. In reports, keep the finding,
+  its interpretation and the figures together at both wide and narrow widths.
 - Every figure on a screen comes from the same data. Derive totals, deltas
   and headline numbers from the rows the charts draw, so the prose, the
   tiles and the chart cannot disagree.

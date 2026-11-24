@@ -1,0 +1,100 @@
+/* The component workbench and portable notebooks share the all-directions
+   bundle. Their adapters own interaction and geometry; theme their surfaces here. */
+.at-notebook .at-top,
+.notebook-workbench .workbench-topbar {
+  color-scheme: var(--masthead-mode, inherit);
+  background: var(--masthead-fill);
+  color: var(--masthead-ink);
+  border-bottom: 1px solid var(--masthead-edge);
+}
+.at-notebook .at-top .at-menu {
+  color: var(--masthead-ink);
+  background: transparent;
+  border-color: color-mix(in srgb, var(--masthead-ink) 45%, transparent);
+}
+.at-notebook .at-top h1 {
+  font-size: clamp(1.25rem, 1.1rem + 0.65vw, 1.75rem);
+  line-height: 1.15;
+}
+.at-notebook .at-nav,
+.workbench.notebook-workbench .workbench-nav {
+  background: var(--sunken);
+}
+.at-notebook .at-nav a[aria-current],
+.notebook-workbench .workbench-nav nav button[aria-current="page"] {
+  box-shadow: inset 3px 0 var(--primary);
+  font-weight: 650;
+}
+.at-notebook .at-cell,
+.notebook-workbench .notebook-page .demo-panel {
+  border-color: var(--border-strong);
+  border-radius: var(--panel-radius, var(--radius));
+  box-shadow: var(--panel-shadow);
+}
+.at-notebook .at-cell-head,
+.at-notebook .at-workspace-panel-head,
+.notebook-workbench .notebook-page .demo-panel-head {
+  background: var(--section-fill);
+  border-bottom-color: var(--border-strong);
+}
+.at-notebook .at-cell-head h2,
+.workbench.notebook-workbench .notebook-page .demo-panel-head h2 {
+  font-family: var(--ff-heading);
+  font-size: var(--section-size);
+  line-height: 1.2;
+  font-weight: var(--heading-weight);
+  letter-spacing: var(--heading-tracking);
+}
+.notebook-workbench .experiment-heading h1 {
+  font-size: clamp(2rem, 1.55rem + 1.65vw, 3.5rem);
+  line-height: 1.08;
+  text-wrap: balance;
+}
+.at-notebook .at-metrics {
+  gap: 1px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: var(--panel-radius, var(--radius));
+  background: var(--border);
+}
+.at-notebook .at-metric {
+  border: 0;
+  border-radius: 0;
+  background: var(--section-fill);
+}
+.at-notebook .at-metric-value {
+  font-size: clamp(1.75rem, 1.45rem + 0.85vw, 2.25rem);
+  line-height: 1.1;
+}
+.at-notebook .at-table thead th,
+.notebook-workbench .demo-table thead th {
+  background: var(--table-head-fill);
+  color: var(--ink-2);
+  font-weight: 600;
+}
+.at-notebook .at-table td,
+.notebook-workbench .demo-table .numeric {
+  font-variant-numeric: tabular-nums;
+}
+.at-notebook .at-tab[aria-selected="true"] {
+  font-weight: 650;
+  background: var(--primary-soft);
+}
+.at-notebook .at-message > strong {
+  font-family: var(--label-font);
+  font-size: 0.8125rem;
+  color: var(--primary-ink);
+}
+.at-notebook .at-composer {
+  border-top: 1px solid var(--border-strong);
+}
+.at-notebook .at-field :is(input, textarea, select),
+.notebook-workbench .demo-input {
+  background-color: var(--raised);
+  border-color: var(--input);
+}
+.at-notebook .at-field :is(input, textarea, select):focus-visible,
+.notebook-workbench .demo-input:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}

@@ -82,7 +82,7 @@ export function SectionHeader({
         {level === "h2" ? (
           <h2 className="text-xl leading-tight md:text-[22px]">{title}</h2>
         ) : (
-          <h3 className="truncate text-[15px] leading-tight">{title}</h3>
+          <h3 className="atelier-section-title">{title}</h3>
         )}
       </div>
       {/* Buttons alone have no text baseline; centring them keeps the title level. */}

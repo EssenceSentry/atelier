@@ -1,0 +1,204 @@
+.channel-row {
+  container-type: inline-size;
+  content-visibility: auto;
+  contain-intrinsic-size: auto 13rem;
+  color: var(--foreground);
+  background: var(--card);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--panel-radius, var(--radius));
+  font: 0.875rem / 1.45 var(--ff-sans);
+}
+.channel-row-layout {
+  display: grid;
+  gap: 1rem;
+  padding: 1rem;
+}
+@container (min-width: 44rem) {
+  .channel-row-layout {
+    grid-template-columns: 16rem minmax(0, 1fr);
+    gap: 1.5rem;
+  }
+  .channel-row-summary {
+    border-inline-end: 1px solid var(--border);
+    padding-inline-end: 1rem;
+  }
+}
+.channel-row :where(h3, p, dl, dd, ul) {
+  margin: 0;
+}
+.channel-row-summary,
+.channel-row-evidence {
+  min-width: 0;
+}
+.channel-row-summary > * + *,
+.channel-row details > * + * {
+  margin-block-start: 0.45rem;
+}
+.channel-row h3 {
+  color: var(--foreground);
+  font: var(--heading-weight) var(--section-size) / 1.2 var(--ff-heading);
+  overflow-wrap: anywhere;
+}
+.channel-row a {
+  color: inherit;
+  text-decoration: none;
+}
+.channel-row a:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+.channel-row :where(h3 a span) {
+  color: var(--muted-foreground);
+  font-size: 0.8em;
+}
+.channel-row :is(a, button, summary):focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+.channel-row-summary p,
+.channel-row dl {
+  color: var(--ink-2);
+  overflow-wrap: anywhere;
+  white-space: pre-line;
+}
+.channel-row-badges,
+.channel-row small {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.35rem;
+}
+.channel-row-badges span {
+  padding: 0.18rem 0.45rem;
+  border-radius: var(--radius);
+  background: var(--muted);
+  color: var(--ink-2);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+.channel-row-badges [data-tone="accent"] {
+  background: var(--primary-soft);
+  color: var(--primary-ink);
+}
+.channel-row-badges [data-tone="positive"] {
+  color: var(--status-good);
+}
+.channel-row-badges [data-tone="negative"] {
+  color: var(--status-critical-ink);
+}
+.channel-row-badges [data-tone="warning"] {
+  color: var(--status-warning);
+}
+.channel-row .channel-row-meta,
+.channel-row small {
+  font: 0.75rem / 1.45 var(--label-font);
+  color: var(--muted-foreground);
+  font-variant-numeric: tabular-nums;
+}
+.channel-row .channel-row-meta {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 0.3rem;
+}
+.channel-row-meta > span {
+  max-width: 100%;
+}
+.channel-row summary {
+  width: fit-content;
+  cursor: pointer;
+  padding-block: 0.25rem;
+  font-weight: 600;
+  color: var(--primary-ink);
+}
+.channel-row details[open] {
+  border-top: 1px solid var(--border);
+}
+.channel-row dt {
+  font-weight: 600;
+}
+.channel-row dd + dt,
+.channel-row dl > div + div {
+  margin-block-start: 0.35rem;
+}
+.channel-row-strip {
+  position: relative;
+}
+.channel-row-strip ul {
+  display: flex;
+  gap: 0.75rem;
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  scroll-padding-inline: 3px;
+  list-style: none;
+  padding: 3px 3px 0.45rem;
+}
+.channel-row-strip li {
+  flex: 0 0 min(10rem, 80%);
+  min-width: 0;
+  scroll-snap-align: start;
+}
+.channel-row-strip a {
+  display: block;
+}
+.channel-row-strip img,
+.channel-row-placeholder {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: contain;
+  background: var(--sunken);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.channel-row-placeholder,
+.channel-row-note,
+.channel-row-empty {
+  color: var(--muted-foreground);
+  font-size: 0.8125rem;
+}
+.channel-row-note {
+  margin-bottom: 0.5rem;
+}
+.channel-row-video-title {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin-block: 0.35rem 0.2rem;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+.channel-row-arrows {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.35rem;
+}
+.channel-row-arrows button {
+  display: grid;
+  place-items: center;
+  min-width: 2rem;
+  min-height: 2rem;
+  border: 1px solid var(--input);
+  border-radius: var(--radius);
+  background: var(--raised);
+  color: var(--foreground);
+  font: 1.25rem / 1 var(--ff-sans);
+  cursor: pointer;
+}
+.channel-row-arrows button[aria-disabled="true"] {
+  color: var(--faint);
+  cursor: default;
+}
+@media (pointer: coarse) {
+  .channel-row-arrows button,
+  .channel-row summary {
+    min-height: 44px;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .channel-row-strip ul {
+    scroll-behavior: smooth;
+  }
+}

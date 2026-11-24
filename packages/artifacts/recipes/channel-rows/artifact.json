@@ -1,0 +1,12 @@
+{
+  "title": "Channel evidence",
+  "release": "0.1.0",
+  "theme": "instrument",
+  "mode": "light",
+  "profile": "portable",
+  "families": ["channels"],
+  "source": "main.js",
+  "sources": [
+    "Illustrative channels and decisions. NASA and SpaceX public-domain sample photos via scikit-image (https://scikit-image.org/docs/stable/api/skimage.data.html)."
+  ]
+}

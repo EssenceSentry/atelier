@@ -12,7 +12,7 @@
   --ff-mono: "JetBrains Mono Variable", "JetBrains Mono", ui-monospace, monospace;
   --ff-figure: "Hanken Grotesk Variable", "Hanken Grotesk", ui-sans-serif, sans-serif;
 
-  --heading-weight: 480;
+  --heading-weight: 530;
   --heading-tracking: -0.012em;
   --figure-weight: 600;
   --figure-tracking: -0.03em;
@@ -21,21 +21,31 @@
   --eyebrow-weight: 650;
   --eyebrow-tracking: 0.14em;
   --eyebrow-transform: uppercase;
-  --eyebrow-color: var(--muted-foreground);
+  --eyebrow-color: light-dark(#874733, #e0a88b);
   --label-font: var(--ff-sans);
 
   --radius: 0.25rem;
   --panel-radius: 0;
-  --panel-rule: 2px solid light-dark(#1d1914, #463d32);
+  --panel-rule: 1px solid light-dark(#74644f, #806f57);
   --panel-bg: transparent;
-  --panel-shadow: none;
+  --panel-shadow: 0 0 0 transparent;
   --panel-ring: transparent;
   --page-texture: none;
+  --masthead-mode: initial;
+  --masthead-fill: var(--card);
+  --masthead-ink: var(--foreground);
+  --masthead-edge: var(--foreground);
+  --masthead-name-size: 1.375rem;
+  --section-size: 1.375rem;
+  --section-fill: var(--card);
+  --lead-fill: var(--card);
+  --lead-mode: initial;
+  --table-head-fill: light-dark(#eae2d0, #342d23);
 
-  --page: light-dark(#f3efe6, #15120e);
-  --background: light-dark(#f3efe6, #15120e);
+  --page: light-dark(#f6f1e6, #15120e);
+  --background: light-dark(#f6f1e6, #15120e);
   --foreground: light-dark(#1d1914, #f0eae0);
-  --card: light-dark(#faf8f3, #1d1914);
+  --card: light-dark(#fffcf5, #1d1914);
   --card-foreground: light-dark(#1d1914, #f0eae0);
   --popover: light-dark(#fdfcf9, #231e18);
   --popover-foreground: light-dark(#1d1914, #f0eae0);
@@ -43,9 +53,9 @@
   --raised: light-dark(#fdfcf9, #231e18);
   --ink-2: light-dark(#4f473d, #cbc1b2);
   --muted: light-dark(#ece6da, #26211b);
-  --muted-foreground: light-dark(#6d6457, #9a8f80);
+  --muted-foreground: light-dark(#6d6457, #b2a48e);
   --faint: light-dark(#898070, #756b5f);
-  --border: light-dark(#e2dacb, #302921);
+  --border: light-dark(#d8cdb6, #42382b);
   --border-strong: light-dark(#cbc0ab, #463d32);
   --input: light-dark(#d8cfbe, #3a3229);
   --ring: light-dark(#2863ab, #5290d3);

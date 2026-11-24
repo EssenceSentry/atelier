@@ -10,7 +10,7 @@ const base = process.argv[2] ?? "http://localhost:5188"
 const out = process.argv[3] ?? "captures"
 const directions = ["instrument", "editorial", "console"]
 const modes = ["light", "dark"]
-const screens = ["monitor", "review", "lab", "report", "states"]
+const screens = ["monitor", "review", "lab", "report", "states", "channels"]
 const viewports = [
   { name: "desktop", width: 1440, height: 900 },
   // Between the lg and xl breakpoints, where side panels fold into the page.

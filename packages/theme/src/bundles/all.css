@@ -1,7 +1,8 @@
-/* Every direction, for the gallery. */
+/* Switchable directions for the gallery and portable notebooks. */
 @import "../fonts/instrument.css";
 @import "../fonts/editorial.css";
 @import "../fonts/console.css";
 @import "../directions/instrument.css";
 @import "../directions/editorial.css";
 @import "../directions/console.css";
+@import "../notebooks.css";

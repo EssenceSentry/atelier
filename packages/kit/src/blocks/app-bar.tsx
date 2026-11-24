@@ -25,10 +25,7 @@ export function AppBar({
 }) {
   return (
     <header
-      className={cn(
-        "sticky top-[env(safe-area-inset-top,0px)] z-20 border-b bg-background/85 backdrop-blur-md",
-        className
-      )}
+      className={cn("sticky top-[env(safe-area-inset-top,0px)] atelier-masthead z-20", className)}
     >
       <div className={cn("flex h-14 items-center gap-4 px-4 md:px-6", innerClassName)}>
         <div className="flex min-w-0 items-center gap-2.5">
@@ -37,7 +34,7 @@ export function AppBar({
           </span>
           <span
             data-app-name
-            className="font-heading text-[15px] font-semibold tracking-tight whitespace-nowrap"
+            className="font-heading font-semibold tracking-tight whitespace-nowrap"
           >
             {product}
           </span>

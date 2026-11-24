@@ -155,19 +155,19 @@ export function ReportScreen({
       />
 
       <article className="mx-auto max-w-[1080px] px-5 pt-12 pb-24 md:px-8 md:pt-16">
-        <header className="max-w-[760px] space-y-5">
-          <Eyebrow>
+        <header className="grid gap-x-10 gap-y-5 border-t-2 border-foreground pt-5 md:grid-cols-[minmax(0,1.45fr)_minmax(0,1fr)] md:gap-y-6">
+          <Eyebrow className="md:col-span-2">
             <Meta items={["Cost review", "Snowflake"]} />
           </Eyebrow>
-          <h1 className="text-[32px] leading-[1.08] text-balance md:text-[48px]">
+          <h1 className="text-[32px] leading-[1.04] text-balance md:text-[48px] lg:text-[56px]">
             Compute spend fell {percent(change)} after the ingestion warehouse was resized
           </h1>
-          <p className="measure text-lg leading-relaxed text-pretty text-ink-2 md:text-xl">
+          <p className="measure self-end text-lg leading-relaxed text-pretty text-ink-2">
             Weekly spend averaged {money(spendAfter)} after the resize, against {money(spendBefore)}{" "}
             before. Most of the drop came from one change, and ad hoc work is now the
             fastest‑growing line.
           </p>
-          <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-muted-foreground">
+          <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-muted-foreground md:col-span-2">
             <span className="text-foreground">Data science</span>
             <span className="text-faint">·</span>
             <span>24 October 2026</span>
@@ -176,7 +176,7 @@ export function ReportScreen({
           </div>
         </header>
 
-        <section className="mt-10 grid grid-cols-1 border-y sm:grid-cols-3">
+        <section className="mt-8 grid grid-cols-1 border-y border-border-strong bg-(--section-fill) sm:grid-cols-3">
           {[
             {
               label: "Weekly spend since 7 September",
@@ -204,9 +204,8 @@ export function ReportScreen({
             <div
               key={k.label}
               className={cn(
-                "space-y-3 py-6 sm:px-6",
-                i > 0 && "border-t sm:border-t-0 sm:border-l",
-                i === 0 && "sm:pl-0"
+                "space-y-3 px-5 py-6 sm:px-6",
+                i > 0 && "border-t sm:border-t-0 sm:border-l"
               )}
             >
               <div className="text-sm text-muted-foreground">{k.label}</div>

@@ -27,6 +27,7 @@ npm run gallery              # then, in another shell:
 npm run capture              # screenshots of every screen, direction and mode
 node apps/gallery/scripts/check-review.mjs  # interactive review checks against the running gallery
 node apps/gallery/scripts/check-lab.mjs     # linked plots, export and keyboard controls
+node apps/gallery/scripts/check-channel-row.mjs  # expansion, evidence strip and thumbnail fallback
 npm run try-template -- --kind <kind> --theme <theme>
 ```
 

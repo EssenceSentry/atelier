@@ -111,6 +111,29 @@
 }
 
 @layer components {
+  .atelier-masthead {
+    color-scheme: var(--masthead-mode, inherit);
+    color: var(--masthead-ink);
+    background: var(--masthead-fill);
+    border-bottom: 1px solid var(--masthead-edge);
+  }
+  .atelier-masthead [data-app-name] {
+    font-size: var(--masthead-name-size);
+    letter-spacing: var(--heading-tracking);
+  }
+  .atelier-masthead [data-app-mark] {
+    color: var(--primary-ink);
+  }
+  .atelier-lead {
+    color-scheme: var(--lead-mode, inherit);
+    --panel-bg: var(--lead-fill);
+    color: var(--foreground);
+  }
+  .atelier-section-title {
+    font-size: var(--section-size);
+    line-height: 1.15;
+    overflow-wrap: anywhere;
+  }
   /* Small caps-style label above a section title. */
   .eyebrow {
     font-family: var(--eyebrow-font);

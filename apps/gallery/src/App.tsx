@@ -6,6 +6,7 @@ import { LabScreen } from "@/screens/lab"
 import { MonitorScreen } from "@/screens/monitor"
 import { ReportScreen } from "@/screens/report"
 import { ReviewScreen } from "@/screens/review"
+import { ChannelRowsScreen } from "./channel-rows/screen"
 import { StatesScreen } from "./states"
 import {
   BoardContext,
@@ -22,6 +23,7 @@ const screens = {
   lab: LabScreen,
   report: ReportScreen,
   states: StatesScreen,
+  channels: ChannelRowsScreen,
 }
 
 // Only a build with every direction can switch between them.
