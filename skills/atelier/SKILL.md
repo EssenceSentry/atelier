@@ -29,6 +29,13 @@ Setup runs `git init`, `npm install` (which installs the hooks) and
 
 ## Make it this app's own
 
+When the design needs work, choose the organizing question for this screen.
+A monitor should reveal which job needs attention. A review queue should keep
+the evidence and decision together. A lab should show what changed relative
+to a baseline. A report should connect its main claim to a figure or table.
+Use `design-interfaces` for a deeper critique, visual direction or motion
+decision, and keep the selected Atelier theme as the source of tokens.
+
 Do these before showing the app to anyone:
 
 1. **Data.** Replace the example data in `src/lib/sample.ts` with the real
@@ -64,6 +71,9 @@ Do these before showing the app to anyone:
   screen shows ("Export 640 selected"). App-bar labels keep a short phone
   form (`Export<span className="max-sm:hidden"> 640 selected</span>`); the
   layout check fails a squeezed mark or a wrapped product name.
+- The phone review queue is a native modal. Dismissing it returns to the
+  decision screen; resizing to desktop releases it. Keep repeated labeling
+  immediate. Notes open on demand and stay with their item for the session.
 - A button's label and its effect come from one function, so they cannot
   drift apart (the review station's `nextStep`). A
   disabled action says what it is waiting for ("Choose an answer").

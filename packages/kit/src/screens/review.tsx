@@ -1,4 +1,5 @@
 import {
+  ChevronRight,
   CloudCheck,
   ExternalLink,
   Flag,
@@ -385,6 +386,24 @@ function ModelEstimate({ channel }: { channel: Channel }) {
   )
 }
 
+function ReviewerNote({ value, onChange }: { value: string; onChange: (value: string) => void }) {
+  return (
+    <details className="group/note">
+      <summary className="flex min-h-10 cursor-pointer list-none items-center gap-2 rounded-md text-sm font-medium text-ink-2 focus-visible:outline-2 focus-visible:outline-ring pointer-coarse:min-h-11 [&::-webkit-details-marker]:hidden">
+        <ChevronRight aria-hidden className="size-4 group-open/note:rotate-90" />
+        {value.trim() ? "Reviewer note" : "Add a note"}
+      </summary>
+      <Textarea
+        aria-label="Reviewer note"
+        placeholder="What should the next reviewer know?"
+        value={value}
+        onChange={(event) => onChange(event.target.value)}
+        className="mt-1 min-h-20 bg-card text-sm"
+      />
+    </details>
+  )
+}
+
 function Queue({
   state,
   dispatch,
@@ -415,6 +434,7 @@ function Queue({
         <div className="relative">
           <Search className="absolute top-1/2 left-2.5 size-4 -translate-y-1/2 text-muted-foreground" />
           <Input
+            aria-label="Search channels"
             placeholder="Search channels"
             data-search
             className="bg-card pl-8"
@@ -562,10 +582,20 @@ export function ReviewScreen({
   const [state, dispatch] = useReducer(reducer, initialState)
   const [english, setEnglish] = useState(true)
   const [notes, setNotes] = useState<Record<string, string>>({})
-  const [queueOpen, setQueueOpen] = useState(false)
+  const queueDialog = useRef<HTMLDialogElement>(null)
+  const queueTitle = useId()
   const translateId = useId()
   const evidenceRef = useRef<HTMLElement>(null)
   useReviewKeys(dispatch)
+
+  useEffect(() => {
+    const wide = window.matchMedia("(min-width: 48rem)")
+    const closeOnDesktop = () => {
+      if (wide.matches && queueDialog.current?.open) queueDialog.current.close()
+    }
+    wide.addEventListener("change", closeOnDesktop)
+    return () => wide.removeEventListener("change", closeOnDesktop)
+  }, [])
 
   const channel = ranked.find((c) => c.handle === state.selected) ?? ranked[0]
   const detail = itemDetail(channel.handle, channel.score)
@@ -605,7 +635,8 @@ export function ReviewScreen({
               size="sm"
               variant="outline"
               className="md:hidden"
-              onClick={() => setQueueOpen(true)}
+              aria-haspopup="dialog"
+              onClick={() => queueDialog.current?.showModal()}
             >
               <ListOrdered /> Queue
             </Button>
@@ -615,24 +646,27 @@ export function ReviewScreen({
       />
 
       {/* Phones get the queue as a full-screen sheet instead of a side column. */}
-      {queueOpen && (
-        <div className="fixed inset-0 z-30 flex flex-col bg-background md:hidden">
-          <div className="flex h-14 shrink-0 items-center justify-between border-b px-4">
-            <span className="text-[15px] font-semibold">Queue</span>
-            <Button
-              size="icon-sm"
-              variant="ghost"
-              aria-label="Close queue"
-              onClick={() => setQueueOpen(false)}
-            >
-              <X />
-            </Button>
-          </div>
-          <div className="flex min-h-0 flex-1 flex-col">
-            <Queue state={state} dispatch={dispatch} onPick={() => setQueueOpen(false)} />
-          </div>
+      <dialog
+        ref={queueDialog}
+        aria-labelledby={queueTitle}
+        onKeyDown={(event) => event.stopPropagation()}
+        className="fixed inset-0 m-0 h-dvh max-h-none w-full max-w-none flex-col bg-background p-0 text-foreground open:flex motion-safe:transition-transform motion-safe:duration-150 motion-safe:ease-out motion-safe:starting:open:translate-y-2"
+      >
+        <div className="flex h-14 shrink-0 items-center justify-between border-b px-4">
+          <h2 id={queueTitle} className="text-[15px] font-semibold">
+            Queue
+          </h2>
+          <Button
+            size="icon-sm"
+            variant="ghost"
+            aria-label="Close queue"
+            onClick={() => queueDialog.current?.close()}
+          >
+            <X />
+          </Button>
         </div>
-      )}
+        <Queue state={state} dispatch={dispatch} onPick={() => queueDialog.current?.close()} />
+      </dialog>
 
       <div className="grid min-h-0 flex-1 grid-cols-1 md:grid-cols-[280px_1fr] xl:grid-cols-[300px_1fr_380px]">
         <aside className="hidden min-h-0 flex-col border-r bg-sunken/50 md:flex">
@@ -783,13 +817,7 @@ export function ReviewScreen({
               <section className="panel space-y-5 p-5 xl:hidden">
                 <p className="text-[13px] leading-relaxed text-muted-foreground">{GUIDANCE}</p>
                 <ModelEstimate channel={channel} />
-                <Textarea
-                  aria-label="Note"
-                  placeholder="Note, optional. Visible to the second reviewer."
-                  value={note}
-                  onChange={(event) => setNote(event.target.value)}
-                  className="min-h-20 bg-card text-sm"
-                />
+                <ReviewerNote key={channel.handle} value={note} onChange={setNote} />
               </section>
             </div>
           </main>
@@ -901,16 +929,7 @@ export function ReviewScreen({
 
             <ModelEstimate channel={channel} />
 
-            <div className="space-y-2">
-              <Eyebrow>Note</Eyebrow>
-              <Textarea
-                aria-label="Note"
-                placeholder="Optional. Visible to the second reviewer."
-                value={note}
-                onChange={(event) => setNote(event.target.value)}
-                className="min-h-20 bg-card text-sm"
-              />
-            </div>
+            <ReviewerNote key={channel.handle} value={note} onChange={setNote} />
           </div>
           <div className="space-y-3 border-t p-4">
             {sliceDone(state) && (

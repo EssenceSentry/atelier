@@ -25,6 +25,7 @@ npm run lint && npm run typecheck
 node template/scripts/check-colours.mjs packages/kit/src
 npm run gallery              # then, in another shell:
 npm run capture              # screenshots of every screen, direction and mode
+node apps/gallery/scripts/check-review.mjs  # interactive review checks against the running gallery
 npm run try-template -- --kind <kind> --theme <theme>
 ```
 
