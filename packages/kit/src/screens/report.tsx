@@ -154,7 +154,7 @@ export function ReportScreen({
         }
       />
 
-      <article className="mx-auto max-w-[1080px] px-5 pt-12 pb-24 md:px-8 md:pt-16">
+      <article className="atelier-enter mx-auto max-w-[1080px] px-5 pt-12 pb-24 md:px-8 md:pt-16">
         <header className="grid gap-x-10 gap-y-5 border-t-2 border-foreground pt-5 md:grid-cols-[minmax(0,1.45fr)_minmax(0,1fr)] md:gap-y-6">
           <Eyebrow className="md:col-span-2">
             <Meta items={["Cost review", "Snowflake"]} />

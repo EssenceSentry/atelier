@@ -21,7 +21,10 @@ for (const mode of ["light", "dark"]) {
   </style><div class="grid">${directions.map((d) => `<h2>${d}</h2>`).join("")}${cells}</div>`
   const file = `${dir}/overview-${mode}.html`
   await writeFile(file, html)
-  const page = await browser.newPage({ viewport: { width: 2280, height: 800 } })
+  const page = await browser.newPage({
+    viewport: { width: 2280, height: 800 },
+    reducedMotion: "reduce",
+  })
   await page.goto(`file://${file}`)
   await page.screenshot({ path: `${dir}/overview-${mode}.png`, fullPage: true })
   await page.close()

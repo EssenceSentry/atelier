@@ -28,7 +28,7 @@ const browser = await chromium.launch()
 const problems = []
 
 async function open(viewport, colorScheme) {
-  const page = await browser.newPage({ viewport, colorScheme })
+  const page = await browser.newPage({ viewport, colorScheme, reducedMotion: "reduce" })
   page.on("console", (m) => m.type() === "error" && problems.push(`console: ${m.text()}`))
   page.on("pageerror", (e) => problems.push(`page error: ${e.message}`))
   await page.route("https://artifact.test/", (route) =>

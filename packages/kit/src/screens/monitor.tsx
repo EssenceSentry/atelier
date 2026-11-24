@@ -295,7 +295,7 @@ export function MonitorScreen({
       />
 
       {/* Phones put what needs attention straight after the summary. */}
-      <main className="mx-auto grid max-w-[1360px] grid-cols-12 gap-4 p-4 md:gap-5 md:p-6 max-lg:[&>*:not(:first-child,#needs-attention)]:order-2">
+      <main className="atelier-enter mx-auto grid max-w-[1360px] grid-cols-12 gap-4 p-4 md:gap-5 md:p-6 max-lg:[&>*:not(:first-child,#needs-attention)]:order-2">
         <section className="panel atelier-lead col-span-12 flex flex-col gap-7 p-5 md:p-7 lg:col-span-7">
           <div className="space-y-3">
             <div className="flex flex-wrap items-center gap-x-3 gap-y-2">

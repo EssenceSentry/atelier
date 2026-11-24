@@ -84,7 +84,7 @@ export function StatesScreen() {
     <div className="min-h-svh">
       <AppBar product="Atelier" crumbs={["States"]} innerClassName="mx-auto max-w-[1360px]" />
 
-      <main className="mx-auto grid max-w-[1360px] grid-cols-12 gap-4 p-4 md:gap-5 md:p-6">
+      <main className="atelier-enter mx-auto grid max-w-[1360px] grid-cols-12 gap-4 p-4 md:gap-5 md:p-6">
         <section className="panel col-span-12 flex flex-col gap-5 p-5 lg:col-span-7">
           <SectionHeader
             title="Loading"

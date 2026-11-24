@@ -547,7 +547,7 @@ export function LabScreen({
           <Controls settings={settings} change={change} />
         </aside>
 
-        <main className="flex flex-col gap-4 p-4 md:p-5 lg:min-h-0 lg:overflow-auto">
+        <main className="atelier-enter flex flex-col gap-4 p-4 md:p-5 lg:min-h-0 lg:overflow-auto">
           {/* Narrower windows fold the controls away rather than losing them. */}
           <details className="panel group lg:hidden">
             <summary className="flex cursor-pointer list-none items-center gap-2 p-4 text-sm font-medium [&::-webkit-details-marker]:hidden">

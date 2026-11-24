@@ -9,6 +9,9 @@ type Build = (t: VizTokens, width: number) => Plot.PlotOptions
 
 let measurer: CanvasRenderingContext2D | null | undefined
 
+/** How long the theme takes to draw a chart in the first time it appears. */
+const ENTRANCE_MS = 1500
+
 /**
  * Width in pixels of chart text set in the direction's label font. Set
  * margins from it rather than by hand: label fonts differ in width between
@@ -107,6 +110,8 @@ export function PlotFigure({
   className?: string
 }) {
   const ref = useRef<HTMLElement>(null)
+  // When the chart was first drawn; redraws within the entrance keep its timing.
+  const entered = useRef<number | null>(null)
   const tokens = useVizTokens()
   const [size, setSize] = useState({ width: 0, height: 0 })
   // Redraw once web fonts arrive, so margins measured from labels fit them.
@@ -162,7 +167,22 @@ export function PlotFigure({
     }
     el.dataset.state = "ok"
     el.replaceChildren(chart)
-    return () => chart.remove()
+    // The theme draws the chart in on data-enter. A redraw during the
+    // entrance (web fonts arriving, a resize) carries on from the same moment
+    // instead of starting again; afterwards redraws are instant.
+    const now = performance.now()
+    entered.current ??= now
+    const elapsed = now - entered.current
+    let settle: number | undefined
+    if (elapsed < ENTRANCE_MS) {
+      el.dataset.enter = ""
+      el.style.setProperty("--plot-enter-offset", `${-Math.round(elapsed)}ms`)
+      settle = window.setTimeout(() => delete el.dataset.enter, ENTRANCE_MS - elapsed)
+    } else delete el.dataset.enter
+    return () => {
+      window.clearTimeout(settle)
+      chart.remove()
+    }
   }, [tokens, size.width, chartHeight, build, fontsReady])
 
   const figure = (

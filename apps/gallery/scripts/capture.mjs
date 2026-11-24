@@ -24,6 +24,8 @@ const browser = await chromium.launch()
 const problems = []
 for (const vp of viewports) {
   const page = await browser.newPage({
+    // The page is checked at rest: entrances and other motion are switched off.
+    reducedMotion: "reduce",
     viewport: { width: vp.width, height: vp.height },
     deviceScaleFactor: 2,
     hasTouch: Boolean(vp.touch),

@@ -6,7 +6,10 @@ import { chromium } from "playwright"
 const url = process.argv[2] ?? "http://localhost:5188/?s=lab&chrome=0"
 const browser = await chromium.launch()
 try {
-  const page = await browser.newPage({ viewport: { width: 1440, height: 900 } })
+  const page = await browser.newPage({
+    viewport: { width: 1440, height: 900 },
+    reducedMotion: "reduce",
+  })
   await page.goto(url)
   const marks = page
     .locator("main figure")

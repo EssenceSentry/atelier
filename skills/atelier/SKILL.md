@@ -103,6 +103,14 @@ Do these before showing the app to anyone:
   such as editorial, turns the same classes flat. In dark, a surface is
   lighter than the one it sits on: `bg-sunken` below a card, `bg-raised` or
   `bg-muted` on it, `bg-popover` above it.
+- Motion is the theme's, and each kind happens once. A screen's main
+  container takes `atelier-enter`, and its direct children rise into place
+  in order when the page loads. Charts, sparklines and meters draw themselves
+  in the first time they appear, and the active tab's marker slides to the
+  tab chosen. Nothing replays on a data update, a resize or a keyboard step,
+  so do not add entrances to rows, queue items or anything a key moves
+  through, and never loop an animation except the one mark that means "live".
+  Reduced motion shows everything at rest, and every check runs that way.
 - State shows on every surface in both modes through two tints mixed from
   the text colour: `hover:bg-hover` (and `focus:bg-hover` in menus) for what
   the pointer or keyboard is on, and `bg-track` behind a meter, progress bar

@@ -89,6 +89,14 @@ enough that a decimal point never touches its neighbours.
 (`--page-scheme`, set beside `color-scheme` in `modes.css`), so a menu opened
 from a dark app bar on a light page is a light menu.
 
+Motion is in the shared layer and each kind happens once: `.atelier-enter`
+raises a container's children into place in order on load;
+`figure.plot-figure[data-enter]` draws a chart's lines, areas and bars the
+first time it appears; `.sparkline`, `.sparkline-dot` and `.meter-fill` do the
+same for the small marks. Transitions share one exponential ease-out. Under
+`prefers-reduced-motion` everything is shown at rest, which is how every
+check script opens the page.
+
 Two tints mixed from the text colour show state on any surface in either
 mode: `bg-hover` for what the pointer or keyboard is on, and `bg-track` behind
 a meter, progress bar or slider.

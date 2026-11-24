@@ -3,7 +3,10 @@ import { chromium } from "playwright"
 
 const [base, out] = process.argv.slice(2)
 const browser = await chromium.launch()
-const page = await browser.newPage({ viewport: { width: 1440, height: 900 } })
+const page = await browser.newPage({
+  viewport: { width: 1440, height: 900 },
+  reducedMotion: "reduce",
+})
 const errors = []
 page.on("pageerror", (e) => errors.push(e.message))
 await page.goto(`${base}/?s=monitor`, { waitUntil: "networkidle" })

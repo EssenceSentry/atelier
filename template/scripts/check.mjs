@@ -28,6 +28,8 @@ for (const colorScheme of ["light", "dark"]) {
   for (const viewport of viewports) {
     const label = `${colorScheme}/${viewport.name}`
     const page = await browser.newPage({
+      // The app is checked at rest: entrances and other motion are switched off.
+      reducedMotion: "reduce",
       viewport: { width: viewport.width, height: viewport.height },
       colorScheme,
       deviceScaleFactor: 2,

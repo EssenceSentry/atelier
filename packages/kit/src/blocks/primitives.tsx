@@ -238,13 +238,13 @@ export function Sparkline({
         <svg
           viewBox={`0 0 ${width} ${height}`}
           preserveAspectRatio="none"
-          className="absolute inset-0 size-full overflow-visible"
+          className="sparkline absolute inset-0 size-full overflow-visible"
           aria-hidden
         >
           {lines}
         </svg>
         <span
-          className="absolute size-2.5 translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-card bg-primary"
+          className="sparkline-dot absolute size-2.5 translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-card bg-primary"
           style={{
             right: `${((width - x(last)) / width) * 100}%`,
             top: `${(y(values[last]) / height) * 100}%`,
@@ -253,9 +253,15 @@ export function Sparkline({
       </div>
     )
   return (
-    <svg width={width} height={height} className={cn("overflow-visible", className)} aria-hidden>
+    <svg
+      width={width}
+      height={height}
+      className={cn("sparkline overflow-visible", className)}
+      aria-hidden
+    >
       {lines}
       <circle
+        className="sparkline-dot"
         cx={x(last)}
         cy={y(values[last])}
         r={4}
@@ -401,7 +407,7 @@ export function Meter({
     >
       <div
         className={cn(
-          "h-full rounded-full transition-[width] duration-500 ease-out motion-reduce:transition-none",
+          "meter-fill h-full rounded-full transition-[width] duration-500 ease-out motion-reduce:transition-none",
           tone === "primary" ? "bg-primary" : "bg-warning"
         )}
         style={{ width: `${pct}%` }}
