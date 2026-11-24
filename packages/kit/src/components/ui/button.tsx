@@ -8,7 +8,7 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          "bg-primary text-primary-foreground shadow-action hover:bg-[color-mix(in_oklab,var(--primary),var(--foreground)_10%)] disabled:bg-muted disabled:shadow-[inset_0_0_0_1px_var(--border)]",
+          "bg-primary bg-(image:--action-fill) text-primary-foreground shadow-action hover:bg-[color-mix(in_oklab,var(--primary),var(--foreground)_10%)] disabled:bg-muted disabled:bg-none disabled:shadow-[inset_0_0_0_1px_var(--border)]",
         outline:
           "border-input bg-raised shadow-control hover:border-[color-mix(in_oklab,var(--input),var(--foreground)_20%)] hover:bg-hover hover:text-foreground aria-expanded:bg-hover aria-expanded:text-foreground disabled:shadow-none",
         secondary:

@@ -219,12 +219,25 @@ export function Sparkline({
           <stop offset="0" style={{ stopColor: "var(--primary)", stopOpacity: 0.24 }} />
           <stop offset="1" style={{ stopColor: "var(--primary)", stopOpacity: 0 }} />
         </linearGradient>
+        {/* The line strengthens toward the latest value. In user space, so a
+            flat line, which has no height, still gets its gradient. */}
+        <linearGradient
+          id={`${fade}-line`}
+          gradientUnits="userSpaceOnUse"
+          x1="0"
+          y1="0"
+          x2={width}
+          y2="0"
+        >
+          <stop offset="0" style={{ stopColor: "var(--primary)", stopOpacity: 0.35 }} />
+          <stop offset="0.7" style={{ stopColor: "var(--primary)", stopOpacity: 1 }} />
+        </linearGradient>
       </defs>
       <path d={`${d}L${x(last)},${height}L${x(0)},${height}Z`} fill={`url(#${fade})`} />
       <path
         d={d}
         fill="none"
-        stroke="var(--primary)"
+        stroke={`url(#${fade}-line)`}
         strokeWidth={1.75}
         strokeLinejoin="round"
         strokeLinecap="round"
@@ -408,7 +421,7 @@ export function Meter({
       <div
         className={cn(
           "meter-fill h-full rounded-full transition-[width] duration-500 ease-out motion-reduce:transition-none",
-          tone === "primary" ? "bg-primary" : "bg-warning"
+          tone === "primary" ? "bg-primary bg-(image:--accent-gradient)" : "bg-warning"
         )}
         style={{ width: `${pct}%` }}
       />

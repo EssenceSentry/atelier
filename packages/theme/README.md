@@ -89,6 +89,14 @@ enough that a decimal point never touches its neighbours.
 (`--page-scheme`, set beside `color-scheme` in `modes.css`), so a menu opened
 from a dark app bar on a light page is a light menu.
 
+Gradients are tokens too, so a direction decides whether it has any.
+`--accent-gradient` runs the accent into `--accent-2` for fills that show a
+quantity or mark the active item; `--action-fill` lights the top of the
+primary button; `--masthead-glow` lights the app bar's lower edge; and
+`--lead-fill` may carry the accent's light across a corner of the lead panel.
+Instrument stays inside its cobalt, Console runs violet into fuchsia, and
+Editorial sets all of them to `none`.
+
 Motion is in the shared layer and each kind happens once: `.atelier-enter`
 raises a container's children into place in order on load;
 `figure.plot-figure[data-enter]` draws a chart's lines, areas and bars the

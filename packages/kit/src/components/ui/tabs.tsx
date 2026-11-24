@@ -41,7 +41,7 @@ const tabsListVariants = cva(
 const tabsIndicator = {
   default:
     "top-0 left-0 h-(--active-tab-height) w-(--active-tab-width) translate-x-(--active-tab-left) translate-y-(--active-tab-top) rounded-md bg-raised shadow-control",
-  line: "rounded-full bg-primary data-horizontal:bottom-[-1px] data-horizontal:left-0 data-horizontal:h-0.5 data-horizontal:w-(--active-tab-width) data-horizontal:translate-x-(--active-tab-left) data-vertical:top-0 data-vertical:right-[-1px] data-vertical:h-(--active-tab-height) data-vertical:w-0.5 data-vertical:translate-y-(--active-tab-top)",
+  line: "rounded-full bg-primary bg-(image:--accent-gradient) data-horizontal:bottom-[-1px] data-horizontal:left-0 data-horizontal:h-0.5 data-horizontal:w-(--active-tab-width) data-horizontal:translate-x-(--active-tab-left) data-vertical:top-0 data-vertical:right-[-1px] data-vertical:h-(--active-tab-height) data-vertical:w-0.5 data-vertical:translate-y-(--active-tab-top)",
 }
 
 function TabsList({

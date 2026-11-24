@@ -3,7 +3,10 @@
 .at-notebook .at-top,
 .notebook-workbench .workbench-topbar {
   color-scheme: var(--masthead-mode, inherit);
-  background: var(--masthead-fill);
+  /* The direction's accent lights the bar's lower edge, where it sets one. */
+  background:
+    var(--masthead-glow, none) bottom / 100% 1px no-repeat,
+    var(--masthead-fill);
   color: var(--masthead-ink);
   border-bottom: 1px solid var(--masthead-edge);
   box-shadow: var(--masthead-shadow, none);
@@ -150,6 +153,7 @@
 .notebook-workbench .demo-button.primary {
   border-color: transparent;
   background-color: var(--primary);
+  background-image: var(--action-fill, none);
   color: var(--primary-foreground);
   box-shadow: var(--elevation-action);
 }
@@ -157,7 +161,7 @@
 .notebook-workbench .demo-button.primary:hover:not(:disabled) {
   border-color: transparent;
   background-color: color-mix(in oklab, var(--primary), var(--foreground) 10%);
-  background-image: none;
+  background-image: var(--action-fill, none);
 }
 .at-notebook .at-button[data-variant="ghost"] {
   border-color: transparent;

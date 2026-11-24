@@ -48,6 +48,11 @@
   --well-shadow: 0 0 0 transparent;
 
   --page-texture: none;
+  /* Print has no gradients: the accent stays flat. */
+  --accent-2: var(--primary);
+  --accent-gradient: none;
+  --action-fill: none;
+  --masthead-glow: none;
   --masthead-mode: initial;
   --masthead-fill: var(--card);
   --masthead-ink: var(--foreground);

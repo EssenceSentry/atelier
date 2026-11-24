@@ -111,6 +111,12 @@ Do these before showing the app to anyone:
   so do not add entrances to rows, queue items or anything a key moves
   through, and never loop an animation except the one mark that means "live".
   Reduced motion shows everything at rest, and every check runs that way.
+- Gradients come from the direction, never a hand-written one:
+  `bg-(image:--accent-gradient)` over `bg-primary` for a fill that shows a
+  quantity or marks the active item (meters, progress, the tab marker), the
+  lead panel's fill, the primary button's lit top and the app bar's lower
+  edge. Editorial sets them all flat, as print would. No gradient text, and
+  no gradient behind running text.
 - State shows on every surface in both modes through two tints mixed from
   the text colour: `hover:bg-hover` (and `focus:bg-hover` in menus) for what
   the pointer or keyboard is on, and `bg-track` behind a meter, progress bar
