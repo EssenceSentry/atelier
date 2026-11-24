@@ -1,13 +1,13 @@
 import type { VizTokens } from "@atelier/theme/viz"
 import * as Plot from "@observablehq/plot"
-import { ChevronDown, Download, Layers, SlidersHorizontal, Upload } from "lucide-react"
+import { ChevronDown, Download, SlidersHorizontal } from "lucide-react"
 import { type ReactNode, useCallback, useId, useState } from "react"
 import { AppBar } from "@/blocks/app-bar"
 import { ChartPanel, ChartRow } from "@/blocks/chart-panel"
 import { Legend, LegendMark } from "@/blocks/legend"
 import { labelWidth, PlotFigure, tipStyle } from "@/blocks/plot-figure"
 import { Eyebrow, Meta, SectionHeader, Thumb } from "@/blocks/primitives"
-import { ActionButton, EmptyState, NotBuiltButton } from "@/blocks/states"
+import { ActionButton } from "@/blocks/states"
 import { Button } from "@/components/ui/button"
 import {
   Select,
@@ -18,7 +18,6 @@ import {
 } from "@/components/ui/select"
 import { Slider } from "@/components/ui/slider"
 import { Switch } from "@/components/ui/switch"
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 import { contributions, neighbors, points, prCurves } from "@/lib/sample"
 
@@ -63,6 +62,13 @@ const BRUSH = { x1: 0.55, x2: 2.45, y1: -0.15, y2: 1.75 }
 const inBrush = (p: { x: number; y: number }) =>
   p.x >= BRUSH.x1 && p.x <= BRUSH.x2 && p.y >= BRUSH.y1 && p.y <= BRUSH.y2
 const selection = points.filter(inBrush)
+const selectionIds = new Set(selection.map((p) => p.id))
+const selectionCorners = [
+  { x: BRUSH.x1, y: BRUSH.y1 },
+  { x: BRUSH.x2, y: BRUSH.y1 },
+  { x: BRUSH.x2, y: BRUSH.y2 },
+  { x: BRUSH.x1, y: BRUSH.y2 },
+]
 const selected = points
   .filter((p) => p.label === "Travel" && inBrush(p))
   .sort((a, b) => b.score - a.score)[40]
@@ -113,26 +119,25 @@ const scatter = (t: VizTokens, s: Settings) => {
     marks: [
       Plot.gridX({ stroke: t.grid, strokeOpacity: 1, ticks: 6 }),
       Plot.gridY({ stroke: t.grid, strokeOpacity: 1, ticks: 5 }),
-      ...(s.projection === "umap"
-        ? [
-            Plot.rect([BRUSH], {
-              x1: "x1",
-              x2: "x2",
-              y1: "y1",
-              y2: "y2",
-              fill: t.ink,
-              fillOpacity: 0.04,
-              stroke: t.ink,
-              strokeOpacity: 0.5,
-            }),
-          ]
-        : []),
+      Plot.line(
+        selectionCorners.map((p) => project(p, s.projection)),
+        {
+          x: "x",
+          y: "y",
+          curve: "linear-closed",
+          fill: t.ink,
+          fillOpacity: 0.04,
+          stroke: t.ink,
+          strokeOpacity: 0.5,
+          ariaLabel: () => "Selection outline",
+        }
+      ),
       Plot.dot(placed, {
         x: "x",
         y: "y",
         r: 2.2,
         fill: s.colourBy === "label" ? "label" : "at",
-        fillOpacity: (d: Point) => (inBrush(d) ? 0.9 : 0.5),
+        fillOpacity: (d: Point) => (selectionIds.has(d.id) ? 0.9 : 0.5),
       }),
       ...(s.boundary
         ? [
@@ -155,23 +160,6 @@ const scatter = (t: VizTokens, s: Settings) => {
         strokeWidth: 2.5,
       }),
       Plot.dot([pin], { x: "x", y: "y", r: 11, stroke: t.ink, strokeWidth: 1.25 }),
-      ...(s.projection === "umap"
-        ? [
-            Plot.text([BRUSH], {
-              x: "x2",
-              y: "y2",
-              text: () => `${selection.length} selected`,
-              textAnchor: "end",
-              dy: -9,
-              fill: t.ink,
-              fontWeight: 600,
-              // A halo in the surface colour keeps the label readable over points.
-              stroke: t.surface,
-              strokeWidth: 4,
-              paintOrder: "stroke",
-            }),
-          ]
-        : []),
       Plot.tip(
         placed,
         Plot.pointer({
@@ -309,11 +297,23 @@ const contributionChart = (t: VizTokens) => ({
   ],
 })
 
-function Field({ label, value, children }: { label: string; value?: string; children: ReactNode }) {
+function Field({
+  id,
+  label,
+  value,
+  children,
+}: {
+  id: string
+  label: string
+  value?: string
+  children: ReactNode
+}) {
   return (
     <div className="space-y-2.5">
       <div className="flex items-baseline justify-between">
-        <span className="text-[13px] font-medium">{label}</span>
+        <span id={id} className="text-[13px] font-medium">
+          {label}
+        </span>
         {value && <span className="label-mono num text-xs text-muted-foreground">{value}</span>}
       </div>
       {children}
@@ -328,11 +328,16 @@ function Controls({
   settings: Settings
   change: (next: Partial<Settings>) => void
 }) {
+  const projectionId = useId()
+  const colourId = useId()
+  const temperatureId = useId()
+  const neighboursId = useId()
   const boundaryId = useId()
   return (
     <div className="space-y-7">
-      <Field label="Projection">
+      <Field id={projectionId} label="Projection">
         <ToggleGroup
+          aria-labelledby={projectionId}
           value={[settings.projection]}
           onValueChange={(value: string[]) =>
             value[0] && change({ projection: value[0] as Settings["projection"] })
@@ -349,13 +354,13 @@ function Controls({
           ))}
         </ToggleGroup>
       </Field>
-      <Field label="Colour by">
+      <Field id={colourId} label="Colour by">
         <Select
           items={COLOUR_BY}
           value={settings.colourBy}
           onValueChange={(value) => value && change({ colourBy: value as Settings["colourBy"] })}
         >
-          <SelectTrigger size="sm" className="w-full bg-card">
+          <SelectTrigger aria-labelledby={colourId} size="sm" className="w-full bg-card">
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
@@ -367,17 +372,29 @@ function Controls({
           </SelectContent>
         </Select>
       </Field>
-      <Field label="Temperature" value={settings.temperature.toFixed(2)}>
+      <Field id={temperatureId} label="Temperature" value={settings.temperature.toFixed(2)}>
         <Slider
+          aria-labelledby={temperatureId}
           value={[settings.temperature]}
           onValueChange={(value) => change({ temperature: (value as number[])[0] })}
           min={0.1}
           max={2}
           step={0.05}
         />
+        {settings.temperature !== SAMPLE_T && (
+          <Button
+            variant="link"
+            size="sm"
+            className="px-0"
+            onClick={() => change({ temperature: SAMPLE_T })}
+          >
+            Reset temperature
+          </Button>
+        )}
       </Field>
-      <Field label="Neighbours" value={`k = ${settings.k}`}>
+      <Field id={neighboursId} label="Neighbours" value={`k = ${settings.k}`}>
         <Slider
+          aria-labelledby={neighboursId}
           value={[settings.k]}
           onValueChange={(value) => change({ k: (value as number[])[0] })}
           min={1}
@@ -397,8 +414,8 @@ function Controls({
         <Eyebrow>Probe</Eyebrow>
         <div className="font-mono text-[13px]">p = σ((w·x + b) / T)</div>
         <p className="text-[13px] leading-relaxed text-muted-foreground">
-          Linear probe fitted in the browser on 1,920 reviewed items. Hold‑out AUC{" "}
-          <span className="num text-foreground">0.913</span>.
+          Lower temperatures move sample scores toward 0 or 1. Higher temperatures move them toward
+          0.5.
         </p>
       </div>
     </div>
@@ -425,8 +442,13 @@ function Inspector({ settings, wide = false }: { settings: Settings; wide?: bool
             {scoreAt(selected, settings.temperature).toFixed(3)}
           </div>
           <div className="num mt-1 text-xs text-muted-foreground">
-            probe score at T = {settings.temperature.toFixed(2)}
+            Probe score at T = {settings.temperature.toFixed(2)}
           </div>
+          {settings.temperature !== SAMPLE_T && (
+            <div className="num mt-1 text-xs text-muted-foreground">
+              Baseline {selected.score.toFixed(3)} at T = {SAMPLE_T.toFixed(2)}
+            </div>
+          )}
         </div>
         <div>
           <div className="flex items-center gap-1.5 pb-1 text-sm font-medium">
@@ -477,14 +499,6 @@ function Inspector({ settings, wide = false }: { settings: Settings; wide?: bool
   )
 }
 
-const VIEWS = [
-  ["space", "Space"],
-  ["rank", "Rankings"],
-  ["evidence", "Evidence"],
-  ["uncertainty", "Uncertainty"],
-] as const
-type View = (typeof VIEWS)[number][0]
-
 export function LabScreen({
   product = "Embedding lab",
   icon,
@@ -492,7 +506,6 @@ export function LabScreen({
   product?: string
   icon?: ReactNode
 }) {
-  const [view, setView] = useState<View>("space")
   const [settings, setSettings] = useState<Settings>({
     projection: "umap",
     colourBy: "label",
@@ -505,45 +518,23 @@ export function LabScreen({
   const buildPr = useCallback(prChart, [])
   const buildHist = useCallback((t: VizTokens) => histogram(t, settings), [settings])
   const travelShare = selection.filter((p) => p.label === "Travel").length / selection.length
-  const projectionName =
-    settings.projection === "polar"
-      ? "along the probe"
-      : PROJECTIONS.find(([value]) => value === settings.projection)?.[1]
+  const projectionName = PROJECTIONS.find(([value]) => value === settings.projection)?.[1]
 
   return (
     <div className="flex min-h-svh flex-col lg:h-svh">
       <AppBar
         product={product}
         icon={icon}
-        center={
-          <Tabs value={view} onValueChange={(next: View) => setView(next)}>
-            <TabsList>
-              {VIEWS.map(([value, name]) => (
-                <TabsTrigger key={value} value={value}>
-                  {name}
-                </TabsTrigger>
-              ))}
-            </TabsList>
-          </Tabs>
-        }
+        crumbs={["Travel channels · sample"]}
         right={
-          <>
-            <Meta
-              items={["travel-channels", "2,400", "768-d"]}
-              className="label-mono mr-1 hidden rounded-full border px-2.5 py-1 text-[11px] text-ink-2 md:inline"
-            />
-            <NotBuiltButton variant="ghost" size="sm">
-              <Upload /> Import
-            </NotBuiltButton>
-            <ActionButton
-              variant="outline"
-              size="sm"
-              pendingLabel="Exporting…"
-              onAction={async () => exportSelection(settings.temperature)}
-            >
-              <Download /> Export<span className="max-sm:hidden"> {selection.length} selected</span>
-            </ActionButton>
-          </>
+          <ActionButton
+            variant="outline"
+            size="sm"
+            pendingLabel="Exporting…"
+            onAction={async () => exportSelection(settings.temperature)}
+          >
+            <Download /> Export {selection.length} selected
+          </ActionButton>
         }
       />
 
@@ -565,81 +556,67 @@ export function LabScreen({
             </div>
           </details>
 
-          {view !== "space" ? (
-            <section className="panel flex flex-1 items-center justify-center">
-              <EmptyState
-                icon={<Layers />}
-                title={`${VIEWS.find(([value]) => value === view)?.[1]} isn't built in this example`}
-                action={
-                  <Button size="sm" variant="outline" onClick={() => setView("space")}>
-                    Back to Space
-                  </Button>
-                }
-              >
-                The example builds the Space view only. Build this one from the same selection and
-                probe scores.
-              </EmptyState>
-            </section>
-          ) : (
-            <>
-              {/* Only wide windows fit the scatter to the screen; narrower ones scroll. */}
-              <section className="panel flex flex-col gap-3 p-5 xl:min-h-[28rem] xl:flex-1">
-                <SectionHeader
-                  title={`Channel embeddings, ${projectionName}`}
-                  meta={
-                    settings.colourBy === "label" ? (
-                      <Legend items={LABELS.map((l) => ({ label: l, colour: labelSwatch(l) }))} />
-                    ) : (
-                      <span className="flex items-center gap-2">
-                        probe score <span className="num">0</span>
-                        <span
-                          className="h-2 w-20 rounded-full"
-                          style={{
-                            background:
-                              "linear-gradient(90deg, var(--viz-ramp-low), var(--series-1))",
-                          }}
-                        />
-                        <span className="num">1</span>
-                      </span>
-                    )
-                  }
+          {/* Only wide windows fit the scatter to the screen; narrower ones scroll. */}
+          <section className="panel flex flex-col gap-3 p-5 xl:min-h-[28rem] xl:flex-1">
+            <div className="flex flex-wrap items-end justify-between gap-x-4 gap-y-2">
+              <div>
+                <h1 className="text-xl leading-tight md:text-[24px]">Channel embeddings</h1>
+                <p className="num mt-1 text-xs text-muted-foreground">
+                  {projectionName} · {selection.length} of {points.length.toLocaleString("en-US")}{" "}
+                  channels selected
+                </p>
+              </div>
+              <div className="text-xs text-muted-foreground">
+                {settings.colourBy === "label" ? (
+                  <Legend items={LABELS.map((l) => ({ label: l, colour: labelSwatch(l) }))} />
+                ) : (
+                  <span className="flex items-center gap-2">
+                    probe score <span className="num">0</span>
+                    <span
+                      className="h-2 w-20 rounded-full"
+                      style={{
+                        background: "linear-gradient(90deg, var(--viz-ramp-low), var(--series-1))",
+                      }}
+                    />
+                    <span className="num">1</span>
+                  </span>
+                )}
+              </div>
+            </div>
+            <PlotFigure build={buildScatter} height={360} fill />
+          </section>
+          <ChartRow className="md:grid-cols-[1.25fr_1fr]">
+            <ChartPanel title="Precision against recall">
+              <PlotFigure build={buildPr} height={176} />
+            </ChartPanel>
+            <ChartPanel
+              title="Score distribution"
+              meta={
+                <Legend
+                  items={LABELS.map((l) => ({
+                    label: l,
+                    colour: labelSwatch(l),
+                    mark: "square" as const,
+                  }))}
                 />
-                <PlotFigure build={buildScatter} height={360} fill />
-              </section>
-              <ChartRow className="md:grid-cols-[1.25fr_1fr]">
-                <ChartPanel title="Precision against recall">
-                  <PlotFigure build={buildPr} height={176} />
-                </ChartPanel>
-                <ChartPanel
-                  title="Score distribution"
-                  meta={
-                    <Legend
-                      items={LABELS.map((l) => ({
-                        label: l,
-                        colour: labelSwatch(l),
-                        mark: "square" as const,
-                      }))}
-                    />
-                  }
-                  note={
-                    <Meta
-                      items={[
-                        `${selection.length} selected`,
-                        `${(travelShare * 100).toFixed(0)}% travel`,
-                      ]}
-                      className="num"
-                    />
-                  }
-                >
-                  <PlotFigure build={buildHist} height={176} />
-                </ChartPanel>
-              </ChartRow>
+              }
+              note={
+                <Meta
+                  items={[
+                    `${selection.length} selected`,
+                    `${(travelShare * 100).toFixed(0)}% travel`,
+                  ]}
+                  className="num"
+                />
+              }
+            >
+              <PlotFigure build={buildHist} height={176} />
+            </ChartPanel>
+          </ChartRow>
 
-              <section className="panel p-5 xl:hidden">
-                <Inspector settings={settings} wide />
-              </section>
-            </>
-          )}
+          <section className="panel p-5 xl:hidden">
+            <Inspector settings={settings} wide />
+          </section>
         </main>
 
         <aside className="hidden min-h-0 overflow-auto border-l bg-card p-5 xl:block">

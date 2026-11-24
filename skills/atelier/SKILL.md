@@ -114,6 +114,10 @@ Do these before showing the app to anyone:
 - Controls change what they claim to. Lift control state into the screen
   and rebuild charts from it, as the lab does; a control that is not wired
   yet says so.
+- In a lab, keep selection membership by stable item ID as the projection
+  changes. Transform the selection outline with the marks. Check that the
+  highlighted items and the actual CSV rows agree. Show the original score
+  when a parameter changes it and give the user a way to restore it.
 - Every figure on a screen comes from the same data. Derive totals, deltas
   and headline numbers from the rows the charts draw, so the prose, the
   tiles and the chart cannot disagree.
