@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="360" viewBox="0 0 1200 360" role="img" aria-labelledby="title desc">
+  <title id="title">Atelier</title>
+  <desc id="desc">Three specimens of the same plot in Atelier's Instrument, Editorial and Console visual directions.</desc>
+  <defs>
+    <linearGradient id="ground" x2="1" y2="1"><stop stop-color="#201e33"/><stop offset="1" stop-color="#141b28"/></linearGradient>
+    <path id="trace" d="M0 45 12 39 24 42 36 25 48 29 60 11 72 19 84 8 96 12 108 2"/>
+    <path id="guides" d="M0 4h108 M0 25h108 M0 46h108"/>
+  </defs>
+  <rect width="1200" height="360" rx="16" fill="url(#ground)"/>
+  <path d="M56 294h483 M590 46v268" fill="none" stroke="#444353"/>
+  <g font-family="Arial, Helvetica, sans-serif">
+    <path d="M56 72h24" stroke="#c8bafa" stroke-width="3"/>
+    <text x="92" y="77" font-size="15" letter-spacing="1.8" fill="#d0c9e1">INTERFACE KIT / PROJECT GENERATOR</text>
+    <text x="51" y="176" font-family="Georgia, 'Times New Roman', serif" font-size="101" letter-spacing="-5" fill="#f7f2e9">atelier</text>
+    <text x="56" y="228" font-size="30" letter-spacing="-.7" fill="#e3dfeb">Build the screen your work needs.</text>
+    <text x="56" y="322" font-size="16" fill="#c3bdcb">Review stations · Monitors · Labs · Reports</text>
+    <text x="627" y="74" font-size="15" letter-spacing="1.6" fill="#c9c5d5">ONE FIGURE, THREE DIRECTIONS</text>
+    <g transform="translate(627 105)">
+      <rect width="164" height="181" rx="7" fill="#f6f9fc"/>
+      <path d="M0 43h164" stroke="#c1cbd4"/>
+      <rect x="16" y="20" width="9" height="9" rx="2" fill="#315bc7"/>
+      <text x="34" y="30" font-size="18" font-weight="700" fill="#1c2c3a">Instrument</text>
+      <g transform="translate(27 77)"><use href="#guides" fill="none" stroke="#d3dce6"/><use href="#trace" stroke="#315bc7" stroke-width="3" fill="none" stroke-linejoin="round"/><circle cx="108" cy="2" r="3.5" fill="#315bc7"/></g>
+      <path d="M26 151h108" stroke="#b6c3d1"/><path d="M26 151v4m54 -4v4m54 -4v4" stroke="#8197a6"/>
+    </g>
+    <g transform="translate(807 105)">
+      <rect width="164" height="181" rx="5" fill="#fbf2df"/>
+      <text x="19" y="32" font-family="Georgia, 'Times New Roman', serif" font-style="italic" font-size="23" fill="#3b302e">Editorial</text>
+      <path d="M18 43h128m-128 3h128" stroke="#a59a83"/>
+      <g transform="translate(27 77)"><use href="#guides" fill="none" stroke="#ddd1b8"/><use href="#trace" fill="none" stroke="#925126" stroke-width="2.6"/><circle cx="108" cy="2" r="3.5" fill="#925126"/></g>
+      <path d="M26 151h108" stroke="#a59a83"/><path d="M26 151v4m54 -4v4m54 -4v4" stroke="#a59a83"/>
+    </g>
+    <g transform="translate(987 105)">
+      <rect width="164" height="181" rx="6" fill="#10141d" stroke="#655e7c"/>
+      <text x="18" y="30" font-family="Menlo, Consolas, monospace" font-size="18" fill="#d6caff">Console</text>
+      <path d="M0 43h164" stroke="#464257"/>
+      <g transform="translate(27 77)"><use href="#guides" stroke-dasharray="2 4" stroke="#4d4a62" fill="none"/><use href="#trace" stroke="#b6a0ff" stroke-width="2.5" fill="none"/><rect x="105" y="-1" width="6" height="6" fill="#d9cdfc"/></g>
+      <path d="M26 151h108" stroke="#575266"/><path d="M26 151v4m54 -4v4m54 -4v4" stroke="#817a93"/>
+    </g>
+  </g>
+</svg>
