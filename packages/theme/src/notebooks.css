@@ -6,6 +6,7 @@
   background: var(--masthead-fill);
   color: var(--masthead-ink);
   border-bottom: 1px solid var(--masthead-edge);
+  box-shadow: var(--masthead-shadow, none);
 }
 .at-notebook .at-top .at-menu {
   color: var(--masthead-ink);
@@ -22,8 +23,10 @@
 }
 .at-notebook .at-nav a[aria-current],
 .notebook-workbench .workbench-nav nav button[aria-current="page"] {
-  box-shadow: inset 3px 0 var(--primary);
-  font-weight: 650;
+  font-weight: 600;
+}
+.at-notebook .at-nav a[aria-current] {
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--primary) 20%, transparent);
 }
 .at-notebook .at-cell,
 .notebook-workbench .notebook-page .demo-panel {
@@ -92,6 +95,85 @@
 .notebook-workbench .demo-input {
   background-color: var(--raised);
   border-color: var(--input);
+}
+
+/* Captions under a panel title are words, so they follow the direction's
+   choice for status words: its sans unless mono labels are its voice. */
+.notebook-workbench :is(.demo-panel-head p, .demo-meta) {
+  font-family: var(--status-font, var(--ff-sans));
+  font-size: var(--status-size, 0.75rem);
+  /* A sans sets " · " tighter than the mono these captions were written in. */
+  word-spacing: 0.12em;
+}
+
+/* Controls take the direction's elevation steps and the shared state tints,
+   as the kit's buttons and fields do: quiet buttons and text fields sit one
+   step up, the primary button carries the action shadow, and hover is a tint
+   of the text colour, so it shows on dark surfaces too. */
+.at-notebook
+  .at-field
+  :is(input:not([type="checkbox"], [type="radio"], [type="range"]), textarea, select),
+.at-notebook .at-input,
+.notebook-workbench .demo-input {
+  border-radius: var(--radius);
+  box-shadow: var(--elevation-control);
+  transition:
+    border-color 150ms,
+    box-shadow 150ms;
+}
+.at-notebook
+  .at-field
+  :is(input:not([type="checkbox"], [type="radio"], [type="range"]), textarea, select):hover,
+.at-notebook .at-input:hover,
+.notebook-workbench .demo-input:hover {
+  border-color: color-mix(in oklab, var(--input), var(--foreground) 20%);
+}
+.at-notebook .at-button,
+.notebook-workbench .demo-button {
+  border-color: var(--input);
+  border-radius: var(--radius);
+  background-color: var(--raised);
+  color: var(--foreground);
+  box-shadow: var(--elevation-control);
+  transition:
+    background-color 150ms,
+    border-color 150ms,
+    box-shadow 150ms;
+}
+.at-notebook .at-button:hover:not(:disabled),
+.notebook-workbench .demo-button:hover:not(:disabled) {
+  border-color: color-mix(in oklab, var(--input), var(--foreground) 20%);
+  background-color: var(--raised);
+  background-image: linear-gradient(var(--hover), var(--hover));
+}
+.at-notebook .at-button[data-variant="primary"],
+.notebook-workbench .demo-button.primary {
+  border-color: transparent;
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+  box-shadow: var(--elevation-action);
+}
+.at-notebook .at-button[data-variant="primary"]:hover:not(:disabled),
+.notebook-workbench .demo-button.primary:hover:not(:disabled) {
+  border-color: transparent;
+  background-color: color-mix(in oklab, var(--primary), var(--foreground) 10%);
+  background-image: none;
+}
+.at-notebook .at-button[data-variant="ghost"] {
+  border-color: transparent;
+  background-color: transparent;
+  box-shadow: none;
+}
+.at-notebook .at-button[data-variant="ghost"]:hover:not(:disabled) {
+  border-color: transparent;
+  background-color: transparent;
+}
+.at-notebook .at-button[data-variant="danger"] {
+  border-color: color-mix(in oklab, var(--status-critical) 45%, transparent);
+  color: var(--status-critical-ink);
+}
+.at-notebook .at-tab:hover {
+  background: var(--hover);
 }
 .at-notebook .at-field :is(input, textarea, select):focus-visible,
 .notebook-workbench .demo-input:focus-visible {
