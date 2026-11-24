@@ -560,7 +560,7 @@ export function LabScreen({
           <section className="panel flex flex-col gap-3 p-5 xl:min-h-[28rem] xl:flex-1">
             <div className="flex flex-wrap items-end justify-between gap-x-4 gap-y-2">
               <div>
-                <h1 className="text-xl leading-tight md:text-[24px]">Channel embeddings</h1>
+                <h1 className="text-xl leading-tight md:text-[22px]">Channel embeddings</h1>
                 <p className="num mt-1 text-xs text-muted-foreground">
                   {projectionName} · {selection.length} of {points.length.toLocaleString("en-US")}{" "}
                   channels selected
