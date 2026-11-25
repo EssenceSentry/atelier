@@ -23,7 +23,7 @@
     "@deck.gl/core": "^9.4.1",
     "@deck.gl/layers": "^9.4.1",
     "@duckdb/duckdb-wasm": "^1.33.1-dev57.0",
-    "@glideapps/glide-data-grid": "^6.0.4-alpha24",
+    "@glideapps/glide-data-grid": "6.0.4-alpha24",
     "@lezer/highlight": "^1.2.5",
     "@msrvida/sanddance": "^4.0.6",
     "@observablehq/plot": "^0.6.17",
