@@ -49,6 +49,14 @@ commit.
   stays short and generic, because every generated project starts with it.
   When example figures disagree, derive them from one dataset or a small pool
   rather than writing content for each item.
+- `overrides` in the root `package.json` patch vulnerable transitive packages
+  of the gallery's component studies; `npm audit` should report none. npm
+  ignores a newly added or changed override when a lockfile already exists,
+  and re-placing packages does not help: resolve the affected chains in a
+  fresh lockfile made from the same manifests and carry over only those
+  entries, then check that a second `npm install` leaves the lockfile alone.
+  Run the studies' checks afterwards, since an override can cross a major
+  version.
 - Keep actions pinned by commit hash with the version in a comment, and use
   the same hashes here and in `template/`.
 - `skills/atelier/SKILL.md` is the skill agents load to use atelier. Update it in the

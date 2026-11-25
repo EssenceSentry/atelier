@@ -27,6 +27,13 @@ export default defineConfig({
         replacement: resolve(import.meta.dirname, "src/playground/neural-embed.ts"),
       },
       {
+        // markdown-it is overridden to 14 for its security fixes, and 14 ships
+        // its internals as .mjs. markdown-it-dollarmath, pulled in by MyST,
+        // still imports escapeHtml from the 13-era .js path.
+        find: "markdown-it/lib/common/utils.js",
+        replacement: "markdown-it/lib/common/utils.mjs",
+      },
+      {
         // Screens, blocks and components live in the shared kit.
         find: "@",
         replacement: resolve(import.meta.dirname, "../../packages/kit/src"),

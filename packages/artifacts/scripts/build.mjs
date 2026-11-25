@@ -36,10 +36,18 @@ for (const name of selected) {
     plugins: [react()],
     define: { "process.env.NODE_ENV": '"production"' },
     resolve: {
-      alias:
-        name === "neural"
+      alias: [
+        // markdown-it is overridden to 14 for its security fixes, and 14 ships
+        // its internals as .mjs. markdown-it-dollarmath, pulled in by MyST,
+        // still imports escapeHtml from the 13-era .js path.
+        {
+          find: "markdown-it/lib/common/utils.js",
+          replacement: "markdown-it/lib/common/utils.mjs",
+        },
+        ...(name === "neural"
           ? [{ find: /^vega-embed$/, replacement: path.join(root, "src/adapters/tfvis-embed.js") }]
-          : [],
+          : []),
+      ],
     },
     build: {
       outDir: temp,
