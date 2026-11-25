@@ -1,0 +1,149 @@
+.catalog {
+  max-inline-size: 86rem;
+  margin-inline: auto;
+  padding-inline: clamp(1rem, 4vw, 4rem);
+  padding-block-end: 4rem;
+}
+.catalog a {
+  color: inherit;
+  text-decoration: none;
+}
+.catalog a:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 4px;
+}
+.catalog-mast,
+.catalog-mast > *,
+.catalog-title,
+.catalog-title nav,
+.catalog-title :where(nav) a,
+.catalog-caption {
+  display: flex;
+  align-items: center;
+}
+.catalog-mast,
+.catalog-caption,
+.catalog-title {
+  justify-content: space-between;
+}
+.catalog-mast {
+  min-block-size: 3.75rem;
+  border-block-end: 1px solid var(--border-strong);
+  font-size: 0.875rem;
+}
+.catalog-mast > * {
+  gap: 0.5rem;
+}
+.catalog-mast > span {
+  font-family: var(--ff-heading);
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+.catalog-title {
+  flex-wrap: wrap;
+  align-items: baseline;
+  padding-block: clamp(1.75rem, 4.8vw, 4rem) 1.4rem;
+  gap: 1rem;
+}
+.catalog-title h1 {
+  margin: 0;
+  font: 500 clamp(2.7rem, 6.4vw, 6rem) / 0.95 var(--ff-heading);
+  letter-spacing: -0.045em;
+}
+.catalog-title nav {
+  flex-wrap: wrap;
+  gap: 1.2rem;
+}
+.catalog-title :where(nav) a {
+  gap: 0.33rem;
+  min-block-size: 2.75rem;
+  font-size: 0.875rem;
+}
+.catalog-title small {
+  color: var(--muted-foreground);
+  font-variant-numeric: tabular-nums;
+}
+.catalog-screens,
+.catalog-families ul {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr));
+}
+.catalog-screens {
+  column-gap: clamp(1rem, 2vw, 2rem);
+  row-gap: 1.7rem;
+  padding-block-start: 1.25rem;
+  border-block-start: 2px solid var(--foreground);
+}
+.catalog-screen {
+  min-inline-size: 0;
+}
+.catalog-photo {
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border: 1px solid var(--border-strong);
+  background: var(--sunken);
+}
+.catalog-photo img {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+}
+.catalog-caption {
+  margin-block: 0.7rem 0.1rem;
+  gap: 0.5rem;
+}
+.catalog-caption h2 {
+  font: 550 clamp(1.35rem, 1.7vw, 1.75rem) / 1.12 var(--ff-heading);
+}
+.catalog-spec {
+  color: var(--muted-foreground);
+  text-transform: capitalize;
+  font-size: 0.78rem;
+}
+.catalog-families {
+  margin-block-start: clamp(2.5rem, 5vw, 4.5rem);
+  scroll-margin: 1rem;
+  border-block-start: 2px solid var(--foreground);
+}
+.catalog-families h2 {
+  margin-block: 1.2rem;
+  font: 500 clamp(2rem, 3.1vw, 3rem) / 1.12 var(--ff-heading);
+}
+.catalog-families ul {
+  column-gap: 2rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.catalog-families li {
+  border-block-start: 1px solid var(--border);
+}
+.catalog-families a {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 0.9rem;
+  padding-block: 1rem;
+}
+.catalog-families strong,
+.catalog-families small {
+  display: block;
+}
+.catalog-families img {
+  inline-size: clamp(5rem, 8vw, 7rem);
+  aspect-ratio: 8 / 5;
+  block-size: auto;
+  background: var(--sunken);
+  border: 1px solid var(--border);
+}
+.catalog-families small {
+  color: var(--muted-foreground);
+  font-size: 0.75rem;
+}
+.catalog a:hover :is(h2, strong),
+.catalog-title a:hover,
+.catalog-mast a:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.16em;
+}

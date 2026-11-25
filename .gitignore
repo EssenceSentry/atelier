@@ -4,3 +4,5 @@ captures/
 builds/
 *.tsbuildinfo
 .DS_Store
+.playwright-cli/
+output/playwright/

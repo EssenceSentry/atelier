@@ -1,0 +1,161 @@
+.json-toolbar {
+  display: flex;
+  align-items: end;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.json-toolbar > .demo-meta {
+  margin-bottom: 8px;
+}
+.json-toolbar .json-parse-status {
+  margin-left: auto;
+}
+.json-study select {
+  min-height: 36px;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding-block: 8px;
+  padding-left: 10px;
+  color: var(--foreground);
+  background-color: var(--card);
+  font-size: 12px;
+}
+.json-file {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+.json-file input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  width: 100%;
+  cursor: pointer;
+}
+.json-file:focus-within {
+  outline: 2px solid var(--ring);
+  outline-offset: 3px;
+}
+.json-workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 0.75fr) minmax(0, 1.65fr);
+  gap: 20px;
+  align-items: start;
+}
+.json-source-panel .demo-panel-head,
+.json-graph-panel .demo-panel-head {
+  flex-wrap: wrap;
+}
+.json-source .cm-editor {
+  height: 548px;
+}
+.json-graph-options {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px 16px;
+  padding: 12px 18px;
+  border-bottom: 1px solid var(--border);
+  font-size: 11px;
+  color: var(--muted-foreground);
+}
+.json-graph-options > label:first-child {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.json-canvas {
+  position: relative;
+  height: 520px;
+  width: 100%;
+  min-width: 0;
+  overflow: hidden;
+}
+.json-canvas [class*="foreignObject"] {
+  font-family: var(--ff-mono);
+  font-size: 12px;
+}
+/* Override the package's font rule so labels belong to the active direction. */
+.json-canvas .jsoncrack-canvas text {
+  /* biome-ignore lint/complexity/noImportantStyles: The vendor stylesheet marks its text font important. */
+  font-family: var(--label-font) !important;
+}
+.json-canvas .canvas-zoom-tools {
+  z-index: 8;
+}
+.json-limit {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 35px;
+  background: var(--card);
+  color: var(--ink-2);
+}
+.json-limit strong {
+  font-size: 15px;
+  font-weight: 550;
+}
+.json-limit p {
+  font-size: 13px;
+  line-height: 1.8;
+  max-width: 50ch;
+}
+.json-inspector-body {
+  padding: 20px 24px;
+  display: grid;
+  gap: 15px;
+}
+.json-path {
+  font: 600 0.875rem / 1.5 var(--ff-mono);
+  color: var(--primary-ink);
+  overflow-wrap: anywhere;
+  background: var(--primary-soft);
+  padding: 0.35rem 0.65rem;
+  width: fit-content;
+  max-width: 100%;
+  border-radius: var(--radius);
+}
+.json-inspector pre {
+  max-height: 310px;
+  overflow: auto;
+  padding: 16px;
+  border-radius: 5px;
+  background: var(--sunken);
+}
+.json-error {
+  color: var(--status-critical-ink);
+  padding: 18px 22px;
+  font-size: 13px;
+  line-height: 1.8;
+}
+.canvas-only .json-canvas {
+  height: 100svh;
+  width: 100%;
+}
+@media (max-width: 1200px) {
+  .json-workspace {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .json-source .cm-editor {
+    height: 340px;
+  }
+}
+@media (max-width: 540px) {
+  .json-canvas {
+    height: 450px;
+  }
+  .json-toolbar .json-parse-status {
+    margin-left: 0;
+  }
+  .json-graph-options {
+    gap: 12px;
+  }
+}
+@media (pointer: coarse) {
+  .json-study select {
+    min-height: 44px;
+  }
+}

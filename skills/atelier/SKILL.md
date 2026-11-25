@@ -36,6 +36,10 @@ Setup runs `git init`, `npm install` (which installs the hooks) and
 ## Make it this app's own
 
 When the design needs work, choose the organizing question for this screen.
+To browse the available designs, run the gallery from the Atelier repository
+with `npm run gallery` and open `/gallery.html` on the printed local URL.
+The index links to rendered starter screens, channel rows and component studies.
+
 A monitor should reveal which job needs attention. A review queue should keep
 the evidence and decision together. A lab should show what changed relative
 to a baseline. A report should connect its main claim to a figure or table.

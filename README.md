@@ -58,3 +58,9 @@ Open the address Vite prints to switch screens and themes. To exercise a full ge
 | [Themes](packages/theme) | Shared typography, chart palettes, and layout tokens |
 | [Gallery](apps/gallery) | Screen previews and browser checks |
 | [Project template](template/) | The files and [Copier prompts](copier.yml) used by generated projects |
+
+### Component studies and portable notebooks
+
+In the development checkout, open `/gallery.html` on the local gallery server for a visual index. `npm run playground` opens twenty component families, including linked plots, image review, rich tables, and neural-network diagnostics. These are interactive studies you can inspect before choosing a component for an app. [Playground guide](apps/gallery/README.md#integration-playground)
+
+For a one-off HTML notebook, the experimental prebuilt distribution packages native-library adapters and sample recipes into a portable page. Authors work in plain JavaScript with the prebuilt assets. [Artifact recipes and packager](packages/artifacts/README.md) · [Authoring skill](skills/atelier-artifacts/SKILL.md)

@@ -8,6 +8,7 @@
   ],
   "scripts": {
     "gallery": "npm run dev:board --workspace @atelier/gallery",
+    "playground": "npm run dev:playground --workspace @atelier/gallery",
     "typecheck": "npm run typecheck --workspaces --if-present",
     "capture": "npm run capture --workspace @atelier/gallery",
     "lint": "biome check",

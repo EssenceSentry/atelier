@@ -38,7 +38,12 @@ async function open(viewport, colorScheme) {
   return page
 }
 
-const click = (page, label) => page.locator("button", { hasText: new RegExp(`^${label}$`) }).click()
+// The preview bar's pickers are selects named Screen, Theme and Mode; choose a
+// value in whichever one offers it.
+const choose = (page, value) =>
+  page
+    .locator(`nav[aria-label="Gallery preview"] select:has(option[value="${value}"])`)
+    .selectOption(value)
 const background = (page) => page.evaluate(() => getComputedStyle(document.body).backgroundColor)
 
 // The viewer's theme: system setting, overridden by data-theme on <html>.
@@ -65,9 +70,9 @@ for (const [key, { want, bg }] of Object.entries(seen))
 // Every direction and screen through the page's own controls, in system dark.
 const page = await open({ width: 1440, height: 900 }, "dark")
 for (const d of ["instrument", "editorial", "console"]) {
-  await click(page, d)
+  await choose(page, d)
   for (const s of ["monitor", "review", "lab", "report", "states", "examples"]) {
-    await click(page, s)
+    await choose(page, s)
     await page.waitForTimeout(150)
     if (s === "examples") {
       const loaded = await page.locator("article img").evaluateAll(async (images) => {
@@ -82,7 +87,7 @@ for (const d of ["instrument", "editorial", "console"]) {
     )
     for (const st of states) if (st !== "ok") problems.push(`${d}/${s}: chart ${st}`)
   }
-  await click(page, "monitor")
+  await choose(page, "monitor")
   await page.screenshot({ path: `${out}/${d}-system-dark.png` })
 }
 await page.close()
@@ -90,7 +95,7 @@ await page.close()
 // Phone width: the body must never scroll sideways.
 const phone = await open({ width: 390, height: 844 }, "light")
 for (const s of ["monitor", "review", "lab", "report", "states", "examples"]) {
-  await click(phone, s)
+  await choose(phone, s)
   await phone.waitForTimeout(150)
   const { scroll, client } = await phone.evaluate(() => ({
     scroll: document.documentElement.scrollWidth,
@@ -98,7 +103,7 @@ for (const s of ["monitor", "review", "lab", "report", "states", "examples"]) {
   }))
   if (scroll > client) problems.push(`phone ${s}: page scrolls sideways (${scroll} > ${client})`)
 }
-await click(phone, "report")
+await choose(phone, "report")
 await phone.screenshot({ path: `${out}/report-phone.png`, fullPage: true })
 await phone.close()
 await browser.close()

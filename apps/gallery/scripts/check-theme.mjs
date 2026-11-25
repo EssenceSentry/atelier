@@ -18,9 +18,8 @@ const info = await page.evaluate(() => ({
   charts: [...document.querySelectorAll("figure.plot-figure")]
     .map((f) => f.dataset.state)
     .join(","),
-  dockButtons: [...document.querySelectorAll("button")].filter((b) =>
-    ["instrument", "editorial", "console"].includes(b.textContent)
-  ).length,
+  // A single-theme build has no Theme picker in its preview bar.
+  themePickers: document.querySelectorAll('select[aria-label="Theme"]').length,
 }))
 await page.screenshot({ path: out })
 console.log(JSON.stringify({ ...info, errors }))

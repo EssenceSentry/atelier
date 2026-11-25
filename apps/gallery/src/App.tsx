@@ -1,7 +1,7 @@
+import { LayoutGrid } from "lucide-react"
 import { useEffect, useLayoutEffect, useState } from "react"
-
 import { TooltipProvider } from "@/components/ui/tooltip"
-import { cn } from "@/lib/utils"
+import "./gallery-toolbar.css"
 import { LabScreen } from "@/screens/lab"
 import { MonitorScreen } from "@/screens/monitor"
 import { ReportScreen } from "@/screens/report"
@@ -43,31 +43,36 @@ function readUrl(): BoardState & { chrome: boolean } {
   }
 }
 
-/** Board controls float above every screen; ?chrome=0 hides them for screenshots. */
-function Dock({ state, set }: { state: BoardState; set: (s: Partial<BoardState>) => void }) {
-  const group = <T extends string>(options: readonly T[], value: T, key: keyof BoardState) => (
-    <div className="flex rounded-full bg-white/8 p-0.5">
-      {options.map((o) => (
-        <button
-          type="button"
-          key={o}
-          onClick={() => set({ [key]: o })}
-          className={cn(
-            "rounded-full px-3 py-1.5 text-xs capitalize transition-colors",
-            o === value ? "bg-white text-neutral-900" : "text-neutral-300 hover:text-white"
-          )}
-        >
-          {o}
-        </button>
-      ))}
-    </div>
+function PreviewBar({ state, set }: { state: BoardState; set: (s: Partial<BoardState>) => void }) {
+  const picker = <T extends string>(
+    name: string,
+    options: readonly T[],
+    value: T,
+    change: (v: T) => void
+  ) => (
+    <label>
+      <span>{name}</span>
+      <select aria-label={name} value={value} onChange={(e) => change(e.target.value as T)}>
+        {options.map((item) => (
+          <option key={item} value={item}>
+            {item}
+          </option>
+        ))}
+      </select>
+    </label>
   )
   return (
-    <div className="fixed bottom-[calc(1rem+env(safe-area-inset-bottom,0px))] left-1/2 z-50 flex -translate-x-1/2 flex-wrap items-center justify-center gap-1.5 rounded-[22px] bg-neutral-900/92 p-1.5 font-[system-ui] shadow-2xl ring-1 ring-white/10 backdrop-blur">
-      {BOARD && group(DIRECTIONS, state.direction, "direction")}
-      {group(SCREENS, state.screen, "screen")}
-      {group(MODES, state.mode, "mode")}
-    </div>
+    <nav className="gallery-toolbar" aria-label="Gallery preview">
+      {__HAS_CATALOG__ && (
+        <a href="./gallery.html">
+          <LayoutGrid size={16} aria-hidden="true" />
+          <span>Gallery</span>
+        </a>
+      )}
+      {picker("Screen", SCREENS, state.screen, (screen) => set({ screen }))}
+      {BOARD && picker("Theme", DIRECTIONS, state.direction, (direction) => set({ direction }))}
+      {picker("Mode", MODES, state.mode, (mode) => set({ mode }))}
+    </nav>
   )
 }
 
@@ -95,8 +100,12 @@ export default function App() {
   return (
     <BoardContext.Provider value={state}>
       <TooltipProvider>
-        <Screen />
-        {chrome && <Dock state={state} set={(s) => setState((prev) => ({ ...prev, ...s }))} />}
+        {chrome && (
+          <PreviewBar state={state} set={(s) => setState((prev) => ({ ...prev, ...s }))} />
+        )}
+        <div className={chrome ? "gallery-preview" : undefined}>
+          <Screen />
+        </div>
       </TooltipProvider>
     </BoardContext.Provider>
   )
