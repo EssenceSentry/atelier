@@ -50,7 +50,7 @@ export function Showcase() {
       </p>
       <div className="mt-8 grid gap-6 md:grid-cols-2">
         {examples.map((example) => (
-          <article key={example.title} className="rounded-xl border bg-card p-4">
+          <article key={example.title} className="panel p-4">
             <img className="w-full rounded-lg border" src={example.image} alt={example.alt} />
             <h2 className="mt-5 text-xl font-semibold">{example.title}</h2>
             <p className="my-3 max-w-prose text-ink-2">{example.detail}</p>

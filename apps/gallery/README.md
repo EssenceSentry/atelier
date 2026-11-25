@@ -2,7 +2,8 @@
 
 Renders the kit's four screens (monitor, review, lab, report) in every
 direction and mode, plus a states page with the loading, empty, error and
-status blocks. Its examples page pairs the starters with Aside and Probability Lab.
+status blocks and a channels page with the channel evidence rows. Its examples
+page pairs the starters with Aside and Probability Lab.
 The screens, blocks and components live in `packages/kit`. It is the visual check for
 the theme and the kit, and so for what generated projects start from.
 
