@@ -1,0 +1,27 @@
+{
+  "id": "neural",
+  "prompt": "Create a browser notebook for a tiny XOR classifier using the supplied neural recipe and real local TFJS training. Show architecture, validation predictions, loss history, a confusion matrix and weight export. Keep controls left of the visualization. Explain the synthetic data and training/validation split in full-width Markdown. Add a separate SQL section that aggregates four illustrative evaluation records locally with syntax highlighting. Package and serve the needed assets. Start in console/light; verify desktop and mobile. Do not connect a model server or external viewer.",
+  "data": [
+    {
+      "split": "validation",
+      "label": 0,
+      "prediction": 0
+    },
+    {
+      "split": "validation",
+      "label": 1,
+      "prediction": 1
+    },
+    {
+      "split": "validation",
+      "label": 1,
+      "prediction": 0
+    },
+    {
+      "split": "validation",
+      "label": 0,
+      "prediction": 0
+    }
+  ],
+  "dataLabel": "Illustrative synthetic observations supplied for this benchmark."
+}

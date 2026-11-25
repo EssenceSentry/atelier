@@ -1,0 +1,94 @@
+const book = Atelier.notebook({
+  title: "XOR classifier lab",
+  description:
+    "A small dense network trains locally in your browser with TensorFlow.js. No model server is used.",
+})
+
+const overview = book.cell({ id: "about-data", title: "Data and split" })
+Atelier.mount("markdown", overview.view, {
+  source: `## Synthetic XOR observations\n\nEach point has two numeric inputs, *x* and *y*. The binary target is 1 when exactly one input is above zero and 0 when both inputs are on the same side. Points are generated synthetically in the browser with small coordinate noise; they are not observations about people, products, or a real system.\n\nThe recipe generates 240 points with a fixed seed: 192 are used for training and 48 are held out for validation. The network updates its weights using only the training partition. Validation predictions and validation loss are calculated on the held-out partition, which is kept separate from gradient updates. Changing the seed changes the generated points. The split is an illustrative within-dataset holdout, not evidence of performance on an external population.`,
+})
+
+const train = book.cell({ id: "training", title: "Train the classifier", controls: true })
+const predictions = book.cell({
+  id: "validation-predictions",
+  title: "Validation predictions",
+  description: "Predictions from the current trained model. Positive means probability ≥ 0.5.",
+})
+const diagnostic = book.cell({
+  id: "confusion-matrix",
+  title: "Validation confusion matrix",
+  description: "Rows are actual classes; columns are predicted classes at threshold 0.5.",
+})
+const predictionTable = Atelier.element("div")
+predictions.view.append(predictionTable)
+
+let matrix
+const view = Atelier.mount("neural", train.view, {
+  config: {
+    dataset: "xor",
+    depth: 2,
+    width: 4,
+    activation: "tanh",
+    learningRate: 0.03,
+    noise: 0.08,
+    seed: 7,
+  },
+  controls: train.controls,
+  onSnapshot(snapshot) {
+    const values = [
+      [0, 0],
+      [0, 0],
+    ]
+    const rows = []
+    snapshot.points.forEach((point, index) => {
+      if (point.split !== "validation") return
+      const probability = snapshot.probabilities[index]
+      const prediction = probability >= 0.5 ? 1 : 0
+      values[point.label][prediction]++
+      rows.push({ x: point.x, y: point.y, actual: point.label, probability, prediction })
+    })
+    const table = Atelier.element("table", "at-table")
+    table.innerHTML = `<thead><tr><th>x</th><th>y</th><th>Actual</th><th>P(class 1)</th><th>Predicted</th></tr></thead><tbody>${rows
+      .map(
+        (row) =>
+          `<tr><td>${row.x.toFixed(2)}</td><td>${row.y.toFixed(2)}</td><td>${row.actual}</td><td>${row.probability.toFixed(3)}</td><td>${row.prediction}</td></tr>`,
+      )
+      .join("")}</tbody>`
+    predictionTable.replaceChildren(table)
+    const options = {
+      renderer: "confusionMatrix",
+      data: { values, tickLabels: ["Negative", "Positive"] },
+    }
+    if (matrix) void matrix.update(options)
+    else matrix = Atelier.mount("tfvis", diagnostic.view, options)
+  },
+})
+await view.ready
+Atelier.button(
+  "Export weights",
+  () => Atelier.download("xor-network.json", JSON.stringify(view.api.runtime.export(), null, 2)),
+  train.controls,
+)
+
+const sqlCode = book.cell({ id: "sql-source", title: "SQL query" })
+const sqlSource = `SELECT split,\n       count(*) AS records,\n       sum(CASE WHEN label = prediction THEN 1 ELSE 0 END) AS correct,\n       round(100.0 * sum(CASE WHEN label = prediction THEN 1 ELSE 0 END) / count(*), 1) AS accuracy_pct\nFROM evaluation_records\nGROUP BY split\nORDER BY split;`
+Atelier.mount("editor", sqlCode.view, { language: "sql", source: sqlSource })
+
+const sqlCell = book.cell({
+  id: "sql-results",
+  title: "Illustrative evaluation records",
+  description:
+    "DuckDB aggregates four supplied illustrative synthetic records locally in this browser. These records are separate from the live TFJS validation predictions above.",
+})
+const evaluationRecords = [
+  { split: "validation", label: 0, prediction: 0 },
+  { split: "validation", label: 1, prediction: 1 },
+  { split: "validation", label: 1, prediction: 0 },
+  { split: "validation", label: 0, prediction: 0 },
+]
+const query = Atelier.mount("sql", sqlCell.view, {
+  tables: { evaluation_records: evaluationRecords },
+  source: sqlSource,
+})
+await query.ready

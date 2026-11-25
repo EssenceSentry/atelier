@@ -1,0 +1,149 @@
+{
+  "results": [
+    {
+      "label": "output-instrument-light-1440",
+      "ready": "true",
+      "widgets": [
+        {
+          "family": "vega",
+          "state": "ready"
+        },
+        {
+          "family": "table",
+          "state": "ready"
+        },
+        {
+          "family": "markdown",
+          "state": "ready"
+        },
+        {
+          "family": "carousel",
+          "state": "ready"
+        },
+        {
+          "family": "code",
+          "state": "ready"
+        },
+        {
+          "family": "markdown",
+          "state": "ready"
+        },
+        {
+          "family": "chat",
+          "state": "ready"
+        }
+      ],
+      "overflow": false,
+      "errors": [],
+      "links": true,
+      "cellCount": 7,
+      "controls": [
+        {
+          "issue": "select-arrow-clearance",
+          "label": "Decision for row 1",
+          "clearance": -6.33
+        },
+        {
+          "issue": "select-arrow-clearance",
+          "label": "Decision for row 2",
+          "clearance": -6.33
+        },
+        {
+          "issue": "select-arrow-clearance",
+          "label": "Decision for row 3",
+          "clearance": -6.33
+        },
+        {
+          "issue": "select-arrow-clearance",
+          "label": "Decision for row 4",
+          "clearance": -6.33
+        },
+        {
+          "issue": "select-arrow-clearance",
+          "label": "Decision for row 5",
+          "clearance": -6.33
+        },
+        {
+          "issue": "select-arrow-clearance",
+          "label": "Decision for row 6",
+          "clearance": -6.33
+        }
+      ],
+      "remoteRequests": 0
+    }
+  ],
+  "findings": [
+    {
+      "label": "output-instrument-light-1440",
+      "ready": "true",
+      "widgets": [
+        {
+          "family": "vega",
+          "state": "ready"
+        },
+        {
+          "family": "table",
+          "state": "ready"
+        },
+        {
+          "family": "markdown",
+          "state": "ready"
+        },
+        {
+          "family": "carousel",
+          "state": "ready"
+        },
+        {
+          "family": "code",
+          "state": "ready"
+        },
+        {
+          "family": "markdown",
+          "state": "ready"
+        },
+        {
+          "family": "chat",
+          "state": "ready"
+        }
+      ],
+      "overflow": false,
+      "errors": [],
+      "links": true,
+      "cellCount": 7,
+      "controls": [
+        {
+          "issue": "select-arrow-clearance",
+          "label": "Decision for row 1",
+          "clearance": -6.33
+        },
+        {
+          "issue": "select-arrow-clearance",
+          "label": "Decision for row 2",
+          "clearance": -6.33
+        },
+        {
+          "issue": "select-arrow-clearance",
+          "label": "Decision for row 3",
+          "clearance": -6.33
+        },
+        {
+          "issue": "select-arrow-clearance",
+          "label": "Decision for row 4",
+          "clearance": -6.33
+        },
+        {
+          "issue": "select-arrow-clearance",
+          "label": "Decision for row 5",
+          "clearance": -6.33
+        },
+        {
+          "issue": "select-arrow-clearance",
+          "label": "Decision for row 6",
+          "clearance": -6.33
+        }
+      ],
+      "browserErrors": [],
+      "remoteRequests": []
+    }
+  ]
+}

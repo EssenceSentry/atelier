@@ -1,0 +1,23 @@
+{
+  "attempt": 1,
+  "startedAt": "2026-11-08T21:38:53.130Z",
+  "configFile": "/private/tmp/atelier-complex-ui-20261108/review/author/artifact.json",
+  "output": "/private/tmp/atelier-complex-ui-20261108/review/author/output.html",
+  "sourceLines": 76,
+  "sourceBytes": 18486,
+  "sourceSHA256": "4f4505be471767b7ff2e5367920884378675cb38d96d85a8b21ec66e700a1509",
+  "packSuccess": true,
+  "result": {
+    "output": "/private/tmp/atelier-complex-ui-20261108/review/author/output.html",
+    "bytes": 9129551,
+    "version": "0.1.0",
+    "title": "Evidence review workspace",
+    "profile": "browser",
+    "families": ["table", "vega", "media", "carousel", "json", "markdown", "code", "chat"],
+    "capabilities": ["worker", "data-worker"],
+    "sources": ["Illustrative fixture supplied for UI evaluation; no production evidence."],
+    "builtFrom": "artifact.json",
+    "requiresHTTP": false
+  },
+  "finishedAt": "2026-11-08T21:38:58.670Z"
+}

@@ -1,0 +1,23 @@
+[
+  {
+    "task": "review",
+    "cells": 7,
+    "configHasCustomCSS": false,
+    "inlineStyleAssignments": false,
+    "attempts": 1
+  },
+  {
+    "task": "architecture",
+    "cells": 7,
+    "configHasCustomCSS": false,
+    "inlineStyleAssignments": false,
+    "attempts": 2
+  },
+  {
+    "task": "lab",
+    "cells": 15,
+    "configHasCustomCSS": false,
+    "inlineStyleAssignments": false,
+    "attempts": 2
+  }
+]

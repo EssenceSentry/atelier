@@ -1,0 +1,34 @@
+{
+  "attempt": 1,
+  "startedAt": "2026-11-08T23:10:07.491Z",
+  "configFile": "/private/tmp/atelier-fresh-ui-20261108/lab/author/artifact.json",
+  "output": "/private/tmp/atelier-fresh-ui-20261108/lab/author/output.html",
+  "sourceLines": 639,
+  "sourceBytes": 17846,
+  "sourceSHA256": "9358a71b1179d21cdb9ba28b46c695b8cdd2a7f434bad5a31c675c0890f1fb15",
+  "packSuccess": true,
+  "result": {
+    "output": "/private/tmp/atelier-fresh-ui-20261108/lab/author/output.html",
+    "bytes": 14195084,
+    "version": "0.1.0",
+    "title": "Visual methods lab",
+    "profile": "browser",
+    "families": [
+      "vega",
+      "table",
+      "plotly",
+      "plot",
+      "geometry",
+      "neural",
+      "markdown",
+      "myst",
+      "code",
+      "carousel"
+    ],
+    "capabilities": ["webgl", "worker"],
+    "sources": ["Illustrative fixture supplied for UI evaluation; no production evidence."],
+    "builtFrom": "artifact.json",
+    "requiresHTTP": false
+  },
+  "finishedAt": "2026-11-08T23:10:08.943Z"
+}

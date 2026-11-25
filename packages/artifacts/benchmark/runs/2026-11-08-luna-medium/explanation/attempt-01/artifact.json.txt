@@ -1,0 +1,10 @@
+{
+  "title": "Bayesian coin update",
+  "release": "0.1.0",
+  "theme": "instrument",
+  "mode": "dark",
+  "profile": "portable",
+  "families": ["flow", "mermaid", "markdown", "vega"],
+  "source": "main.js",
+  "sources": ["Illustrative synthetic observations supplied for this benchmark."]
+}

@@ -1,0 +1,10 @@
+{
+  "title": "Observation review notebook",
+  "release": "0.1.0",
+  "theme": "editorial",
+  "mode": "light",
+  "profile": "browser",
+  "families": ["vega", "table", "json", "markdown"],
+  "source": "main.js",
+  "sources": ["Illustrative synthetic observations supplied for this benchmark."]
+}

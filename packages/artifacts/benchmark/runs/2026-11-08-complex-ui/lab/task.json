@@ -1,0 +1,237 @@
+{
+  "title": "Visual methods lab",
+  "theme": "instrument",
+  "prompt": "Create a complex visual methods notebook with at least 9 cells: overview metrics/notice; linked supplied-point charts with Group filter; a plot-gallery cell with select choosing scatter, line or histogram of supplied fixture values; a scientific Plotly surface (supplied x/y/z) with Surface and Cross section tabs; adjustable JSXGraph geometric construction from the geometry recipe; a browser neural lab from the neural recipe with controls in the left rail and diagnostics/predictions in separate cells; a table of supplied observations with inspect/select; MyST documentation plus highlighted code; and an image carousel. Add canvas-only new-tab snapshots for serializable chart canvases. A local experiment note survives tab changes; the group filter updates both linked charts/table, with reset and empty state. Use at least 8 family packs. Preserve training state during tabs and resize. Use fixtures and recipe computations, no new scientific claims. Prioritize composition, readable chart labels, responsive stateful controls and meaningful action hierarchy.",
+  "data": {
+    "points": [
+      {
+        "id": "p1",
+        "x": 0.0,
+        "y": 0.2,
+        "group": "A",
+        "decision": "Pending"
+      },
+      {
+        "id": "p2",
+        "x": 0.25,
+        "y": 0.5,
+        "group": "B",
+        "decision": "Pending"
+      },
+      {
+        "id": "p3",
+        "x": 0.5,
+        "y": 0.8,
+        "group": "C",
+        "decision": "Pending"
+      },
+      {
+        "id": "p4",
+        "x": 0.75,
+        "y": 1.1,
+        "group": "A",
+        "decision": "Pending"
+      },
+      {
+        "id": "p5",
+        "x": 1.0,
+        "y": 1.4,
+        "group": "B",
+        "decision": "Pending"
+      },
+      {
+        "id": "p6",
+        "x": 1.25,
+        "y": 1.7,
+        "group": "C",
+        "decision": "Pending"
+      },
+      {
+        "id": "p7",
+        "x": 1.5,
+        "y": 2.0,
+        "group": "A",
+        "decision": "Pending"
+      },
+      {
+        "id": "p8",
+        "x": 1.75,
+        "y": 0.2,
+        "group": "B",
+        "decision": "Pending"
+      },
+      {
+        "id": "p9",
+        "x": 2.0,
+        "y": 0.5,
+        "group": "C",
+        "decision": "Pending"
+      },
+      {
+        "id": "p10",
+        "x": 2.25,
+        "y": 0.8,
+        "group": "A",
+        "decision": "Pending"
+      },
+      {
+        "id": "p11",
+        "x": 2.5,
+        "y": 1.1,
+        "group": "B",
+        "decision": "Pending"
+      },
+      {
+        "id": "p12",
+        "x": 2.75,
+        "y": 1.4,
+        "group": "C",
+        "decision": "Pending"
+      },
+      {
+        "id": "p13",
+        "x": 3.0,
+        "y": 1.7,
+        "group": "A",
+        "decision": "Pending"
+      },
+      {
+        "id": "p14",
+        "x": 3.25,
+        "y": 2.0,
+        "group": "B",
+        "decision": "Pending"
+      },
+      {
+        "id": "p15",
+        "x": 3.5,
+        "y": 0.2,
+        "group": "C",
+        "decision": "Pending"
+      },
+      {
+        "id": "p16",
+        "x": 3.75,
+        "y": 0.5,
+        "group": "A",
+        "decision": "Pending"
+      },
+      {
+        "id": "p17",
+        "x": 4.0,
+        "y": 0.8,
+        "group": "B",
+        "decision": "Pending"
+      },
+      {
+        "id": "p18",
+        "x": 4.25,
+        "y": 1.1,
+        "group": "C",
+        "decision": "Pending"
+      },
+      {
+        "id": "p19",
+        "x": 4.5,
+        "y": 1.4,
+        "group": "A",
+        "decision": "Pending"
+      },
+      {
+        "id": "p20",
+        "x": 4.75,
+        "y": 1.7,
+        "group": "B",
+        "decision": "Pending"
+      },
+      {
+        "id": "p21",
+        "x": 5.0,
+        "y": 2.0,
+        "group": "C",
+        "decision": "Pending"
+      },
+      {
+        "id": "p22",
+        "x": 5.25,
+        "y": 0.2,
+        "group": "A",
+        "decision": "Pending"
+      },
+      {
+        "id": "p23",
+        "x": 5.5,
+        "y": 0.5,
+        "group": "B",
+        "decision": "Pending"
+      },
+      {
+        "id": "p24",
+        "x": 5.75,
+        "y": 0.8,
+        "group": "C",
+        "decision": "Pending"
+      },
+      {
+        "id": "p25",
+        "x": 6.0,
+        "y": 1.1,
+        "group": "A",
+        "decision": "Pending"
+      },
+      {
+        "id": "p26",
+        "x": 6.25,
+        "y": 1.4,
+        "group": "B",
+        "decision": "Pending"
+      },
+      {
+        "id": "p27",
+        "x": 6.5,
+        "y": 1.7,
+        "group": "C",
+        "decision": "Pending"
+      },
+      {
+        "id": "p28",
+        "x": 6.75,
+        "y": 2.0,
+        "group": "A",
+        "decision": "Pending"
+      },
+      {
+        "id": "p29",
+        "x": 7.0,
+        "y": 0.2,
+        "group": "B",
+        "decision": "Pending"
+      },
+      {
+        "id": "p30",
+        "x": 7.25,
+        "y": 0.5,
+        "group": "C",
+        "decision": "Pending"
+      }
+    ],
+    "surface": {
+      "x": [-2, -1, 0, 1, 2],
+      "y": [-2, -1, 0, 1, 2],
+      "z": [
+        [0, 0.2, 0.3, 0.2, 0],
+        [0.2, 0.6, 0.8, 0.6, 0.2],
+        [0.3, 0.8, 1, 0.8, 0.3],
+        [0.2, 0.6, 0.8, 0.6, 0.2],
+        [0, 0.2, 0.3, 0.2, 0]
+      ]
+    }
+  },
+  "id": "lab",
+  "dataLabel": "Illustrative fixture supplied for UI evaluation; no production evidence.",
+  "images": [
+    "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22800%22%20height%3D%22450%22%3E%3Crect%20width%3D%22800%22%20height%3D%22450%22%20fill%3D%22%23406b58%22/%3E%3Ccircle%20cx%3D%22590%22%20cy%3D%22150%22%20r%3D%2290%22%20fill%3D%22white%22%20opacity%3D%22.2%22/%3E%3Cpath%20d%3D%22M0%20400L250%20180L500%20400L700%20240L800%20400%22%20fill%3D%22white%22%20opacity%3D%22.3%22/%3E%3Ctext%20x%3D%2250%22%20y%3D%2285%22%20fill%3D%22white%22%20font-family%3D%22sans-serif%22%20font-size%3D%2236%22%3EField%20%C2%B7%20illustrative%20evidence%3C/text%3E%3C/svg%3E",
+    "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22800%22%20height%3D%22450%22%3E%3Crect%20width%3D%22800%22%20height%3D%22450%22%20fill%3D%22%236a6288%22/%3E%3Ccircle%20cx%3D%22590%22%20cy%3D%22150%22%20r%3D%2290%22%20fill%3D%22white%22%20opacity%3D%22.2%22/%3E%3Cpath%20d%3D%22M0%20400L250%20180L500%20400L700%20240L800%20400%22%20fill%3D%22white%22%20opacity%3D%22.3%22/%3E%3Ctext%20x%3D%2250%22%20y%3D%2285%22%20fill%3D%22white%22%20font-family%3D%22sans-serif%22%20font-size%3D%2236%22%3ECity%20%C2%B7%20illustrative%20evidence%3C/text%3E%3C/svg%3E",
+    "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22800%22%20height%3D%22450%22%3E%3Crect%20width%3D%22800%22%20height%3D%22450%22%20fill%3D%22%233a7191%22/%3E%3Ccircle%20cx%3D%22590%22%20cy%3D%22150%22%20r%3D%2290%22%20fill%3D%22white%22%20opacity%3D%22.2%22/%3E%3Cpath%20d%3D%22M0%20400L250%20180L500%20400L700%20240L800%20400%22%20fill%3D%22white%22%20opacity%3D%22.3%22/%3E%3Ctext%20x%3D%2250%22%20y%3D%2285%22%20fill%3D%22white%22%20font-family%3D%22sans-serif%22%20font-size%3D%2236%22%3EWater%20%C2%B7%20illustrative%20evidence%3C/text%3E%3C/svg%3E"
+  ]
+}

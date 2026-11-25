@@ -1,0 +1,10 @@
+{
+  "title": "Architecture investigation notebook",
+  "release": "0.1.0",
+  "theme": "console",
+  "mode": "light",
+  "profile": "portable",
+  "families": ["flow", "mermaid", "icons", "markdown", "table", "code", "media", "json"],
+  "source": "main.js",
+  "sources": ["Illustrative fixture supplied for UI evaluation; no production evidence."]
+}

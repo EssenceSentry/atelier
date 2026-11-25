@@ -1,0 +1,27 @@
+{
+  "transitions": [
+    {
+      "width": 390,
+      "scroll": 390,
+      "epoch": 20,
+      "validationRows": 48
+    },
+    {
+      "width": 1440,
+      "scroll": 1440,
+      "epoch": 20,
+      "validationRows": 48
+    },
+    {
+      "width": 390,
+      "scroll": 390,
+      "epoch": 20,
+      "validationRows": 48
+    }
+  ],
+  "cleanup": {
+    "tensors": 0,
+    "mounts": 0
+  },
+  "errors": []
+}

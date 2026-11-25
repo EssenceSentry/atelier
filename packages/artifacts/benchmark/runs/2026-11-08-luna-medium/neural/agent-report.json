@@ -1,0 +1,44 @@
+{
+  "task": "neural",
+  "elapsedTimeApprox": "4 minutes",
+  "filesRead": [
+    "/private/tmp/atelier-luna-medium-20261108-zk3Pdy/neural/task.json",
+    "~/.agents/skills/atelier-artifacts/SKILL.md",
+    "~/.agents/skills/atelier-artifacts/references/neural.md",
+    "~/.agents/skills/atelier-artifacts/references/data.md",
+    "~/Repos/atelier/packages/artifacts/recipes/neural/main.js",
+    "~/Repos/atelier/packages/artifacts/recipes/neural/artifact.json",
+    "~/Repos/atelier/packages/artifacts/recipes/sql/main.js",
+    "~/Repos/atelier/packages/artifacts/recipes/sql/artifact.json",
+    "~/Repos/atelier/packages/artifacts/recipes/document/main.js",
+    "~/Repos/atelier/packages/artifacts/recipes/document/artifact.json",
+    "~/Repos/atelier/packages/artifacts/src/adapters/neural.js",
+    "~/Repos/atelier/packages/artifacts/scripts/pack.mjs",
+    "/private/tmp/atelier-luna-medium-20261108-zk3Pdy/neural/record-pack.mjs",
+    "/private/tmp/atelier-luna-medium-20261108-zk3Pdy/neural/check.mjs"
+  ],
+  "packAttempts": 1,
+  "repairRounds": 0,
+  "checks": [
+    {
+      "command": "node record-pack.mjs artifact/artifact.json artifact/output.html",
+      "result": "Passed. Packed browser-profile HTML (6,194,321 bytes) and sibling DuckDB assets; emitted THIRD-PARTY-NOTICES.md."
+    },
+    {
+      "command": "node check.mjs artifact/output.html --matrix --label=attempt-01",
+      "result": "Passed: 12 desktop/mobile, direction and mode combinations; no findings, runtime errors, horizontal overflow, broken navigation targets, or external requests."
+    },
+    {
+      "command": "interaction-check.mjs",
+      "result": "Passed: initial epoch 0; clicked Train 20 epochs and observed epoch 20; validation table contained 48 rows before and after; confusion matrix SVG rendered; SQL returned one validation aggregate row (4 records, 3 correct, 75% accuracy); SQL code editor present; exported xor-network.json; no page errors."
+    },
+    {
+      "visualInspection": "Inspected console/light desktop (1440px) and mobile (390px) screenshots. The training controls appear to the left of the plot on desktop and stack above it on mobile."
+    }
+  ],
+  "limitations": [
+    "The fixed-seed training and validation data are synthetic. The four SQL records are benchmark-provided illustrative synthetic observations and are explicitly separate from the live TFJS validation predictions.",
+    "The automated browser checker initially could not launch Chromium inside the sandbox. It passed after the explicitly allowed sandbox escalation."
+  ],
+  "forbiddenOperationsEncountered": []
+}

@@ -1,0 +1,50 @@
+{
+  "task": "fresh-architecture",
+  "elapsedMinutes": 7,
+  "recipesAndReferences": [
+    "~/.agents/skills/atelier-artifacts/SKILL.md",
+    "~/.agents/skills/atelier-artifacts/references/composition.md",
+    "~/.agents/skills/atelier-artifacts/references/diagrams.md",
+    "~/Repos/atelier/packages/artifacts/recipes/architecture-explorer/artifact.json",
+    "~/Repos/atelier/packages/artifacts/recipes/architecture-explorer/main.js"
+  ],
+  "commands": [
+    "node /private/tmp/atelier-fresh-ui-20261108/architecture/record-pack.mjs /private/tmp/atelier-fresh-ui-20261108/architecture/author/artifact.json /private/tmp/atelier-fresh-ui-20261108/architecture/author/output.html",
+    "node /private/tmp/atelier-fresh-ui-20261108/architecture/check-local.mjs /private/tmp/atelier-fresh-ui-20261108/architecture/author/output.html --matrix",
+    "node --input-type=module - [inline Playwright interaction script; launched by node with local Chromium]"
+  ],
+  "packingAttempts": [
+    {
+      "attempt": 1,
+      "result": "pack succeeded; initial matrix failed at runtime",
+      "reason": "The first packed build referenced tabler:key; Chromium reported: Unknown bundled icon: tabler:key. Inspect Atelier.modules.icons.catalog. The matrix could not finish rendering the notebook."
+    },
+    {
+      "attempt": 2,
+      "result": "pack and matrix succeeded",
+      "reason": "Removed the nonexistent KMS icon reference and guarded optional node icon URLs. The bundled AWS catalog contains no KMS-specific icon. The inspector identifies this catalog limitation for AWS KMS."
+    }
+  ],
+  "verification": {
+    "matrix": {
+      "command": "node /private/tmp/atelier-fresh-ui-20261108/architecture/check-local.mjs /private/tmp/atelier-fresh-ui-20261108/architecture/author/output.html --matrix",
+      "result": "12 combinations passed; no render findings, browser errors, overflow, broken section links, or unexpected remote requests."
+    },
+    "interactions": [
+      "Selected Amazon Athena from the selector; Properties updated to Amazon Athena / n12.",
+      "Entered a local incident note and switched Example and Summary tabs; the note remained intact.",
+      "Selected Warning health emphasis; all 12 workflow nodes remained present.",
+      "Clicked the Amazon SQS workflow node; the selected-service control synchronized to n4.",
+      "Used the inventory Inspect action for Amazon Athena; selection moved to n12 and focus was requested.",
+      "Advanced the evidence carousel from slide 1 to slide 2 of 3.",
+      "Opened the workflow and Mermaid canvases in separate tabs; each rendered its SVG canvas.",
+      "Exported and parsed the JSON; selectedId was n12 and incidentNote matched the entered text."
+    ],
+    "browserPageErrors": []
+  },
+  "knownLimits": [
+    "The installed icon catalog does not include an AWS KMS icon. The KMS node remains readable with its service name, description, and health badge, and the Properties view explains the missing catalog asset.",
+    "All topology, statuses, evidence, and examples are supplied illustrative fixture content; no live AWS account, backend, telemetry, or SQL execution is connected.",
+    "Flow and Mermaid canvas tabs are serializable snapshots rather than live synchronized views."
+  ]
+}

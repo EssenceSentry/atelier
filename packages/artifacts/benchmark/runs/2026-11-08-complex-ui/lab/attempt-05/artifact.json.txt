@@ -1,0 +1,1 @@
+{"title":"Visual methods lab","release":"0.1.0","theme":"instrument","mode":"light","profile":"browser","families":["vega","table","plotly","plot","geometry","neural","tfvis","markdown","myst","code","carousel"],"source":"main.js","sources":["Illustrative fixture supplied for UI evaluation; no production evidence."]}

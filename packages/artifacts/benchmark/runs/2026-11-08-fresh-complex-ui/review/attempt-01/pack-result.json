@@ -1,0 +1,23 @@
+{
+  "attempt": 1,
+  "startedAt": "2026-11-08T23:10:32.294Z",
+  "configFile": "/private/tmp/atelier-fresh-ui-20261108/review/author/artifact.json",
+  "output": "/private/tmp/atelier-fresh-ui-20261108/review/author/output.html",
+  "sourceLines": 571,
+  "sourceBytes": 24739,
+  "sourceSHA256": "c2d53a91bddeae2bad82f99de90d9f1d96489765caa3a12ff18592c893a1b02a",
+  "packSuccess": true,
+  "result": {
+    "output": "/private/tmp/atelier-fresh-ui-20261108/review/author/output.html",
+    "bytes": 9292150,
+    "version": "0.1.0",
+    "title": "Evidence review workspace",
+    "profile": "browser",
+    "families": ["table", "vega", "media", "carousel", "json", "markdown", "code", "chat"],
+    "capabilities": ["worker", "data-worker"],
+    "sources": ["Illustrative fixture supplied for UI evaluation; no production evidence."],
+    "builtFrom": "artifact.json",
+    "requiresHTTP": false
+  },
+  "finishedAt": "2026-11-08T23:10:35.169Z"
+}

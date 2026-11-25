@@ -1,0 +1,20 @@
+{
+  "results": [
+    {
+      "task": "review",
+      "pass": true,
+      "rows": 24
+    },
+    {
+      "task": "architecture",
+      "pass": true,
+      "nodes": 12,
+      "edges": 13
+    },
+    {
+      "task": "lab",
+      "pass": true,
+      "rows": 36
+    }
+  ]
+}

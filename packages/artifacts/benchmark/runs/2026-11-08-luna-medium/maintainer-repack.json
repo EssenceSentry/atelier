@@ -1,0 +1,20 @@
+{
+  "stage": "maintainer_repack_after_frozen_trial",
+  "authorSourceUnchanged": true,
+  "sourceSHA256": "cdda69b1b6ee7225cf8de2046a5e4d0b533fc2d8625c8448c76b75095748d281",
+  "result": {
+    "output": "/private/tmp/atelier-luna-medium-20261108-zk3Pdy/maintainer-repacked/neural/output.html",
+    "bytes": 6194399,
+    "version": "0.1.0",
+    "title": "XOR classifier lab",
+    "profile": "browser",
+    "families": ["vega", "neural", "markdown", "code", "sql"],
+    "capabilities": ["worker", "wasm", "http", "eval"],
+    "sources": [
+      "The XOR training data are synthetic and generated in-browser by the neural recipe.",
+      "The four evaluation records are illustrative synthetic observations supplied for this benchmark."
+    ],
+    "builtFrom": "artifact.json",
+    "requiresHTTP": true
+  }
+}

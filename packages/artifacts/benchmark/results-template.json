@@ -1,0 +1,8 @@
+{
+  "status": "not_run",
+  "model": "gpt-6-luna",
+  "reasoning": "medium",
+  "delegationAuthorized": false,
+  "trials": [],
+  "notes": "Blank template for a future authorized run. Completed trial evidence is recorded under benchmark/runs/."
+}

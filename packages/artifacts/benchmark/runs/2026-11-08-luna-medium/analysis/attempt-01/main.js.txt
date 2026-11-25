@@ -1,0 +1,86 @@
+const rows = [
+  { id: "a1", group: "A", score: 0.2, volume: 40, decision: "Pending" },
+  { id: "a2", group: "A", score: 0.8, volume: 70, decision: "Pending" },
+  { id: "b1", group: "B", score: 0.4, volume: 90, decision: "Pending" },
+  { id: "b2", group: "B", score: 0.6, volume: 50, decision: "Pending" },
+]
+const sortedRows = [...rows].sort((a, b) => b.score - a.score)
+const book = Atelier.notebook({
+  title: "Observation review",
+  description: "Explore four supplied observations and record a review decision.",
+})
+const chartCell = book.cell({ id: "scatter", title: "Score and volume", controls: true })
+const draw = (group = "All") => {
+  const visible = group === "All" ? rows : rows.filter((row) => row.group === group)
+  return {
+    spec: {
+      data: { values: visible },
+      width: "container",
+      height: 340,
+      mark: { type: "point", filled: true, size: 150 },
+      encoding: {
+        x: { field: "score", type: "quantitative", title: "Score", scale: { domain: [0, 1] } },
+        y: { field: "volume", type: "quantitative", title: "Volume" },
+        color: { field: "group", type: "nominal", title: "Group" },
+        tooltip: [
+          { field: "id", title: "Observation" },
+          { field: "group", title: "Group" },
+          { field: "score", title: "Score" },
+          { field: "volume", title: "Volume" },
+        ],
+      },
+    },
+  }
+}
+const chart = Atelier.mount("vega", chartCell.view, draw())
+Atelier.field(chartCell.controls, {
+  label: "Group",
+  value: "All",
+  options: ["All", "A", "B"],
+  onChange: async (value) => chart.update(draw(value)),
+})
+
+const tableCell = book.cell({ id: "records", title: "Observation decisions" })
+const status = Atelier.element("p", "at-note", "Sorted by score, highest first. Choose Inspect to open a row graph.")
+tableCell.view.append(status)
+const tableHost = Atelier.element("div")
+tableCell.view.append(tableHost)
+const jsonCell = book.cell({ id: "inspect", title: "Selected observation graph" })
+const json = Atelier.mount("json", jsonCell.view, { data: sortedRows[0] })
+const columns = [
+  { key: "id", title: "Observation" },
+  { key: "group", title: "Group" },
+  { key: "score", title: "Score" },
+  { key: "volume", title: "Volume" },
+  { key: "decision", title: "Decision", type: "select", options: ["Pending", "Accept", "Reject"] },
+  {
+    key: "inspect",
+    title: "Inspect",
+    type: "button",
+    action: async (row) => {
+      status.textContent = `Selected observation ${row.id}.`
+      await json.update({ data: row })
+      book.go("inspect")
+    },
+  },
+]
+const table = Atelier.mount("table", tableHost, {
+  data: sortedRows,
+  columns,
+  onChange: (changedRows) => {
+    for (const changed of changedRows) {
+      const original = rows.find((row) => row.id === changed.id)
+      if (original) original.decision = changed.decision
+    }
+  },
+})
+Atelier.button(
+  "Export current decisions",
+  () => Atelier.download("observation-decisions.json", JSON.stringify(rows.map(({ id, decision }) => ({ id, decision })), null, 2)),
+  tableCell.header,
+)
+const explanation = book.cell({ id: "notes", title: "Reading this review" })
+Atelier.mount("markdown", explanation.view, {
+  source: `These four observations are **illustrative synthetic data**. The scatter compares score with volume, and the group control filters the plotted points. The table starts sorted by score, highest first. Use each row's decision menu to record a review, then select **Inspect** to see that observation as a JSON graph.\n\nThe export contains the current decision for each observation. Decisions are held in this page session and are not saved elsewhere.`,
+})
+await Promise.all([chart.ready, table.ready, json.ready])

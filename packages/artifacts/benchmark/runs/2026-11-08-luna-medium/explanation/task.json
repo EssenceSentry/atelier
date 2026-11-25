@@ -1,0 +1,5 @@
+{
+  "id": "explanation",
+  "prompt": "Create a portable Bayesian explanation notebook. For a Beta(2,2) prior and 14 heads out of 20 synthetic tosses, explain the update with full-width Markdown/math and a posterior-density chart. Add draggable program cards with ELK layout and a Mermaid sequence diagram. Put the heads slider left of its visualization and make changing it update the posterior, prose and cards consistently. Both diagrams need zoom/fit and canvas-only snapshot tabs. Start with instrument/dark. No inference server is needed.",
+  "dataLabel": "Illustrative synthetic observations supplied for this benchmark."
+}

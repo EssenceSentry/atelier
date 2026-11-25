@@ -1,0 +1,91 @@
+[
+  {
+    "id": "analysis",
+    "prompt": "Create a browser notebook from the supplied observations. Show a score-vs-volume scatter with a shared group filter that updates both the scatter and the table, a sorted rich table with a decision select and an Inspect button, a selected-row JSON graph, and a Markdown explanation. Export current decisions as JSON. Sidebar links scroll to sections. Markdown is full width; the scatter's controls sit at its left within the same cell. Keep the supplied illustrative-data label. Use editorial/light initially and verify all themes and mobile.",
+    "data": [
+      {
+        "id": "a1",
+        "group": "A",
+        "score": 0.2,
+        "volume": 40,
+        "decision": "Pending"
+      },
+      {
+        "id": "a2",
+        "group": "A",
+        "score": 0.8,
+        "volume": 70,
+        "decision": "Pending"
+      },
+      {
+        "id": "b1",
+        "group": "B",
+        "score": 0.4,
+        "volume": 90,
+        "decision": "Pending"
+      },
+      {
+        "id": "b2",
+        "group": "B",
+        "score": 0.6,
+        "volume": 50,
+        "decision": "Pending"
+      }
+    ],
+    "assertions": [
+      "4 total rows",
+      "A and B each have 2 rows and mean score 0.5",
+      "Filtering A changes both table and chart",
+      "Select edit is in exported JSON",
+      "Inspect displays that record's JSON",
+      "No network requests"
+    ]
+  },
+  {
+    "id": "explanation",
+    "prompt": "Create a portable Bayesian explanation notebook. For a Beta(2,2) prior and 14 heads out of 20 synthetic tosses, explain the update with full-width Markdown/math and a posterior-density chart. Add draggable program cards with ELK layout and a Mermaid sequence diagram. Put the heads slider left of its visualization and make changing it update the posterior, prose and cards consistently. Both diagrams need zoom/fit and canvas-only snapshot tabs. Start with instrument/dark. No inference server is needed.",
+    "assertions": [
+      "Initial posterior Beta(16,8), mean 2/3",
+      "At 0 heads posterior Beta(2,22), mean 1/12",
+      "At 20 heads posterior Beta(22,2), mean 11/12",
+      "Chart, prose and cards share current heads",
+      "Both canvas tabs render independently",
+      "No network or compiler"
+    ]
+  },
+  {
+    "id": "neural",
+    "prompt": "Create a browser notebook for a tiny XOR classifier using the supplied neural recipe and real local TFJS training. Show architecture, validation predictions, loss history, a confusion matrix and weight export. Keep controls left of the visualization. Explain the synthetic data and training/validation split in full-width Markdown. Add a separate SQL section that aggregates four illustrative evaluation records locally with syntax highlighting. Package and serve the needed assets. Start in console/light; verify desktop and mobile. Do not connect a model server or external viewer.",
+    "data": [
+      {
+        "split": "validation",
+        "label": 0,
+        "prediction": 0
+      },
+      {
+        "split": "validation",
+        "label": 1,
+        "prediction": 1
+      },
+      {
+        "split": "validation",
+        "label": 1,
+        "prediction": 0
+      },
+      {
+        "split": "validation",
+        "label": 0,
+        "prediction": 0
+      }
+    ],
+    "assertions": [
+      "Training changes actual weights and advances epochs",
+      "Loss/metrics derive from current model",
+      "Confusion matrix derives from predictions",
+      "Weight export validates and can be reloaded",
+      "SQL aggregate has 4 rows, 3 correct",
+      "No remote requests",
+      "Cleanup releases tensors"
+    ]
+  }
+]

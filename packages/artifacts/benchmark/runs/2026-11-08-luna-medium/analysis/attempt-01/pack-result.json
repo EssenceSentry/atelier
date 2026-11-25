@@ -1,0 +1,23 @@
+{
+  "attempt": 1,
+  "startedAt": "2026-11-08T20:33:26.103Z",
+  "configFile": "/private/tmp/atelier-luna-medium-20261108-zk3Pdy/analysis/artifact/artifact.json",
+  "output": "/private/tmp/atelier-luna-medium-20261108-zk3Pdy/analysis/artifact/output.html",
+  "sourceLines": 87,
+  "sourceBytes": 3697,
+  "sourceSHA256": "0f296940285eb5a7f50f7225a739087090a209c9037123e524cef0ef9d7ee7ba",
+  "packSuccess": true,
+  "result": {
+    "output": "/private/tmp/atelier-luna-medium-20261108-zk3Pdy/analysis/artifact/output.html",
+    "bytes": 8227082,
+    "version": "0.1.0",
+    "title": "Observation review notebook",
+    "profile": "browser",
+    "families": ["vega", "table", "json", "markdown"],
+    "capabilities": ["worker", "data-worker"],
+    "sources": ["Illustrative synthetic observations supplied for this benchmark."],
+    "builtFrom": "artifact.json",
+    "requiresHTTP": false
+  },
+  "finishedAt": "2026-11-08T20:33:30.873Z"
+}

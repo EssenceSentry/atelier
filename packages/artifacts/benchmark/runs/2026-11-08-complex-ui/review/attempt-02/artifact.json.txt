@@ -1,0 +1,10 @@
+{
+  "title": "Evidence review workspace",
+  "release": "0.1.0",
+  "theme": "editorial",
+  "mode": "light",
+  "profile": "browser",
+  "families": ["table", "vega", "media", "carousel", "json", "markdown", "code", "chat"],
+  "source": "main.js",
+  "sources": ["Illustrative fixture supplied for UI evaluation; no production evidence."]
+}

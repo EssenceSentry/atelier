@@ -1,0 +1,302 @@
+{
+  "title": "Evidence review workspace",
+  "theme": "editorial",
+  "prompt": "Create a complex review notebook with at least 7 cells. Overview uses metrics and an illustrative-data notice. A Group selector (All/North/South/West) and Record search jointly filter both the chart and rich table; keep reset discoverable. The rich table has thumbnail, long title, status badge, score, decision select (Pending/Accept/Reject), and Inspect action; sort and pagination must remain after decision changes. Inspect opens selected-record detail tabs (summary, image comparison, JSON). Decisions and a local draft note survive filtering and tab changes; selected view follows the clicked stable id. Include image carousel, highlighted SQL example (no SQL execution needed), full-width Markdown guidance and a scripted local chat explicitly labeled as such. Export all 18 decisions, including filtered-out records. Use families from table/vega/media/carousel/json/markdown/code/chat. Make an empty shared-filter state recoverable. All interactions must be wired.",
+  "data": [
+    {
+      "id": "r01",
+      "title": "Mountain field survey \u2014 sample 1",
+      "group": "North",
+      "status": "Ready",
+      "decision": "Pending",
+      "score": 0.21,
+      "volume": 24,
+      "summary": "Illustrative evidence record with a deliberately longer title and local review metadata.",
+      "imageIndex": 0,
+      "metadata": {
+        "origin": "supplied fixture",
+        "revision": 1,
+        "tags": ["illustrative", "field"]
+      }
+    },
+    {
+      "id": "r02",
+      "title": "Urban transit observation \u2014 sample 2",
+      "group": "South",
+      "status": "Pending",
+      "decision": "Pending",
+      "score": 0.3,
+      "volume": 31,
+      "summary": "Illustrative evidence record with a deliberately longer title and local review metadata.",
+      "imageIndex": 1,
+      "metadata": {
+        "origin": "supplied fixture",
+        "revision": 2,
+        "tags": ["illustrative", "city"]
+      }
+    },
+    {
+      "id": "r03",
+      "title": "Wetland restoration study \u2014 sample 3",
+      "group": "West",
+      "status": "Flagged",
+      "decision": "Pending",
+      "score": 0.39,
+      "volume": 38,
+      "summary": "Illustrative evidence record with a deliberately longer title and local review metadata.",
+      "imageIndex": 2,
+      "metadata": {
+        "origin": "supplied fixture",
+        "revision": 3,
+        "tags": ["illustrative", "water"]
+      }
+    },
+    {
+      "id": "r04",
+      "title": "Mountain field survey \u2014 sample 4",
+      "group": "North",
+      "status": "Ready",
+      "decision": "Pending",
+      "score": 0.48,
+      "volume": 45,
+      "summary": "Illustrative evidence record with a deliberately longer title and local review metadata.",
+      "imageIndex": 0,
+      "metadata": {
+        "origin": "supplied fixture",
+        "revision": 4,
+        "tags": ["illustrative", "field"]
+      }
+    },
+    {
+      "id": "r05",
+      "title": "Urban transit observation \u2014 sample 5",
+      "group": "South",
+      "status": "Pending",
+      "decision": "Pending",
+      "score": 0.57,
+      "volume": 52,
+      "summary": "Illustrative evidence record with a deliberately longer title and local review metadata.",
+      "imageIndex": 1,
+      "metadata": {
+        "origin": "supplied fixture",
+        "revision": 1,
+        "tags": ["illustrative", "city"]
+      }
+    },
+    {
+      "id": "r06",
+      "title": "Wetland restoration study \u2014 sample 6",
+      "group": "West",
+      "status": "Flagged",
+      "decision": "Pending",
+      "score": 0.66,
+      "volume": 59,
+      "summary": "Illustrative evidence record with a deliberately longer title and local review metadata.",
+      "imageIndex": 2,
+      "metadata": {
+        "origin": "supplied fixture",
+        "revision": 2,
+        "tags": ["illustrative", "water"]
+      }
+    },
+    {
+      "id": "r07",
+      "title": "Mountain field survey \u2014 sample 7",
+      "group": "North",
+      "status": "Ready",
+      "decision": "Pending",
+      "score": 0.75,
+      "volume": 66,
+      "summary": "Illustrative evidence record with a deliberately longer title and local review metadata.",
+      "imageIndex": 0,
+      "metadata": {
+        "origin": "supplied fixture",
+        "revision": 3,
+        "tags": ["illustrative", "field"]
+      }
+    },
+    {
+      "id": "r08",
+      "title": "Urban transit observation \u2014 sample 8",
+      "group": "South",
+      "status": "Pending",
+      "decision": "Pending",
+      "score": 0.84,
+      "volume": 73,
+      "summary": "Illustrative evidence record with a deliberately longer title and local review metadata.",
+      "imageIndex": 1,
+      "metadata": {
+        "origin": "supplied fixture",
+        "revision": 4,
+        "tags": ["illustrative", "city"]
+      }
+    },
+    {
+      "id": "r09",
+      "title": "Wetland restoration study \u2014 sample 9",
+      "group": "West",
+      "status": "Flagged",
+      "decision": "Pending",
+      "score": 0.21,
+      "volume": 80,
+      "summary": "Illustrative evidence record with a deliberately longer title and local review metadata.",
+      "imageIndex": 2,
+      "metadata": {
+        "origin": "supplied fixture",
+        "revision": 1,
+        "tags": ["illustrative", "water"]
+      }
+    },
+    {
+      "id": "r10",
+      "title": "Mountain field survey \u2014 sample 10",
+      "group": "North",
+      "status": "Ready",
+      "decision": "Pending",
+      "score": 0.3,
+      "volume": 87,
+      "summary": "Illustrative evidence record with a deliberately longer title and local review metadata.",
+      "imageIndex": 0,
+      "metadata": {
+        "origin": "supplied fixture",
+        "revision": 2,
+        "tags": ["illustrative", "field"]
+      }
+    },
+    {
+      "id": "r11",
+      "title": "Urban transit observation \u2014 sample 11",
+      "group": "South",
+      "status": "Pending",
+      "decision": "Pending",
+      "score": 0.39,
+      "volume": 94,
+      "summary": "Illustrative evidence record with a deliberately longer title and local review metadata.",
+      "imageIndex": 1,
+      "metadata": {
+        "origin": "supplied fixture",
+        "revision": 3,
+        "tags": ["illustrative", "city"]
+      }
+    },
+    {
+      "id": "r12",
+      "title": "Wetland restoration study \u2014 sample 12",
+      "group": "West",
+      "status": "Flagged",
+      "decision": "Pending",
+      "score": 0.48,
+      "volume": 101,
+      "summary": "Illustrative evidence record with a deliberately longer title and local review metadata.",
+      "imageIndex": 2,
+      "metadata": {
+        "origin": "supplied fixture",
+        "revision": 4,
+        "tags": ["illustrative", "water"]
+      }
+    },
+    {
+      "id": "r13",
+      "title": "Mountain field survey \u2014 sample 13",
+      "group": "North",
+      "status": "Ready",
+      "decision": "Pending",
+      "score": 0.57,
+      "volume": 108,
+      "summary": "Illustrative evidence record with a deliberately longer title and local review metadata.",
+      "imageIndex": 0,
+      "metadata": {
+        "origin": "supplied fixture",
+        "revision": 1,
+        "tags": ["illustrative", "field"]
+      }
+    },
+    {
+      "id": "r14",
+      "title": "Urban transit observation \u2014 sample 14",
+      "group": "South",
+      "status": "Pending",
+      "decision": "Pending",
+      "score": 0.66,
+      "volume": 115,
+      "summary": "Illustrative evidence record with a deliberately longer title and local review metadata.",
+      "imageIndex": 1,
+      "metadata": {
+        "origin": "supplied fixture",
+        "revision": 2,
+        "tags": ["illustrative", "city"]
+      }
+    },
+    {
+      "id": "r15",
+      "title": "Wetland restoration study \u2014 sample 15",
+      "group": "West",
+      "status": "Flagged",
+      "decision": "Pending",
+      "score": 0.75,
+      "volume": 122,
+      "summary": "Illustrative evidence record with a deliberately longer title and local review metadata.",
+      "imageIndex": 2,
+      "metadata": {
+        "origin": "supplied fixture",
+        "revision": 3,
+        "tags": ["illustrative", "water"]
+      }
+    },
+    {
+      "id": "r16",
+      "title": "Mountain field survey \u2014 sample 16",
+      "group": "North",
+      "status": "Ready",
+      "decision": "Pending",
+      "score": 0.84,
+      "volume": 129,
+      "summary": "Illustrative evidence record with a deliberately longer title and local review metadata.",
+      "imageIndex": 0,
+      "metadata": {
+        "origin": "supplied fixture",
+        "revision": 4,
+        "tags": ["illustrative", "field"]
+      }
+    },
+    {
+      "id": "r17",
+      "title": "Urban transit observation \u2014 sample 17",
+      "group": "South",
+      "status": "Pending",
+      "decision": "Pending",
+      "score": 0.21,
+      "volume": 136,
+      "summary": "Illustrative evidence record with a deliberately longer title and local review metadata.",
+      "imageIndex": 1,
+      "metadata": {
+        "origin": "supplied fixture",
+        "revision": 1,
+        "tags": ["illustrative", "city"]
+      }
+    },
+    {
+      "id": "r18",
+      "title": "Wetland restoration study \u2014 sample 18",
+      "group": "West",
+      "status": "Flagged",
+      "decision": "Pending",
+      "score": 0.3,
+      "volume": 143,
+      "summary": "Illustrative evidence record with a deliberately longer title and local review metadata.",
+      "imageIndex": 2,
+      "metadata": {
+        "origin": "supplied fixture",
+        "revision": 2,
+        "tags": ["illustrative", "water"]
+      }
+    }
+  ],
+  "id": "review",
+  "dataLabel": "Illustrative fixture supplied for UI evaluation; no production evidence.",
+  "images": [
+    "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22800%22%20height%3D%22450%22%3E%3Crect%20width%3D%22800%22%20height%3D%22450%22%20fill%3D%22%23406b58%22/%3E%3Ccircle%20cx%3D%22590%22%20cy%3D%22150%22%20r%3D%2290%22%20fill%3D%22white%22%20opacity%3D%22.2%22/%3E%3Cpath%20d%3D%22M0%20400L250%20180L500%20400L700%20240L800%20400%22%20fill%3D%22white%22%20opacity%3D%22.3%22/%3E%3Ctext%20x%3D%2250%22%20y%3D%2285%22%20fill%3D%22white%22%20font-family%3D%22sans-serif%22%20font-size%3D%2236%22%3EField%20%C2%B7%20illustrative%20evidence%3C/text%3E%3C/svg%3E",
+    "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22800%22%20height%3D%22450%22%3E%3Crect%20width%3D%22800%22%20height%3D%22450%22%20fill%3D%22%236a6288%22/%3E%3Ccircle%20cx%3D%22590%22%20cy%3D%22150%22%20r%3D%2290%22%20fill%3D%22white%22%20opacity%3D%22.2%22/%3E%3Cpath%20d%3D%22M0%20400L250%20180L500%20400L700%20240L800%20400%22%20fill%3D%22white%22%20opacity%3D%22.3%22/%3E%3Ctext%20x%3D%2250%22%20y%3D%2285%22%20fill%3D%22white%22%20font-family%3D%22sans-serif%22%20font-size%3D%2236%22%3ECity%20%C2%B7%20illustrative%20evidence%3C/text%3E%3C/svg%3E",
+    "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22800%22%20height%3D%22450%22%3E%3Crect%20width%3D%22800%22%20height%3D%22450%22%20fill%3D%22%233a7191%22/%3E%3Ccircle%20cx%3D%22590%22%20cy%3D%22150%22%20r%3D%2290%22%20fill%3D%22white%22%20opacity%3D%22.2%22/%3E%3Cpath%20d%3D%22M0%20400L250%20180L500%20400L700%20240L800%20400%22%20fill%3D%22white%22%20opacity%3D%22.3%22/%3E%3Ctext%20x%3D%2250%22%20y%3D%2285%22%20fill%3D%22white%22%20font-family%3D%22sans-serif%22%20font-size%3D%2236%22%3EWater%20%C2%B7%20illustrative%20evidence%3C/text%3E%3C/svg%3E"
+  ]
+}

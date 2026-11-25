@@ -1,0 +1,50 @@
+{
+  "task": "analysis",
+  "deliverable": "/private/tmp/atelier-luna-medium-20261108-zk3Pdy/analysis/artifact/output.html",
+  "artifact_files": [
+    "/private/tmp/atelier-luna-medium-20261108-zk3Pdy/analysis/artifact/output.html",
+    "/private/tmp/atelier-luna-medium-20261108-zk3Pdy/analysis/artifact/THIRD-PARTY-NOTICES.md",
+    "/private/tmp/atelier-luna-medium-20261108-zk3Pdy/analysis/artifact/output.html.json",
+    "/private/tmp/atelier-luna-medium-20261108-zk3Pdy/analysis/artifact/artifact.json",
+    "/private/tmp/atelier-luna-medium-20261108-zk3Pdy/analysis/artifact/main.js"
+  ],
+  "files_read": [
+    "/private/tmp/atelier-luna-medium-20261108-zk3Pdy/analysis/task.json",
+    "~/.agents/skills/atelier-artifacts/SKILL.md",
+    "~/Repos/atelier/packages/artifacts/recipes/linked-analysis/main.js",
+    "~/Repos/atelier/packages/artifacts/recipes/rich-data/main.js",
+    "~/Repos/atelier/packages/artifacts/recipes/document/main.js",
+    "~/Repos/atelier/skills/atelier-artifacts/references/charts.md",
+    "~/Repos/atelier/skills/atelier-artifacts/references/data.md",
+    "~/Repos/atelier/packages/artifacts/README.md",
+    "~/Repos/atelier/packages/artifacts/scripts/check-interactions.mjs",
+    "/private/tmp/atelier-luna-medium-20261108-zk3Pdy/analysis/check.mjs",
+    "/private/tmp/atelier-luna-medium-20261108-zk3Pdy/analysis/record-pack.mjs"
+  ],
+  "pack_attempts": 1,
+  "repair_rounds": 0,
+  "checks": [
+    {
+      "command": "node /private/tmp/atelier-luna-medium-20261108-zk3Pdy/analysis/check.mjs /private/tmp/atelier-luna-medium-20261108-zk3Pdy/analysis/artifact/output.html --matrix --label=attempt-01",
+      "result": "Passed 12 theme/mode/viewport cases with no findings: all three directions, light/dark, 1440px/390px; widgets ready, no overflow, no console/page errors, no remote requests, sidebar targets present."
+    },
+    {
+      "command": "Trial-local Playwright interaction check at /private/tmp/atelier-luna-medium-20261108-zk3Pdy/analysis/interactions.mjs",
+      "result": "Passed: initial four rows, descending score order (a2 first), group A selection and reset, editable Accept decision, Inspect opened the a2 JSON graph, chart controls left of plot, wide Markdown cell, sidebar navigation to records, JSON download filename, no page errors."
+    },
+    {
+      "command": "Visual screenshot inspection",
+      "result": "Reviewed editorial/light desktop and mobile screenshots. Mobile stacks group control above plot; no horizontal overflow reported by checker."
+    }
+  ],
+  "elapsed_time": "Approximately 2 minutes from first pack through reporting; not independently timed.",
+  "limitations": [
+    "Browser matrix and interaction checks passed, but the export file contents were not read back; the editable decision value and download event/name were verified.",
+    "The check harness required sandbox escalation because Chromium's Mach port registration was denied in the sandbox. Retrying with the normal escalation workflow succeeded.",
+    "No failed pack attempts and no repairs were needed."
+  ],
+  "forbidden_operations_encountered": [],
+  "benchmark_assertions_read": false,
+  "sibling_trials_read": false,
+  "repository_mutations": false
+}

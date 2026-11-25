@@ -1,0 +1,12 @@
+{
+  "attempt": 1,
+  "startedAt": "2026-11-08T21:38:51.758Z",
+  "configFile": "/private/tmp/atelier-complex-ui-20261108/architecture/author/artifact.json",
+  "output": "/private/tmp/atelier-complex-ui-20261108/architecture/author/output.html",
+  "sourceLines": 103,
+  "sourceBytes": 12900,
+  "sourceSHA256": "d6387f1906c30871747abc99c1b458e0dafac323739ef63c4dedd549a405295b",
+  "packSuccess": false,
+  "error": "json requires the browser profile (worker, data-worker). Set artifact.json profile explicitly.",
+  "finishedAt": "2026-11-08T21:38:51.762Z"
+}

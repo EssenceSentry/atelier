@@ -1,0 +1,103 @@
+const book = Atelier.notebook({
+  title: "From tosses to a posterior",
+  description: "A worked Bayesian update for a coin's unknown probability of heads.",
+})
+
+const explanation = book.cell({ id: "update", title: "The update" })
+const heads = 14
+const tosses = 20
+const priorA = 2
+const priorB = 2
+const factorial = (n) => (n < 2 ? 1 : n * factorial(n - 1))
+const beta = (a, b) => (factorial(a - 1) * factorial(b - 1)) / factorial(a + b - 1)
+const density = (p, a, b) => (p === 0 || p === 1 ? 0 : p ** (a - 1) * (1 - p) ** (b - 1) / beta(a, b))
+const prose = (h) => {
+  const a = priorA + h
+  const b = priorB + tosses - h
+  const mean = a / (a + b)
+  return `## Start with a model\n\nLet $\\theta$ be the coin's probability of heads. We begin with a **Beta(2, 2)** prior, a symmetric distribution with mean $1/2$. The observations are ${tosses} synthetic tosses: **${h} heads** and **${tosses - h} tails**.\n\n## Update by counting\n\nFor a Beta prior and Bernoulli observations, heads add to the first shape and tails to the second:\n\n$$\\operatorname{Beta}(\\alpha,\\beta) \\;\\longrightarrow\\; \\operatorname{Beta}(\\alpha + h,\\, \\beta + n-h)$$\n\nHere the posterior is **Beta(${a}, ${b})**. Its mean is $${a}/(${a}+${b}) = ${mean.toFixed(3)}$. This is a summary of the posterior distribution, not a claim that the coin's true probability is known exactly.\n\n> **Illustrative synthetic observations supplied for this benchmark.** These counts are an example, not measured data.`
+}
+let textHandle = Atelier.mount("markdown", explanation.view, { source: prose(heads) })
+
+const curveCell = book.cell({ id: "posterior", title: "Posterior density", controls: true })
+const pValues = Array.from({ length: 101 }, (_, i) => i / 100)
+const chartSpec = (h) => {
+  const a = priorA + h
+  const b = priorB + tosses - h
+  const values = pValues.flatMap((p) => [
+    { p, density: density(p, priorA, priorB), distribution: "Prior · Beta(2, 2)" },
+    { p, density: density(p, a, b), distribution: `Posterior · Beta(${a}, ${b})` },
+  ])
+  return {
+    spec: {
+      $schema: "https://vega.github.io/schema/vega-lite/v5.json",
+      data: { values },
+      width: "container",
+      height: 310,
+      mark: { type: "line", strokeWidth: 3 },
+      encoding: {
+        x: { field: "p", type: "quantitative", title: "Probability of heads (θ)", scale: { domain: [0, 1] } },
+        y: { field: "density", type: "quantitative", title: "Density" },
+        color: {
+          field: "distribution",
+          type: "nominal",
+          title: "",
+          scale: { domain: ["Prior · Beta(2, 2)", `Posterior · Beta(${a}, ${b})`] },
+        },
+        tooltip: [{ field: "distribution" }, { field: "p", format: ".2f" }, { field: "density", format: ".2f" }],
+      },
+      config: { view: { stroke: null }, legend: { orient: "top" } },
+    },
+  }
+}
+const chart = Atelier.mount("vega", curveCell.view, chartSpec(heads))
+Atelier.field(curveCell.controls, {
+  label: "Observed heads (of 20 tosses)",
+  type: "range",
+  min: 0,
+  max: tosses,
+  step: 1,
+  value: heads,
+  onChange: async (value) => refresh(Math.round(value)),
+})
+
+const graphCell = book.cell({ id: "program", title: "The conjugate update", controls: true })
+const graphFor = (h) => {
+  const a = priorA + h
+  const b = priorB + tosses - h
+  const graph = {
+    nodes: [
+      { id: "prior", data: { label: "Prior", description: `Beta(${priorA}, ${priorB}) · before observing tosses` } },
+      { id: "evidence", data: { label: "Evidence", description: `${h} heads + ${tosses - h} tails from ${tosses} synthetic tosses` } },
+      { id: "update", data: { label: "Conjugate update", description: "Add heads to α; add tails to β" } },
+      { id: "posterior", data: { label: "Posterior", description: `Beta(${a}, ${b}) · mean ${(a / (a + b)).toFixed(3)}` } },
+    ],
+    edges: [
+      { id: "prior-to-update", source: "prior", target: "update", label: "α = 2, β = 2" },
+      { id: "data-to-update", source: "evidence", target: "update", label: "h, n − h" },
+      { id: "update-to-posterior", source: "update", target: "posterior", label: "α + h, β + n − h" },
+    ],
+  }
+  return graph
+}
+const flow = Atelier.mount("flow", graphCell.view, graphFor(heads))
+await flow.ready
+Atelier.button("Fit cards", () => flow.api.flow?.fitView(), graphCell.controls)
+Atelier.canvasLink(flow, graphFor(heads), { parent: graphCell.controls })
+
+const sequenceCell = book.cell({ id: "sequence", title: "Observation to posterior", controls: true })
+const sequenceFor = (h) => ({
+  source: `sequenceDiagram\n  title Beta-Bernoulli update · ${h} heads of ${tosses}\n  participant O as Synthetic observations\n  participant U as Conjugate update\n  participant P as Posterior\n  O->>U: ${h} heads, ${tosses - h} tails\n  U->>U: Beta(2,2) + counts\n  U-->>P: Beta(${priorA + h},${priorB + tosses - h})`,
+})
+const diagram = Atelier.mount("mermaid", sequenceCell.view, sequenceFor(heads))
+await diagram.ready
+Atelier.canvasLink(diagram, sequenceFor(heads), { parent: sequenceCell.header })
+
+async function refresh(h) {
+  await Promise.all([
+    chart.update(chartSpec(h)),
+    textHandle.update({ source: prose(h) }),
+    flow.update(graphFor(h)),
+    diagram.update(sequenceFor(h)),
+  ])
+}

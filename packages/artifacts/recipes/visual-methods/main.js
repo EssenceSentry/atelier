@@ -1,0 +1,416 @@
+const rows = [
+  { id: "p1", x: 0, y: 0.2, group: "A", decision: "Pending" },
+  { id: "p2", x: 0.25, y: 0.5, group: "B", decision: "Pending" },
+  { id: "p3", x: 0.5, y: 0.8, group: "C", decision: "Pending" },
+  { id: "p4", x: 0.75, y: 1.1, group: "A", decision: "Pending" },
+  { id: "p5", x: 1, y: 1.4, group: "B", decision: "Pending" },
+  { id: "p6", x: 1.25, y: 1.7, group: "C", decision: "Pending" },
+  { id: "p7", x: 1.5, y: 2, group: "A", decision: "Pending" },
+  { id: "p8", x: 1.75, y: 0.2, group: "B", decision: "Pending" },
+  { id: "p9", x: 2, y: 0.5, group: "C", decision: "Pending" },
+  { id: "p10", x: 2.25, y: 0.8, group: "A", decision: "Pending" },
+  { id: "p11", x: 2.5, y: 1.1, group: "B", decision: "Pending" },
+  { id: "p12", x: 2.75, y: 1.4, group: "C", decision: "Pending" },
+  { id: "p13", x: 3, y: 1.7, group: "A", decision: "Pending" },
+  { id: "p14", x: 3.25, y: 2, group: "B", decision: "Pending" },
+  { id: "p15", x: 3.5, y: 0.2, group: "C", decision: "Pending" },
+  { id: "p16", x: 3.75, y: 0.5, group: "A", decision: "Pending" },
+  { id: "p17", x: 4, y: 0.8, group: "B", decision: "Pending" },
+  { id: "p18", x: 4.25, y: 1.1, group: "C", decision: "Pending" },
+  { id: "p19", x: 4.5, y: 1.4, group: "A", decision: "Pending" },
+  { id: "p20", x: 4.75, y: 1.7, group: "B", decision: "Pending" },
+  { id: "p21", x: 5, y: 2, group: "C", decision: "Pending" },
+  { id: "p22", x: 5.25, y: 0.2, group: "A", decision: "Pending" },
+  { id: "p23", x: 5.5, y: 0.5, group: "B", decision: "Pending" },
+  { id: "p24", x: 5.75, y: 0.8, group: "C", decision: "Pending" },
+  { id: "p25", x: 6, y: 1.1, group: "A", decision: "Pending" },
+  { id: "p26", x: 6.25, y: 1.4, group: "B", decision: "Pending" },
+  { id: "p27", x: 6.5, y: 1.7, group: "C", decision: "Pending" },
+  { id: "p28", x: 6.75, y: 2, group: "A", decision: "Pending" },
+  { id: "p29", x: 7, y: 0.2, group: "B", decision: "Pending" },
+  { id: "p30", x: 7.25, y: 0.5, group: "C", decision: "Pending" },
+]
+const surface = {
+  x: [-2, -1, 0, 1, 2],
+  y: [-2, -1, 0, 1, 2],
+  z: [
+    [0, 0.2, 0.3, 0.2, 0],
+    [0.2, 0.6, 0.8, 0.6, 0.2],
+    [0.3, 0.8, 1, 0.8, 0.3],
+    [0.2, 0.6, 0.8, 0.6, 0.2],
+    [0, 0.2, 0.3, 0.2, 0],
+  ],
+}
+const book = Atelier.notebook({
+  title: "Visual methods lab",
+  description:
+    "A field guide to exploring supplied illustrative fixtures. Every view is local; no production evidence.",
+})
+const intro = book.cell({ id: "overview", title: "At a glance" })
+const overview = Atelier.stack(intro.view)
+Atelier.notice(overview, {
+  title: "Illustrative fixture",
+  text: "Supplied for UI evaluation only. Values are not production evidence.",
+  tone: "info",
+})
+Atelier.metrics(overview, [
+  { label: "Observations", value: rows.length, note: "Supplied points" },
+  { label: "Groups", value: "A · B · C", note: "Shared filter" },
+  { label: "Views", value: "11", note: "Linked and independent" },
+])
+const action = Atelier.toolbar(intro.header, { label: "Notebook actions" })
+Atelier.button(
+  "Export observations",
+  () => Atelier.download("observations.json", JSON.stringify(rows, null, 2)),
+  action,
+  { variant: "primary" }
+)
+const linked = book.cell({
+  id: "linked",
+  title: "Linked views · position and value",
+  controls: true,
+})
+const tableCell = book.cell({ id: "observations", title: "Observation register" })
+let group = "All",
+  selection = "None",
+  table
+const cols = [
+  { key: "id", title: "ID" },
+  { key: "x", title: "Position x" },
+  { key: "y", title: "Value y" },
+  { key: "group", title: "Group", type: "badge" },
+  { key: "decision", title: "Decision", type: "badge" },
+  {
+    key: "inspect",
+    title: "Inspect",
+    type: "button",
+    action: async (r) => {
+      selection = r.id
+      await detail.update({
+        source: `**Selected observation:** ${selection}\n\nGroup ${r.group} · x ${r.x} · y ${r.y}.`,
+      })
+    },
+  },
+]
+const visible = () => (group === "All" ? rows : rows.filter((r) => r.group === group))
+const vegaSpec = (r, mode = "scatter") => ({
+  data: { values: r },
+  width: "container",
+  height: 290,
+  mark:
+    mode === "line"
+      ? { type: "line", point: true }
+      : mode === "histogram"
+        ? { type: "bar", tooltip: true }
+        : { type: "point", filled: true, size: 75 },
+  encoding: {
+    x:
+      mode === "histogram"
+        ? {
+            field: "y",
+            type: "quantitative",
+            bin: { maxbins: 8 },
+            title: "Value y · equal-width bins",
+          }
+        : { field: "x", type: "quantitative", title: "Position x" },
+    y:
+      mode === "histogram"
+        ? { aggregate: "count", type: "quantitative", title: "Observation count" }
+        : { field: "y", type: "quantitative", title: "Value y" },
+    color:
+      mode === "histogram"
+        ? undefined
+        : { field: "group", type: "nominal", scale: { domain: ["A", "B", "C"] }, title: "Group" },
+    tooltip:
+      mode === "histogram"
+        ? true
+        : [{ field: "id" }, { field: "group" }, { field: "x" }, { field: "y" }],
+  },
+})
+const chartA = Atelier.mount("vega", linked.view, { spec: vegaSpec(rows) })
+const chartBcell = book.cell({
+  id: "linked-detail",
+  title: "Linked distribution",
+  description: "Same group selection; value y shown in equal-width bins.",
+  controls: true,
+})
+const chartB = Atelier.mount("vega", chartBcell.view, { spec: vegaSpec(rows, "histogram") })
+Atelier.canvasLink(chartA, { spec: vegaSpec(rows) }, { parent: linked.controls })
+Atelier.canvasLink(chartB, { spec: vegaSpec(rows, "histogram") }, { parent: chartBcell.controls })
+const groupField = Atelier.field(linked.controls, {
+  label: "Group filter",
+  value: "All",
+  options: ["All", "A", "B", "C", "No matches"],
+  description: "Applies to both charts and the observation register.",
+  onChange: async (v) => {
+    group = v === "No matches" ? "__none__" : v
+    await refresh()
+  },
+})
+Atelier.button(
+  "Reset group",
+  async () => {
+    group = "All"
+    groupField.value = "All"
+    await refresh()
+  },
+  linked.controls,
+  { variant: "ghost" }
+)
+const detailCell = book.cell({ id: "selection", title: "Selected point" })
+const detail = Atelier.mount("markdown", detailCell.view, {
+  source: "Choose Inspect in the register to see a point's supplied values.",
+})
+table = Atelier.mount("table", tableCell.view, { data: rows, columns: cols, pageSize: 10 })
+async function refresh() {
+  const data = visible()
+  await chartA.update({ spec: vegaSpec(data) })
+  await chartB.update({ spec: vegaSpec(data, "histogram") })
+  await table.update({ data, columns: cols, pageSize: 10 })
+}
+const gallery = book.cell({ id: "plot-gallery", title: "Plot gallery", controls: true })
+let plotType = "scatter"
+const galleryChart = Atelier.mount("vega", gallery.view, { spec: vegaSpec(rows, "scatter") })
+Atelier.field(gallery.controls, {
+  label: "Plot type",
+  value: "scatter",
+  options: ["scatter", "line", "histogram"],
+  onChange: async (v) => {
+    plotType = v
+    await galleryChart.update({ spec: vegaSpec(rows, v) })
+  },
+})
+Atelier.canvasLink(galleryChart, { spec: vegaSpec(rows, plotType) }, { parent: gallery.controls })
+const surf = book.cell({ id: "surface", title: "Surface and cross section", controls: true })
+let surfaceChart, sectionChart
+Atelier.notice(surf.view, {
+  title: "Supplied surface grid",
+  text: "The surface and middle-row cross section use the supplied x, y, and z values as-is.",
+})
+const surfTabs = Atelier.tabs(surf.view, {
+  label: "Scientific figure views",
+  items: [
+    {
+      id: "surface",
+      label: "Surface",
+      render: (p) => {
+        surfaceChart = Atelier.mount("plotly", p, {
+          data: [{ type: "surface", x: surface.x, y: surface.y, z: surface.z }],
+          layout: {
+            scene: {
+              xaxis: { title: { text: "x" } },
+              yaxis: { title: { text: "y" } },
+              zaxis: { title: { text: "z" } },
+            },
+            margin: { l: 0, r: 0, b: 0, t: 20 },
+          },
+        })
+        return surfaceChart
+      },
+    },
+    {
+      id: "section",
+      label: "Cross section",
+      render: (p) => {
+        sectionChart = Atelier.mount("plot", p, {
+          options: (Plot, t, width) => ({
+            width,
+            grid: true,
+            x: { label: "x", domain: [-2, 2] },
+            y: { label: "z", domain: [0, 1] },
+            marks: [
+              Plot.lineY(
+                surface.x.map((x, i) => ({ x, y: surface.z[2][i] })),
+                { x: "x", y: "y", stroke: t.series[0] }
+              ),
+              Plot.dot(
+                surface.x.map((x, i) => ({ x, y: surface.z[2][i] })),
+                { x: "x", y: "y", fill: t.series[0] }
+              ),
+            ],
+          }),
+        })
+        return sectionChart
+      },
+    },
+  ],
+})
+await surfTabs.ready
+Atelier.canvasLink(
+  surfaceChart,
+  {
+    data: [{ type: "surface", x: surface.x, y: surface.y, z: surface.z }],
+    layout: {
+      scene: {
+        xaxis: { title: { text: "x" } },
+        yaxis: { title: { text: "y" } },
+        zaxis: { title: { text: "z" } },
+      },
+    },
+  },
+  { parent: surf.controls }
+)
+Atelier.field(surf.controls, {
+  label: "Local experiment note",
+  type: "textarea",
+  value: "",
+  description: "This draft stays in the notebook while you switch tabs.",
+})
+const geom = book.cell({ id: "geometry", title: "Geometric construction", controls: true })
+let scale = 1,
+  vertices
+const scene = Atelier.mount("geometry", geom.view, {
+  board: { axis: false, boundingbox: [-5, 4, 5, -4] },
+  setup(board, t) {
+    vertices = [
+      [-2, -1],
+      [2, -1],
+      [0, 2],
+    ].map((p, i) =>
+      board.create("point", p, {
+        name: ["A", "B", "C"][i],
+        size: 4,
+        fillColor: t.series[0],
+        strokeColor: t.ink,
+        label: { strokeColor: t.ink },
+      })
+    )
+    board.create("polygon", vertices, {
+      fillColor: t.series[0],
+      fillOpacity: 0.12,
+      borders: { strokeColor: t.primary },
+    })
+  },
+})
+await scene.ready
+Atelier.field(geom.controls, {
+  label: "Construction scale",
+  type: "range",
+  min: 0.5,
+  max: 1.5,
+  step: 0.1,
+  value: 1,
+  format: (v) => `${Number(v).toFixed(1)}×`,
+  onChange: (v) => {
+    scale = Number(v)
+    ;[
+      [-2, -1],
+      [2, -1],
+      [0, 2],
+    ].forEach((p, i) => {
+      vertices[i].moveTo(p.map((x) => x * scale))
+    })
+  },
+})
+const neural = book.cell({ id: "training", title: "Browser neural lab", controls: true })
+const diag = book.cell({ id: "diagnostics", title: "Training diagnostics" })
+const pred = book.cell({ id: "predictions", title: "Validation predictions" })
+let predictionTable, matrix
+const neuralView = Atelier.mount("neural", neural.view, {
+  config: {
+    dataset: "xor",
+    depth: 2,
+    width: 4,
+    activation: "tanh",
+    learningRate: 0.03,
+    noise: 0.08,
+    seed: 7,
+  },
+  controls: neural.controls,
+  onSnapshot(snapshot) {
+    const data = [],
+      counts = [
+        [0, 0],
+        [0, 0],
+      ]
+    snapshot.points.forEach((point, i) => {
+      if (point.split === "validation") {
+        const probability = snapshot.probabilities[i],
+          prediction = probability >= 0.5 ? 1 : 0
+        counts[point.label][prediction]++
+        data.push({
+          id: i + 1,
+          x: point.x,
+          y: point.y,
+          actual: point.label,
+          probability,
+          prediction,
+        })
+      }
+    })
+    const columns = [
+      { key: "id", title: "Row" },
+      { key: "x", title: "x", format: (v) => v.toFixed(2) },
+      { key: "y", title: "y", format: (v) => v.toFixed(2) },
+      { key: "actual", title: "Actual" },
+      { key: "probability", title: "P(class 1)", format: (v) => v.toFixed(3) },
+      { key: "prediction", title: "Predicted" },
+    ]
+    if (predictionTable) void predictionTable.update({ data, columns, pageSize: 12 })
+    else predictionTable = Atelier.mount("table", pred.view, { data, columns, pageSize: 12 })
+    const matrixRows = [
+      { actual: "Negative", negative: counts[0][0], positive: counts[0][1] },
+      { actual: "Positive", negative: counts[1][0], positive: counts[1][1] },
+    ]
+    if (matrix)
+      void matrix.update({
+        data: matrixRows,
+        columns: [
+          { key: "actual", title: "Actual  Predicted" },
+          { key: "negative", title: "Negative" },
+          { key: "positive", title: "Positive" },
+        ],
+      })
+    else
+      matrix = Atelier.mount("table", diag.view, {
+        data: matrixRows,
+        columns: [
+          { key: "actual", title: "Actual  Predicted" },
+          { key: "negative", title: "Negative" },
+          { key: "positive", title: "Positive" },
+        ],
+      })
+  },
+})
+await neuralView.ready
+Atelier.button(
+  "Export weights",
+  () => Atelier.download("network.json", JSON.stringify(neuralView.api.runtime.export(), null, 2)),
+  neural.controls,
+  { variant: "secondary" }
+)
+const docs = book.cell({ id: "documentation", title: "Methods note" })
+Atelier.mount("markdown", docs.view, {
+  source:
+    "## Reading the fixture\n\nThe supplied points map a position coordinate to a supplied value. The group labels are used for visual grouping and filtering. They do not imply a causal or scientific category.\n\n**Scope:** illustrative interface data only. The surface view uses a supplied grid; the geometric construction follows the recipe's editable triangle.",
+})
+const myst = book.cell({ id: "myst", title: "MyST reference" })
+Atelier.mount("myst", myst.view, {
+  source:
+    "# Field notes\n\n:::{note} Evidence boundary\nAll points and surface values in this notebook are supplied illustrative fixtures.\n:::\n\n## Reading a cross section\n\nThe section tab displays the supplied middle row of the surface grid as-is.",
+})
+const code = book.cell({ id: "code", title: "Highlighted JavaScript" })
+Atelier.mount("code", code.view, {
+  language: "javascript",
+  source:
+    "const visiblePoints = group === 'All'\n  ? points\n  : points.filter(point => point.group === group)\n\nrenderLinkedViews(visiblePoints)",
+})
+const carousel = book.cell({
+  id: "images",
+  title: "Evidence carousel",
+  description: "Supplied image assets; illustrative content.",
+})
+// check-colours: off — supplied image URL literals contain content colours and remain unchanged.
+const images = [
+  "data:image/svg+xml,%3Csvg%20xmlns%3D%22http://www.w3.org/2000/svg%22%20width%3D%22800%22%20height%3D%22450%22%3E%3Crect%20width%3D%22800%22%20height%3D%22450%22%20fill%3D%22%23406b58%22/%3E%3Ccircle%20cx%3D%22590%22%20cy%3D%22150%22%20r%3D%2290%22%20fill%3D%22white%22%20opacity%3D%22.2%22/%3E%3Cpath%20d%3D%22M0%20400L250%20180L500%20400L700%20240L800%20400%22%20fill%3D%22white%22%20opacity%3D%22.3%22/%3E%3Ctext%20x%3D%2250%22%20y%3D%2285%22%20fill%3D%22white%22%20font-family%3D%22sans-serif%22%20font-size%3D%2236%22%3EField%20%C2%B7%20illustrative%20evidence%3C/text%3E%3C/svg%3E",
+  "data:image/svg+xml,%3Csvg%20xmlns%3D%22http://www.w3.org/2000/svg%22%20width%3D%22800%22%20height%3D%22450%22%3E%3Crect%20width%3D%22800%22%20height%3D%22450%22%20fill%3D%22%236a6288%22/%3E%3Ccircle%20cx%3D%22590%22%20cy%3D%22150%22%20r%3D%2290%22%20fill%3D%22white%22%20opacity%3D%22.2%22/%3E%3Cpath%20d%3D%22M0%20400L250%20180L500%20400L700%20240L800%20400%22%20fill%3D%22white%22%20opacity%3D%22.3%22/%3E%3Ctext%20x%3D%2250%22%20y%3D%2285%22%20fill%3D%22white%22%20font-family%3D%22sans-serif%22%20font-size%3D%2236%22%3ECity%20%C2%B7%20illustrative%20evidence%3C/text%3E%3C/svg%3E",
+  "data:image/svg+xml,%3Csvg%20xmlns%3D%22http://www.w3.org/2000/svg%22%20width%3D%22800%22%20height%3D%22450%22%3E%3Crect%20width%3D%22800%22%20height%3D%22450%22%20fill%3D%22%233a7191%22/%3E%3Ccircle%20cx%3D%22590%22%20cy%3D%22150%22%20r%3D%2290%22%20fill%3D%22white%22%20opacity%3D%22.2%22/%3E%3Cpath%20d%3D%22M0%20400L250%20180L500%20400L700%20240L800%20400%22%20fill%3D%22white%22%20opacity%3D%22.3%22/%3E%3Ctext%20x%3D%2250%22%20y%3D%2285%22%20fill%3D%22white%22%20font-family%3D%22sans-serif%22%20font-size%3D%2236%22%3EWater%20%C2%B7%20illustrative%20evidence%3C/text%3E%3C/svg%3E",
+]
+// check-colours: on
+Atelier.mount("carousel", carousel.view, {
+  slides: images.map((src, i) => ({
+    src,
+    alt: `${["Field", "City", "Water"][i]} illustrative image`,
+    title: ["Field", "City", "Water"][i],
+  })),
+})

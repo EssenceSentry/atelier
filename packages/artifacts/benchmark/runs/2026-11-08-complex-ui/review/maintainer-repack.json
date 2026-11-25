@@ -1,0 +1,16 @@
+{
+  "kind": "unchanged author source; maintainer kit repair",
+  "sourceSHA256": "e03455b9f0de416e0ba328be9cdb20a5c4b6bd2b2024041d616bdb3204b1b55d",
+  "result": {
+    "output": "/private/tmp/atelier-complex-ui-20261108/review/maintainer-repacked/output.html",
+    "bytes": 9286054,
+    "version": "0.1.0",
+    "title": "Evidence review workspace",
+    "profile": "browser",
+    "families": ["table", "vega", "media", "carousel", "json", "markdown", "code", "chat"],
+    "capabilities": ["worker", "data-worker"],
+    "sources": ["Illustrative fixture supplied for UI evaluation; no production evidence."],
+    "builtFrom": "artifact.json",
+    "requiresHTTP": false
+  }
+}

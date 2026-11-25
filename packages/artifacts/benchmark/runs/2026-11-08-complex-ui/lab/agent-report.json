@@ -1,0 +1,39 @@
+{
+  "task": "Visual methods lab complex UI notebook",
+  "elapsedMinutes": 12,
+  "deliverable": "output.html",
+  "commands": [
+    "Read installed atelier-artifacts skill and references/composition.md",
+    "Inspected supplied ui-patterns, linked-analysis, plot-gallery, scientific, geometry, neural, document, and inputs-media recipes",
+    "node /private/tmp/atelier-complex-ui-20261108/lab/record-pack.mjs /private/tmp/atelier-complex-ui-20261108/lab/author/artifact.json /private/tmp/atelier-complex-ui-20261108/lab/author/output.html",
+    "node /private/tmp/atelier-complex-ui-20261108/lab/check-local.mjs /private/tmp/atelier-complex-ui-20261108/lab/author/output.html --matrix"
+  ],
+  "checks": {
+    "pack": "Passed after removing the explicit Plotly colorscale; final output uses the current atelier release and theme ramp.",
+    "matrix": "Passed after final pack: 12 theme/mode/viewport combinations, no findings, no overflow, no runtime errors, all widgets ready, navigation links present, and no remote requests. Responsive matrix covers desktop and mobile across available themes/modes.",
+    "interactions": "The source wires the group filter to both charts and the table, has a reset and no-match choice, inspection updates details, gallery selection updates the Vega spec and snapshot, tab content mounts lazily, geometry scale moves vertices, and neural snapshots update the confusion matrix and validation table. Full manual click-through was not performed."
+  },
+  "recipesAndReferences": [
+    "atelier-artifacts skill",
+    "references/composition.md",
+    "ui-patterns",
+    "linked-analysis",
+    "plot-gallery",
+    "scientific",
+    "geometry",
+    "neural",
+    "document",
+    "inputs-media"
+  ],
+  "repairReasons": [
+    "Removed unsupported tfvis family after packer rejected it; rendered confusion counts with the shared table family instead.",
+    "Removed duplicate group select to keep one authoritative filter state; attached the local note to surface cell controls and added supplied-grid context in the cell view.",
+    "Changed histogram to binned bars with explicit value-bin and observation-count labels; replaced SQL editor family with the read-only JavaScript code widget.",
+    "Removed explicit Viridis surface colorscale so the chart follows the atelier theme ramp across directions."
+  ],
+  "knownLimitations": [
+    "Task-specific click-through was not manually performed; checker verified render readiness and responsive matrix only.",
+    "The local experiment note persists while navigating tabs in the open notebook; it is not saved across reloads.",
+    "The current release also includes shared Vega containment/resize repairs; the parent reports independent checks passed across all 32 workflows, but this assigned artifact was not rerun through its own matrix after this palette-only change."
+  ]
+}

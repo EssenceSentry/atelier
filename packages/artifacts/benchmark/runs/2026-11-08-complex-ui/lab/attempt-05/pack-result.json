@@ -1,0 +1,34 @@
+{
+  "attempt": 5,
+  "startedAt": "2026-11-08T21:46:04.950Z",
+  "configFile": "/private/tmp/atelier-complex-ui-20261108/lab/author/artifact.json",
+  "output": "/private/tmp/atelier-complex-ui-20261108/lab/author/output.html",
+  "sourceLines": 46,
+  "sourceBytes": 12966,
+  "sourceSHA256": "398f0b6e1a5600ab6e96b6ca0e9c37e162134020218dd05f647c080481b57174",
+  "packSuccess": true,
+  "result": {
+    "output": "/private/tmp/atelier-complex-ui-20261108/lab/author/output.html",
+    "bytes": 14190007,
+    "version": "0.1.0",
+    "title": "Visual methods lab",
+    "profile": "browser",
+    "families": [
+      "vega",
+      "table",
+      "plotly",
+      "plot",
+      "geometry",
+      "neural",
+      "markdown",
+      "myst",
+      "code",
+      "carousel"
+    ],
+    "capabilities": ["webgl", "worker"],
+    "sources": ["Illustrative fixture supplied for UI evaluation; no production evidence."],
+    "builtFrom": "artifact.json",
+    "requiresHTTP": false
+  },
+  "finishedAt": "2026-11-08T21:46:06.415Z"
+}

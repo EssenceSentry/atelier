@@ -1,0 +1,10 @@
+{
+  "title": "Shared UI patterns",
+  "release": "0.1.0",
+  "theme": "instrument",
+  "mode": "light",
+  "profile": "portable",
+  "families": ["table", "markdown"],
+  "source": "main.js",
+  "sources": ["Illustrative UI records supplied with this recipe."]
+}

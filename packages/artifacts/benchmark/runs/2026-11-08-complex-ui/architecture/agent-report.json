@@ -1,0 +1,38 @@
+{
+  "task": "architecture",
+  "elapsed_minutes": 10,
+  "status": "complete",
+  "commands": [
+    "node /private/tmp/atelier-complex-ui-20261108/architecture/record-pack.mjs /private/tmp/atelier-complex-ui-20261108/architecture/author/artifact.json /private/tmp/atelier-complex-ui-20261108/architecture/author/output.html",
+    "node /private/tmp/atelier-complex-ui-20261108/architecture/check-local.mjs /private/tmp/atelier-complex-ui-20261108/architecture/author/output.html --matrix (sandbox escalation; required because standard Chromium launch was blocked)",
+    "Node AsyncFunction syntax validation for author/main.js"
+  ],
+  "checks": {
+    "pack": "passed after Mermaid release rebuild; browser-profile HTML generated (14,954,187 bytes)",
+    "check_local_matrix": "passed all 12 variants on the previous packaged release; not rerun after the latest Mermaid rebuild per parent coordination",
+    "javascript_syntax": "passed"
+  },
+  "recipes_and_references": [
+    "atelier-artifacts skill",
+    "atelier-artifacts references/composition.md",
+    "atelier-artifacts references/diagrams.md",
+    "atelier-artifacts references/data.md",
+    "architecture recipe",
+    "ui-patterns recipe",
+    "inputs-media recipe",
+    "document recipe"
+  ],
+  "repairs": [
+    "Initial pack rejected JSON because it requires the browser profile; moved to the browser profile and used the JSON visualization family for Properties.",
+    "Initial syntax validation caught an unescaped Markdown code delimiter inside a template literal; replaced the inline ID formatting and repacked.",
+    "Added the carousel family after pack-time mount validation identified it as distinct from media.",
+    "Changed node selection and health updates to native Flow setNodes updates so click callbacks and dragged positions persist.",
+    "Initialized lazy Properties and Example tabs from the current selection, and made table Inspect navigate to the inspector.",
+    "Grouped overview prose and metrics in Atelier.stack.",
+    "Moved Mermaid zoom controls to the sequence cell control rail and repacked against the rebuilt release; its snapshot now preserves the current viewport through the shared library update."
+  ],
+  "known_limitations": [
+    "The bundled AWS icon catalog has no AWS KMS icon, so n11 is iconless; Properties explicitly explains this catalog gap.",
+    "Task-specific interaction and zoom checks are being performed by the parent agent after the latest Mermaid release rebuild."
+  ]
+}

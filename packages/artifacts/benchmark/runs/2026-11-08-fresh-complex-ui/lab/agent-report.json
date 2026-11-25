@@ -1,0 +1,77 @@
+{
+  "taskId": "fresh-lab",
+  "title": "Visual methods lab",
+  "status": "complete",
+  "elapsed": "approximately 6 minutes",
+  "artifact": "author/output.html",
+  "configuration": "author/artifact.json",
+  "source": "author/main.js",
+  "direction": "instrument/light",
+  "families": [
+    "vega",
+    "table",
+    "plotly",
+    "plot",
+    "geometry",
+    "neural",
+    "markdown",
+    "myst",
+    "code",
+    "carousel"
+  ],
+  "recipesAndReferences": [
+    "~/.agents/skills/atelier-artifacts/SKILL.md",
+    "~/Repos/atelier/skills/atelier-artifacts/references/composition.md",
+    "~/Repos/atelier/packages/artifacts/recipes/visual-methods/artifact.json",
+    "~/Repos/atelier/packages/artifacts/recipes/visual-methods/main.js",
+    "~/Repos/atelier/packages/artifacts/recipes/neural/main.js"
+  ],
+  "packingAttempts": [
+    {
+      "attempt": 1,
+      "record": "attempts/01/pack-result.json",
+      "result": "success"
+    },
+    {
+      "attempt": 2,
+      "record": "attempts/02/pack-result.json",
+      "result": "success",
+      "reason": "Displayed the exact supplied illustrative-data label in the overview notice."
+    }
+  ],
+  "repairs": [
+    {
+      "reason": "The initial overview notice paraphrased the supplied label.",
+      "change": "Changed it to ‘Illustrative fixture supplied for UI evaluation; no production evidence.’ in the visible notice."
+    },
+    {
+      "reason": "The first browser assertion matched hp1 as a substring of hp11 even though the filtered table was correct.",
+      "change": "Corrected the test to match a complete tab-delimited row id; no artifact code change was needed for this assertion."
+    }
+  ],
+  "commands": [
+    "node /private/tmp/atelier-fresh-ui-20261108/lab/record-pack.mjs /private/tmp/atelier-fresh-ui-20261108/lab/author/artifact.json /private/tmp/atelier-fresh-ui-20261108/lab/author/output.html (run for each of the two packing attempts)",
+    "node /private/tmp/atelier-fresh-ui-20261108/lab/check-local.mjs /private/tmp/atelier-fresh-ui-20261108/lab/author/output.html --matrix",
+    "node /private/tmp/atelier-fresh-ui-20261108/lab/author/interactions.mjs"
+  ],
+  "verification": {
+    "matrix": {
+      "checked": 12,
+      "findings": 0,
+      "coverage": "instrument, editorial, console; light and dark; 1440px and 390px"
+    },
+    "interactions": [
+      "Group B filter constrained the observation register and updated linked chart handles.",
+      "No matches rendered without table rows; reset restored all 36 supplied records.",
+      "Inspect updated the selected-point detail for hp1.",
+      "Plot gallery switched through line, histogram, and scatter modes.",
+      "Experiment note survived Surface → Cross section → Surface tab changes.",
+      "Trained to epoch 20; training remained at epoch 20 through a tab round trip and 390px → 1440px resize.",
+      "Open canvas in new tab produced a standalone canvas-only page."
+    ]
+  },
+  "knownLimits": [
+    "Neural diagnostics and predictions follow the supplied visual-methods recipe’s local XOR training computation; they are illustrative and are not production evidence.",
+    "The output uses the browser profile and its local Plotly/worker features; portability to hosts that block WebGL or workers was not assessed."
+  ]
+}

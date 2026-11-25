@@ -184,3 +184,55 @@
   outline: 2px solid var(--ring);
   outline-offset: 2px;
 }
+
+/* Some one-off notebooks have just one section. Keep its anchor linkable,
+   and let its content use the space a table of contents would occupy. */
+.at-notebook:has(.at-nav > a:only-child) :is(.at-nav, .at-menu) {
+  display: none;
+}
+.at-notebook:has(.at-nav > a:only-child) .at-main {
+  max-inline-size: 86rem;
+  margin-inline: auto;
+}
+.at-notebook .at-cell:has(.channel-row) {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+}
+.at-notebook .at-cell:has(.channel-row) .at-cell-head {
+  background: transparent;
+  border: 0;
+  padding: 0 0 1rem;
+}
+.at-notebook .at-cell:has(.channel-row) .at-cell-body {
+  padding: 0;
+}
+
+.at-notebook .at-prose {
+  line-height: 1.65;
+}
+.at-notebook .at-prose :is(p, li) {
+  max-inline-size: 70ch;
+}
+.at-notebook .at-field :is(label, .at-field-value) {
+  font-weight: 600;
+}
+.at-notebook .at-field-value,
+.at-notebook .at-table,
+.at-notebook .at-metric-value {
+  font-variant-numeric: tabular-nums;
+}
+.at-notebook .at-composer:focus-within {
+  border-color: var(--ring);
+}
+.at-notebook .at-message p {
+  max-inline-size: 68ch;
+  line-height: 1.65;
+}
+.at-notebook .at-table tr:focus-within td {
+  border-bottom-color: var(--primary);
+}
+.at-notebook .react-flow__node.selected .at-node {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}

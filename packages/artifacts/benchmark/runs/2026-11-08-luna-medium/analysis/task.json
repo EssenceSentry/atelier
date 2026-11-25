@@ -1,0 +1,35 @@
+{
+  "id": "analysis",
+  "prompt": "Create a browser notebook from the supplied observations. Show a score-vs-volume scatter with a group filter, a sorted rich table with a decision select and an Inspect button, a selected-row JSON graph, and a Markdown explanation. Export current decisions as JSON. Sidebar links scroll to sections. Markdown is full width; the scatter's controls sit at its left within the same cell. Keep the supplied illustrative-data label. Use editorial/light initially and verify all themes and mobile.",
+  "data": [
+    {
+      "id": "a1",
+      "group": "A",
+      "score": 0.2,
+      "volume": 40,
+      "decision": "Pending"
+    },
+    {
+      "id": "a2",
+      "group": "A",
+      "score": 0.8,
+      "volume": 70,
+      "decision": "Pending"
+    },
+    {
+      "id": "b1",
+      "group": "B",
+      "score": 0.4,
+      "volume": 90,
+      "decision": "Pending"
+    },
+    {
+      "id": "b2",
+      "group": "B",
+      "score": 0.6,
+      "volume": 50,
+      "decision": "Pending"
+    }
+  ],
+  "dataLabel": "Illustrative synthetic observations supplied for this benchmark."
+}

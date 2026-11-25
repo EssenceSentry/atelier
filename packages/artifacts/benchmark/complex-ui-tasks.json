@@ -1,0 +1,655 @@
+[
+  {
+    "title": "Evidence review workspace",
+    "theme": "editorial",
+    "prompt": "Create a complex review notebook with at least 7 cells. Overview uses metrics and an illustrative-data notice. A Group selector (All/North/South/West) and Record search jointly filter both the chart and rich table; keep reset discoverable. The rich table has thumbnail, long title, status badge, score, decision select (Pending/Accept/Reject), and Inspect action; sort and pagination must remain after decision changes. Inspect opens selected-record detail tabs (summary, image comparison, JSON). Decisions and a local draft note survive filtering and tab changes; selected view follows the clicked stable id. Include image carousel, highlighted SQL example (no SQL execution needed), full-width Markdown guidance and a scripted local chat explicitly labeled as such. Export all 18 decisions, including filtered-out records. Use families from table/vega/media/carousel/json/markdown/code/chat. Make an empty shared-filter state recoverable. All interactions must be wired.",
+    "data": [
+      {
+        "id": "r01",
+        "title": "Mountain field survey \u2014 sample 1",
+        "group": "North",
+        "status": "Ready",
+        "decision": "Pending",
+        "score": 0.21,
+        "volume": 24,
+        "summary": "Illustrative evidence record with a deliberately longer title and local review metadata.",
+        "imageIndex": 0,
+        "metadata": {
+          "origin": "supplied fixture",
+          "revision": 1,
+          "tags": ["illustrative", "field"]
+        }
+      },
+      {
+        "id": "r02",
+        "title": "Urban transit observation \u2014 sample 2",
+        "group": "South",
+        "status": "Pending",
+        "decision": "Pending",
+        "score": 0.3,
+        "volume": 31,
+        "summary": "Illustrative evidence record with a deliberately longer title and local review metadata.",
+        "imageIndex": 1,
+        "metadata": {
+          "origin": "supplied fixture",
+          "revision": 2,
+          "tags": ["illustrative", "city"]
+        }
+      },
+      {
+        "id": "r03",
+        "title": "Wetland restoration study \u2014 sample 3",
+        "group": "West",
+        "status": "Flagged",
+        "decision": "Pending",
+        "score": 0.39,
+        "volume": 38,
+        "summary": "Illustrative evidence record with a deliberately longer title and local review metadata.",
+        "imageIndex": 2,
+        "metadata": {
+          "origin": "supplied fixture",
+          "revision": 3,
+          "tags": ["illustrative", "water"]
+        }
+      },
+      {
+        "id": "r04",
+        "title": "Mountain field survey \u2014 sample 4",
+        "group": "North",
+        "status": "Ready",
+        "decision": "Pending",
+        "score": 0.48,
+        "volume": 45,
+        "summary": "Illustrative evidence record with a deliberately longer title and local review metadata.",
+        "imageIndex": 0,
+        "metadata": {
+          "origin": "supplied fixture",
+          "revision": 4,
+          "tags": ["illustrative", "field"]
+        }
+      },
+      {
+        "id": "r05",
+        "title": "Urban transit observation \u2014 sample 5",
+        "group": "South",
+        "status": "Pending",
+        "decision": "Pending",
+        "score": 0.57,
+        "volume": 52,
+        "summary": "Illustrative evidence record with a deliberately longer title and local review metadata.",
+        "imageIndex": 1,
+        "metadata": {
+          "origin": "supplied fixture",
+          "revision": 1,
+          "tags": ["illustrative", "city"]
+        }
+      },
+      {
+        "id": "r06",
+        "title": "Wetland restoration study \u2014 sample 6",
+        "group": "West",
+        "status": "Flagged",
+        "decision": "Pending",
+        "score": 0.66,
+        "volume": 59,
+        "summary": "Illustrative evidence record with a deliberately longer title and local review metadata.",
+        "imageIndex": 2,
+        "metadata": {
+          "origin": "supplied fixture",
+          "revision": 2,
+          "tags": ["illustrative", "water"]
+        }
+      },
+      {
+        "id": "r07",
+        "title": "Mountain field survey \u2014 sample 7",
+        "group": "North",
+        "status": "Ready",
+        "decision": "Pending",
+        "score": 0.75,
+        "volume": 66,
+        "summary": "Illustrative evidence record with a deliberately longer title and local review metadata.",
+        "imageIndex": 0,
+        "metadata": {
+          "origin": "supplied fixture",
+          "revision": 3,
+          "tags": ["illustrative", "field"]
+        }
+      },
+      {
+        "id": "r08",
+        "title": "Urban transit observation \u2014 sample 8",
+        "group": "South",
+        "status": "Pending",
+        "decision": "Pending",
+        "score": 0.84,
+        "volume": 73,
+        "summary": "Illustrative evidence record with a deliberately longer title and local review metadata.",
+        "imageIndex": 1,
+        "metadata": {
+          "origin": "supplied fixture",
+          "revision": 4,
+          "tags": ["illustrative", "city"]
+        }
+      },
+      {
+        "id": "r09",
+        "title": "Wetland restoration study \u2014 sample 9",
+        "group": "West",
+        "status": "Flagged",
+        "decision": "Pending",
+        "score": 0.21,
+        "volume": 80,
+        "summary": "Illustrative evidence record with a deliberately longer title and local review metadata.",
+        "imageIndex": 2,
+        "metadata": {
+          "origin": "supplied fixture",
+          "revision": 1,
+          "tags": ["illustrative", "water"]
+        }
+      },
+      {
+        "id": "r10",
+        "title": "Mountain field survey \u2014 sample 10",
+        "group": "North",
+        "status": "Ready",
+        "decision": "Pending",
+        "score": 0.3,
+        "volume": 87,
+        "summary": "Illustrative evidence record with a deliberately longer title and local review metadata.",
+        "imageIndex": 0,
+        "metadata": {
+          "origin": "supplied fixture",
+          "revision": 2,
+          "tags": ["illustrative", "field"]
+        }
+      },
+      {
+        "id": "r11",
+        "title": "Urban transit observation \u2014 sample 11",
+        "group": "South",
+        "status": "Pending",
+        "decision": "Pending",
+        "score": 0.39,
+        "volume": 94,
+        "summary": "Illustrative evidence record with a deliberately longer title and local review metadata.",
+        "imageIndex": 1,
+        "metadata": {
+          "origin": "supplied fixture",
+          "revision": 3,
+          "tags": ["illustrative", "city"]
+        }
+      },
+      {
+        "id": "r12",
+        "title": "Wetland restoration study \u2014 sample 12",
+        "group": "West",
+        "status": "Flagged",
+        "decision": "Pending",
+        "score": 0.48,
+        "volume": 101,
+        "summary": "Illustrative evidence record with a deliberately longer title and local review metadata.",
+        "imageIndex": 2,
+        "metadata": {
+          "origin": "supplied fixture",
+          "revision": 4,
+          "tags": ["illustrative", "water"]
+        }
+      },
+      {
+        "id": "r13",
+        "title": "Mountain field survey \u2014 sample 13",
+        "group": "North",
+        "status": "Ready",
+        "decision": "Pending",
+        "score": 0.57,
+        "volume": 108,
+        "summary": "Illustrative evidence record with a deliberately longer title and local review metadata.",
+        "imageIndex": 0,
+        "metadata": {
+          "origin": "supplied fixture",
+          "revision": 1,
+          "tags": ["illustrative", "field"]
+        }
+      },
+      {
+        "id": "r14",
+        "title": "Urban transit observation \u2014 sample 14",
+        "group": "South",
+        "status": "Pending",
+        "decision": "Pending",
+        "score": 0.66,
+        "volume": 115,
+        "summary": "Illustrative evidence record with a deliberately longer title and local review metadata.",
+        "imageIndex": 1,
+        "metadata": {
+          "origin": "supplied fixture",
+          "revision": 2,
+          "tags": ["illustrative", "city"]
+        }
+      },
+      {
+        "id": "r15",
+        "title": "Wetland restoration study \u2014 sample 15",
+        "group": "West",
+        "status": "Flagged",
+        "decision": "Pending",
+        "score": 0.75,
+        "volume": 122,
+        "summary": "Illustrative evidence record with a deliberately longer title and local review metadata.",
+        "imageIndex": 2,
+        "metadata": {
+          "origin": "supplied fixture",
+          "revision": 3,
+          "tags": ["illustrative", "water"]
+        }
+      },
+      {
+        "id": "r16",
+        "title": "Mountain field survey \u2014 sample 16",
+        "group": "North",
+        "status": "Ready",
+        "decision": "Pending",
+        "score": 0.84,
+        "volume": 129,
+        "summary": "Illustrative evidence record with a deliberately longer title and local review metadata.",
+        "imageIndex": 0,
+        "metadata": {
+          "origin": "supplied fixture",
+          "revision": 4,
+          "tags": ["illustrative", "field"]
+        }
+      },
+      {
+        "id": "r17",
+        "title": "Urban transit observation \u2014 sample 17",
+        "group": "South",
+        "status": "Pending",
+        "decision": "Pending",
+        "score": 0.21,
+        "volume": 136,
+        "summary": "Illustrative evidence record with a deliberately longer title and local review metadata.",
+        "imageIndex": 1,
+        "metadata": {
+          "origin": "supplied fixture",
+          "revision": 1,
+          "tags": ["illustrative", "city"]
+        }
+      },
+      {
+        "id": "r18",
+        "title": "Wetland restoration study \u2014 sample 18",
+        "group": "West",
+        "status": "Flagged",
+        "decision": "Pending",
+        "score": 0.3,
+        "volume": 143,
+        "summary": "Illustrative evidence record with a deliberately longer title and local review metadata.",
+        "imageIndex": 2,
+        "metadata": {
+          "origin": "supplied fixture",
+          "revision": 2,
+          "tags": ["illustrative", "water"]
+        }
+      }
+    ],
+    "id": "review",
+    "dataLabel": "Illustrative fixture supplied for UI evaluation; no production evidence.",
+    "images": [
+      "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22800%22%20height%3D%22450%22%3E%3Crect%20width%3D%22800%22%20height%3D%22450%22%20fill%3D%22%23406b58%22/%3E%3Ccircle%20cx%3D%22590%22%20cy%3D%22150%22%20r%3D%2290%22%20fill%3D%22white%22%20opacity%3D%22.2%22/%3E%3Cpath%20d%3D%22M0%20400L250%20180L500%20400L700%20240L800%20400%22%20fill%3D%22white%22%20opacity%3D%22.3%22/%3E%3Ctext%20x%3D%2250%22%20y%3D%2285%22%20fill%3D%22white%22%20font-family%3D%22sans-serif%22%20font-size%3D%2236%22%3EField%20%C2%B7%20illustrative%20evidence%3C/text%3E%3C/svg%3E",
+      "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22800%22%20height%3D%22450%22%3E%3Crect%20width%3D%22800%22%20height%3D%22450%22%20fill%3D%22%236a6288%22/%3E%3Ccircle%20cx%3D%22590%22%20cy%3D%22150%22%20r%3D%2290%22%20fill%3D%22white%22%20opacity%3D%22.2%22/%3E%3Cpath%20d%3D%22M0%20400L250%20180L500%20400L700%20240L800%20400%22%20fill%3D%22white%22%20opacity%3D%22.3%22/%3E%3Ctext%20x%3D%2250%22%20y%3D%2285%22%20fill%3D%22white%22%20font-family%3D%22sans-serif%22%20font-size%3D%2236%22%3ECity%20%C2%B7%20illustrative%20evidence%3C/text%3E%3C/svg%3E",
+      "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22800%22%20height%3D%22450%22%3E%3Crect%20width%3D%22800%22%20height%3D%22450%22%20fill%3D%22%233a7191%22/%3E%3Ccircle%20cx%3D%22590%22%20cy%3D%22150%22%20r%3D%2290%22%20fill%3D%22white%22%20opacity%3D%22.2%22/%3E%3Cpath%20d%3D%22M0%20400L250%20180L500%20400L700%20240L800%20400%22%20fill%3D%22white%22%20opacity%3D%22.3%22/%3E%3Ctext%20x%3D%2250%22%20y%3D%2285%22%20fill%3D%22white%22%20font-family%3D%22sans-serif%22%20font-size%3D%2236%22%3EWater%20%C2%B7%20illustrative%20evidence%3C/text%3E%3C/svg%3E"
+    ]
+  },
+  {
+    "title": "Architecture investigation notebook",
+    "theme": "console",
+    "prompt": "Create an architecture investigation notebook with at least 7 cells and a 12-node AWS workflow. Use the supplied node descriptions, real matching bundled AWS icons and status badges. Keep nodes readable by default; provide Fit overview and Focus selected actions. Selecting a node by clicking or selector updates a detail inspector with tabs for Summary (Markdown), Properties (JSON), and highlighted SQL/JSON example (code). A local incident note persists between tabs. A health selector (All/Ready/Warning) highlights matching nodes without removing the topology. Include an independently zoomable Mermaid request sequence, a table of services with an Inspect action that selects/focuses the same node, an evidence carousel and full-width operational guide. Flow and Mermaid each open in a canvas-only new tab preserving current view. Export selected id and notes. Sidebar links scroll. Use supplied graph data without backend claims.",
+    "data": {
+      "nodes": [
+        {
+          "id": "n1",
+          "service": "Amazon API Gateway",
+          "label": "Amazon API Gateway \u2014 public request entry",
+          "description": "Validate authenticated requests and route supported API versions.",
+          "status": "Ready"
+        },
+        {
+          "id": "n2",
+          "service": "AWS Lambda",
+          "label": "AWS Lambda \u2014 request validation",
+          "description": "Validate payload shape and attach a trace identifier.",
+          "status": "Ready"
+        },
+        {
+          "id": "n3",
+          "service": "Amazon S3",
+          "label": "Amazon S3 \u2014 immutable input archive",
+          "description": "Store source objects and versioned evidence for reproducible review.",
+          "status": "Ready"
+        },
+        {
+          "id": "n4",
+          "service": "Amazon SQS",
+          "label": "Amazon SQS \u2014 durable processing queue",
+          "description": "Buffer ingestion bursts and expose retry and dead-letter state.",
+          "status": "Warning"
+        },
+        {
+          "id": "n5",
+          "service": "AWS Step Functions",
+          "label": "AWS Step Functions \u2014 workflow orchestration",
+          "description": "Coordinate preparation, inference and result publication.",
+          "status": "Ready"
+        },
+        {
+          "id": "n6",
+          "service": "Amazon SageMaker AI",
+          "label": "Amazon SageMaker AI \u2014 classifier endpoint",
+          "description": "Apply a supplied versioned classifier to prepared records.",
+          "status": "Ready"
+        },
+        {
+          "id": "n7",
+          "service": "Amazon DynamoDB",
+          "label": "Amazon DynamoDB \u2014 review decision state",
+          "description": "Persist stable record identifiers and reviewer decisions.",
+          "status": "Ready"
+        },
+        {
+          "id": "n8",
+          "service": "Amazon EventBridge",
+          "label": "Amazon EventBridge \u2014 completion events",
+          "description": "Dispatch completion events to interested consumers.",
+          "status": "Ready"
+        },
+        {
+          "id": "n9",
+          "service": "Amazon CloudWatch",
+          "label": "Amazon CloudWatch \u2014 operational telemetry",
+          "description": "Collect logs, latency and processing-error indicators.",
+          "status": "Warning"
+        },
+        {
+          "id": "n10",
+          "service": "AWS IAM",
+          "label": "AWS IAM \u2014 service authorization",
+          "description": "Grant least-privilege access to the illustrative components.",
+          "status": "Ready"
+        },
+        {
+          "id": "n11",
+          "service": "AWS KMS",
+          "label": "AWS KMS \u2014 key management",
+          "description": "Represent encryption key ownership and rotation policy.",
+          "status": "Ready"
+        },
+        {
+          "id": "n12",
+          "service": "Amazon Athena",
+          "label": "Amazon Athena \u2014 audit query workspace",
+          "description": "Query archived evidence and inspect historical processing summaries.",
+          "status": "Ready"
+        }
+      ],
+      "edges": [
+        [1, 2],
+        [2, 3],
+        [2, 4],
+        [4, 5],
+        [5, 6],
+        [6, 7],
+        [7, 8],
+        [5, 9],
+        [6, 9],
+        [10, 5],
+        [11, 3],
+        [3, 12]
+      ]
+    },
+    "id": "architecture",
+    "dataLabel": "Illustrative fixture supplied for UI evaluation; no production evidence.",
+    "images": [
+      "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22800%22%20height%3D%22450%22%3E%3Crect%20width%3D%22800%22%20height%3D%22450%22%20fill%3D%22%23406b58%22/%3E%3Ccircle%20cx%3D%22590%22%20cy%3D%22150%22%20r%3D%2290%22%20fill%3D%22white%22%20opacity%3D%22.2%22/%3E%3Cpath%20d%3D%22M0%20400L250%20180L500%20400L700%20240L800%20400%22%20fill%3D%22white%22%20opacity%3D%22.3%22/%3E%3Ctext%20x%3D%2250%22%20y%3D%2285%22%20fill%3D%22white%22%20font-family%3D%22sans-serif%22%20font-size%3D%2236%22%3EField%20%C2%B7%20illustrative%20evidence%3C/text%3E%3C/svg%3E",
+      "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22800%22%20height%3D%22450%22%3E%3Crect%20width%3D%22800%22%20height%3D%22450%22%20fill%3D%22%236a6288%22/%3E%3Ccircle%20cx%3D%22590%22%20cy%3D%22150%22%20r%3D%2290%22%20fill%3D%22white%22%20opacity%3D%22.2%22/%3E%3Cpath%20d%3D%22M0%20400L250%20180L500%20400L700%20240L800%20400%22%20fill%3D%22white%22%20opacity%3D%22.3%22/%3E%3Ctext%20x%3D%2250%22%20y%3D%2285%22%20fill%3D%22white%22%20font-family%3D%22sans-serif%22%20font-size%3D%2236%22%3ECity%20%C2%B7%20illustrative%20evidence%3C/text%3E%3C/svg%3E",
+      "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22800%22%20height%3D%22450%22%3E%3Crect%20width%3D%22800%22%20height%3D%22450%22%20fill%3D%22%233a7191%22/%3E%3Ccircle%20cx%3D%22590%22%20cy%3D%22150%22%20r%3D%2290%22%20fill%3D%22white%22%20opacity%3D%22.2%22/%3E%3Cpath%20d%3D%22M0%20400L250%20180L500%20400L700%20240L800%20400%22%20fill%3D%22white%22%20opacity%3D%22.3%22/%3E%3Ctext%20x%3D%2250%22%20y%3D%2285%22%20fill%3D%22white%22%20font-family%3D%22sans-serif%22%20font-size%3D%2236%22%3EWater%20%C2%B7%20illustrative%20evidence%3C/text%3E%3C/svg%3E"
+    ]
+  },
+  {
+    "title": "Visual methods lab",
+    "theme": "instrument",
+    "prompt": "Create a complex visual methods notebook with at least 9 cells: overview metrics/notice; linked supplied-point charts with Group filter; a plot-gallery cell with select choosing scatter, line or histogram of supplied fixture values; a scientific Plotly surface (supplied x/y/z) with Surface and Cross section tabs; adjustable JSXGraph geometric construction from the geometry recipe; a browser neural lab from the neural recipe with controls in the left rail and diagnostics/predictions in separate cells; a table of supplied observations with inspect/select; MyST documentation plus highlighted code; and an image carousel. Add canvas-only new-tab snapshots for serializable chart canvases. A local experiment note survives tab changes; the group filter updates both linked charts/table, with reset and empty state. Use at least 8 family packs. Preserve training state during tabs and resize. Use fixtures and recipe computations, no new scientific claims. Prioritize composition, readable chart labels, responsive stateful controls and meaningful action hierarchy.",
+    "data": {
+      "points": [
+        {
+          "id": "p1",
+          "x": 0.0,
+          "y": 0.2,
+          "group": "A",
+          "decision": "Pending"
+        },
+        {
+          "id": "p2",
+          "x": 0.25,
+          "y": 0.5,
+          "group": "B",
+          "decision": "Pending"
+        },
+        {
+          "id": "p3",
+          "x": 0.5,
+          "y": 0.8,
+          "group": "C",
+          "decision": "Pending"
+        },
+        {
+          "id": "p4",
+          "x": 0.75,
+          "y": 1.1,
+          "group": "A",
+          "decision": "Pending"
+        },
+        {
+          "id": "p5",
+          "x": 1.0,
+          "y": 1.4,
+          "group": "B",
+          "decision": "Pending"
+        },
+        {
+          "id": "p6",
+          "x": 1.25,
+          "y": 1.7,
+          "group": "C",
+          "decision": "Pending"
+        },
+        {
+          "id": "p7",
+          "x": 1.5,
+          "y": 2.0,
+          "group": "A",
+          "decision": "Pending"
+        },
+        {
+          "id": "p8",
+          "x": 1.75,
+          "y": 0.2,
+          "group": "B",
+          "decision": "Pending"
+        },
+        {
+          "id": "p9",
+          "x": 2.0,
+          "y": 0.5,
+          "group": "C",
+          "decision": "Pending"
+        },
+        {
+          "id": "p10",
+          "x": 2.25,
+          "y": 0.8,
+          "group": "A",
+          "decision": "Pending"
+        },
+        {
+          "id": "p11",
+          "x": 2.5,
+          "y": 1.1,
+          "group": "B",
+          "decision": "Pending"
+        },
+        {
+          "id": "p12",
+          "x": 2.75,
+          "y": 1.4,
+          "group": "C",
+          "decision": "Pending"
+        },
+        {
+          "id": "p13",
+          "x": 3.0,
+          "y": 1.7,
+          "group": "A",
+          "decision": "Pending"
+        },
+        {
+          "id": "p14",
+          "x": 3.25,
+          "y": 2.0,
+          "group": "B",
+          "decision": "Pending"
+        },
+        {
+          "id": "p15",
+          "x": 3.5,
+          "y": 0.2,
+          "group": "C",
+          "decision": "Pending"
+        },
+        {
+          "id": "p16",
+          "x": 3.75,
+          "y": 0.5,
+          "group": "A",
+          "decision": "Pending"
+        },
+        {
+          "id": "p17",
+          "x": 4.0,
+          "y": 0.8,
+          "group": "B",
+          "decision": "Pending"
+        },
+        {
+          "id": "p18",
+          "x": 4.25,
+          "y": 1.1,
+          "group": "C",
+          "decision": "Pending"
+        },
+        {
+          "id": "p19",
+          "x": 4.5,
+          "y": 1.4,
+          "group": "A",
+          "decision": "Pending"
+        },
+        {
+          "id": "p20",
+          "x": 4.75,
+          "y": 1.7,
+          "group": "B",
+          "decision": "Pending"
+        },
+        {
+          "id": "p21",
+          "x": 5.0,
+          "y": 2.0,
+          "group": "C",
+          "decision": "Pending"
+        },
+        {
+          "id": "p22",
+          "x": 5.25,
+          "y": 0.2,
+          "group": "A",
+          "decision": "Pending"
+        },
+        {
+          "id": "p23",
+          "x": 5.5,
+          "y": 0.5,
+          "group": "B",
+          "decision": "Pending"
+        },
+        {
+          "id": "p24",
+          "x": 5.75,
+          "y": 0.8,
+          "group": "C",
+          "decision": "Pending"
+        },
+        {
+          "id": "p25",
+          "x": 6.0,
+          "y": 1.1,
+          "group": "A",
+          "decision": "Pending"
+        },
+        {
+          "id": "p26",
+          "x": 6.25,
+          "y": 1.4,
+          "group": "B",
+          "decision": "Pending"
+        },
+        {
+          "id": "p27",
+          "x": 6.5,
+          "y": 1.7,
+          "group": "C",
+          "decision": "Pending"
+        },
+        {
+          "id": "p28",
+          "x": 6.75,
+          "y": 2.0,
+          "group": "A",
+          "decision": "Pending"
+        },
+        {
+          "id": "p29",
+          "x": 7.0,
+          "y": 0.2,
+          "group": "B",
+          "decision": "Pending"
+        },
+        {
+          "id": "p30",
+          "x": 7.25,
+          "y": 0.5,
+          "group": "C",
+          "decision": "Pending"
+        }
+      ],
+      "surface": {
+        "x": [-2, -1, 0, 1, 2],
+        "y": [-2, -1, 0, 1, 2],
+        "z": [
+          [0, 0.2, 0.3, 0.2, 0],
+          [0.2, 0.6, 0.8, 0.6, 0.2],
+          [0.3, 0.8, 1, 0.8, 0.3],
+          [0.2, 0.6, 0.8, 0.6, 0.2],
+          [0, 0.2, 0.3, 0.2, 0]
+        ]
+      }
+    },
+    "id": "lab",
+    "dataLabel": "Illustrative fixture supplied for UI evaluation; no production evidence.",
+    "images": [
+      "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22800%22%20height%3D%22450%22%3E%3Crect%20width%3D%22800%22%20height%3D%22450%22%20fill%3D%22%23406b58%22/%3E%3Ccircle%20cx%3D%22590%22%20cy%3D%22150%22%20r%3D%2290%22%20fill%3D%22white%22%20opacity%3D%22.2%22/%3E%3Cpath%20d%3D%22M0%20400L250%20180L500%20400L700%20240L800%20400%22%20fill%3D%22white%22%20opacity%3D%22.3%22/%3E%3Ctext%20x%3D%2250%22%20y%3D%2285%22%20fill%3D%22white%22%20font-family%3D%22sans-serif%22%20font-size%3D%2236%22%3EField%20%C2%B7%20illustrative%20evidence%3C/text%3E%3C/svg%3E",
+      "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22800%22%20height%3D%22450%22%3E%3Crect%20width%3D%22800%22%20height%3D%22450%22%20fill%3D%22%236a6288%22/%3E%3Ccircle%20cx%3D%22590%22%20cy%3D%22150%22%20r%3D%2290%22%20fill%3D%22white%22%20opacity%3D%22.2%22/%3E%3Cpath%20d%3D%22M0%20400L250%20180L500%20400L700%20240L800%20400%22%20fill%3D%22white%22%20opacity%3D%22.3%22/%3E%3Ctext%20x%3D%2250%22%20y%3D%2285%22%20fill%3D%22white%22%20font-family%3D%22sans-serif%22%20font-size%3D%2236%22%3ECity%20%C2%B7%20illustrative%20evidence%3C/text%3E%3C/svg%3E",
+      "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22800%22%20height%3D%22450%22%3E%3Crect%20width%3D%22800%22%20height%3D%22450%22%20fill%3D%22%233a7191%22/%3E%3Ccircle%20cx%3D%22590%22%20cy%3D%22150%22%20r%3D%2290%22%20fill%3D%22white%22%20opacity%3D%22.2%22/%3E%3Cpath%20d%3D%22M0%20400L250%20180L500%20400L700%20240L800%20400%22%20fill%3D%22white%22%20opacity%3D%22.3%22/%3E%3Ctext%20x%3D%2250%22%20y%3D%2285%22%20fill%3D%22white%22%20font-family%3D%22sans-serif%22%20font-size%3D%2236%22%3EWater%20%C2%B7%20illustrative%20evidence%3C/text%3E%3C/svg%3E"
+    ]
+  }
+]

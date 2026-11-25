@@ -1,0 +1,398 @@
+{
+  "title": "Evidence review workspace",
+  "theme": "editorial",
+  "prompt": "Create a complex review notebook with at least 7 cells. Overview uses metrics and an illustrative-data notice. A Group selector (All/North/South/West) and Record search jointly filter both the chart and rich table; keep reset discoverable. The rich table has thumbnail, long title, status badge, score, decision select (Pending/Accept/Reject), and Inspect action; sort and pagination must remain after decision changes. Inspect opens selected-record detail tabs (summary, image comparison, JSON). Decisions and a local draft note survive filtering and tab changes; selected view follows the clicked stable id. Include image carousel, highlighted SQL example (no SQL execution needed), full-width Markdown guidance and a scripted local chat explicitly labeled as such. Export all 24 decisions, including filtered-out records. Use families from table/vega/media/carousel/json/markdown/code/chat. Make an empty shared-filter state recoverable. All interactions must be wired. Use the supplied new records, including the long titles; adapt the recipe rather than leaving its example records. No author visual review of normal UI should be needed.",
+  "data": [
+    {
+      "id": "h01",
+      "title": "Coastal sensor comparison: dawn observations and restoration context \u2014 example 1",
+      "group": "North",
+      "status": "Ready",
+      "decision": "Pending",
+      "score": 0.2,
+      "volume": 21,
+      "summary": "Illustrative evidence record with a deliberately longer title and local review metadata.",
+      "imageIndex": 0,
+      "metadata": {
+        "origin": "supplied fixture",
+        "revision": 1,
+        "tags": ["illustrative", "field"]
+      }
+    },
+    {
+      "id": "h02",
+      "title": "Metropolitan mobility evidence: a multi-view review of local streets \u2014 example 2",
+      "group": "South",
+      "status": "Pending",
+      "decision": "Pending",
+      "score": 0.3,
+      "volume": 30,
+      "summary": "Illustrative evidence record with a deliberately longer title and local review metadata.",
+      "imageIndex": 1,
+      "metadata": {
+        "origin": "supplied fixture",
+        "revision": 2,
+        "tags": ["illustrative", "city"]
+      }
+    },
+    {
+      "id": "h03",
+      "title": "Reservoir field record: habitat observations after seasonal change \u2014 example 3",
+      "group": "West",
+      "status": "Flagged",
+      "decision": "Pending",
+      "score": 0.4,
+      "volume": 39,
+      "summary": "Illustrative evidence record with a deliberately longer title and local review metadata.",
+      "imageIndex": 2,
+      "metadata": {
+        "origin": "supplied fixture",
+        "revision": 3,
+        "tags": ["illustrative", "water"]
+      }
+    },
+    {
+      "id": "h04",
+      "title": "Coastal sensor comparison: dawn observations and restoration context \u2014 example 4",
+      "group": "North",
+      "status": "Ready",
+      "decision": "Pending",
+      "score": 0.5,
+      "volume": 48,
+      "summary": "Illustrative evidence record with a deliberately longer title and local review metadata.",
+      "imageIndex": 0,
+      "metadata": {
+        "origin": "supplied fixture",
+        "revision": 4,
+        "tags": ["illustrative", "field"]
+      }
+    },
+    {
+      "id": "h05",
+      "title": "Metropolitan mobility evidence: a multi-view review of local streets \u2014 example 5",
+      "group": "South",
+      "status": "Pending",
+      "decision": "Pending",
+      "score": 0.6,
+      "volume": 57,
+      "summary": "Illustrative evidence record with a deliberately longer title and local review metadata.",
+      "imageIndex": 1,
+      "metadata": {
+        "origin": "supplied fixture",
+        "revision": 1,
+        "tags": ["illustrative", "city"]
+      }
+    },
+    {
+      "id": "h06",
+      "title": "Reservoir field record: habitat observations after seasonal change \u2014 example 6",
+      "group": "West",
+      "status": "Flagged",
+      "decision": "Pending",
+      "score": 0.7,
+      "volume": 66,
+      "summary": "Illustrative evidence record with a deliberately longer title and local review metadata.",
+      "imageIndex": 2,
+      "metadata": {
+        "origin": "supplied fixture",
+        "revision": 2,
+        "tags": ["illustrative", "water"]
+      }
+    },
+    {
+      "id": "h07",
+      "title": "Coastal sensor comparison: dawn observations and restoration context \u2014 example 7",
+      "group": "North",
+      "status": "Ready",
+      "decision": "Pending",
+      "score": 0.8,
+      "volume": 75,
+      "summary": "Illustrative evidence record with a deliberately longer title and local review metadata.",
+      "imageIndex": 0,
+      "metadata": {
+        "origin": "supplied fixture",
+        "revision": 3,
+        "tags": ["illustrative", "field"]
+      }
+    },
+    {
+      "id": "h08",
+      "title": "Metropolitan mobility evidence: a multi-view review of local streets \u2014 example 8",
+      "group": "South",
+      "status": "Pending",
+      "decision": "Pending",
+      "score": 0.2,
+      "volume": 84,
+      "summary": "Illustrative evidence record with a deliberately longer title and local review metadata.",
+      "imageIndex": 1,
+      "metadata": {
+        "origin": "supplied fixture",
+        "revision": 4,
+        "tags": ["illustrative", "city"]
+      }
+    },
+    {
+      "id": "h09",
+      "title": "Reservoir field record: habitat observations after seasonal change \u2014 example 9",
+      "group": "West",
+      "status": "Flagged",
+      "decision": "Pending",
+      "score": 0.3,
+      "volume": 93,
+      "summary": "Illustrative evidence record with a deliberately longer title and local review metadata.",
+      "imageIndex": 2,
+      "metadata": {
+        "origin": "supplied fixture",
+        "revision": 1,
+        "tags": ["illustrative", "water"]
+      }
+    },
+    {
+      "id": "h10",
+      "title": "Coastal sensor comparison: dawn observations and restoration context \u2014 example 10",
+      "group": "North",
+      "status": "Ready",
+      "decision": "Pending",
+      "score": 0.4,
+      "volume": 102,
+      "summary": "Illustrative evidence record with a deliberately longer title and local review metadata.",
+      "imageIndex": 0,
+      "metadata": {
+        "origin": "supplied fixture",
+        "revision": 2,
+        "tags": ["illustrative", "field"]
+      }
+    },
+    {
+      "id": "h11",
+      "title": "Metropolitan mobility evidence: a multi-view review of local streets \u2014 example 11",
+      "group": "South",
+      "status": "Pending",
+      "decision": "Pending",
+      "score": 0.5,
+      "volume": 111,
+      "summary": "Illustrative evidence record with a deliberately longer title and local review metadata.",
+      "imageIndex": 1,
+      "metadata": {
+        "origin": "supplied fixture",
+        "revision": 3,
+        "tags": ["illustrative", "city"]
+      }
+    },
+    {
+      "id": "h12",
+      "title": "Reservoir field record: habitat observations after seasonal change \u2014 example 12",
+      "group": "West",
+      "status": "Flagged",
+      "decision": "Pending",
+      "score": 0.6,
+      "volume": 120,
+      "summary": "Illustrative evidence record with a deliberately longer title and local review metadata.",
+      "imageIndex": 2,
+      "metadata": {
+        "origin": "supplied fixture",
+        "revision": 4,
+        "tags": ["illustrative", "water"]
+      }
+    },
+    {
+      "id": "h13",
+      "title": "Coastal sensor comparison: dawn observations and restoration context \u2014 example 13",
+      "group": "North",
+      "status": "Ready",
+      "decision": "Pending",
+      "score": 0.7,
+      "volume": 129,
+      "summary": "Illustrative evidence record with a deliberately longer title and local review metadata.",
+      "imageIndex": 0,
+      "metadata": {
+        "origin": "supplied fixture",
+        "revision": 1,
+        "tags": ["illustrative", "field"]
+      }
+    },
+    {
+      "id": "h14",
+      "title": "Metropolitan mobility evidence: a multi-view review of local streets \u2014 example 14",
+      "group": "South",
+      "status": "Pending",
+      "decision": "Pending",
+      "score": 0.8,
+      "volume": 138,
+      "summary": "Illustrative evidence record with a deliberately longer title and local review metadata.",
+      "imageIndex": 1,
+      "metadata": {
+        "origin": "supplied fixture",
+        "revision": 2,
+        "tags": ["illustrative", "city"]
+      }
+    },
+    {
+      "id": "h15",
+      "title": "Reservoir field record: habitat observations after seasonal change \u2014 example 15",
+      "group": "West",
+      "status": "Flagged",
+      "decision": "Pending",
+      "score": 0.2,
+      "volume": 147,
+      "summary": "Illustrative evidence record with a deliberately longer title and local review metadata.",
+      "imageIndex": 2,
+      "metadata": {
+        "origin": "supplied fixture",
+        "revision": 3,
+        "tags": ["illustrative", "water"]
+      }
+    },
+    {
+      "id": "h16",
+      "title": "Coastal sensor comparison: dawn observations and restoration context \u2014 example 16",
+      "group": "North",
+      "status": "Ready",
+      "decision": "Pending",
+      "score": 0.3,
+      "volume": 156,
+      "summary": "Illustrative evidence record with a deliberately longer title and local review metadata.",
+      "imageIndex": 0,
+      "metadata": {
+        "origin": "supplied fixture",
+        "revision": 4,
+        "tags": ["illustrative", "field"]
+      }
+    },
+    {
+      "id": "h17",
+      "title": "Metropolitan mobility evidence: a multi-view review of local streets \u2014 example 17",
+      "group": "South",
+      "status": "Pending",
+      "decision": "Pending",
+      "score": 0.4,
+      "volume": 165,
+      "summary": "Illustrative evidence record with a deliberately longer title and local review metadata.",
+      "imageIndex": 1,
+      "metadata": {
+        "origin": "supplied fixture",
+        "revision": 1,
+        "tags": ["illustrative", "city"]
+      }
+    },
+    {
+      "id": "h18",
+      "title": "Reservoir field record: habitat observations after seasonal change \u2014 example 18",
+      "group": "West",
+      "status": "Flagged",
+      "decision": "Pending",
+      "score": 0.5,
+      "volume": 174,
+      "summary": "Illustrative evidence record with a deliberately longer title and local review metadata.",
+      "imageIndex": 2,
+      "metadata": {
+        "origin": "supplied fixture",
+        "revision": 2,
+        "tags": ["illustrative", "water"]
+      }
+    },
+    {
+      "id": "h19",
+      "title": "Coastal sensor comparison: dawn observations and restoration context \u2014 example 19",
+      "group": "North",
+      "status": "Ready",
+      "decision": "Pending",
+      "score": 0.6,
+      "volume": 183,
+      "summary": "Illustrative evidence record with a deliberately longer title and local review metadata.",
+      "imageIndex": 0,
+      "metadata": {
+        "origin": "supplied fixture",
+        "revision": 1,
+        "tags": ["illustrative", "field"]
+      }
+    },
+    {
+      "id": "h20",
+      "title": "Metropolitan mobility evidence: a multi-view review of local streets \u2014 example 20",
+      "group": "South",
+      "status": "Pending",
+      "decision": "Pending",
+      "score": 0.7,
+      "volume": 192,
+      "summary": "Illustrative evidence record with a deliberately longer title and local review metadata.",
+      "imageIndex": 1,
+      "metadata": {
+        "origin": "supplied fixture",
+        "revision": 2,
+        "tags": ["illustrative", "city"]
+      }
+    },
+    {
+      "id": "h21",
+      "title": "Reservoir field record: habitat observations after seasonal change \u2014 example 21",
+      "group": "West",
+      "status": "Flagged",
+      "decision": "Pending",
+      "score": 0.8,
+      "volume": 201,
+      "summary": "Illustrative evidence record with a deliberately longer title and local review metadata.",
+      "imageIndex": 2,
+      "metadata": {
+        "origin": "supplied fixture",
+        "revision": 3,
+        "tags": ["illustrative", "water"]
+      }
+    },
+    {
+      "id": "h22",
+      "title": "Coastal sensor comparison: dawn observations and restoration context \u2014 example 22",
+      "group": "North",
+      "status": "Ready",
+      "decision": "Pending",
+      "score": 0.2,
+      "volume": 210,
+      "summary": "Illustrative evidence record with a deliberately longer title and local review metadata.",
+      "imageIndex": 0,
+      "metadata": {
+        "origin": "supplied fixture",
+        "revision": 4,
+        "tags": ["illustrative", "field"]
+      }
+    },
+    {
+      "id": "h23",
+      "title": "Metropolitan mobility evidence: a multi-view review of local streets \u2014 example 23",
+      "group": "South",
+      "status": "Pending",
+      "decision": "Pending",
+      "score": 0.3,
+      "volume": 219,
+      "summary": "Illustrative evidence record with a deliberately longer title and local review metadata.",
+      "imageIndex": 1,
+      "metadata": {
+        "origin": "supplied fixture",
+        "revision": 1,
+        "tags": ["illustrative", "city"]
+      }
+    },
+    {
+      "id": "h24",
+      "title": "Reservoir field record: habitat observations after seasonal change \u2014 example 24",
+      "group": "West",
+      "status": "Flagged",
+      "decision": "Pending",
+      "score": 0.4,
+      "volume": 228,
+      "summary": "Illustrative evidence record with a deliberately longer title and local review metadata.",
+      "imageIndex": 2,
+      "metadata": {
+        "origin": "supplied fixture",
+        "revision": 2,
+        "tags": ["illustrative", "water"]
+      }
+    }
+  ],
+  "id": "fresh-review",
+  "dataLabel": "Illustrative fixture supplied for UI evaluation; no production evidence.",
+  "images": [
+    "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22800%22%20height%3D%22450%22%3E%3Crect%20width%3D%22800%22%20height%3D%22450%22%20fill%3D%22%23406b58%22/%3E%3Ccircle%20cx%3D%22590%22%20cy%3D%22150%22%20r%3D%2290%22%20fill%3D%22white%22%20opacity%3D%22.2%22/%3E%3Cpath%20d%3D%22M0%20400L250%20180L500%20400L700%20240L800%20400%22%20fill%3D%22white%22%20opacity%3D%22.3%22/%3E%3Ctext%20x%3D%2250%22%20y%3D%2285%22%20fill%3D%22white%22%20font-family%3D%22sans-serif%22%20font-size%3D%2236%22%3EField%20%C2%B7%20illustrative%20evidence%3C/text%3E%3C/svg%3E",
+    "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22800%22%20height%3D%22450%22%3E%3Crect%20width%3D%22800%22%20height%3D%22450%22%20fill%3D%22%236a6288%22/%3E%3Ccircle%20cx%3D%22590%22%20cy%3D%22150%22%20r%3D%2290%22%20fill%3D%22white%22%20opacity%3D%22.2%22/%3E%3Cpath%20d%3D%22M0%20400L250%20180L500%20400L700%20240L800%20400%22%20fill%3D%22white%22%20opacity%3D%22.3%22/%3E%3Ctext%20x%3D%2250%22%20y%3D%2285%22%20fill%3D%22white%22%20font-family%3D%22sans-serif%22%20font-size%3D%2236%22%3ECity%20%C2%B7%20illustrative%20evidence%3C/text%3E%3C/svg%3E",
+    "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22800%22%20height%3D%22450%22%3E%3Crect%20width%3D%22800%22%20height%3D%22450%22%20fill%3D%22%233a7191%22/%3E%3Ccircle%20cx%3D%22590%22%20cy%3D%22150%22%20r%3D%2290%22%20fill%3D%22white%22%20opacity%3D%22.2%22/%3E%3Cpath%20d%3D%22M0%20400L250%20180L500%20400L700%20240L800%20400%22%20fill%3D%22white%22%20opacity%3D%22.3%22/%3E%3Ctext%20x%3D%2250%22%20y%3D%2285%22%20fill%3D%22white%22%20font-family%3D%22sans-serif%22%20font-size%3D%2236%22%3EWater%20%C2%B7%20illustrative%20evidence%3C/text%3E%3C/svg%3E"
+  ]
+}

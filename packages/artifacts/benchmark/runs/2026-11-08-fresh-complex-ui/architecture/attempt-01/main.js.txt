@@ -1,0 +1,195 @@
+const fixture = {
+  "nodes": [
+    {
+      "id": "n1",
+      "service": "Amazon API Gateway",
+      "label": "Amazon API Gateway — public request entry",
+      "description": "Illustrative research workspace. Validate authenticated requests and route supported API versions. Retain stable record identifiers in the review trail.",
+      "status": "Ready"
+    },
+    {
+      "id": "n2",
+      "service": "AWS Lambda",
+      "label": "AWS Lambda — request validation",
+      "description": "Illustrative research workspace. Validate payload shape and attach a trace identifier. Retain stable record identifiers in the review trail.",
+      "status": "Ready"
+    },
+    {
+      "id": "n3",
+      "service": "Amazon S3",
+      "label": "Amazon S3 — immutable input archive",
+      "description": "Illustrative research workspace. Store source objects and versioned evidence for reproducible review. Retain stable record identifiers in the review trail.",
+      "status": "Ready"
+    },
+    {
+      "id": "n4",
+      "service": "Amazon SQS",
+      "label": "Amazon SQS — durable processing queue",
+      "description": "Illustrative research workspace. Buffer ingestion bursts and expose retry and dead-letter state. Retain stable record identifiers in the review trail.",
+      "status": "Warning"
+    },
+    {
+      "id": "n5",
+      "service": "AWS Step Functions",
+      "label": "AWS Step Functions — workflow orchestration",
+      "description": "Illustrative research workspace. Coordinate preparation, inference and result publication. Retain stable record identifiers in the review trail.",
+      "status": "Ready"
+    },
+    {
+      "id": "n6",
+      "service": "Amazon SageMaker AI",
+      "label": "Amazon SageMaker AI — classifier endpoint",
+      "description": "Illustrative research workspace. Apply a supplied versioned classifier to prepared records. Retain stable record identifiers in the review trail.",
+      "status": "Ready"
+    },
+    {
+      "id": "n7",
+      "service": "Amazon DynamoDB",
+      "label": "Amazon DynamoDB — review decision state",
+      "description": "Illustrative research workspace. Persist stable record identifiers and reviewer decisions. Retain stable record identifiers in the review trail.",
+      "status": "Ready"
+    },
+    {
+      "id": "n8",
+      "service": "Amazon EventBridge",
+      "label": "Amazon EventBridge — completion events",
+      "description": "Illustrative research workspace. Dispatch completion events to interested consumers. Retain stable record identifiers in the review trail.",
+      "status": "Ready"
+    },
+    {
+      "id": "n9",
+      "service": "Amazon CloudWatch",
+      "label": "Amazon CloudWatch — operational telemetry",
+      "description": "Illustrative research workspace. Collect logs, latency and processing-error indicators. Retain stable record identifiers in the review trail.",
+      "status": "Warning"
+    },
+    {
+      "id": "n10",
+      "service": "AWS IAM",
+      "label": "AWS IAM — service authorization",
+      "description": "Illustrative research workspace. Grant least-privilege access to the illustrative components. Retain stable record identifiers in the review trail.",
+      "status": "Ready"
+    },
+    {
+      "id": "n11",
+      "service": "AWS KMS",
+      "label": "AWS KMS — key management",
+      "description": "Illustrative research workspace. Represent encryption key ownership and rotation policy. Retain stable record identifiers in the review trail.",
+      "status": "Ready"
+    },
+    {
+      "id": "n12",
+      "service": "Amazon Athena",
+      "label": "Amazon Athena — audit query workspace",
+      "description": "Illustrative research workspace. Query archived evidence and inspect historical processing summaries. Retain stable record identifiers in the review trail.",
+      "status": "Ready"
+    }
+  ],
+  "edges": [
+    [
+      1,
+      2
+    ],
+    [
+      2,
+      3
+    ],
+    [
+      2,
+      4
+    ],
+    [
+      3,
+      12
+    ],
+    [
+      4,
+      5
+    ],
+    [
+      5,
+      6
+    ],
+    [
+      5,
+      9
+    ],
+    [
+      6,
+      7
+    ],
+    [
+      7,
+      8
+    ],
+    [
+      8,
+      9
+    ],
+    [
+      10,
+      2
+    ],
+    [
+      10,
+      6
+    ],
+    [
+      11,
+      3
+    ]
+  ],
+  "images": [
+    "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22800%22%20height%3D%22450%22%3E%3Crect%20width%3D%22800%22%20height%3D%22450%22%20fill%3D%22%23406b58%22/%3E%3Ccircle%20cx%3D%22590%22%20cy%3D%22150%22%20r%3D%2290%22%20fill%3D%22white%22%20opacity%3D%22.2%22/%3E%3Cpath%20d%3D%22M0%20400L250%20180L500%20400L700%20240L800%20400%22%20fill%3D%22white%22%20opacity%3D%22.3%22/%3E%3Ctext%20x%3D%2250%22%20y%3D%2285%22%20fill%3D%22white%22%20font-family%3D%22sans-serif%22%20font-size%3D%2236%22%3EField%20%C2%B7%20illustrative%20evidence%3C/text%3E%3C/svg%3E",
+    "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22800%22%20height%3D%22450%22%3E%3Crect%20width%3D%22800%22%20height%3D%22450%22%20fill%3D%22%236a6288%22/%3E%3Ccircle%20cx%3D%22590%22%20cy%3D%22150%22%20r%3D%2290%22%20fill%3D%22white%22%20opacity%3D%22.2%22/%3E%3Cpath%20d%3D%22M0%20400L250%20180L500%20400L700%20240L800%20400%22%20fill%3D%22white%22%20opacity%3D%22.3%22/%3E%3Ctext%20x%3D%2250%22%20y%3D%2285%22%20fill%3D%22white%22%20font-family%3D%22sans-serif%22%20font-size%3D%2236%22%3ECity%20%C2%B7%20illustrative%20evidence%3C/text%3E%3C/svg%3E",
+    "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22800%22%20height%3D%22450%22%3E%3Crect%20width%3D%22800%22%20height%3D%22450%22%20fill%3D%22%233a7191%22/%3E%3Ccircle%20cx%3D%22590%22%20cy%3D%22150%22%20r%3D%2290%22%20fill%3D%22white%22%20opacity%3D%22.2%22/%3E%3Cpath%20d%3D%22M0%20400L250%20180L500%20400L700%20240L800%20400%22%20fill%3D%22white%22%20opacity%3D%22.3%22/%3E%3Ctext%20x%3D%2250%22%20y%3D%2285%22%20fill%3D%22white%22%20font-family%3D%22sans-serif%22%20font-size%3D%2236%22%3EWater%20%C2%B7%20illustrative%20evidence%3C/text%3E%3C/svg%3E"
+  ]
+}
+const icons = Atelier.modules.icons
+const iconIds = {
+  n1:"aws:amazon-api-gateway", n2:"aws:aws-lambda", n3:"aws:amazon-simple-storage-service",
+  n4:"aws:amazon-simple-queue-service", n5:"aws:aws-step-functions", n6:"aws:amazon-sagemaker-ai",
+  n7:"aws:amazon-dynamodb", n8:"aws:amazon-eventbridge", n9:"aws:amazon-cloudwatch",
+  n10:"aws:aws-identity-and-access-management", n11:"tabler:key", n12:"aws:amazon-athena"
+}
+fixture.nodes = fixture.nodes.map(node => ({...node, icon:iconIds[node.id]}))
+const book = Atelier.notebook({title:"Architecture investigation notebook",description:"Illustrative research workspace · supplied fixture · no production evidence"})
+const intro = book.cell({id:"brief",title:"Investigation brief"})
+const brief = Atelier.stack(intro.view)
+Atelier.notice(brief,{title:"Illustrative data",text:"Fixture supplied for UI evaluation. These descriptions and statuses are illustrative; no production evidence or live backend is connected."})
+Atelier.mount("markdown",brief,{source:"## Trace a request across the review path\n\nFollow an authenticated request from **API Gateway** through validation, durable queueing, orchestration and inference. The evidence archive, decision store and telemetry complete the review trail.\n\nSelect a service in the workflow or inventory to synchronize its inspector. Use the local note for investigation context, then export the selected service and note."})
+Atelier.metrics(brief,[{label:"Services",value:"12",note:"Supplied fixture"},{label:"Connections",value:String(fixture.edges.length),note:"Illustrative paths"},{label:"Warnings",value:String(fixture.nodes.filter(n=>n.status==="Warning").length),note:"Fixture status"}])
+const graphCell=book.cell({id:"workflow",title:"AWS workflow map",controls:true})
+let selectedId="n1", health="All", flow, summaryHandle, propertiesHandle, exampleHandle, detailViews
+let noteValue=""
+const current=()=>fixture.nodes.find(n=>n.id===selectedId)
+const toneFor=n=>health!=="All"&&n.status!==health?"neutral":n.status==="Warning"?"warning":"success"
+const graphData=()=>({nodes:fixture.nodes.map(n=>({id:n.id,selected:n.id===selectedId,data:{label:n.label,description:n.description,status:n.status,tone:toneFor(n),icon:icons.url(n.icon)}})),edges:fixture.edges.map(([a,b])=>({id:`e${a}-${b}`,source:`n${a}`,target:`n${b}`}))})
+const propertiesFor=n=>({id:n.id,service:n.service,label:n.label,status:n.status,description:n.description,icon:iconIds[n.id]})
+const exampleFor=n=>n.id==="n12"?`SELECT record_id, decision, archived_at\nFROM evidence_audit\nWHERE service_id = '${n.id}'\nORDER BY archived_at DESC;`:JSON.stringify({serviceId:n.id,traceId:"trace-example-7f2a",event:"processing.requested",evidenceVersion:"v1"},null,2)
+async function refreshDetails(){const n=current();if(summaryHandle)await summaryHandle.update({source:`## ${n.service}\n\n**${n.status}** · ${n.id}\n\n${n.description}\n\nThis summary reflects the supplied illustrative fixture.`});if(propertiesHandle)await propertiesHandle.update({data:propertiesFor(n)});if(exampleHandle)await exampleHandle.update({language:n.id==="n12"?"sql":"json",source:exampleFor(n)})}
+const selectNode=Atelier.field(graphCell.controls,{label:"Selected service",type:"select",value:selectedId,options:fixture.nodes.map(n=>({value:n.id,label:`${n.id} · ${n.service}`})),onChange:id=>void choose(id,true)})
+async function choose(id,focus=false){selectedId=id;selectNode.value=id;if(flow){flow.api.flow?.setNodes(nodes=>nodes.map(node=>{const record=fixture.nodes.find(item=>item.id===node.id);return {...node,selected:node.id===id,data:{...node.data,tone:record?toneFor(record):node.data.tone}}}));if(focus)flow.api.focus(id)}await refreshDetails()}
+Atelier.field(graphCell.controls,{label:"Health emphasis",type:"select",value:health,options:["All","Ready","Warning"],description:"Highlights matching nodes without hiding the workflow.",onChange:value=>{health=value;flow.api.flow?.setNodes(nodes=>nodes.map(node=>{const record=fixture.nodes.find(item=>item.id===node.id);return {...node,data:{...node.data,tone:record?toneFor(record):node.data.tone}}}))}})
+Atelier.button("Fit overview",()=>flow.api.flow?.fitView({padding:.16}),graphCell.controls,{variant:"secondary"})
+Atelier.button("Focus selected",()=>flow.api.focus(selectedId),graphCell.controls,{variant:"secondary"})
+flow=Atelier.mount("flow",graphCell.view,{...graphData(),focusId:selectedId,onNodeClick:(_event,node)=>void choose(node.id)})
+await flow.ready
+Atelier.canvasLink(flow,graphData(),{parent:graphCell.header})
+const inspector=book.cell({id:"inspector",title:"Service inspector",controls:true})
+Atelier.field(inspector.controls,{label:"Local incident note",type:"textarea",value:noteValue,description:"Notebook-local draft. Preserved while switching detail tabs and included in export.",onChange:value=>{noteValue=value}})
+Atelier.notice(inspector.controls,{title:"Selection",text:"The inspector follows the selected workflow or inventory row."})
+detailViews=Atelier.tabs(inspector.view,{label:"Service details",items:[{id:"summary",label:"Summary",render:panel=>(summaryHandle=Atelier.mount("markdown",panel,{source:""}))},{id:"properties",label:"Properties",render:panel=>(propertiesHandle=Atelier.mount("json",panel,{data:propertiesFor(current())}))},{id:"example",label:"Example",render:panel=>{const n=current();return exampleHandle=Atelier.mount("code",panel,{language:n.id==="n12"?"sql":"json",source:exampleFor(n)})}}]})
+Atelier.button("Export selection + note",()=>Atelier.download("architecture-investigation.json",JSON.stringify({selectedId,incidentNote:noteValue},null,2)),inspector.header,{variant:"primary"})
+await detailViews.ready;await refreshDetails()
+const sequenceCell=book.cell({id:"sequence",title:"Request sequence",controls:true})
+const sequenceConfig={source:`sequenceDiagram\n  title: Illustrative request and review sequence\n  participant Client as API client\n  participant Gateway as API Gateway\n  participant Validate as Lambda validator\n  participant Queue as SQS queue\n  participant Workflow as Step Functions\n  participant Model as SageMaker endpoint\n  participant Archive as S3 evidence archive\n  participant State as DynamoDB review state\n  Client->>Gateway: Authenticated request\n  Gateway->>Validate: Route supported API version\n  Validate->>Validate: Validate payload and attach trace id\n  Validate->>Queue: Enqueue accepted record\n  Queue->>Workflow: Start processing\n  Workflow->>Model: Apply supplied classifier\n  Model-->>Workflow: Prediction and model version\n  Workflow->>Archive: Retain input and evidence version\n  Workflow->>State: Persist review decision\n  State-->>Client: Completion available`}
+const sequence=Atelier.mount("mermaid",sequenceCell.view,{...sequenceConfig,controls:sequenceCell.controls});await sequence.ready;Atelier.canvasLink(sequence,sequenceConfig,{parent:sequenceCell.header})
+const inventory=book.cell({id:"inventory",title:"Service inventory"})
+Atelier.mount("table",inventory.view,{data:fixture.nodes.map(({id,service,status})=>({id,service,status})),columns:[{key:"id",title:"ID"},{key:"service",title:"Service"},{key:"status",title:"Health",type:"badge",tone:value=>value==="Ready"?"success":"warning"},{key:"inspect",title:"Inspect",type:"button",action:async row=>{await choose(row.id,true);await detailViews.select("summary");book.go("inspector")}}],pageSize:12})
+const evidence=book.cell({id:"evidence",title:"Illustrative evidence"})
+// check-colours: off — supplied SVG evidence illustrations contain their own colours.
+Atelier.mount("carousel",evidence.view,{slides:fixture.images.map((src,i)=>({src,alt:`Illustrative evidence view ${i+1}`,title:["Field record","City record","Water record"][i],caption:"Supplied illustrative image · not production evidence"}))})
+// check-colours: on
+const guide=book.cell({id:"guide",title:"Operational investigation guide"})
+Atelier.mount("markdown",guide.view,{source:`## A measured route from symptom to handoff\n\n### 1. Establish scope\nRecord the affected API version, incident window and stable record identifier. Use the supplied trace identifier to keep observations connected. This notebook contains fixture data only.\n\n### 2. Trace the workflow\nFollow request validation into SQS, Step Functions and the classifier endpoint. Check how the input archive and review decision connect to the same record. The warning badges are illustrative states, not live alerts.\n\n### 3. Compare evidence\nInspect the source object version, classifier version and persisted decision together. The Athena SQL example illustrates a possible audit query; it has not been run.\n\n### 4. Leave a handoff\nCapture the selected service, observed symptom, evidence references and next owner in the local note. Export the selected id and note when the draft is ready.\n\n> Scope: supplied illustrative fixture only. No AWS account, backend or production telemetry is connected.`})

@@ -1,0 +1,243 @@
+[
+  {
+    "name": "review",
+    "ready": "error",
+    "widgets": [
+      {
+        "name": "vega",
+        "state": "ready"
+      },
+      {
+        "name": "table",
+        "state": "ready"
+      },
+      {
+        "name": "markdown",
+        "state": "ready"
+      },
+      {
+        "name": "carousel",
+        "state": "ready"
+      }
+    ],
+    "cells": [
+      {
+        "id": "overview",
+        "title": "Review overview"
+      },
+      {
+        "id": "review",
+        "title": "Filter and review"
+      },
+      {
+        "id": "detail",
+        "title": "Selected record detail"
+      },
+      {
+        "id": "carousel",
+        "title": "Illustration carousel"
+      },
+      {
+        "id": "query",
+        "title": "Review query example"
+      }
+    ],
+    "text": "Evidence review workspace\nDirection\ninstrument\neditorial\nconsole\nAppearance\nlight\ndark\nsystem\nReview overview\nFilter and review\nSelected record detail\nIllustration carousel\nReview query example\n\nA local notebook for reviewing illustrative evidence records.\n\nReview overview\nExport all 18 decisions\nIllustrative data\n\nIllustrative fixture supplied for UI evaluation; no production evidence.\n\nRecords\n18\nSupplied fixture\nGroups\n3\nNorth · South · West\nDecisions made\n0\nLocal to this notebook\nFilter and review\nGroup\nAll\nNorth\nSouth\nWest\nRecord search\nSearch title; combines with Group.\nReset filters\nLocal draft note\nStored in this page session and shown in selected record details.\n0.00\n0.05\n0.10\n0.15\n0.20\n0.25\n0.30\n0.35\n0.40\n0.45\n0.50\n0.55\n0.60\n0.65\n0.70\n0.75\n0.80\n0.85\n0.90\nIllustrative score\n0\n20\n40\n60\n80\n100\n120\n140\n160\nVolume\nNorth\nSouth\nWest\nGroup\nFilter records\n\n18 / 18 records\n\nPreview\tRecord title\tStatus\tScore\tDecision\tInspect\n\tMountain field survey — sample 1\tReady\t0.21\t\nPending\nAccept\nReject\n\tInspect\n\tUrban transit observation — sample 2\tPending\t0.3\t\nPending\nAccept\nReject\n\tInspect\n\tWetland restoration study — sample 3\tFlagged\t0.39\t\nPending\nAccept\nReject\n\tInspect\n\tMountain field survey — sample 4\tReady\t0.48\t\nPending\nAccept\nReject\n\tInspect\n\tUrban transit observation — sample 5\tPending\t0.57\t\nPending\nAccept\nReject\n\tInspect\n\tWetland restoration study — sample 6\tFlagged\t0.66\t\nPending\nAccept\nReject\n\tInspect\nPrevious\nPage 1 / 3\nNext\nSelected record detail\nSummary\nImage comparison\nJSON\nMountain field survey — sample 1\n\nStable record ID: r01\nGroup: North · Status: Ready · Decision: Pending\n\nIllustrative evidence record with a deliberately longer title and local review metadata.\n\nLocal draft note\n\nNo note drafted yet.\n\nIllustration carousel\nField\n\nIllustrative fixture image\n\nCity\n\nIllustrative fixture image\n\nWater\n\nIllustrative fixture image\n\nPrevious slide\nNext slide\n1 / 3\nReview query example\n\nPack \"code\" is missing. Add it to artifact.json families and repack.",
+    "overflow": false,
+    "errors": [
+      "Error: Pack \"code\" is missing. Add it to artifact.json families and repack.\n    at Module.xe [as mount] (http://127.0.0.1:62225/review/author/output.html:12:57063)\n    at http://127.0.0.1:62225/review/author/output.html:857:9\n    at http://127.0.0.1:62225/review/author/output.html:865:307"
+    ]
+  },
+  {
+    "name": "architecture",
+    "ready": "error",
+    "widgets": [
+      {
+        "name": "markdown",
+        "state": "ready"
+      },
+      {
+        "name": "flow",
+        "state": "ready"
+      },
+      {
+        "name": "markdown",
+        "state": "ready"
+      },
+      {
+        "name": "mermaid",
+        "state": "ready"
+      },
+      {
+        "name": "table",
+        "state": "ready"
+      }
+    ],
+    "cells": [
+      {
+        "id": "brief",
+        "title": "Investigation brief"
+      },
+      {
+        "id": "workflow",
+        "title": "AWS workflow map"
+      },
+      {
+        "id": "inspector",
+        "title": "Selected service inspector"
+      },
+      {
+        "id": "sequence",
+        "title": "Request sequence"
+      },
+      {
+        "id": "inventory",
+        "title": "Service inventory"
+      },
+      {
+        "id": "evidence",
+        "title": "Illustrative evidence"
+      }
+    ],
+    "text": "Architecture investigation notebook\nDirection\ninstrument\neditorial\nconsole\nAppearance\nlight\ndark\nsystem\nInvestigation brief\nAWS workflow map\nSelected service inspector\nRequest sequence\nService inventory\nIllustrative evidence\n\nIllustrative AWS workflow · supplied fixture · no production evidence\n\nInvestigation brief\nA request, an archive, and a review trail\n\nTrace how a request moves through the supplied AWS components, inspect service details, then record a local incident note. The topology is an illustrative fixture; it does not represent a live deployment.\n\nUse the left navigation to move through the investigation. Select any node in the graph or service inventory to synchronize the detail inspector.\n\nAWS workflow map\nOpen canvas in new tab\nSelected service\nn1 · Amazon API Gateway\nn2 · AWS Lambda\nn3 · Amazon S3\nn4 · Amazon SQS\nn5 · AWS Step Functions\nn6 · Amazon SageMaker AI\nn7 · Amazon DynamoDB\nn8 · Amazon EventBridge\nn9 · Amazon CloudWatch\nn10 · AWS IAM\nn11 · AWS KMS\nn12 · Amazon Athena\nHealth emphasis\nAll\nReady\nWarning\nHighlights matching nodes; topology remains visible.\nFit overview\nFocus selected\nAmazon API Gateway — public request entry\nValidate authenticated requests and route supported API versions.\nReady\nAWS Lambda — request validation\nValidate payload shape and attach a trace identifier.\nReady\nAmazon S3 — immutable input archive\nStore source objects and versioned evidence for reproducible review.\nReady\nAmazon SQS — durable processing queue\nBuffer ingestion bursts and expose retry and dead-letter state.\nWarning\nAWS Step Functions — workflow orchestration\nCoordinate preparation, inference and result publication.\nReady\nAmazon SageMaker AI — classifier endpoint\nApply a supplied versioned classifier to prepared records.\nReady\nAmazon DynamoDB — review decision state\nPersist stable record identifiers and reviewer decisions.\nReady\nAmazon EventBridge — completion events\nDispatch completion events to interested consumers.\nReady\nAmazon CloudWatch — operational telemetry\nCollect logs, latency and processing-error indicators.\nWarning\nAWS IAM — service authorization\nGrant least-privilege access to the illustrative components.\nReady\nAWS KMS — key management\nRepresent encryption key ownership and rotation policy.\nReady\nAmazon Athena — audit query workspace\nQuery archived evidence and inspect historical processing summaries.\nReady\nReact Flow\nSelected service inspector\nExport selection + note\nLocal incident note\nStored in this notebook session and included in the export.\nSummary\nProperties\nExample\nAmazon API Gateway\n\nReady · ID n1\n\nValidate authenticated requests and route supported API versions.\n\nThis service description comes from the supplied fixture. The local note remains available while switching tabs.\n\nRequest sequence\nOpen canvas in new tab\nZoom in\nZoom out\nFit diagram\nDynamoDB review state\nSageMaker endpoint\nStep Functions\nSQS queue\nLambda validator\nAPI Gateway\nAPI client\nDynamoDB review state\nSageMaker endpoint\nStep Functions\nSQS queue\nLambda validator\nAPI Gateway\nAPI client\nAuthenticated request\nRoute supported version\nValidate payload + attach trace id\nEnqueue accepted record\nStart processing\nApply supplied classifier\nPrediction + model version\nPersist review decision\nCompletion available\nIllustrative request and review sequence\nService inventory\nFilter records\n\n12 / 12 records\n\nID\tService\tHealth\tInspect\nn1\tAmazon API Gateway\tReady\tInspect\nn2\tAWS Lambda\tReady\tInspect\nn3\tAmazon S3\tReady\tInspect\nn4\tAmazon SQS\tWarning\tInspect\nn5\tAWS Step Functions\tReady\tInspect\nn6\tAmazon SageMaker AI\tReady\tInspect\nn7\tAmazon DynamoDB\tReady\tInspect\nn8\tAmazon EventBridge\tReady\tInspect\nn9\tAmazon CloudWatch\tWarning\tInspect\nn10\tAWS IAM\tReady\tInspect\nn11\tAWS KMS\tReady\tInspect\nn12\tAmazon Athena\tReady\tInspect\nPrevious\nPage 1 / 1\nNext\nIllustrative evidence\n\nPack \"carousel\" is missing. Add it to artifact.json families and repack.",
+    "overflow": false,
+    "errors": [
+      "Error: Pack \"carousel\" is missing. Add it to artifact.json families and repack.\n    at Module.xe [as mount] (http://127.0.0.1:62225/architecture/author/output.html:12:57063)\n    at http://127.0.0.1:62225/architecture/author/output.html:4713:9"
+    ]
+  },
+  {
+    "name": "lab",
+    "ready": "true",
+    "widgets": [
+      {
+        "name": "vega",
+        "state": "ready"
+      },
+      {
+        "name": "table",
+        "state": "ready"
+      },
+      {
+        "name": "vega",
+        "state": "ready"
+      },
+      {
+        "name": "markdown",
+        "state": "ready"
+      },
+      {
+        "name": "vega",
+        "state": "ready"
+      },
+      {
+        "name": "plotly",
+        "state": "ready"
+      },
+      {
+        "name": "geometry",
+        "state": "ready"
+      },
+      {
+        "name": "neural",
+        "state": "ready"
+      },
+      {
+        "name": "vega",
+        "state": "ready"
+      },
+      {
+        "name": "table",
+        "state": "ready"
+      },
+      {
+        "name": "table",
+        "state": "ready"
+      },
+      {
+        "name": "markdown",
+        "state": "ready"
+      },
+      {
+        "name": "myst",
+        "state": "ready"
+      },
+      {
+        "name": "editor",
+        "state": "ready"
+      },
+      {
+        "name": "carousel",
+        "state": "ready"
+      }
+    ],
+    "cells": [
+      {
+        "id": "overview",
+        "title": "At a glance"
+      },
+      {
+        "id": "linked",
+        "title": "Linked views · position and value"
+      },
+      {
+        "id": "observations",
+        "title": "Observation register"
+      },
+      {
+        "id": "linked-detail",
+        "title": "Linked distribution"
+      },
+      {
+        "id": "selection",
+        "title": "Selected point"
+      },
+      {
+        "id": "plot-gallery",
+        "title": "Plot gallery"
+      },
+      {
+        "id": "surface",
+        "title": "Surface and cross section"
+      },
+      {
+        "id": "geometry",
+        "title": "Geometric construction"
+      },
+      {
+        "id": "training",
+        "title": "Browser neural lab"
+      },
+      {
+        "id": "diagnostics",
+        "title": "Training diagnostics"
+      },
+      {
+        "id": "predictions",
+        "title": "Validation predictions"
+      },
+      {
+        "id": "documentation",
+        "title": "Methods note"
+      },
+      {
+        "id": "myst",
+        "title": "MyST reference"
+      },
+      {
+        "id": "code",
+        "title": "Highlighted JavaScript"
+      },
+      {
+        "id": "images",
+        "title": "Evidence carousel"
+      },
+      {
+        "id": "experiment",
+        "title": "Experiment note"
+      }
+    ],
+    "text": "Visual methods lab\nDirection\ninstrument\neditorial\nconsole\nAppearance\nlight\ndark\nsystem\nAt a glance\nLinked views · position and value\nObservation register\nLinked distribution\nSelected point\nPlot gallery\nSurface and cross section\nGeometric construction\nBrowser neural lab\nTraining diagnostics\nValidation predictions\nMethods note\nMyST reference\nHighlighted JavaScript\nEvidence carousel\nExperiment note\n\nA field guide to exploring supplied illustrative fixtures. Every view is local; no production evidence.\n\nAt a glance\nExport observations\nIllustrative fixture\n\nSupplied for UI evaluation only. Values are not production evidence.\n\nObservations\n30\nSupplied points\nGroups\nA · B · C\nShared filter\nViews\n11\nLinked and independent\nLinked views · position and value\nOpen canvas in new tab\nGroup filter\nAll\nA\nB\nC\nNo matches\nApplies to both charts and the observation register.\nReset group\n0.0\n0.5\n1.0\n1.5\n2.0\n2.5\n3.0\n3.5\n4.0\n4.5\n5.0\n5.5\n6.0\n6.5\n7.0\n7.5\n8.0\nPosition x\n0.0\n0.2\n0.4\n0.6\n0.8\n1.0\n1.2\n1.4\n1.6\n1.8\n2.0\nValue y\nA\nB\nC\nGroup\nObservation register\nGroup filter\nAll\nA\nB\nC\nNo matches\nFilter records\n\n30 / 30 records\n\nID\tPosition x\tValue y\tGroup\tDecision\tInspect\np1\t0\t0.2\tA\tPending\tInspect\np2\t0.25\t0.5\tB\tPending\tInspect\np3\t0.5\t0.8\tC\tPending\tInspect\np4\t0.75\t1.1\tA\tPending\tInspect\np5\t1\t1.4\tB\tPending\tInspect\np6\t1.25\t1.7\tC\tPending\tInspect\np7\t1.5\t2\tA\tPending\tInspect\np8\t1.75\t0.2\tB\tPending\tInspect\np9\t2\t0.5\tC\tPending\tInspect\np10\t2.25\t0.8\tA\tPending\tInspect\nPrevious\nPage 1 / 3\nNext\nLinked distribution\n\nSame group selection; value y shown in equal-width bins.\n\nOpen canvas in new tab\n0.00\n0.50\n1.00\n1.50\n2.00\nValue y (binned)\n0.0\n0.1\n0.2\n0.3\n0.4\n0.5\n0.6\n0.7\n0.8\n0.9\n1.0\nObservations\nSelected point\n\nChoose Inspect in the register to see a point's supplied values.\n\nPlot gallery\nPlot type\nscatter\nline\nhistogram\nOpen canvas in new tab\n0.0\n0.5\n1.0\n1.5\n2.0\n2.5\n3.0\n3.5\n4.0\n4.5\n5.0\n5.5\n6.0\n6.5\n7.0\n7.5\n8.0\nPosition x\n0.0\n0.2\n0.4\n0.6\n0.8\n1.0\n1.2\n1.4\n1.6\n1.8\n2.0\nValue y\nA\nB\nC\nGroup\nSurface and cross section\nOpen canvas in new tab\nSurface\nCross section\n0\n0.2\n0.4\n0.6\n0.8\n1\nGeometric construction\nConstruction scale\n1.0×\nA\nB\nC\nZoom in\nZoom out\nFit construction\nBrowser neural lab\nTrain 20 epochs\nStep one epoch\nStop training\nExport weights\n\nEpoch 0 · 37 parameters · validation accuracy 60.4% · synthetic xor data\n\nLayers: 2 → 4 → 4 → 1 · tanh hidden activation · sigmoid output\n−1.0\n−0.9\n−0.8\n−0.7\n−0.6\n−0.5\n−0.4\n−0.3\n−0.2\n−0.1\n0.0\n0.1\n0.2\n0.3\n0.4\n0.5\n0.6\n0.7\n0.8\n0.9\n1.0\nx\n−1.0\n−0.8\n−0.6\n−0.4\n−0.2\n0.0\n0.2\n0.4\n0.6\n0.8\n1.0\ny\n0.0\n0.2\n0.4\n0.6\n0.8\n1.0\nprobability\ntrain\nvalidation\nsplit\nTraining diagnostics\nFilter records\n\n2 / 2 records\n\nActual Predicted\tNegative\tPositive\nNegative\t12\t12\nPositive\t7\t17\nPrevious\nPage 1 / 1\nNext\nValidation predictions\nFilter records\n\n48 / 48 records\n\nRow\tx\ty\tActual\tP(class 1)\tPredicted\n1\t-0.51\t0.86\t0\t0.470\t0\n6\t-0.31\t-0.02\t1\t0.517\t1\n11\t-0.29\t-0.36\t1\t0.537\t1\n16\t0.35\t0.52\t1\t0.453\t0\n21\t-0.60\t-0.87\t1\t0.565\t1\n26\t-0.80\t-0.21\t1\t0.545\t1\n31\t-0.41\t0.73\t0\t0.473\t0\n36\t-0.83\t-0.23\t1\t0.546\t1\n41\t0.20\t-0.71\t0\t0.535\t1\n46\t-0.94\t-0.38\t1\t0.554\t1\n51\t-0.61\t0.36\t0\t0.507\t1\n56\t0.18\t0.64\t1\t0.453\t0\nPrevious\nPage 1 / 4\nNext\nMethods note\nReading the fixture\n\nThe supplied points map a position coordinate to a supplied value. The group labels are used for visual grouping and filtering. They do not imply a causal or scientific category.\n\nScope: illustrative interface data only. The surface view uses a supplied grid; the geometric construction follows the recipe's editable triangle.\n\nMyST reference\nField notes\nEvidence boundary\n\nAll points and surface values in this notebook are supplied illustrative fixtures.\n\nReading a cross section\n\nThe section tab displays the supplied middle row of the surface grid as-is.\n\nReferences\nHighlighted JavaScript\n1\n2\n3\n4\n5\nconst visiblePoints = group === 'All'\n  ? points\n  : points.filter(point => point.group === group)\n\n\nrenderLinkedViews(visiblePoints)\nEvidence carousel\n\nSupplied image assets; illustrative content.\n\nField\nCity\nWater\nPrevious slide\nNext slide\n1 / 3\nExperiment note\nLocal experiment note\nDraft stays in this notebook while you switch views.",
+    "overflow": false,
+    "errors": []
+  }
+]

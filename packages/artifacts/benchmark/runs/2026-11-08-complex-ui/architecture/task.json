@@ -1,0 +1,114 @@
+{
+  "title": "Architecture investigation notebook",
+  "theme": "console",
+  "prompt": "Create an architecture investigation notebook with at least 7 cells and a 12-node AWS workflow. Use the supplied node descriptions, real matching bundled AWS icons and status badges. Keep nodes readable by default; provide Fit overview and Focus selected actions. Selecting a node by clicking or selector updates a detail inspector with tabs for Summary (Markdown), Properties (JSON), and highlighted SQL/JSON example (code). A local incident note persists between tabs. A health selector (All/Ready/Warning) highlights matching nodes without removing the topology. Include an independently zoomable Mermaid request sequence, a table of services with an Inspect action that selects/focuses the same node, an evidence carousel and full-width operational guide. Flow and Mermaid each open in a canvas-only new tab preserving current view. Export selected id and notes. Sidebar links scroll. Use supplied graph data without backend claims.",
+  "data": {
+    "nodes": [
+      {
+        "id": "n1",
+        "service": "Amazon API Gateway",
+        "label": "Amazon API Gateway \u2014 public request entry",
+        "description": "Validate authenticated requests and route supported API versions.",
+        "status": "Ready"
+      },
+      {
+        "id": "n2",
+        "service": "AWS Lambda",
+        "label": "AWS Lambda \u2014 request validation",
+        "description": "Validate payload shape and attach a trace identifier.",
+        "status": "Ready"
+      },
+      {
+        "id": "n3",
+        "service": "Amazon S3",
+        "label": "Amazon S3 \u2014 immutable input archive",
+        "description": "Store source objects and versioned evidence for reproducible review.",
+        "status": "Ready"
+      },
+      {
+        "id": "n4",
+        "service": "Amazon SQS",
+        "label": "Amazon SQS \u2014 durable processing queue",
+        "description": "Buffer ingestion bursts and expose retry and dead-letter state.",
+        "status": "Warning"
+      },
+      {
+        "id": "n5",
+        "service": "AWS Step Functions",
+        "label": "AWS Step Functions \u2014 workflow orchestration",
+        "description": "Coordinate preparation, inference and result publication.",
+        "status": "Ready"
+      },
+      {
+        "id": "n6",
+        "service": "Amazon SageMaker AI",
+        "label": "Amazon SageMaker AI \u2014 classifier endpoint",
+        "description": "Apply a supplied versioned classifier to prepared records.",
+        "status": "Ready"
+      },
+      {
+        "id": "n7",
+        "service": "Amazon DynamoDB",
+        "label": "Amazon DynamoDB \u2014 review decision state",
+        "description": "Persist stable record identifiers and reviewer decisions.",
+        "status": "Ready"
+      },
+      {
+        "id": "n8",
+        "service": "Amazon EventBridge",
+        "label": "Amazon EventBridge \u2014 completion events",
+        "description": "Dispatch completion events to interested consumers.",
+        "status": "Ready"
+      },
+      {
+        "id": "n9",
+        "service": "Amazon CloudWatch",
+        "label": "Amazon CloudWatch \u2014 operational telemetry",
+        "description": "Collect logs, latency and processing-error indicators.",
+        "status": "Warning"
+      },
+      {
+        "id": "n10",
+        "service": "AWS IAM",
+        "label": "AWS IAM \u2014 service authorization",
+        "description": "Grant least-privilege access to the illustrative components.",
+        "status": "Ready"
+      },
+      {
+        "id": "n11",
+        "service": "AWS KMS",
+        "label": "AWS KMS \u2014 key management",
+        "description": "Represent encryption key ownership and rotation policy.",
+        "status": "Ready"
+      },
+      {
+        "id": "n12",
+        "service": "Amazon Athena",
+        "label": "Amazon Athena \u2014 audit query workspace",
+        "description": "Query archived evidence and inspect historical processing summaries.",
+        "status": "Ready"
+      }
+    ],
+    "edges": [
+      [1, 2],
+      [2, 3],
+      [2, 4],
+      [4, 5],
+      [5, 6],
+      [6, 7],
+      [7, 8],
+      [5, 9],
+      [6, 9],
+      [10, 5],
+      [11, 3],
+      [3, 12]
+    ]
+  },
+  "id": "architecture",
+  "dataLabel": "Illustrative fixture supplied for UI evaluation; no production evidence.",
+  "images": [
+    "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22800%22%20height%3D%22450%22%3E%3Crect%20width%3D%22800%22%20height%3D%22450%22%20fill%3D%22%23406b58%22/%3E%3Ccircle%20cx%3D%22590%22%20cy%3D%22150%22%20r%3D%2290%22%20fill%3D%22white%22%20opacity%3D%22.2%22/%3E%3Cpath%20d%3D%22M0%20400L250%20180L500%20400L700%20240L800%20400%22%20fill%3D%22white%22%20opacity%3D%22.3%22/%3E%3Ctext%20x%3D%2250%22%20y%3D%2285%22%20fill%3D%22white%22%20font-family%3D%22sans-serif%22%20font-size%3D%2236%22%3EField%20%C2%B7%20illustrative%20evidence%3C/text%3E%3C/svg%3E",
+    "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22800%22%20height%3D%22450%22%3E%3Crect%20width%3D%22800%22%20height%3D%22450%22%20fill%3D%22%236a6288%22/%3E%3Ccircle%20cx%3D%22590%22%20cy%3D%22150%22%20r%3D%2290%22%20fill%3D%22white%22%20opacity%3D%22.2%22/%3E%3Cpath%20d%3D%22M0%20400L250%20180L500%20400L700%20240L800%20400%22%20fill%3D%22white%22%20opacity%3D%22.3%22/%3E%3Ctext%20x%3D%2250%22%20y%3D%2285%22%20fill%3D%22white%22%20font-family%3D%22sans-serif%22%20font-size%3D%2236%22%3ECity%20%C2%B7%20illustrative%20evidence%3C/text%3E%3C/svg%3E",
+    "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22800%22%20height%3D%22450%22%3E%3Crect%20width%3D%22800%22%20height%3D%22450%22%20fill%3D%22%233a7191%22/%3E%3Ccircle%20cx%3D%22590%22%20cy%3D%22150%22%20r%3D%2290%22%20fill%3D%22white%22%20opacity%3D%22.2%22/%3E%3Cpath%20d%3D%22M0%20400L250%20180L500%20400L700%20240L800%20400%22%20fill%3D%22white%22%20opacity%3D%22.3%22/%3E%3Ctext%20x%3D%2250%22%20y%3D%2285%22%20fill%3D%22white%22%20font-family%3D%22sans-serif%22%20font-size%3D%2236%22%3EWater%20%C2%B7%20illustrative%20evidence%3C/text%3E%3C/svg%3E"
+  ]
+}

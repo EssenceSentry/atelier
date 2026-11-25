@@ -1,0 +1,403 @@
+{
+  "finishedAt": "2026-11-08T20:49:38.912Z",
+  "results": [
+    {
+      "task": "analysis",
+      "attempt": "01",
+      "checks": [
+        {
+          "name": "boot completed",
+          "pass": true
+        },
+        {
+          "name": "four supplied rows and initial score sort",
+          "pass": true,
+          "evidence": ["a2", "b2", "b1", "a1"]
+        },
+        {
+          "name": "group A filter updates chart and table",
+          "pass": false,
+          "error": "Expected values to be strictly deep-equal:\n+ actual - expected\n\n  [\n    'a2',\n+   'b2',\n+   'b1',\n    'a1'\n  ]\n"
+        },
+        {
+          "name": "decision export contains edited row",
+          "pass": true,
+          "evidence": [
+            {
+              "id": "a1",
+              "decision": "Pending"
+            },
+            {
+              "id": "a2",
+              "decision": "Accept"
+            },
+            {
+              "id": "b1",
+              "decision": "Pending"
+            },
+            {
+              "id": "b2",
+              "decision": "Pending"
+            }
+          ]
+        },
+        {
+          "name": "Inspect displays the edited record JSON",
+          "pass": true,
+          "evidence": {
+            "id": "a2",
+            "group": "A",
+            "score": 0.8,
+            "volume": 70,
+            "decision": "Accept"
+          }
+        },
+        {
+          "name": "synthetic-data attribution is visible",
+          "pass": true
+        },
+        {
+          "name": "full-width Markdown and controls beside visualization",
+          "pass": true,
+          "evidence": {
+            "markdownWidth": 1114,
+            "availableWidth": 1114,
+            "controlRight": 503,
+            "viewLeft": 527
+          }
+        },
+        {
+          "name": "phone has no page overflow and notebook sections work",
+          "pass": true,
+          "evidence": {
+            "width": 390,
+            "scroll": 390,
+            "validTargets": true
+          }
+        },
+        {
+          "name": "no browser errors or remote requests",
+          "pass": true
+        }
+      ],
+      "consoleErrors": [],
+      "pageErrors": [],
+      "remoteRequests": [],
+      "filterEvidence": {
+        "points": [
+          {
+            "id": "a1",
+            "group": "A"
+          },
+          {
+            "id": "a2",
+            "group": "A"
+          }
+        ],
+        "tableIds": ["a2", "b2", "b1", "a1"]
+      }
+    },
+    {
+      "task": "explanation",
+      "attempt": "01",
+      "checks": [
+        {
+          "name": "boot completed",
+          "pass": true
+        },
+        {
+          "name": "heads 14: posterior, density and views agree",
+          "pass": true,
+          "evidence": {
+            "alpha": 16,
+            "beta": 8,
+            "mean": 0.6666666666666666,
+            "integral": 1.0000000000016032,
+            "numericalMean": 0.6666666666671969,
+            "peak": 0.68
+          }
+        },
+        {
+          "name": "heads 0: posterior, density and views agree",
+          "pass": true,
+          "evidence": {
+            "alpha": 2,
+            "beta": 22,
+            "mean": 0.08333333333333333,
+            "integral": 0.9957921763272658,
+            "numericalMean": 0.08368458045829832,
+            "peak": 0.05
+          }
+        },
+        {
+          "name": "heads 20: posterior, density and views agree",
+          "pass": true,
+          "evidence": {
+            "alpha": 22,
+            "beta": 2,
+            "mean": 0.9166666666666666,
+            "integral": 0.9957921763272662,
+            "numericalMean": 0.9163154195417017,
+            "peak": 0.95
+          }
+        },
+        {
+          "name": "cards drag and zoom",
+          "pass": true,
+          "evidence": {
+            "before": {
+              "position": {
+                "x": 12,
+                "y": 172
+              },
+              "zoom": 1.0684931506849316
+            },
+            "moved": {
+              "x": 48.5,
+              "y": 201.01282051282053
+            },
+            "zoom": 1.2821917808219179
+          }
+        },
+        {
+          "name": "program canvas snapshot opens with current state",
+          "pass": true,
+          "evidence": {
+            "text": "α = 2, β = 2\nh, n − h\nα + h, β + n − h\nPrior\nBeta(2, 2) · before observing tosses\nEvidence\n20 heads + 0 tails from 20 synthetic tosses\nConjugate update\nAdd heads to α; add tails to β\nPosterior\nBeta(22, 2) · mean 0.917\nReact Flow"
+          }
+        },
+        {
+          "name": "sequence canvas snapshot opens with current state",
+          "pass": true,
+          "evidence": {
+            "text": "Zoom in\nZoom out\nFit diagram\nPosterior\nConjugate update\nSynthetic observations\nPosterior\nConjugate update\nSynthetic observations\n20 heads, 0 tails\nBeta(2,2) + counts\nBeta(22,2)\nBeta-Bernoulli update · 20 heads of 20"
+          }
+        },
+        {
+          "name": "full-width Markdown and controls beside visualization",
+          "pass": true,
+          "evidence": {
+            "markdownWidth": 1114,
+            "availableWidth": 1114,
+            "controlRight": 503,
+            "viewLeft": 527
+          }
+        },
+        {
+          "name": "phone has no page overflow and notebook sections work",
+          "pass": true,
+          "evidence": {
+            "width": 390,
+            "scroll": 390,
+            "validTargets": true
+          }
+        },
+        {
+          "name": "no browser errors or remote requests",
+          "pass": true
+        }
+      ],
+      "consoleErrors": [],
+      "pageErrors": [],
+      "remoteRequests": []
+    },
+    {
+      "task": "explanation",
+      "attempt": "02",
+      "checks": [
+        {
+          "name": "boot completed",
+          "pass": true
+        },
+        {
+          "name": "heads 14: posterior, density and views agree",
+          "pass": true,
+          "evidence": {
+            "alpha": 16,
+            "beta": 8,
+            "mean": 0.6666666666666666,
+            "integral": 1.0000000000016032,
+            "numericalMean": 0.6666666666671969,
+            "peak": 0.68
+          }
+        },
+        {
+          "name": "heads 0: posterior, density and views agree",
+          "pass": true,
+          "evidence": {
+            "alpha": 2,
+            "beta": 22,
+            "mean": 0.08333333333333333,
+            "integral": 0.9957921763272658,
+            "numericalMean": 0.08368458045829832,
+            "peak": 0.05
+          }
+        },
+        {
+          "name": "heads 20: posterior, density and views agree",
+          "pass": true,
+          "evidence": {
+            "alpha": 22,
+            "beta": 2,
+            "mean": 0.9166666666666666,
+            "integral": 0.9957921763272662,
+            "numericalMean": 0.9163154195417017,
+            "peak": 0.95
+          }
+        },
+        {
+          "name": "cards drag and zoom",
+          "pass": true,
+          "evidence": {
+            "before": {
+              "position": {
+                "x": 12,
+                "y": 172
+              },
+              "zoom": 1.0684931506849316
+            },
+            "moved": {
+              "x": 48.5,
+              "y": 201.01282051282053
+            },
+            "zoom": 1.2821917808219179
+          }
+        },
+        {
+          "name": "program canvas snapshot opens with current state",
+          "pass": true,
+          "evidence": {
+            "text": "α = 2, β = 2\nh, n − h\nα + h, β + n − h\nPrior\nBeta(2, 2) · before observing tosses\nEvidence\n20 heads + 0 tails from 20 synthetic tosses\nConjugate update\nAdd heads to α; add tails to β\nPosterior\nBeta(22, 2) · mean 0.917\nReact Flow"
+          }
+        },
+        {
+          "name": "sequence canvas snapshot opens with current state",
+          "pass": true,
+          "evidence": {
+            "text": "Zoom in\nZoom out\nFit diagram\nPosterior\nConjugate update\nSynthetic observations\nPosterior\nConjugate update\nSynthetic observations\n20 heads, 0 tails\nBeta(2,2) + counts\nBeta(22,2)\nBeta-Bernoulli update · 20 heads of 20"
+          }
+        },
+        {
+          "name": "full-width Markdown and controls beside visualization",
+          "pass": true,
+          "evidence": {
+            "markdownWidth": 1114,
+            "availableWidth": 1114,
+            "controlRight": 503,
+            "viewLeft": 527
+          }
+        },
+        {
+          "name": "phone has no page overflow and notebook sections work",
+          "pass": true,
+          "evidence": {
+            "width": 390,
+            "scroll": 390,
+            "validTargets": true
+          }
+        },
+        {
+          "name": "no browser errors or remote requests",
+          "pass": true
+        }
+      ],
+      "consoleErrors": [],
+      "pageErrors": [],
+      "remoteRequests": []
+    },
+    {
+      "task": "neural",
+      "attempt": "01",
+      "checks": [
+        {
+          "name": "boot completed",
+          "pass": true
+        },
+        {
+          "name": "48 validation predictions and local SQL aggregate 4/3/75%",
+          "pass": true,
+          "evidence": {
+            "split": "validation",
+            "records": 4,
+            "correct": 3,
+            "accuracy_pct": 75
+          }
+        },
+        {
+          "name": "training changes weights and emits loss history",
+          "pass": true,
+          "evidence": {
+            "epochs": 20,
+            "parameters": 37,
+            "loss": {
+              "epoch": 20,
+              "loss": 0.05051746964454651,
+              "val_loss": 0.10283476114273071
+            }
+          }
+        },
+        {
+          "name": "validation table and confusion matrix use live predictions",
+          "pass": true,
+          "evidence": {
+            "confusion": [[24, 0], [1, 23]],
+            "maxDisplayDifference": 0.0004769141674041688
+          }
+        },
+        {
+          "name": "weight download validates and reloads with identical predictions",
+          "pass": true,
+          "evidence": {
+            "epochs": 20,
+            "error": 0
+          }
+        },
+        {
+          "name": "full-width Markdown and controls beside visualization",
+          "pass": true,
+          "evidence": {
+            "markdownWidth": 1114,
+            "availableWidth": 1114,
+            "controlRight": 503,
+            "viewLeft": 527
+          }
+        },
+        {
+          "name": "phone has no page overflow and notebook sections work",
+          "pass": false,
+          "error": "The expression evaluated to a falsy value:\n\n  assert.ok(state.scroll<=state.width+1)\n"
+        },
+        {
+          "name": "no browser errors or remote requests",
+          "pass": true
+        }
+      ],
+      "consoleErrors": [],
+      "pageErrors": [],
+      "remoteRequests": []
+    },
+    {
+      "task": "neural",
+      "attempt": "01",
+      "checks": [
+        {
+          "name": "boot completed",
+          "pass": true
+        },
+        {
+          "name": "cleanup releases all TFJS tensors",
+          "pass": true,
+          "evidence": {
+            "tensors": 0,
+            "mounts": 0
+          }
+        }
+      ],
+      "consoleErrors": [],
+      "pageErrors": [],
+      "remoteRequests": []
+    }
+  ],
+  "passed": 37,
+  "failed": 2
+}

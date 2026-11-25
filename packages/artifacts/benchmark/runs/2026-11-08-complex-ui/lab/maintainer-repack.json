@@ -1,0 +1,27 @@
+{
+  "kind": "unchanged author source after palette correction; maintainer kit repair",
+  "sourceSHA256": "1912d6bec961d5edad5fe6950a85d7c4ae976ea7430643dbaf7786b76e7260af",
+  "result": {
+    "output": "/private/tmp/atelier-complex-ui-20261108/lab/maintainer-repacked/output.html",
+    "bytes": 14190183,
+    "version": "0.1.0",
+    "title": "Visual methods lab",
+    "profile": "browser",
+    "families": [
+      "vega",
+      "table",
+      "plotly",
+      "plot",
+      "geometry",
+      "neural",
+      "markdown",
+      "myst",
+      "code",
+      "carousel"
+    ],
+    "capabilities": ["webgl", "worker"],
+    "sources": ["Illustrative fixture supplied for UI evaluation; no production evidence."],
+    "builtFrom": "artifact.json",
+    "requiresHTTP": false
+  }
+}

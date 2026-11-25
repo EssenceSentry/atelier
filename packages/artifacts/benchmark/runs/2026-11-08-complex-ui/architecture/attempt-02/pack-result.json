@@ -1,0 +1,12 @@
+{
+  "attempt": 2,
+  "startedAt": "2026-11-08T21:38:59.953Z",
+  "configFile": "/private/tmp/atelier-complex-ui-20261108/architecture/author/artifact.json",
+  "output": "/private/tmp/atelier-complex-ui-20261108/architecture/author/output.html",
+  "sourceLines": 103,
+  "sourceBytes": 12969,
+  "sourceSHA256": "5d615aa0c05a3d97cd45f2adb3c2134b99fd3b8349b5dbfe4f7376d7131e1d0b",
+  "packSuccess": false,
+  "error": "Artifact source must be plain JavaScript, without imports/JSX/TypeScript: Unexpected identifier '$'",
+  "finishedAt": "2026-11-08T21:38:59.974Z"
+}

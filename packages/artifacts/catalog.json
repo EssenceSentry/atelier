@@ -1,0 +1,186 @@
+{
+  "version": "0.1.0",
+  "families": {
+    "channels": {
+      "entry": "channel-row.jsx",
+      "adapters": ["channel-row"],
+      "profile": "portable",
+      "use": "Channel review rows with independent verdicts, details and video evidence",
+      "native": "ChannelEvidence data, update and destroy"
+    },
+    "vega": {
+      "entry": "vega.js",
+      "adapters": ["vega"],
+      "profile": "portable",
+      "use": "Declarative charts, brush/selection, linked plots, plot galleries",
+      "native": "Vega / Vega-Lite specs; signals; embed options"
+    },
+    "plot": {
+      "entry": "plot.js",
+      "adapters": ["plot"],
+      "profile": "portable",
+      "use": "Observable Plot marks and statistical plots",
+      "native": "Plot.plot options / options(Plot, tokens, width)"
+    },
+    "plotly": {
+      "entry": "plotly.js",
+      "adapters": ["plotly"],
+      "profile": "browser",
+      "capabilities": ["webgl"],
+      "use": "3D surfaces, scientific plots, traces",
+      "native": "data, layout, config, onClick"
+    },
+    "flow": {
+      "entry": "flow.jsx",
+      "adapters": ["flow"],
+      "profile": "portable",
+      "use": "Editable architecture, Bayesian programs, AWS diagrams",
+      "native": "React Flow nodes/edges/flow props; ELK layout options; custom nodeTypes"
+    },
+    "mermaid": {
+      "entry": "mermaid.js",
+      "adapters": ["mermaid"],
+      "profile": "portable",
+      "use": "Text-authored flow, sequence, state, class, ER diagrams with zoom",
+      "native": "Mermaid source"
+    },
+    "markdown": {
+      "entry": "markdown.jsx",
+      "adapters": ["markdown"],
+      "profile": "portable",
+      "use": "Full-width GFM Markdown, tables, task lists, KaTeX math",
+      "native": "source; raw HTML omitted"
+    },
+    "myst": {
+      "entry": "myst.jsx",
+      "adapters": ["myst"],
+      "profile": "browser",
+      "capabilities": ["worker"],
+      "use": "MyST directives, roles, equations, cross references, proofs, tabs",
+      "native": "source, references; no Sphinx execution or autodoc"
+    },
+    "geometry": {
+      "entry": "geometry.js",
+      "adapters": ["geometry"],
+      "profile": "portable",
+      "use": "GeoGebra-like interactive constructions, functions and sliders",
+      "native": "JSXGraph board options, setup(board, tokens, JXG), update(board, tokens)"
+    },
+    "deck": {
+      "entry": "deck.js",
+      "adapters": ["deck"],
+      "profile": "browser",
+      "capabilities": ["webgl"],
+      "use": "Large scatter, spatial and geographic layers",
+      "native": "deck props; layers(layersModule, tokens)"
+    },
+    "sanddance": {
+      "entry": "sanddance.js",
+      "adapters": ["sanddance"],
+      "requires": ["vega"],
+      "profile": "browser",
+      "capabilities": ["webgl", "eval"],
+      "use": "Animated unit-level 2D/3D layouts and dimension shelves",
+      "native": "data, insight, setup, viewer options, onSelection"
+    },
+    "recommend": {
+      "entry": "recommend.js",
+      "adapters": ["recommend"],
+      "requires": ["vega"],
+      "profile": "browser",
+      "use": "CompassQL ranked neighboring plots and encoding choices",
+      "native": "data, fields or CompassQL query, onSelect",
+      "capabilities": ["eval"]
+    },
+    "table": {
+      "entry": "table.jsx",
+      "adapters": ["table"],
+      "profile": "portable",
+      "use": "Rich cells, images, selects, buttons, sorting, filtering and pagination",
+      "native": "data, columns or TanStack columnDefs/table options"
+    },
+    "grid": {
+      "entry": "grid.jsx",
+      "adapters": ["grid"],
+      "profile": "portable",
+      "capabilities": ["canvas"],
+      "use": "Spreadsheet-like editing of larger typed datasets",
+      "native": "data, columns, validate, onChange, Glide props"
+    },
+    "json": {
+      "entry": "json.jsx",
+      "adapters": ["json"],
+      "profile": "browser",
+      "use": "JSON Crack graph inspection with pan and zoom",
+      "native": "data, onNodeClick, JSONCrack props; 500-node default",
+      "capabilities": ["worker", "data-worker"]
+    },
+    "code": {
+      "entry": "code.js",
+      "adapters": ["editor", "code"],
+      "profile": "portable",
+      "use": "SQL/JSON editing and read-only code highlighting in common languages",
+      "native": "source, language, onChange"
+    },
+    "sql": {
+      "entry": "sql.js",
+      "adapters": ["sql"],
+      "profile": "browser",
+      "capabilities": ["worker", "wasm", "http", "eval"],
+      "assets": ["duckdbWorker", "duckdbWasm"],
+      "use": "Local DuckDB queries with syntax highlighting and result tables",
+      "native": "tables, source, limit, onResult; api.connection"
+    },
+    "inputs": {
+      "entry": "inputs.js",
+      "adapters": ["inputs"],
+      "profile": "portable",
+      "use": "Forms, native date/select/range/file inputs and Zod validation",
+      "native": "fields, values, Zod schema, onChange, onSubmit"
+    },
+    "media": {
+      "entry": "media.js",
+      "adapters": ["media"],
+      "profile": "portable",
+      "use": "Sliding image comparisons, zoomable images, audio and video",
+      "native": "type: image/compare/audio/video and local/data asset sources"
+    },
+    "carousel": {
+      "entry": "carousel.js",
+      "adapters": ["carousel"],
+      "profile": "portable",
+      "use": "Swipeable evidence or figure slides",
+      "native": "slides, Embla options, onSelect"
+    },
+    "chat": {
+      "entry": "chat.jsx",
+      "adapters": ["chat"],
+      "profile": "portable",
+      "use": "Streaming conversation UI with an explicitly supplied adapter",
+      "native": "assistant-ui ChatModelAdapter; no built-in model or credentials"
+    },
+    "neural": {
+      "entry": "neural.js",
+      "adapters": ["neural", "tfvis"],
+      "requires": ["vega"],
+      "profile": "browser",
+      "use": "Local dense-network training, weights, loss, tfjs-vis diagnostics",
+      "native": "config, bundle, controls, onSnapshot; modules.neural.tf/tfvis/createNN"
+    },
+    "icons": {
+      "entry": "icons.js",
+      "adapters": ["icons"],
+      "profile": "portable",
+      "use": "Bundled technical, data science, architecture and official AWS icons",
+      "native": "id, label, size; modules.icons.catalog/svg/url(id,{optional?})"
+    },
+    "viewer": {
+      "entry": "viewer.js",
+      "adapters": ["viewer"],
+      "profile": "external",
+      "capabilities": ["iframe", "network"],
+      "use": "Opt-in TensorFlow Playground, CNN Explainer, Transformer Explainer, Netron or LLM viewers",
+      "native": "HTTPS url, title, description; host may block framing"
+    }
+  }
+}

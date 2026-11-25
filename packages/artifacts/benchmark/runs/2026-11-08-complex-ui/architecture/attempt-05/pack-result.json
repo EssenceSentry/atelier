@@ -1,0 +1,33 @@
+{
+  "attempt": 5,
+  "startedAt": "2026-11-08T21:48:16.132Z",
+  "configFile": "/private/tmp/atelier-complex-ui-20261108/architecture/author/artifact.json",
+  "output": "/private/tmp/atelier-complex-ui-20261108/architecture/author/output.html",
+  "sourceLines": 109,
+  "sourceBytes": 13582,
+  "sourceSHA256": "0ab546be721f8262a5e76919d3c942be06ac751d3a74d43f2f0ff3a6af9a0ae9",
+  "packSuccess": true,
+  "result": {
+    "output": "/private/tmp/atelier-complex-ui-20261108/architecture/author/output.html",
+    "bytes": 14954187,
+    "version": "0.1.0",
+    "title": "Architecture investigation notebook",
+    "profile": "browser",
+    "families": [
+      "flow",
+      "mermaid",
+      "icons",
+      "markdown",
+      "table",
+      "code",
+      "media",
+      "carousel",
+      "json"
+    ],
+    "capabilities": ["worker", "data-worker"],
+    "sources": ["Illustrative fixture supplied for UI evaluation; no production evidence."],
+    "builtFrom": "artifact.json",
+    "requiresHTTP": false
+  },
+  "finishedAt": "2026-11-08T21:48:31.100Z"
+}

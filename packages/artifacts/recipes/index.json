@@ -1,0 +1,150 @@
+[
+  {
+    "id": "channel-rows",
+    "profile": "portable",
+    "families": ["channels"],
+    "path": "channel-rows/artifact.json"
+  },
+  {
+    "id": "linked-analysis",
+    "profile": "portable",
+    "families": ["vega", "table"],
+    "path": "linked-analysis/artifact.json"
+  },
+  {
+    "id": "architecture",
+    "profile": "portable",
+    "families": ["flow", "mermaid", "icons", "markdown"],
+    "path": "architecture/artifact.json"
+  },
+  {
+    "id": "document",
+    "profile": "browser",
+    "families": ["markdown", "myst", "code"],
+    "path": "document/artifact.json"
+  },
+  {
+    "id": "geometry",
+    "profile": "portable",
+    "families": ["geometry"],
+    "path": "geometry/artifact.json"
+  },
+  {
+    "id": "scientific",
+    "profile": "browser",
+    "families": ["plotly", "plot"],
+    "path": "scientific/artifact.json"
+  },
+  {
+    "id": "spatial",
+    "profile": "browser",
+    "families": ["deck"],
+    "path": "spatial/artifact.json"
+  },
+  {
+    "id": "sanddance",
+    "profile": "browser",
+    "families": ["sanddance"],
+    "path": "sanddance/artifact.json"
+  },
+  {
+    "id": "recommend",
+    "profile": "browser",
+    "families": ["recommend", "table"],
+    "path": "recommend/artifact.json"
+  },
+  {
+    "id": "rich-data",
+    "profile": "browser",
+    "families": ["table", "grid", "json"],
+    "path": "rich-data/artifact.json"
+  },
+  {
+    "id": "sql",
+    "profile": "browser",
+    "families": ["sql"],
+    "path": "sql/artifact.json"
+  },
+  {
+    "id": "inputs-media",
+    "profile": "portable",
+    "families": ["inputs", "media", "carousel"],
+    "path": "inputs-media/artifact.json"
+  },
+  {
+    "id": "chat",
+    "profile": "portable",
+    "families": ["chat"],
+    "path": "chat/artifact.json"
+  },
+  {
+    "id": "neural",
+    "profile": "browser",
+    "families": ["neural", "table"],
+    "path": "neural/artifact.json"
+  },
+  {
+    "id": "external-viewers",
+    "profile": "external",
+    "families": ["viewer"],
+    "path": "external-viewers/artifact.json"
+  },
+  {
+    "id": "plot-gallery",
+    "profile": "portable",
+    "families": ["vega"],
+    "path": "plot-gallery/artifact.json"
+  },
+  {
+    "id": "ui-patterns",
+    "profile": "portable",
+    "families": ["table", "markdown"],
+    "path": "ui-patterns/artifact.json"
+  },
+  {
+    "id": "complex-review",
+    "profile": "browser",
+    "families": ["table", "vega", "media", "carousel", "json", "markdown", "code", "chat"],
+    "path": "complex-review/artifact.json"
+  },
+  {
+    "id": "architecture-explorer",
+    "profile": "browser",
+    "families": [
+      "flow",
+      "mermaid",
+      "icons",
+      "markdown",
+      "table",
+      "code",
+      "media",
+      "carousel",
+      "json"
+    ],
+    "path": "architecture-explorer/artifact.json"
+  },
+  {
+    "id": "visual-methods",
+    "profile": "browser",
+    "families": [
+      "vega",
+      "table",
+      "plotly",
+      "plot",
+      "geometry",
+      "neural",
+      "tfvis",
+      "markdown",
+      "myst",
+      "code",
+      "carousel"
+    ],
+    "path": "visual-methods/artifact.json"
+  },
+  {
+    "id": "linked-workspace",
+    "profile": "portable",
+    "families": ["vega", "table", "flow", "markdown"],
+    "path": "linked-workspace/artifact.json"
+  }
+]

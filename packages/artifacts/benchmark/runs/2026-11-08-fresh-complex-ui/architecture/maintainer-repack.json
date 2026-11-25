@@ -1,0 +1,27 @@
+{
+  "kind": "Unchanged autonomous author source; post-trial shared UI repairs",
+  "sourceSHA256": "39ad4bdd1baa0a697b4d0791ec672d1fad38062ea44da06f634516e439990ace",
+  "releaseManifestSHA256": "380b986c6368727118af0aea5bfc4b81fba3ca7ff5872886dd50cbeb2a21a818",
+  "result": {
+    "output": "/private/tmp/atelier-fresh-ui-20261108/architecture/maintainer-repacked/output.html",
+    "bytes": 14956199,
+    "version": "0.1.0",
+    "title": "Architecture investigation notebook",
+    "profile": "browser",
+    "families": [
+      "flow",
+      "mermaid",
+      "icons",
+      "markdown",
+      "table",
+      "code",
+      "media",
+      "carousel",
+      "json"
+    ],
+    "capabilities": ["worker", "data-worker"],
+    "sources": ["Illustrative fixture supplied for UI evaluation; no production evidence."],
+    "builtFrom": "artifact.json",
+    "requiresHTTP": false
+  }
+}

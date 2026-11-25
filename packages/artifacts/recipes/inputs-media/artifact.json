@@ -1,0 +1,12 @@
+{
+  "title": "Inputs media",
+  "release": "0.1.0",
+  "theme": "instrument",
+  "mode": "light",
+  "profile": "portable",
+  "families": ["inputs", "media", "carousel"],
+  "source": "main.js",
+  "sources": [
+    "Bundled synthetic or analytic example; replace with actual evidence before presenting."
+  ]
+}

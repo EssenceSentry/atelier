@@ -1,0 +1,166 @@
+{
+  "results": [
+    {
+      "task": "review",
+      "name": "complete notebook",
+      "pass": true
+    },
+    {
+      "task": "review",
+      "name": "decision with sorting pagination and inspect",
+      "pass": true
+    },
+    {
+      "task": "review",
+      "name": "detail tabs media JSON and draft retention",
+      "pass": true
+    },
+    {
+      "task": "review",
+      "name": "shared filter empty recovery and complete export",
+      "pass": true
+    },
+    {
+      "task": "review",
+      "name": "formatted documentation and syntax",
+      "pass": true
+    },
+    {
+      "task": "review",
+      "name": "scripted chat",
+      "pass": true
+    },
+    {
+      "task": "review",
+      "name": "carousel final state",
+      "pass": true
+    },
+    {
+      "task": "review",
+      "name": "populated three-theme responsive contract",
+      "pass": true
+    },
+    {
+      "task": "review",
+      "name": "sidebar scroll navigation",
+      "pass": true
+    },
+    {
+      "task": "review",
+      "name": "no errors or remote requests",
+      "pass": true
+    },
+    {
+      "task": "architecture",
+      "name": "complete notebook",
+      "pass": true
+    },
+    {
+      "task": "architecture",
+      "name": "readable 12-node graph and measured labels",
+      "pass": true
+    },
+    {
+      "task": "architecture",
+      "name": "selector lazy inspector and syntax update",
+      "pass": true
+    },
+    {
+      "task": "architecture",
+      "name": "node click after selector and retained position",
+      "pass": true
+    },
+    {
+      "task": "architecture",
+      "name": "Flow snapshot preserves canvas viewport",
+      "pass": true
+    },
+    {
+      "task": "architecture",
+      "name": "Mermaid zoom and canvas snapshot",
+      "pass": true
+    },
+    {
+      "task": "architecture",
+      "name": "inventory inspection and note export",
+      "pass": true
+    },
+    {
+      "task": "architecture",
+      "name": "carousel final state",
+      "pass": true
+    },
+    {
+      "task": "architecture",
+      "name": "populated three-theme responsive contract",
+      "pass": true
+    },
+    {
+      "task": "architecture",
+      "name": "sidebar scroll navigation",
+      "pass": true
+    },
+    {
+      "task": "architecture",
+      "name": "no errors or remote requests",
+      "pass": true
+    },
+    {
+      "task": "lab",
+      "name": "complete notebook",
+      "pass": true
+    },
+    {
+      "task": "lab",
+      "name": "linked chart and register filtering with empty recovery",
+      "pass": true
+    },
+    {
+      "task": "lab",
+      "name": "gallery histogram and current-spec snapshot",
+      "pass": true
+    },
+    {
+      "task": "lab",
+      "name": "surface tabs camera and draft retention",
+      "pass": true
+    },
+    {
+      "task": "lab",
+      "name": "geometry control",
+      "pass": true
+    },
+    {
+      "task": "lab",
+      "name": "train and retain state across resizing and tabs",
+      "pass": true
+    },
+    {
+      "task": "lab",
+      "name": "MyST and JavaScript highlighting",
+      "pass": true
+    },
+    {
+      "task": "lab",
+      "name": "carousel final state",
+      "pass": true
+    },
+    {
+      "task": "lab",
+      "name": "populated three-theme responsive contract",
+      "pass": true
+    },
+    {
+      "task": "lab",
+      "name": "sidebar scroll navigation",
+      "pass": true
+    },
+    {
+      "task": "lab",
+      "name": "no errors or remote requests",
+      "pass": true
+    }
+  ],
+  "passed": 32,
+  "total": 32
+}

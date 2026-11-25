@@ -1,0 +1,10 @@
+{
+  "title": "Linked desktop workspaces",
+  "release": "0.1.0",
+  "theme": "instrument",
+  "mode": "light",
+  "profile": "portable",
+  "families": ["vega", "table", "flow", "markdown"],
+  "source": "main.js",
+  "sources": ["Illustrative records and topology supplied with this recipe."]
+}

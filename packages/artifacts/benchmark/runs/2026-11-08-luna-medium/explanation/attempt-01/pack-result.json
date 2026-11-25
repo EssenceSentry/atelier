@@ -1,0 +1,23 @@
+{
+  "attempt": 1,
+  "startedAt": "2026-11-08T20:33:55.131Z",
+  "configFile": "/private/tmp/atelier-luna-medium-20261108-zk3Pdy/explanation/artifact/artifact.json",
+  "output": "/private/tmp/atelier-luna-medium-20261108-zk3Pdy/explanation/artifact/output.html",
+  "sourceLines": 99,
+  "sourceBytes": 5185,
+  "sourceSHA256": "dd0b6d01b3705d49c721f634f107ff043412460e9404c2a1cd276f529bfd984f",
+  "packSuccess": true,
+  "result": {
+    "output": "/private/tmp/atelier-luna-medium-20261108-zk3Pdy/explanation/artifact/output.html",
+    "bytes": 10978292,
+    "version": "0.1.0",
+    "title": "Bayesian coin update",
+    "profile": "portable",
+    "families": ["flow", "mermaid", "markdown", "vega"],
+    "capabilities": [],
+    "sources": ["Illustrative synthetic observations supplied for this benchmark."],
+    "builtFrom": "artifact.json",
+    "requiresHTTP": false
+  },
+  "finishedAt": "2026-11-08T20:34:00.779Z"
+}

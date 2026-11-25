@@ -1,0 +1,12 @@
+{
+  "title": "Scientific",
+  "release": "0.1.0",
+  "theme": "instrument",
+  "mode": "light",
+  "profile": "browser",
+  "families": ["plotly", "plot"],
+  "source": "main.js",
+  "sources": [
+    "Bundled synthetic or analytic example; replace with actual evidence before presenting."
+  ]
+}

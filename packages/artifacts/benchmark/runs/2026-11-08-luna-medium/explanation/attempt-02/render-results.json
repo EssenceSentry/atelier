@@ -1,0 +1,329 @@
+{
+  "results": [
+    {
+      "label": "output-instrument-light-1440",
+      "ready": "true",
+      "widgets": [
+        {
+          "family": "markdown",
+          "state": "ready"
+        },
+        {
+          "family": "vega",
+          "state": "ready"
+        },
+        {
+          "family": "flow",
+          "state": "ready"
+        },
+        {
+          "family": "mermaid",
+          "state": "ready"
+        }
+      ],
+      "overflow": false,
+      "errors": [],
+      "links": true,
+      "cellCount": 4,
+      "remoteRequests": 0
+    },
+    {
+      "label": "output-instrument-light-390",
+      "ready": "true",
+      "widgets": [
+        {
+          "family": "markdown",
+          "state": "ready"
+        },
+        {
+          "family": "vega",
+          "state": "ready"
+        },
+        {
+          "family": "flow",
+          "state": "ready"
+        },
+        {
+          "family": "mermaid",
+          "state": "ready"
+        }
+      ],
+      "overflow": false,
+      "errors": [],
+      "links": true,
+      "cellCount": 4,
+      "remoteRequests": 0
+    },
+    {
+      "label": "output-instrument-dark-1440",
+      "ready": "true",
+      "widgets": [
+        {
+          "family": "markdown",
+          "state": "ready"
+        },
+        {
+          "family": "vega",
+          "state": "ready"
+        },
+        {
+          "family": "flow",
+          "state": "ready"
+        },
+        {
+          "family": "mermaid",
+          "state": "ready"
+        }
+      ],
+      "overflow": false,
+      "errors": [],
+      "links": true,
+      "cellCount": 4,
+      "remoteRequests": 0
+    },
+    {
+      "label": "output-instrument-dark-390",
+      "ready": "true",
+      "widgets": [
+        {
+          "family": "markdown",
+          "state": "ready"
+        },
+        {
+          "family": "vega",
+          "state": "ready"
+        },
+        {
+          "family": "flow",
+          "state": "ready"
+        },
+        {
+          "family": "mermaid",
+          "state": "ready"
+        }
+      ],
+      "overflow": false,
+      "errors": [],
+      "links": true,
+      "cellCount": 4,
+      "remoteRequests": 0
+    },
+    {
+      "label": "output-editorial-light-1440",
+      "ready": "true",
+      "widgets": [
+        {
+          "family": "markdown",
+          "state": "ready"
+        },
+        {
+          "family": "vega",
+          "state": "ready"
+        },
+        {
+          "family": "flow",
+          "state": "ready"
+        },
+        {
+          "family": "mermaid",
+          "state": "ready"
+        }
+      ],
+      "overflow": false,
+      "errors": [],
+      "links": true,
+      "cellCount": 4,
+      "remoteRequests": 0
+    },
+    {
+      "label": "output-editorial-light-390",
+      "ready": "true",
+      "widgets": [
+        {
+          "family": "markdown",
+          "state": "ready"
+        },
+        {
+          "family": "vega",
+          "state": "ready"
+        },
+        {
+          "family": "flow",
+          "state": "ready"
+        },
+        {
+          "family": "mermaid",
+          "state": "ready"
+        }
+      ],
+      "overflow": false,
+      "errors": [],
+      "links": true,
+      "cellCount": 4,
+      "remoteRequests": 0
+    },
+    {
+      "label": "output-editorial-dark-1440",
+      "ready": "true",
+      "widgets": [
+        {
+          "family": "markdown",
+          "state": "ready"
+        },
+        {
+          "family": "vega",
+          "state": "ready"
+        },
+        {
+          "family": "flow",
+          "state": "ready"
+        },
+        {
+          "family": "mermaid",
+          "state": "ready"
+        }
+      ],
+      "overflow": false,
+      "errors": [],
+      "links": true,
+      "cellCount": 4,
+      "remoteRequests": 0
+    },
+    {
+      "label": "output-editorial-dark-390",
+      "ready": "true",
+      "widgets": [
+        {
+          "family": "markdown",
+          "state": "ready"
+        },
+        {
+          "family": "vega",
+          "state": "ready"
+        },
+        {
+          "family": "flow",
+          "state": "ready"
+        },
+        {
+          "family": "mermaid",
+          "state": "ready"
+        }
+      ],
+      "overflow": false,
+      "errors": [],
+      "links": true,
+      "cellCount": 4,
+      "remoteRequests": 0
+    },
+    {
+      "label": "output-console-light-1440",
+      "ready": "true",
+      "widgets": [
+        {
+          "family": "markdown",
+          "state": "ready"
+        },
+        {
+          "family": "vega",
+          "state": "ready"
+        },
+        {
+          "family": "flow",
+          "state": "ready"
+        },
+        {
+          "family": "mermaid",
+          "state": "ready"
+        }
+      ],
+      "overflow": false,
+      "errors": [],
+      "links": true,
+      "cellCount": 4,
+      "remoteRequests": 0
+    },
+    {
+      "label": "output-console-light-390",
+      "ready": "true",
+      "widgets": [
+        {
+          "family": "markdown",
+          "state": "ready"
+        },
+        {
+          "family": "vega",
+          "state": "ready"
+        },
+        {
+          "family": "flow",
+          "state": "ready"
+        },
+        {
+          "family": "mermaid",
+          "state": "ready"
+        }
+      ],
+      "overflow": false,
+      "errors": [],
+      "links": true,
+      "cellCount": 4,
+      "remoteRequests": 0
+    },
+    {
+      "label": "output-console-dark-1440",
+      "ready": "true",
+      "widgets": [
+        {
+          "family": "markdown",
+          "state": "ready"
+        },
+        {
+          "family": "vega",
+          "state": "ready"
+        },
+        {
+          "family": "flow",
+          "state": "ready"
+        },
+        {
+          "family": "mermaid",
+          "state": "ready"
+        }
+      ],
+      "overflow": false,
+      "errors": [],
+      "links": true,
+      "cellCount": 4,
+      "remoteRequests": 0
+    },
+    {
+      "label": "output-console-dark-390",
+      "ready": "true",
+      "widgets": [
+        {
+          "family": "markdown",
+          "state": "ready"
+        },
+        {
+          "family": "vega",
+          "state": "ready"
+        },
+        {
+          "family": "flow",
+          "state": "ready"
+        },
+        {
+          "family": "mermaid",
+          "state": "ready"
+        }
+      ],
+      "overflow": false,
+      "errors": [],
+      "links": true,
+      "cellCount": 4,
+      "remoteRequests": 0
+    }
+  ],
+  "findings": []
+}

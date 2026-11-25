@@ -1,0 +1,1973 @@
+{
+  "results": [
+    {
+      "label": "ui-patterns-instrument-light-1440",
+      "ready": "true",
+      "widgets": [
+        {
+          "family": "table",
+          "state": "ready"
+        }
+      ],
+      "overflow": false,
+      "errors": [],
+      "links": true,
+      "cellCount": 2,
+      "remoteRequests": 0
+    },
+    {
+      "label": "ui-patterns-instrument-light-390",
+      "ready": "true",
+      "widgets": [
+        {
+          "family": "table",
+          "state": "ready"
+        }
+      ],
+      "overflow": false,
+      "errors": [],
+      "links": true,
+      "cellCount": 2,
+      "remoteRequests": 0
+    },
+    {
+      "label": "ui-patterns-instrument-dark-1440",
+      "ready": "true",
+      "widgets": [
+        {
+          "family": "table",
+          "state": "ready"
+        }
+      ],
+      "overflow": false,
+      "errors": [],
+      "links": true,
+      "cellCount": 2,
+      "remoteRequests": 0
+    },
+    {
+      "label": "ui-patterns-instrument-dark-390",
+      "ready": "true",
+      "widgets": [
+        {
+          "family": "table",
+          "state": "ready"
+        }
+      ],
+      "overflow": false,
+      "errors": [],
+      "links": true,
+      "cellCount": 2,
+      "remoteRequests": 0
+    },
+    {
+      "label": "ui-patterns-editorial-light-1440",
+      "ready": "true",
+      "widgets": [
+        {
+          "family": "table",
+          "state": "ready"
+        }
+      ],
+      "overflow": false,
+      "errors": [],
+      "links": true,
+      "cellCount": 2,
+      "remoteRequests": 0
+    },
+    {
+      "label": "ui-patterns-editorial-light-390",
+      "ready": "true",
+      "widgets": [
+        {
+          "family": "table",
+          "state": "ready"
+        }
+      ],
+      "overflow": false,
+      "errors": [],
+      "links": true,
+      "cellCount": 2,
+      "remoteRequests": 0
+    },
+    {
+      "label": "ui-patterns-editorial-dark-1440",
+      "ready": "true",
+      "widgets": [
+        {
+          "family": "table",
+          "state": "ready"
+        }
+      ],
+      "overflow": false,
+      "errors": [],
+      "links": true,
+      "cellCount": 2,
+      "remoteRequests": 0
+    },
+    {
+      "label": "ui-patterns-editorial-dark-390",
+      "ready": "true",
+      "widgets": [
+        {
+          "family": "table",
+          "state": "ready"
+        }
+      ],
+      "overflow": false,
+      "errors": [],
+      "links": true,
+      "cellCount": 2,
+      "remoteRequests": 0
+    },
+    {
+      "label": "ui-patterns-console-light-1440",
+      "ready": "true",
+      "widgets": [
+        {
+          "family": "table",
+          "state": "ready"
+        }
+      ],
+      "overflow": false,
+      "errors": [],
+      "links": true,
+      "cellCount": 2,
+      "remoteRequests": 0
+    },
+    {
+      "label": "ui-patterns-console-light-390",
+      "ready": "true",
+      "widgets": [
+        {
+          "family": "table",
+          "state": "ready"
+        }
+      ],
+      "overflow": false,
+      "errors": [],
+      "links": true,
+      "cellCount": 2,
+      "remoteRequests": 0
+    },
+    {
+      "label": "ui-patterns-console-dark-1440",
+      "ready": "true",
+      "widgets": [
+        {
+          "family": "table",
+          "state": "ready"
+        }
+      ],
+      "overflow": false,
+      "errors": [],
+      "links": true,
+      "cellCount": 2,
+      "remoteRequests": 0
+    },
+    {
+      "label": "ui-patterns-console-dark-390",
+      "ready": "true",
+      "widgets": [
+        {
+          "family": "table",
+          "state": "ready"
+        }
+      ],
+      "overflow": false,
+      "errors": [],
+      "links": true,
+      "cellCount": 2,
+      "remoteRequests": 0
+    },
+    {
+      "label": "complex-review-instrument-light-1440",
+      "ready": "true",
+      "widgets": [
+        {
+          "family": "vega",
+          "state": "ready"
+        },
+        {
+          "family": "table",
+          "state": "ready"
+        },
+        {
+          "family": "markdown",
+          "state": "ready"
+        },
+        {
+          "family": "carousel",
+          "state": "ready"
+        },
+        {
+          "family": "code",
+          "state": "ready"
+        },
+        {
+          "family": "markdown",
+          "state": "ready"
+        },
+        {
+          "family": "chat",
+          "state": "ready"
+        }
+      ],
+      "overflow": false,
+      "errors": [],
+      "links": true,
+      "cellCount": 7,
+      "remoteRequests": 0
+    },
+    {
+      "label": "complex-review-instrument-light-390",
+      "ready": "true",
+      "widgets": [
+        {
+          "family": "vega",
+          "state": "ready"
+        },
+        {
+          "family": "table",
+          "state": "ready"
+        },
+        {
+          "family": "markdown",
+          "state": "ready"
+        },
+        {
+          "family": "carousel",
+          "state": "ready"
+        },
+        {
+          "family": "code",
+          "state": "ready"
+        },
+        {
+          "family": "markdown",
+          "state": "ready"
+        },
+        {
+          "family": "chat",
+          "state": "ready"
+        }
+      ],
+      "overflow": false,
+      "errors": [],
+      "links": true,
+      "cellCount": 7,
+      "remoteRequests": 0
+    },
+    {
+      "label": "complex-review-instrument-dark-1440",
+      "ready": "true",
+      "widgets": [
+        {
+          "family": "vega",
+          "state": "ready"
+        },
+        {
+          "family": "table",
+          "state": "ready"
+        },
+        {
+          "family": "markdown",
+          "state": "ready"
+        },
+        {
+          "family": "carousel",
+          "state": "ready"
+        },
+        {
+          "family": "code",
+          "state": "ready"
+        },
+        {
+          "family": "markdown",
+          "state": "ready"
+        },
+        {
+          "family": "chat",
+          "state": "ready"
+        }
+      ],
+      "overflow": false,
+      "errors": [],
+      "links": true,
+      "cellCount": 7,
+      "remoteRequests": 0
+    },
+    {
+      "label": "complex-review-instrument-dark-390",
+      "ready": "true",
+      "widgets": [
+        {
+          "family": "vega",
+          "state": "ready"
+        },
+        {
+          "family": "table",
+          "state": "ready"
+        },
+        {
+          "family": "markdown",
+          "state": "ready"
+        },
+        {
+          "family": "carousel",
+          "state": "ready"
+        },
+        {
+          "family": "code",
+          "state": "ready"
+        },
+        {
+          "family": "markdown",
+          "state": "ready"
+        },
+        {
+          "family": "chat",
+          "state": "ready"
+        }
+      ],
+      "overflow": false,
+      "errors": [],
+      "links": true,
+      "cellCount": 7,
+      "remoteRequests": 0
+    },
+    {
+      "label": "complex-review-editorial-light-1440",
+      "ready": "true",
+      "widgets": [
+        {
+          "family": "vega",
+          "state": "ready"
+        },
+        {
+          "family": "table",
+          "state": "ready"
+        },
+        {
+          "family": "markdown",
+          "state": "ready"
+        },
+        {
+          "family": "carousel",
+          "state": "ready"
+        },
+        {
+          "family": "code",
+          "state": "ready"
+        },
+        {
+          "family": "markdown",
+          "state": "ready"
+        },
+        {
+          "family": "chat",
+          "state": "ready"
+        }
+      ],
+      "overflow": false,
+      "errors": [],
+      "links": true,
+      "cellCount": 7,
+      "remoteRequests": 0
+    },
+    {
+      "label": "complex-review-editorial-light-390",
+      "ready": "true",
+      "widgets": [
+        {
+          "family": "vega",
+          "state": "ready"
+        },
+        {
+          "family": "table",
+          "state": "ready"
+        },
+        {
+          "family": "markdown",
+          "state": "ready"
+        },
+        {
+          "family": "carousel",
+          "state": "ready"
+        },
+        {
+          "family": "code",
+          "state": "ready"
+        },
+        {
+          "family": "markdown",
+          "state": "ready"
+        },
+        {
+          "family": "chat",
+          "state": "ready"
+        }
+      ],
+      "overflow": false,
+      "errors": [],
+      "links": true,
+      "cellCount": 7,
+      "remoteRequests": 0
+    },
+    {
+      "label": "complex-review-editorial-dark-1440",
+      "ready": "true",
+      "widgets": [
+        {
+          "family": "vega",
+          "state": "ready"
+        },
+        {
+          "family": "table",
+          "state": "ready"
+        },
+        {
+          "family": "markdown",
+          "state": "ready"
+        },
+        {
+          "family": "carousel",
+          "state": "ready"
+        },
+        {
+          "family": "code",
+          "state": "ready"
+        },
+        {
+          "family": "markdown",
+          "state": "ready"
+        },
+        {
+          "family": "chat",
+          "state": "ready"
+        }
+      ],
+      "overflow": false,
+      "errors": [],
+      "links": true,
+      "cellCount": 7,
+      "remoteRequests": 0
+    },
+    {
+      "label": "complex-review-editorial-dark-390",
+      "ready": "true",
+      "widgets": [
+        {
+          "family": "vega",
+          "state": "ready"
+        },
+        {
+          "family": "table",
+          "state": "ready"
+        },
+        {
+          "family": "markdown",
+          "state": "ready"
+        },
+        {
+          "family": "carousel",
+          "state": "ready"
+        },
+        {
+          "family": "code",
+          "state": "ready"
+        },
+        {
+          "family": "markdown",
+          "state": "ready"
+        },
+        {
+          "family": "chat",
+          "state": "ready"
+        }
+      ],
+      "overflow": false,
+      "errors": [],
+      "links": true,
+      "cellCount": 7,
+      "remoteRequests": 0
+    },
+    {
+      "label": "complex-review-console-light-1440",
+      "ready": "true",
+      "widgets": [
+        {
+          "family": "vega",
+          "state": "ready"
+        },
+        {
+          "family": "table",
+          "state": "ready"
+        },
+        {
+          "family": "markdown",
+          "state": "ready"
+        },
+        {
+          "family": "carousel",
+          "state": "ready"
+        },
+        {
+          "family": "code",
+          "state": "ready"
+        },
+        {
+          "family": "markdown",
+          "state": "ready"
+        },
+        {
+          "family": "chat",
+          "state": "ready"
+        }
+      ],
+      "overflow": false,
+      "errors": [],
+      "links": true,
+      "cellCount": 7,
+      "remoteRequests": 0
+    },
+    {
+      "label": "complex-review-console-light-390",
+      "ready": "true",
+      "widgets": [
+        {
+          "family": "vega",
+          "state": "ready"
+        },
+        {
+          "family": "table",
+          "state": "ready"
+        },
+        {
+          "family": "markdown",
+          "state": "ready"
+        },
+        {
+          "family": "carousel",
+          "state": "ready"
+        },
+        {
+          "family": "code",
+          "state": "ready"
+        },
+        {
+          "family": "markdown",
+          "state": "ready"
+        },
+        {
+          "family": "chat",
+          "state": "ready"
+        }
+      ],
+      "overflow": false,
+      "errors": [],
+      "links": true,
+      "cellCount": 7,
+      "remoteRequests": 0
+    },
+    {
+      "label": "complex-review-console-dark-1440",
+      "ready": "true",
+      "widgets": [
+        {
+          "family": "vega",
+          "state": "ready"
+        },
+        {
+          "family": "table",
+          "state": "ready"
+        },
+        {
+          "family": "markdown",
+          "state": "ready"
+        },
+        {
+          "family": "carousel",
+          "state": "ready"
+        },
+        {
+          "family": "code",
+          "state": "ready"
+        },
+        {
+          "family": "markdown",
+          "state": "ready"
+        },
+        {
+          "family": "chat",
+          "state": "ready"
+        }
+      ],
+      "overflow": false,
+      "errors": [],
+      "links": true,
+      "cellCount": 7,
+      "remoteRequests": 0
+    },
+    {
+      "label": "complex-review-console-dark-390",
+      "ready": "true",
+      "widgets": [
+        {
+          "family": "vega",
+          "state": "ready"
+        },
+        {
+          "family": "table",
+          "state": "ready"
+        },
+        {
+          "family": "markdown",
+          "state": "ready"
+        },
+        {
+          "family": "carousel",
+          "state": "ready"
+        },
+        {
+          "family": "code",
+          "state": "ready"
+        },
+        {
+          "family": "markdown",
+          "state": "ready"
+        },
+        {
+          "family": "chat",
+          "state": "ready"
+        }
+      ],
+      "overflow": false,
+      "errors": [],
+      "links": true,
+      "cellCount": 7,
+      "remoteRequests": 0
+    },
+    {
+      "label": "architecture-explorer-instrument-light-1440",
+      "ready": "true",
+      "widgets": [
+        {
+          "family": "markdown",
+          "state": "ready"
+        },
+        {
+          "family": "flow",
+          "state": "ready"
+        },
+        {
+          "family": "markdown",
+          "state": "ready"
+        },
+        {
+          "family": "mermaid",
+          "state": "ready"
+        },
+        {
+          "family": "table",
+          "state": "ready"
+        },
+        {
+          "family": "carousel",
+          "state": "ready"
+        },
+        {
+          "family": "markdown",
+          "state": "ready"
+        }
+      ],
+      "overflow": false,
+      "errors": [],
+      "links": true,
+      "cellCount": 7,
+      "remoteRequests": 0
+    },
+    {
+      "label": "architecture-explorer-instrument-light-390",
+      "ready": "true",
+      "widgets": [
+        {
+          "family": "markdown",
+          "state": "ready"
+        },
+        {
+          "family": "flow",
+          "state": "ready"
+        },
+        {
+          "family": "markdown",
+          "state": "ready"
+        },
+        {
+          "family": "mermaid",
+          "state": "ready"
+        },
+        {
+          "family": "table",
+          "state": "ready"
+        },
+        {
+          "family": "carousel",
+          "state": "ready"
+        },
+        {
+          "family": "markdown",
+          "state": "ready"
+        }
+      ],
+      "overflow": false,
+      "errors": [],
+      "links": true,
+      "cellCount": 7,
+      "remoteRequests": 0
+    },
+    {
+      "label": "architecture-explorer-instrument-dark-1440",
+      "ready": "true",
+      "widgets": [
+        {
+          "family": "markdown",
+          "state": "ready"
+        },
+        {
+          "family": "flow",
+          "state": "ready"
+        },
+        {
+          "family": "markdown",
+          "state": "ready"
+        },
+        {
+          "family": "mermaid",
+          "state": "ready"
+        },
+        {
+          "family": "table",
+          "state": "ready"
+        },
+        {
+          "family": "carousel",
+          "state": "ready"
+        },
+        {
+          "family": "markdown",
+          "state": "ready"
+        }
+      ],
+      "overflow": false,
+      "errors": [],
+      "links": true,
+      "cellCount": 7,
+      "remoteRequests": 0
+    },
+    {
+      "label": "architecture-explorer-instrument-dark-390",
+      "ready": "true",
+      "widgets": [
+        {
+          "family": "markdown",
+          "state": "ready"
+        },
+        {
+          "family": "flow",
+          "state": "ready"
+        },
+        {
+          "family": "markdown",
+          "state": "ready"
+        },
+        {
+          "family": "mermaid",
+          "state": "ready"
+        },
+        {
+          "family": "table",
+          "state": "ready"
+        },
+        {
+          "family": "carousel",
+          "state": "ready"
+        },
+        {
+          "family": "markdown",
+          "state": "ready"
+        }
+      ],
+      "overflow": false,
+      "errors": [],
+      "links": true,
+      "cellCount": 7,
+      "remoteRequests": 0
+    },
+    {
+      "label": "architecture-explorer-editorial-light-1440",
+      "ready": "true",
+      "widgets": [
+        {
+          "family": "markdown",
+          "state": "ready"
+        },
+        {
+          "family": "flow",
+          "state": "ready"
+        },
+        {
+          "family": "markdown",
+          "state": "ready"
+        },
+        {
+          "family": "mermaid",
+          "state": "ready"
+        },
+        {
+          "family": "table",
+          "state": "ready"
+        },
+        {
+          "family": "carousel",
+          "state": "ready"
+        },
+        {
+          "family": "markdown",
+          "state": "ready"
+        }
+      ],
+      "overflow": false,
+      "errors": [],
+      "links": true,
+      "cellCount": 7,
+      "remoteRequests": 0
+    },
+    {
+      "label": "architecture-explorer-editorial-light-390",
+      "ready": "true",
+      "widgets": [
+        {
+          "family": "markdown",
+          "state": "ready"
+        },
+        {
+          "family": "flow",
+          "state": "ready"
+        },
+        {
+          "family": "markdown",
+          "state": "ready"
+        },
+        {
+          "family": "mermaid",
+          "state": "ready"
+        },
+        {
+          "family": "table",
+          "state": "ready"
+        },
+        {
+          "family": "carousel",
+          "state": "ready"
+        },
+        {
+          "family": "markdown",
+          "state": "ready"
+        }
+      ],
+      "overflow": false,
+      "errors": [],
+      "links": true,
+      "cellCount": 7,
+      "remoteRequests": 0
+    },
+    {
+      "label": "architecture-explorer-editorial-dark-1440",
+      "ready": "true",
+      "widgets": [
+        {
+          "family": "markdown",
+          "state": "ready"
+        },
+        {
+          "family": "flow",
+          "state": "ready"
+        },
+        {
+          "family": "markdown",
+          "state": "ready"
+        },
+        {
+          "family": "mermaid",
+          "state": "ready"
+        },
+        {
+          "family": "table",
+          "state": "ready"
+        },
+        {
+          "family": "carousel",
+          "state": "ready"
+        },
+        {
+          "family": "markdown",
+          "state": "ready"
+        }
+      ],
+      "overflow": false,
+      "errors": [],
+      "links": true,
+      "cellCount": 7,
+      "remoteRequests": 0
+    },
+    {
+      "label": "architecture-explorer-editorial-dark-390",
+      "ready": "true",
+      "widgets": [
+        {
+          "family": "markdown",
+          "state": "ready"
+        },
+        {
+          "family": "flow",
+          "state": "ready"
+        },
+        {
+          "family": "markdown",
+          "state": "ready"
+        },
+        {
+          "family": "mermaid",
+          "state": "ready"
+        },
+        {
+          "family": "table",
+          "state": "ready"
+        },
+        {
+          "family": "carousel",
+          "state": "ready"
+        },
+        {
+          "family": "markdown",
+          "state": "ready"
+        }
+      ],
+      "overflow": false,
+      "errors": [],
+      "links": true,
+      "cellCount": 7,
+      "remoteRequests": 0
+    },
+    {
+      "label": "architecture-explorer-console-light-1440",
+      "ready": "true",
+      "widgets": [
+        {
+          "family": "markdown",
+          "state": "ready"
+        },
+        {
+          "family": "flow",
+          "state": "ready"
+        },
+        {
+          "family": "markdown",
+          "state": "ready"
+        },
+        {
+          "family": "mermaid",
+          "state": "ready"
+        },
+        {
+          "family": "table",
+          "state": "ready"
+        },
+        {
+          "family": "carousel",
+          "state": "ready"
+        },
+        {
+          "family": "markdown",
+          "state": "ready"
+        }
+      ],
+      "overflow": false,
+      "errors": [],
+      "links": true,
+      "cellCount": 7,
+      "remoteRequests": 0
+    },
+    {
+      "label": "architecture-explorer-console-light-390",
+      "ready": "true",
+      "widgets": [
+        {
+          "family": "markdown",
+          "state": "ready"
+        },
+        {
+          "family": "flow",
+          "state": "ready"
+        },
+        {
+          "family": "markdown",
+          "state": "ready"
+        },
+        {
+          "family": "mermaid",
+          "state": "ready"
+        },
+        {
+          "family": "table",
+          "state": "ready"
+        },
+        {
+          "family": "carousel",
+          "state": "ready"
+        },
+        {
+          "family": "markdown",
+          "state": "ready"
+        }
+      ],
+      "overflow": false,
+      "errors": [],
+      "links": true,
+      "cellCount": 7,
+      "remoteRequests": 0
+    },
+    {
+      "label": "architecture-explorer-console-dark-1440",
+      "ready": "true",
+      "widgets": [
+        {
+          "family": "markdown",
+          "state": "ready"
+        },
+        {
+          "family": "flow",
+          "state": "ready"
+        },
+        {
+          "family": "markdown",
+          "state": "ready"
+        },
+        {
+          "family": "mermaid",
+          "state": "ready"
+        },
+        {
+          "family": "table",
+          "state": "ready"
+        },
+        {
+          "family": "carousel",
+          "state": "ready"
+        },
+        {
+          "family": "markdown",
+          "state": "ready"
+        }
+      ],
+      "overflow": false,
+      "errors": [],
+      "links": true,
+      "cellCount": 7,
+      "remoteRequests": 0
+    },
+    {
+      "label": "architecture-explorer-console-dark-390",
+      "ready": "true",
+      "widgets": [
+        {
+          "family": "markdown",
+          "state": "ready"
+        },
+        {
+          "family": "flow",
+          "state": "ready"
+        },
+        {
+          "family": "markdown",
+          "state": "ready"
+        },
+        {
+          "family": "mermaid",
+          "state": "ready"
+        },
+        {
+          "family": "table",
+          "state": "ready"
+        },
+        {
+          "family": "carousel",
+          "state": "ready"
+        },
+        {
+          "family": "markdown",
+          "state": "ready"
+        }
+      ],
+      "overflow": false,
+      "errors": [],
+      "links": true,
+      "cellCount": 7,
+      "remoteRequests": 0
+    },
+    {
+      "label": "visual-methods-instrument-light-1440",
+      "ready": "true",
+      "widgets": [
+        {
+          "family": "vega",
+          "state": "ready"
+        },
+        {
+          "family": "table",
+          "state": "ready"
+        },
+        {
+          "family": "vega",
+          "state": "ready"
+        },
+        {
+          "family": "markdown",
+          "state": "ready"
+        },
+        {
+          "family": "vega",
+          "state": "ready"
+        },
+        {
+          "family": "plotly",
+          "state": "ready"
+        },
+        {
+          "family": "geometry",
+          "state": "ready"
+        },
+        {
+          "family": "neural",
+          "state": "ready"
+        },
+        {
+          "family": "vega",
+          "state": "ready"
+        },
+        {
+          "family": "table",
+          "state": "ready"
+        },
+        {
+          "family": "table",
+          "state": "ready"
+        },
+        {
+          "family": "markdown",
+          "state": "ready"
+        },
+        {
+          "family": "myst",
+          "state": "ready"
+        },
+        {
+          "family": "code",
+          "state": "ready"
+        },
+        {
+          "family": "carousel",
+          "state": "ready"
+        }
+      ],
+      "overflow": false,
+      "errors": [],
+      "links": true,
+      "cellCount": 15,
+      "remoteRequests": 0
+    },
+    {
+      "label": "visual-methods-instrument-light-390",
+      "ready": "true",
+      "widgets": [
+        {
+          "family": "vega",
+          "state": "ready"
+        },
+        {
+          "family": "table",
+          "state": "ready"
+        },
+        {
+          "family": "vega",
+          "state": "ready"
+        },
+        {
+          "family": "markdown",
+          "state": "ready"
+        },
+        {
+          "family": "vega",
+          "state": "ready"
+        },
+        {
+          "family": "plotly",
+          "state": "ready"
+        },
+        {
+          "family": "geometry",
+          "state": "ready"
+        },
+        {
+          "family": "neural",
+          "state": "ready"
+        },
+        {
+          "family": "vega",
+          "state": "ready"
+        },
+        {
+          "family": "table",
+          "state": "ready"
+        },
+        {
+          "family": "table",
+          "state": "ready"
+        },
+        {
+          "family": "markdown",
+          "state": "ready"
+        },
+        {
+          "family": "myst",
+          "state": "ready"
+        },
+        {
+          "family": "code",
+          "state": "ready"
+        },
+        {
+          "family": "carousel",
+          "state": "ready"
+        }
+      ],
+      "overflow": false,
+      "errors": [],
+      "links": true,
+      "cellCount": 15,
+      "remoteRequests": 0
+    },
+    {
+      "label": "visual-methods-instrument-dark-1440",
+      "ready": "true",
+      "widgets": [
+        {
+          "family": "vega",
+          "state": "ready"
+        },
+        {
+          "family": "table",
+          "state": "ready"
+        },
+        {
+          "family": "vega",
+          "state": "ready"
+        },
+        {
+          "family": "markdown",
+          "state": "ready"
+        },
+        {
+          "family": "vega",
+          "state": "ready"
+        },
+        {
+          "family": "plotly",
+          "state": "ready"
+        },
+        {
+          "family": "geometry",
+          "state": "ready"
+        },
+        {
+          "family": "neural",
+          "state": "ready"
+        },
+        {
+          "family": "vega",
+          "state": "ready"
+        },
+        {
+          "family": "table",
+          "state": "ready"
+        },
+        {
+          "family": "table",
+          "state": "ready"
+        },
+        {
+          "family": "markdown",
+          "state": "ready"
+        },
+        {
+          "family": "myst",
+          "state": "ready"
+        },
+        {
+          "family": "code",
+          "state": "ready"
+        },
+        {
+          "family": "carousel",
+          "state": "ready"
+        }
+      ],
+      "overflow": false,
+      "errors": [],
+      "links": true,
+      "cellCount": 15,
+      "remoteRequests": 0
+    },
+    {
+      "label": "visual-methods-instrument-dark-390",
+      "ready": "true",
+      "widgets": [
+        {
+          "family": "vega",
+          "state": "ready"
+        },
+        {
+          "family": "table",
+          "state": "ready"
+        },
+        {
+          "family": "vega",
+          "state": "ready"
+        },
+        {
+          "family": "markdown",
+          "state": "ready"
+        },
+        {
+          "family": "vega",
+          "state": "ready"
+        },
+        {
+          "family": "plotly",
+          "state": "ready"
+        },
+        {
+          "family": "geometry",
+          "state": "ready"
+        },
+        {
+          "family": "neural",
+          "state": "ready"
+        },
+        {
+          "family": "vega",
+          "state": "ready"
+        },
+        {
+          "family": "table",
+          "state": "ready"
+        },
+        {
+          "family": "table",
+          "state": "ready"
+        },
+        {
+          "family": "markdown",
+          "state": "ready"
+        },
+        {
+          "family": "myst",
+          "state": "ready"
+        },
+        {
+          "family": "code",
+          "state": "ready"
+        },
+        {
+          "family": "carousel",
+          "state": "ready"
+        }
+      ],
+      "overflow": false,
+      "errors": [],
+      "links": true,
+      "cellCount": 15,
+      "remoteRequests": 0
+    },
+    {
+      "label": "visual-methods-editorial-light-1440",
+      "ready": "true",
+      "widgets": [
+        {
+          "family": "vega",
+          "state": "ready"
+        },
+        {
+          "family": "table",
+          "state": "ready"
+        },
+        {
+          "family": "vega",
+          "state": "ready"
+        },
+        {
+          "family": "markdown",
+          "state": "ready"
+        },
+        {
+          "family": "vega",
+          "state": "ready"
+        },
+        {
+          "family": "plotly",
+          "state": "ready"
+        },
+        {
+          "family": "geometry",
+          "state": "ready"
+        },
+        {
+          "family": "neural",
+          "state": "ready"
+        },
+        {
+          "family": "vega",
+          "state": "ready"
+        },
+        {
+          "family": "table",
+          "state": "ready"
+        },
+        {
+          "family": "table",
+          "state": "ready"
+        },
+        {
+          "family": "markdown",
+          "state": "ready"
+        },
+        {
+          "family": "myst",
+          "state": "ready"
+        },
+        {
+          "family": "code",
+          "state": "ready"
+        },
+        {
+          "family": "carousel",
+          "state": "ready"
+        }
+      ],
+      "overflow": false,
+      "errors": [],
+      "links": true,
+      "cellCount": 15,
+      "remoteRequests": 0
+    },
+    {
+      "label": "visual-methods-editorial-light-390",
+      "ready": "true",
+      "widgets": [
+        {
+          "family": "vega",
+          "state": "ready"
+        },
+        {
+          "family": "table",
+          "state": "ready"
+        },
+        {
+          "family": "vega",
+          "state": "ready"
+        },
+        {
+          "family": "markdown",
+          "state": "ready"
+        },
+        {
+          "family": "vega",
+          "state": "ready"
+        },
+        {
+          "family": "plotly",
+          "state": "ready"
+        },
+        {
+          "family": "geometry",
+          "state": "ready"
+        },
+        {
+          "family": "neural",
+          "state": "ready"
+        },
+        {
+          "family": "vega",
+          "state": "ready"
+        },
+        {
+          "family": "table",
+          "state": "ready"
+        },
+        {
+          "family": "table",
+          "state": "ready"
+        },
+        {
+          "family": "markdown",
+          "state": "ready"
+        },
+        {
+          "family": "myst",
+          "state": "ready"
+        },
+        {
+          "family": "code",
+          "state": "ready"
+        },
+        {
+          "family": "carousel",
+          "state": "ready"
+        }
+      ],
+      "overflow": false,
+      "errors": [],
+      "links": true,
+      "cellCount": 15,
+      "remoteRequests": 0
+    },
+    {
+      "label": "visual-methods-editorial-dark-1440",
+      "ready": "true",
+      "widgets": [
+        {
+          "family": "vega",
+          "state": "ready"
+        },
+        {
+          "family": "table",
+          "state": "ready"
+        },
+        {
+          "family": "vega",
+          "state": "ready"
+        },
+        {
+          "family": "markdown",
+          "state": "ready"
+        },
+        {
+          "family": "vega",
+          "state": "ready"
+        },
+        {
+          "family": "plotly",
+          "state": "ready"
+        },
+        {
+          "family": "geometry",
+          "state": "ready"
+        },
+        {
+          "family": "neural",
+          "state": "ready"
+        },
+        {
+          "family": "vega",
+          "state": "ready"
+        },
+        {
+          "family": "table",
+          "state": "ready"
+        },
+        {
+          "family": "table",
+          "state": "ready"
+        },
+        {
+          "family": "markdown",
+          "state": "ready"
+        },
+        {
+          "family": "myst",
+          "state": "ready"
+        },
+        {
+          "family": "code",
+          "state": "ready"
+        },
+        {
+          "family": "carousel",
+          "state": "ready"
+        }
+      ],
+      "overflow": false,
+      "errors": [],
+      "links": true,
+      "cellCount": 15,
+      "remoteRequests": 0
+    },
+    {
+      "label": "visual-methods-editorial-dark-390",
+      "ready": "true",
+      "widgets": [
+        {
+          "family": "vega",
+          "state": "ready"
+        },
+        {
+          "family": "table",
+          "state": "ready"
+        },
+        {
+          "family": "vega",
+          "state": "ready"
+        },
+        {
+          "family": "markdown",
+          "state": "ready"
+        },
+        {
+          "family": "vega",
+          "state": "ready"
+        },
+        {
+          "family": "plotly",
+          "state": "ready"
+        },
+        {
+          "family": "geometry",
+          "state": "ready"
+        },
+        {
+          "family": "neural",
+          "state": "ready"
+        },
+        {
+          "family": "vega",
+          "state": "ready"
+        },
+        {
+          "family": "table",
+          "state": "ready"
+        },
+        {
+          "family": "table",
+          "state": "ready"
+        },
+        {
+          "family": "markdown",
+          "state": "ready"
+        },
+        {
+          "family": "myst",
+          "state": "ready"
+        },
+        {
+          "family": "code",
+          "state": "ready"
+        },
+        {
+          "family": "carousel",
+          "state": "ready"
+        }
+      ],
+      "overflow": false,
+      "errors": [],
+      "links": true,
+      "cellCount": 15,
+      "remoteRequests": 0
+    },
+    {
+      "label": "visual-methods-console-light-1440",
+      "ready": "true",
+      "widgets": [
+        {
+          "family": "vega",
+          "state": "ready"
+        },
+        {
+          "family": "table",
+          "state": "ready"
+        },
+        {
+          "family": "vega",
+          "state": "ready"
+        },
+        {
+          "family": "markdown",
+          "state": "ready"
+        },
+        {
+          "family": "vega",
+          "state": "ready"
+        },
+        {
+          "family": "plotly",
+          "state": "ready"
+        },
+        {
+          "family": "geometry",
+          "state": "ready"
+        },
+        {
+          "family": "neural",
+          "state": "ready"
+        },
+        {
+          "family": "vega",
+          "state": "ready"
+        },
+        {
+          "family": "table",
+          "state": "ready"
+        },
+        {
+          "family": "table",
+          "state": "ready"
+        },
+        {
+          "family": "markdown",
+          "state": "ready"
+        },
+        {
+          "family": "myst",
+          "state": "ready"
+        },
+        {
+          "family": "code",
+          "state": "ready"
+        },
+        {
+          "family": "carousel",
+          "state": "ready"
+        }
+      ],
+      "overflow": false,
+      "errors": [],
+      "links": true,
+      "cellCount": 15,
+      "remoteRequests": 0
+    },
+    {
+      "label": "visual-methods-console-light-390",
+      "ready": "true",
+      "widgets": [
+        {
+          "family": "vega",
+          "state": "ready"
+        },
+        {
+          "family": "table",
+          "state": "ready"
+        },
+        {
+          "family": "vega",
+          "state": "ready"
+        },
+        {
+          "family": "markdown",
+          "state": "ready"
+        },
+        {
+          "family": "vega",
+          "state": "ready"
+        },
+        {
+          "family": "plotly",
+          "state": "ready"
+        },
+        {
+          "family": "geometry",
+          "state": "ready"
+        },
+        {
+          "family": "neural",
+          "state": "ready"
+        },
+        {
+          "family": "vega",
+          "state": "ready"
+        },
+        {
+          "family": "table",
+          "state": "ready"
+        },
+        {
+          "family": "table",
+          "state": "ready"
+        },
+        {
+          "family": "markdown",
+          "state": "ready"
+        },
+        {
+          "family": "myst",
+          "state": "ready"
+        },
+        {
+          "family": "code",
+          "state": "ready"
+        },
+        {
+          "family": "carousel",
+          "state": "ready"
+        }
+      ],
+      "overflow": false,
+      "errors": [],
+      "links": true,
+      "cellCount": 15,
+      "remoteRequests": 0
+    },
+    {
+      "label": "visual-methods-console-dark-1440",
+      "ready": "true",
+      "widgets": [
+        {
+          "family": "vega",
+          "state": "ready"
+        },
+        {
+          "family": "table",
+          "state": "ready"
+        },
+        {
+          "family": "vega",
+          "state": "ready"
+        },
+        {
+          "family": "markdown",
+          "state": "ready"
+        },
+        {
+          "family": "vega",
+          "state": "ready"
+        },
+        {
+          "family": "plotly",
+          "state": "ready"
+        },
+        {
+          "family": "geometry",
+          "state": "ready"
+        },
+        {
+          "family": "neural",
+          "state": "ready"
+        },
+        {
+          "family": "vega",
+          "state": "ready"
+        },
+        {
+          "family": "table",
+          "state": "ready"
+        },
+        {
+          "family": "table",
+          "state": "ready"
+        },
+        {
+          "family": "markdown",
+          "state": "ready"
+        },
+        {
+          "family": "myst",
+          "state": "ready"
+        },
+        {
+          "family": "code",
+          "state": "ready"
+        },
+        {
+          "family": "carousel",
+          "state": "ready"
+        }
+      ],
+      "overflow": false,
+      "errors": [],
+      "links": true,
+      "cellCount": 15,
+      "remoteRequests": 0
+    },
+    {
+      "label": "visual-methods-console-dark-390",
+      "ready": "true",
+      "widgets": [
+        {
+          "family": "vega",
+          "state": "ready"
+        },
+        {
+          "family": "table",
+          "state": "ready"
+        },
+        {
+          "family": "vega",
+          "state": "ready"
+        },
+        {
+          "family": "markdown",
+          "state": "ready"
+        },
+        {
+          "family": "vega",
+          "state": "ready"
+        },
+        {
+          "family": "plotly",
+          "state": "ready"
+        },
+        {
+          "family": "geometry",
+          "state": "ready"
+        },
+        {
+          "family": "neural",
+          "state": "ready"
+        },
+        {
+          "family": "vega",
+          "state": "ready"
+        },
+        {
+          "family": "table",
+          "state": "ready"
+        },
+        {
+          "family": "table",
+          "state": "ready"
+        },
+        {
+          "family": "markdown",
+          "state": "ready"
+        },
+        {
+          "family": "myst",
+          "state": "ready"
+        },
+        {
+          "family": "code",
+          "state": "ready"
+        },
+        {
+          "family": "carousel",
+          "state": "ready"
+        }
+      ],
+      "overflow": false,
+      "errors": [],
+      "links": true,
+      "cellCount": 15,
+      "remoteRequests": 0
+    }
+  ],
+  "findings": []
+}

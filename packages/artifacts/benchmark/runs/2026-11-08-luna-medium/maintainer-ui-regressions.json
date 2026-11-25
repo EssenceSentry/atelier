@@ -1,0 +1,72 @@
+{
+  "results": [
+    {
+      "name": "linked-analysis",
+      "file": true
+    },
+    {
+      "name": "architecture",
+      "file": false
+    },
+    {
+      "name": "document",
+      "file": false
+    },
+    {
+      "name": "geometry",
+      "file": false
+    },
+    {
+      "name": "scientific",
+      "file": false
+    },
+    {
+      "name": "spatial",
+      "file": false
+    },
+    {
+      "name": "sanddance",
+      "file": false
+    },
+    {
+      "name": "recommend",
+      "file": false
+    },
+    {
+      "name": "rich-data",
+      "file": false
+    },
+    {
+      "name": "sql",
+      "file": false
+    },
+    {
+      "name": "inputs-media",
+      "file": false
+    },
+    {
+      "name": "chat",
+      "file": false
+    },
+    {
+      "name": "neural-metrics",
+      "epochs": 20,
+      "lastLoss": 0.10283476114273071,
+      "error": 0,
+      "tensors": 0
+    },
+    {
+      "name": "neural",
+      "file": false
+    },
+    {
+      "name": "external-viewers",
+      "file": false
+    },
+    {
+      "name": "plot-gallery",
+      "file": true
+    }
+  ],
+  "findings": []
+}

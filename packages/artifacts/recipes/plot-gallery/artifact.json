@@ -1,0 +1,10 @@
+{
+  "title": "Plot gallery",
+  "release": "0.1.0",
+  "theme": "instrument",
+  "mode": "light",
+  "profile": "portable",
+  "families": ["vega"],
+  "source": "main.js",
+  "sources": ["Bundled synthetic example rows."]
+}

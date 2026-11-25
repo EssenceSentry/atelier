@@ -5,6 +5,12 @@ description: Start and build the user's dashboards, live monitors, review and an
 
 # atelier
 
+For a **one-off HTML artifact without a repository or compilation**, load
+[`atelier-artifacts`](../atelier-artifacts/SKILL.md) and use its prebuilt release,
+recipes and packager. This covers notebook-style cards, charts, diagrams and the
+other visualization families. Use the generator below for maintained applications
+and tools that need application source or a backend.
+
 atelier generates a finished starting point: one of four screens, the theme,
 the blocks and shadcn components it is built from, and every quality gate.
 Never build these apps from an empty Vite project or a hand-written page.

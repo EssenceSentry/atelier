@@ -1,0 +1,244 @@
+{
+  "startedAt": "2026-11-08T20:31:40.111Z",
+  "model": "gpt-6-luna",
+  "reasoning": "medium",
+  "agentCount": 3,
+  "authorization": "User selected Run 3 Luna agents at medium",
+  "releaseManifest": {
+    "bytes": 11894,
+    "sha256": "3ae92059aaebe7351c0bffbf465579fcebd2472fd7d9921f82643631a8967ee5"
+  },
+  "tasks": ["analysis", "explanation", "neural"],
+  "status": "complete_with_findings",
+  "root": "/private/tmp/atelier-luna-medium-20261108-zk3Pdy",
+  "agents": {
+    "analysis": "/root/luna_analysis",
+    "explanation": "/root/luna_explanation",
+    "neural": "/root/luna_neural"
+  },
+  "completedAgentsAt": "2026-11-08T20:41:04.188Z",
+  "trials": [
+    {
+      "id": "analysis",
+      "submittedAt": "2026-11-08T20:35:01.856Z",
+      "elapsedFromRunPreparationSeconds": 201.745,
+      "attempts": [
+        {
+          "number": 1,
+          "startedAt": "2026-11-08T20:33:26.103Z",
+          "finishedAt": "2026-11-08T20:33:30.873Z",
+          "packSuccess": true,
+          "sourceLines": 87,
+          "sourceBytes": 3697,
+          "sourceSHA256": "0f296940285eb5a7f50f7225a739087090a209c9037123e524cef0ef9d7ee7ba",
+          "htmlBytes": 8227082
+        }
+      ],
+      "tokenUsage": null,
+      "tokenUsageNote": "Native collaboration interface did not expose per-agent token counts.",
+      "filesRead": [
+        "/private/tmp/atelier-luna-medium-20261108-zk3Pdy/analysis/task.json",
+        "~/.agents/skills/atelier-artifacts/SKILL.md",
+        "~/Repos/atelier/packages/artifacts/recipes/linked-analysis/main.js",
+        "~/Repos/atelier/packages/artifacts/recipes/rich-data/main.js",
+        "~/Repos/atelier/packages/artifacts/recipes/document/main.js",
+        "~/Repos/atelier/skills/atelier-artifacts/references/charts.md",
+        "~/Repos/atelier/skills/atelier-artifacts/references/data.md",
+        "~/Repos/atelier/packages/artifacts/README.md",
+        "~/Repos/atelier/packages/artifacts/scripts/check-interactions.mjs",
+        "/private/tmp/atelier-luna-medium-20261108-zk3Pdy/analysis/check.mjs",
+        "/private/tmp/atelier-luna-medium-20261108-zk3Pdy/analysis/record-pack.mjs"
+      ]
+    },
+    {
+      "id": "explanation",
+      "submittedAt": "2026-11-08T20:37:16.166Z",
+      "elapsedFromRunPreparationSeconds": 336.055,
+      "attempts": [
+        {
+          "number": 1,
+          "startedAt": "2026-11-08T20:33:55.131Z",
+          "finishedAt": "2026-11-08T20:34:00.779Z",
+          "packSuccess": true,
+          "sourceLines": 99,
+          "sourceBytes": 5185,
+          "sourceSHA256": "dd0b6d01b3705d49c721f634f107ff043412460e9404c2a1cd276f529bfd984f",
+          "htmlBytes": 10978292
+        },
+        {
+          "number": 2,
+          "startedAt": "2026-11-08T20:35:33.606Z",
+          "finishedAt": "2026-11-08T20:35:36.453Z",
+          "packSuccess": true,
+          "sourceLines": 104,
+          "sourceBytes": 5235,
+          "sourceSHA256": "98280ce42397d3f029db3e42f8168fc4ffb64e91679140ae5628c2febc2a8b0e",
+          "htmlBytes": 10978342
+        }
+      ],
+      "tokenUsage": null,
+      "tokenUsageNote": "Native collaboration interface did not expose per-agent token counts.",
+      "filesRead": [
+        "/private/tmp/atelier-luna-medium-20261108-zk3Pdy/explanation/task.json",
+        "~/.agents/skills/atelier-artifacts/SKILL.md",
+        "~/.agents/skills/atelier-artifacts/references/diagrams.md",
+        "~/.agents/skills/atelier-artifacts/references/documents.md",
+        "~/.agents/skills/atelier-artifacts/references/charts.md",
+        "~/Repos/atelier/packages/artifacts/recipes/architecture/artifact.json",
+        "~/Repos/atelier/packages/artifacts/recipes/architecture/main.js",
+        "~/Repos/atelier/packages/artifacts/recipes/scientific/main.js",
+        "~/Repos/atelier/packages/artifacts/recipes/linked-analysis/main.js",
+        "~/Repos/atelier/packages/artifacts/src/adapters/vega.js",
+        "~/Repos/atelier/packages/theme/src/viz.ts",
+        "/private/tmp/atelier-luna-medium-20261108-zk3Pdy/explanation/check.mjs",
+        "/private/tmp/atelier-luna-medium-20261108-zk3Pdy/explanation/checks/attempt-01/results.json",
+        "/private/tmp/atelier-luna-medium-20261108-zk3Pdy/explanation/checks/attempt-02/results.json"
+      ]
+    },
+    {
+      "id": "neural",
+      "submittedAt": "2026-11-08T20:35:50.331Z",
+      "elapsedFromRunPreparationSeconds": 250.22,
+      "attempts": [
+        {
+          "number": 1,
+          "startedAt": "2026-11-08T20:34:12.659Z",
+          "finishedAt": "2026-11-08T20:34:13.884Z",
+          "packSuccess": true,
+          "sourceLines": 95,
+          "sourceBytes": 4354,
+          "sourceSHA256": "cdda69b1b6ee7225cf8de2046a5e4d0b533fc2d8625c8448c76b75095748d281",
+          "htmlBytes": 6194321
+        }
+      ],
+      "tokenUsage": null,
+      "tokenUsageNote": "Native collaboration interface did not expose per-agent token counts.",
+      "filesRead": [
+        "/private/tmp/atelier-luna-medium-20261108-zk3Pdy/neural/task.json",
+        "~/.agents/skills/atelier-artifacts/SKILL.md",
+        "~/.agents/skills/atelier-artifacts/references/neural.md",
+        "~/.agents/skills/atelier-artifacts/references/data.md",
+        "~/Repos/atelier/packages/artifacts/recipes/neural/main.js",
+        "~/Repos/atelier/packages/artifacts/recipes/neural/artifact.json",
+        "~/Repos/atelier/packages/artifacts/recipes/sql/main.js",
+        "~/Repos/atelier/packages/artifacts/recipes/sql/artifact.json",
+        "~/Repos/atelier/packages/artifacts/recipes/document/main.js",
+        "~/Repos/atelier/packages/artifacts/recipes/document/artifact.json",
+        "~/Repos/atelier/packages/artifacts/src/adapters/neural.js",
+        "~/Repos/atelier/packages/artifacts/scripts/pack.mjs",
+        "/private/tmp/atelier-luna-medium-20261108-zk3Pdy/neural/record-pack.mjs",
+        "/private/tmp/atelier-luna-medium-20261108-zk3Pdy/neural/check.mjs"
+      ]
+    }
+  ],
+  "completedAt": "2026-11-08T20:59:31.238Z",
+  "frozenKitUnchangedDuringTrials": true,
+  "frozenKitCheck": "frozen-kit-check.json",
+  "scoring": {
+    "rubric": [
+      "workflow",
+      "evidence_and_data",
+      "interactions",
+      "consistent_ui",
+      "runtime_and_navigation"
+    ],
+    "pointsPerCategory": 2,
+    "analysis": {
+      "first": [2, 2, 1, 2, 2],
+      "final": [2, 2, 1, 2, 2],
+      "note": "The intended chart-and-table filter assertion fails; the task prose originally mentioned a scatter group filter without explicitly saying the table must also filter. This is a prompt ambiguity, not proof of a model limitation."
+    },
+    "explanation": {
+      "first": [2, 2, 2, 1, 2],
+      "final": [2, 2, 2, 2, 2],
+      "note": "One self-directed repair replaced three hard-coded colours with shared theme defaults. Both attempts render; calculations, dragging, zoom and both snapshots passed independently."
+    },
+    "neural": {
+      "first": [2, 2, 2, 1, 1],
+      "final": [2, 2, 2, 1, 1],
+      "note": "All model/data/export checks passed. Training followed by phone resizing overflowed because the shared adapters did not redraw history/matrix charts. This is a kit defect, penalized in UI and runtime/overflow criteria, not a Luna authoring error."
+    }
+  },
+  "acceptance": {
+    "frozenReleasePassed": false,
+    "reason": "Neural scored 8/10 because a trained-state resize exposed a shared adapter defect. The ambiguous analysis filter assertion also needs clarification.",
+    "maintainerFixNotANewLunaTrial": true,
+    "sampleLimit": "Three tasks, one authoring agent per task. This does not estimate general reliability or compare models."
+  },
+  "maintainerFollowup": {
+    "sharedNeuralAndTfvisResize": true,
+    "detachedViewCleanup": true,
+    "sourceColourPreflight": true,
+    "defaultScreenshots": false,
+    "validatedNeuralPredictionTableRecipe": true,
+    "analysisPromptClarified": true,
+    "authorSourceUnchangedForNeuralRepack": true,
+    "newLunaTrialRun": false
+  },
+  "archiveRoot": "~/.codex/visualizations/2026/11/08/01a1bb8c-04be-78e0-9319-bbe2ea94d729/luna-benchmark",
+  "artifactStats": [
+    {
+      "task": "analysis",
+      "attempts": [
+        {
+          "number": 1,
+          "htmlSHA256": "1d13c317f8241b8e316f700ac1967cd397715514e57998a3d11b12cc4470dc39",
+          "reviewPath": "analysis/attempt-01/output.html",
+          "startedAt": "2026-11-08T20:33:26.103Z",
+          "finishedAt": "2026-11-08T20:33:30.873Z",
+          "packSuccess": true,
+          "sourceLines": 87,
+          "sourceBytes": 3697,
+          "sourceSHA256": "0f296940285eb5a7f50f7225a739087090a209c9037123e524cef0ef9d7ee7ba",
+          "htmlBytes": 8227082
+        }
+      ]
+    },
+    {
+      "task": "explanation",
+      "attempts": [
+        {
+          "number": 1,
+          "htmlSHA256": "c0eff1906de39273e309c5b7e40eae3ba5a3e5df12bbf8036a3339a43c7359a5",
+          "reviewPath": "explanation/attempt-01/output.html",
+          "startedAt": "2026-11-08T20:33:55.131Z",
+          "finishedAt": "2026-11-08T20:34:00.779Z",
+          "packSuccess": true,
+          "sourceLines": 99,
+          "sourceBytes": 5185,
+          "sourceSHA256": "dd0b6d01b3705d49c721f634f107ff043412460e9404c2a1cd276f529bfd984f",
+          "htmlBytes": 10978292
+        },
+        {
+          "number": 2,
+          "htmlSHA256": "0113562f55959a5d3bcf609b2196ad118169b1e450eea48e03145e2518fc522d",
+          "reviewPath": "explanation/attempt-02/output.html",
+          "startedAt": "2026-11-08T20:35:33.606Z",
+          "finishedAt": "2026-11-08T20:35:36.453Z",
+          "packSuccess": true,
+          "sourceLines": 104,
+          "sourceBytes": 5235,
+          "sourceSHA256": "98280ce42397d3f029db3e42f8168fc4ffb64e91679140ae5628c2febc2a8b0e",
+          "htmlBytes": 10978342
+        }
+      ]
+    },
+    {
+      "task": "neural",
+      "attempts": [
+        {
+          "number": 1,
+          "htmlSHA256": "45acd621da5a353195c623fb128b4ff773fa82e1b58c376333e73052b772b1a7",
+          "reviewPath": "neural/attempt-01/output.html",
+          "startedAt": "2026-11-08T20:34:12.659Z",
+          "finishedAt": "2026-11-08T20:34:13.884Z",
+          "packSuccess": true,
+          "sourceLines": 95,
+          "sourceBytes": 4354,
+          "sourceSHA256": "cdda69b1b6ee7225cf8de2046a5e4d0b533fc2d8625c8448c76b75095748d281",
+          "htmlBytes": 6194321
+        }
+      ]
+    }
+  ]
+}

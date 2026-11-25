@@ -1,0 +1,33 @@
+{
+  "attempt": 1,
+  "startedAt": "2026-11-08T23:10:57.670Z",
+  "configFile": "/private/tmp/atelier-fresh-ui-20261108/architecture/author/artifact.json",
+  "output": "/private/tmp/atelier-fresh-ui-20261108/architecture/author/output.html",
+  "sourceLines": 196,
+  "sourceBytes": 15011,
+  "sourceSHA256": "93feaebaccbcf6311c4ef60be6a021f8202257d496ef7f63a3a26ddfcc8408dd",
+  "packSuccess": true,
+  "result": {
+    "output": "/private/tmp/atelier-fresh-ui-20261108/architecture/author/output.html",
+    "bytes": 14955813,
+    "version": "0.1.0",
+    "title": "Architecture investigation notebook",
+    "profile": "browser",
+    "families": [
+      "flow",
+      "mermaid",
+      "icons",
+      "markdown",
+      "table",
+      "code",
+      "media",
+      "carousel",
+      "json"
+    ],
+    "capabilities": ["worker", "data-worker"],
+    "sources": ["Illustrative fixture supplied for UI evaluation; no production evidence."],
+    "builtFrom": "artifact.json",
+    "requiresHTTP": false
+  },
+  "finishedAt": "2026-11-08T23:11:07.381Z"
+}

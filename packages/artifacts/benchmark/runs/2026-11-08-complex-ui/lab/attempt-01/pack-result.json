@@ -1,0 +1,12 @@
+{
+  "attempt": 1,
+  "startedAt": "2026-11-08T21:38:39.360Z",
+  "configFile": "/private/tmp/atelier-complex-ui-20261108/lab/author/artifact.json",
+  "output": "/private/tmp/atelier-complex-ui-20261108/lab/author/output.html",
+  "sourceLines": 43,
+  "sourceBytes": 12489,
+  "sourceSHA256": "21c20f7799bf8489fc6147ad3d9f204b78754a5ee8a22fb6b4870574dc200554",
+  "packSuccess": false,
+  "error": "Unknown family: tfvis",
+  "finishedAt": "2026-11-08T21:38:39.364Z"
+}

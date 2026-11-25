@@ -1,0 +1,802 @@
+{
+  "status": "completed",
+  "model": "gpt-6-luna",
+  "effort": "medium",
+  "agents": 3,
+  "rule": "Three fresh Luna-medium agents approved and completed. Another delegation needs fresh approval.",
+  "tasks": [
+    {
+      "title": "Evidence review workspace",
+      "theme": "editorial",
+      "prompt": "Create a complex review notebook with at least 7 cells. Overview uses metrics and an illustrative-data notice. A Group selector (All/North/South/West) and Record search jointly filter both the chart and rich table; keep reset discoverable. The rich table has thumbnail, long title, status badge, score, decision select (Pending/Accept/Reject), and Inspect action; sort and pagination must remain after decision changes. Inspect opens selected-record detail tabs (summary, image comparison, JSON). Decisions and a local draft note survive filtering and tab changes; selected view follows the clicked stable id. Include image carousel, highlighted SQL example (no SQL execution needed), full-width Markdown guidance and a scripted local chat explicitly labeled as such. Export all 24 decisions, including filtered-out records. Use families from table/vega/media/carousel/json/markdown/code/chat. Make an empty shared-filter state recoverable. All interactions must be wired. Use the supplied new records, including the long titles; adapt the recipe rather than leaving its example records. No author visual review of normal UI should be needed.",
+      "data": [
+        {
+          "id": "h01",
+          "title": "Coastal sensor comparison: dawn observations and restoration context \u2014 example 1",
+          "group": "North",
+          "status": "Ready",
+          "decision": "Pending",
+          "score": 0.2,
+          "volume": 21,
+          "summary": "Illustrative evidence record with a deliberately longer title and local review metadata.",
+          "imageIndex": 0,
+          "metadata": {
+            "origin": "supplied fixture",
+            "revision": 1,
+            "tags": ["illustrative", "field"]
+          }
+        },
+        {
+          "id": "h02",
+          "title": "Metropolitan mobility evidence: a multi-view review of local streets \u2014 example 2",
+          "group": "South",
+          "status": "Pending",
+          "decision": "Pending",
+          "score": 0.3,
+          "volume": 30,
+          "summary": "Illustrative evidence record with a deliberately longer title and local review metadata.",
+          "imageIndex": 1,
+          "metadata": {
+            "origin": "supplied fixture",
+            "revision": 2,
+            "tags": ["illustrative", "city"]
+          }
+        },
+        {
+          "id": "h03",
+          "title": "Reservoir field record: habitat observations after seasonal change \u2014 example 3",
+          "group": "West",
+          "status": "Flagged",
+          "decision": "Pending",
+          "score": 0.4,
+          "volume": 39,
+          "summary": "Illustrative evidence record with a deliberately longer title and local review metadata.",
+          "imageIndex": 2,
+          "metadata": {
+            "origin": "supplied fixture",
+            "revision": 3,
+            "tags": ["illustrative", "water"]
+          }
+        },
+        {
+          "id": "h04",
+          "title": "Coastal sensor comparison: dawn observations and restoration context \u2014 example 4",
+          "group": "North",
+          "status": "Ready",
+          "decision": "Pending",
+          "score": 0.5,
+          "volume": 48,
+          "summary": "Illustrative evidence record with a deliberately longer title and local review metadata.",
+          "imageIndex": 0,
+          "metadata": {
+            "origin": "supplied fixture",
+            "revision": 4,
+            "tags": ["illustrative", "field"]
+          }
+        },
+        {
+          "id": "h05",
+          "title": "Metropolitan mobility evidence: a multi-view review of local streets \u2014 example 5",
+          "group": "South",
+          "status": "Pending",
+          "decision": "Pending",
+          "score": 0.6,
+          "volume": 57,
+          "summary": "Illustrative evidence record with a deliberately longer title and local review metadata.",
+          "imageIndex": 1,
+          "metadata": {
+            "origin": "supplied fixture",
+            "revision": 1,
+            "tags": ["illustrative", "city"]
+          }
+        },
+        {
+          "id": "h06",
+          "title": "Reservoir field record: habitat observations after seasonal change \u2014 example 6",
+          "group": "West",
+          "status": "Flagged",
+          "decision": "Pending",
+          "score": 0.7,
+          "volume": 66,
+          "summary": "Illustrative evidence record with a deliberately longer title and local review metadata.",
+          "imageIndex": 2,
+          "metadata": {
+            "origin": "supplied fixture",
+            "revision": 2,
+            "tags": ["illustrative", "water"]
+          }
+        },
+        {
+          "id": "h07",
+          "title": "Coastal sensor comparison: dawn observations and restoration context \u2014 example 7",
+          "group": "North",
+          "status": "Ready",
+          "decision": "Pending",
+          "score": 0.8,
+          "volume": 75,
+          "summary": "Illustrative evidence record with a deliberately longer title and local review metadata.",
+          "imageIndex": 0,
+          "metadata": {
+            "origin": "supplied fixture",
+            "revision": 3,
+            "tags": ["illustrative", "field"]
+          }
+        },
+        {
+          "id": "h08",
+          "title": "Metropolitan mobility evidence: a multi-view review of local streets \u2014 example 8",
+          "group": "South",
+          "status": "Pending",
+          "decision": "Pending",
+          "score": 0.2,
+          "volume": 84,
+          "summary": "Illustrative evidence record with a deliberately longer title and local review metadata.",
+          "imageIndex": 1,
+          "metadata": {
+            "origin": "supplied fixture",
+            "revision": 4,
+            "tags": ["illustrative", "city"]
+          }
+        },
+        {
+          "id": "h09",
+          "title": "Reservoir field record: habitat observations after seasonal change \u2014 example 9",
+          "group": "West",
+          "status": "Flagged",
+          "decision": "Pending",
+          "score": 0.3,
+          "volume": 93,
+          "summary": "Illustrative evidence record with a deliberately longer title and local review metadata.",
+          "imageIndex": 2,
+          "metadata": {
+            "origin": "supplied fixture",
+            "revision": 1,
+            "tags": ["illustrative", "water"]
+          }
+        },
+        {
+          "id": "h10",
+          "title": "Coastal sensor comparison: dawn observations and restoration context \u2014 example 10",
+          "group": "North",
+          "status": "Ready",
+          "decision": "Pending",
+          "score": 0.4,
+          "volume": 102,
+          "summary": "Illustrative evidence record with a deliberately longer title and local review metadata.",
+          "imageIndex": 0,
+          "metadata": {
+            "origin": "supplied fixture",
+            "revision": 2,
+            "tags": ["illustrative", "field"]
+          }
+        },
+        {
+          "id": "h11",
+          "title": "Metropolitan mobility evidence: a multi-view review of local streets \u2014 example 11",
+          "group": "South",
+          "status": "Pending",
+          "decision": "Pending",
+          "score": 0.5,
+          "volume": 111,
+          "summary": "Illustrative evidence record with a deliberately longer title and local review metadata.",
+          "imageIndex": 1,
+          "metadata": {
+            "origin": "supplied fixture",
+            "revision": 3,
+            "tags": ["illustrative", "city"]
+          }
+        },
+        {
+          "id": "h12",
+          "title": "Reservoir field record: habitat observations after seasonal change \u2014 example 12",
+          "group": "West",
+          "status": "Flagged",
+          "decision": "Pending",
+          "score": 0.6,
+          "volume": 120,
+          "summary": "Illustrative evidence record with a deliberately longer title and local review metadata.",
+          "imageIndex": 2,
+          "metadata": {
+            "origin": "supplied fixture",
+            "revision": 4,
+            "tags": ["illustrative", "water"]
+          }
+        },
+        {
+          "id": "h13",
+          "title": "Coastal sensor comparison: dawn observations and restoration context \u2014 example 13",
+          "group": "North",
+          "status": "Ready",
+          "decision": "Pending",
+          "score": 0.7,
+          "volume": 129,
+          "summary": "Illustrative evidence record with a deliberately longer title and local review metadata.",
+          "imageIndex": 0,
+          "metadata": {
+            "origin": "supplied fixture",
+            "revision": 1,
+            "tags": ["illustrative", "field"]
+          }
+        },
+        {
+          "id": "h14",
+          "title": "Metropolitan mobility evidence: a multi-view review of local streets \u2014 example 14",
+          "group": "South",
+          "status": "Pending",
+          "decision": "Pending",
+          "score": 0.8,
+          "volume": 138,
+          "summary": "Illustrative evidence record with a deliberately longer title and local review metadata.",
+          "imageIndex": 1,
+          "metadata": {
+            "origin": "supplied fixture",
+            "revision": 2,
+            "tags": ["illustrative", "city"]
+          }
+        },
+        {
+          "id": "h15",
+          "title": "Reservoir field record: habitat observations after seasonal change \u2014 example 15",
+          "group": "West",
+          "status": "Flagged",
+          "decision": "Pending",
+          "score": 0.2,
+          "volume": 147,
+          "summary": "Illustrative evidence record with a deliberately longer title and local review metadata.",
+          "imageIndex": 2,
+          "metadata": {
+            "origin": "supplied fixture",
+            "revision": 3,
+            "tags": ["illustrative", "water"]
+          }
+        },
+        {
+          "id": "h16",
+          "title": "Coastal sensor comparison: dawn observations and restoration context \u2014 example 16",
+          "group": "North",
+          "status": "Ready",
+          "decision": "Pending",
+          "score": 0.3,
+          "volume": 156,
+          "summary": "Illustrative evidence record with a deliberately longer title and local review metadata.",
+          "imageIndex": 0,
+          "metadata": {
+            "origin": "supplied fixture",
+            "revision": 4,
+            "tags": ["illustrative", "field"]
+          }
+        },
+        {
+          "id": "h17",
+          "title": "Metropolitan mobility evidence: a multi-view review of local streets \u2014 example 17",
+          "group": "South",
+          "status": "Pending",
+          "decision": "Pending",
+          "score": 0.4,
+          "volume": 165,
+          "summary": "Illustrative evidence record with a deliberately longer title and local review metadata.",
+          "imageIndex": 1,
+          "metadata": {
+            "origin": "supplied fixture",
+            "revision": 1,
+            "tags": ["illustrative", "city"]
+          }
+        },
+        {
+          "id": "h18",
+          "title": "Reservoir field record: habitat observations after seasonal change \u2014 example 18",
+          "group": "West",
+          "status": "Flagged",
+          "decision": "Pending",
+          "score": 0.5,
+          "volume": 174,
+          "summary": "Illustrative evidence record with a deliberately longer title and local review metadata.",
+          "imageIndex": 2,
+          "metadata": {
+            "origin": "supplied fixture",
+            "revision": 2,
+            "tags": ["illustrative", "water"]
+          }
+        },
+        {
+          "id": "h19",
+          "title": "Coastal sensor comparison: dawn observations and restoration context \u2014 example 19",
+          "group": "North",
+          "status": "Ready",
+          "decision": "Pending",
+          "score": 0.6,
+          "volume": 183,
+          "summary": "Illustrative evidence record with a deliberately longer title and local review metadata.",
+          "imageIndex": 0,
+          "metadata": {
+            "origin": "supplied fixture",
+            "revision": 1,
+            "tags": ["illustrative", "field"]
+          }
+        },
+        {
+          "id": "h20",
+          "title": "Metropolitan mobility evidence: a multi-view review of local streets \u2014 example 20",
+          "group": "South",
+          "status": "Pending",
+          "decision": "Pending",
+          "score": 0.7,
+          "volume": 192,
+          "summary": "Illustrative evidence record with a deliberately longer title and local review metadata.",
+          "imageIndex": 1,
+          "metadata": {
+            "origin": "supplied fixture",
+            "revision": 2,
+            "tags": ["illustrative", "city"]
+          }
+        },
+        {
+          "id": "h21",
+          "title": "Reservoir field record: habitat observations after seasonal change \u2014 example 21",
+          "group": "West",
+          "status": "Flagged",
+          "decision": "Pending",
+          "score": 0.8,
+          "volume": 201,
+          "summary": "Illustrative evidence record with a deliberately longer title and local review metadata.",
+          "imageIndex": 2,
+          "metadata": {
+            "origin": "supplied fixture",
+            "revision": 3,
+            "tags": ["illustrative", "water"]
+          }
+        },
+        {
+          "id": "h22",
+          "title": "Coastal sensor comparison: dawn observations and restoration context \u2014 example 22",
+          "group": "North",
+          "status": "Ready",
+          "decision": "Pending",
+          "score": 0.2,
+          "volume": 210,
+          "summary": "Illustrative evidence record with a deliberately longer title and local review metadata.",
+          "imageIndex": 0,
+          "metadata": {
+            "origin": "supplied fixture",
+            "revision": 4,
+            "tags": ["illustrative", "field"]
+          }
+        },
+        {
+          "id": "h23",
+          "title": "Metropolitan mobility evidence: a multi-view review of local streets \u2014 example 23",
+          "group": "South",
+          "status": "Pending",
+          "decision": "Pending",
+          "score": 0.3,
+          "volume": 219,
+          "summary": "Illustrative evidence record with a deliberately longer title and local review metadata.",
+          "imageIndex": 1,
+          "metadata": {
+            "origin": "supplied fixture",
+            "revision": 1,
+            "tags": ["illustrative", "city"]
+          }
+        },
+        {
+          "id": "h24",
+          "title": "Reservoir field record: habitat observations after seasonal change \u2014 example 24",
+          "group": "West",
+          "status": "Flagged",
+          "decision": "Pending",
+          "score": 0.4,
+          "volume": 228,
+          "summary": "Illustrative evidence record with a deliberately longer title and local review metadata.",
+          "imageIndex": 2,
+          "metadata": {
+            "origin": "supplied fixture",
+            "revision": 2,
+            "tags": ["illustrative", "water"]
+          }
+        }
+      ],
+      "id": "fresh-review",
+      "dataLabel": "Illustrative fixture supplied for UI evaluation; no production evidence.",
+      "images": [
+        "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22800%22%20height%3D%22450%22%3E%3Crect%20width%3D%22800%22%20height%3D%22450%22%20fill%3D%22%23406b58%22/%3E%3Ccircle%20cx%3D%22590%22%20cy%3D%22150%22%20r%3D%2290%22%20fill%3D%22white%22%20opacity%3D%22.2%22/%3E%3Cpath%20d%3D%22M0%20400L250%20180L500%20400L700%20240L800%20400%22%20fill%3D%22white%22%20opacity%3D%22.3%22/%3E%3Ctext%20x%3D%2250%22%20y%3D%2285%22%20fill%3D%22white%22%20font-family%3D%22sans-serif%22%20font-size%3D%2236%22%3EField%20%C2%B7%20illustrative%20evidence%3C/text%3E%3C/svg%3E",
+        "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22800%22%20height%3D%22450%22%3E%3Crect%20width%3D%22800%22%20height%3D%22450%22%20fill%3D%22%236a6288%22/%3E%3Ccircle%20cx%3D%22590%22%20cy%3D%22150%22%20r%3D%2290%22%20fill%3D%22white%22%20opacity%3D%22.2%22/%3E%3Cpath%20d%3D%22M0%20400L250%20180L500%20400L700%20240L800%20400%22%20fill%3D%22white%22%20opacity%3D%22.3%22/%3E%3Ctext%20x%3D%2250%22%20y%3D%2285%22%20fill%3D%22white%22%20font-family%3D%22sans-serif%22%20font-size%3D%2236%22%3ECity%20%C2%B7%20illustrative%20evidence%3C/text%3E%3C/svg%3E",
+        "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22800%22%20height%3D%22450%22%3E%3Crect%20width%3D%22800%22%20height%3D%22450%22%20fill%3D%22%233a7191%22/%3E%3Ccircle%20cx%3D%22590%22%20cy%3D%22150%22%20r%3D%2290%22%20fill%3D%22white%22%20opacity%3D%22.2%22/%3E%3Cpath%20d%3D%22M0%20400L250%20180L500%20400L700%20240L800%20400%22%20fill%3D%22white%22%20opacity%3D%22.3%22/%3E%3Ctext%20x%3D%2250%22%20y%3D%2285%22%20fill%3D%22white%22%20font-family%3D%22sans-serif%22%20font-size%3D%2236%22%3EWater%20%C2%B7%20illustrative%20evidence%3C/text%3E%3C/svg%3E"
+      ]
+    },
+    {
+      "title": "Architecture investigation notebook",
+      "theme": "console",
+      "prompt": "Create an architecture investigation notebook with at least 7 cells and a 12-node AWS workflow. Use the supplied node descriptions, real matching bundled AWS icons and status badges. Keep nodes readable by default; provide Fit overview and Focus selected actions. Selecting a node by clicking or selector updates a detail inspector with tabs for Summary (Markdown), Properties (JSON), and highlighted SQL/JSON example (code). A local incident note persists between tabs. A health selector (All/Ready/Warning) highlights matching nodes without removing the topology. Include an independently zoomable Mermaid request sequence, a table of services with an Inspect action that selects/focuses the same node, an evidence carousel and full-width operational guide. Flow and Mermaid each open in a canvas-only new tab preserving current view. Export selected id and notes. Sidebar links scroll. Use supplied graph data without backend claims. Use the supplied variant topology and descriptions, not the recipe topology. Keep the graph readable and retained state correct while emphasizing health and selecting distant services.",
+      "data": {
+        "nodes": [
+          {
+            "id": "n1",
+            "service": "Amazon API Gateway",
+            "label": "Amazon API Gateway \u2014 public request entry",
+            "description": "Illustrative research workspace. Validate authenticated requests and route supported API versions. Retain stable record identifiers in the review trail.",
+            "status": "Ready"
+          },
+          {
+            "id": "n2",
+            "service": "AWS Lambda",
+            "label": "AWS Lambda \u2014 request validation",
+            "description": "Illustrative research workspace. Validate payload shape and attach a trace identifier. Retain stable record identifiers in the review trail.",
+            "status": "Ready"
+          },
+          {
+            "id": "n3",
+            "service": "Amazon S3",
+            "label": "Amazon S3 \u2014 immutable input archive",
+            "description": "Illustrative research workspace. Store source objects and versioned evidence for reproducible review. Retain stable record identifiers in the review trail.",
+            "status": "Ready"
+          },
+          {
+            "id": "n4",
+            "service": "Amazon SQS",
+            "label": "Amazon SQS \u2014 durable processing queue",
+            "description": "Illustrative research workspace. Buffer ingestion bursts and expose retry and dead-letter state. Retain stable record identifiers in the review trail.",
+            "status": "Warning"
+          },
+          {
+            "id": "n5",
+            "service": "AWS Step Functions",
+            "label": "AWS Step Functions \u2014 workflow orchestration",
+            "description": "Illustrative research workspace. Coordinate preparation, inference and result publication. Retain stable record identifiers in the review trail.",
+            "status": "Ready"
+          },
+          {
+            "id": "n6",
+            "service": "Amazon SageMaker AI",
+            "label": "Amazon SageMaker AI \u2014 classifier endpoint",
+            "description": "Illustrative research workspace. Apply a supplied versioned classifier to prepared records. Retain stable record identifiers in the review trail.",
+            "status": "Ready"
+          },
+          {
+            "id": "n7",
+            "service": "Amazon DynamoDB",
+            "label": "Amazon DynamoDB \u2014 review decision state",
+            "description": "Illustrative research workspace. Persist stable record identifiers and reviewer decisions. Retain stable record identifiers in the review trail.",
+            "status": "Ready"
+          },
+          {
+            "id": "n8",
+            "service": "Amazon EventBridge",
+            "label": "Amazon EventBridge \u2014 completion events",
+            "description": "Illustrative research workspace. Dispatch completion events to interested consumers. Retain stable record identifiers in the review trail.",
+            "status": "Ready"
+          },
+          {
+            "id": "n9",
+            "service": "Amazon CloudWatch",
+            "label": "Amazon CloudWatch \u2014 operational telemetry",
+            "description": "Illustrative research workspace. Collect logs, latency and processing-error indicators. Retain stable record identifiers in the review trail.",
+            "status": "Warning"
+          },
+          {
+            "id": "n10",
+            "service": "AWS IAM",
+            "label": "AWS IAM \u2014 service authorization",
+            "description": "Illustrative research workspace. Grant least-privilege access to the illustrative components. Retain stable record identifiers in the review trail.",
+            "status": "Ready"
+          },
+          {
+            "id": "n11",
+            "service": "AWS KMS",
+            "label": "AWS KMS \u2014 key management",
+            "description": "Illustrative research workspace. Represent encryption key ownership and rotation policy. Retain stable record identifiers in the review trail.",
+            "status": "Ready"
+          },
+          {
+            "id": "n12",
+            "service": "Amazon Athena",
+            "label": "Amazon Athena \u2014 audit query workspace",
+            "description": "Illustrative research workspace. Query archived evidence and inspect historical processing summaries. Retain stable record identifiers in the review trail.",
+            "status": "Ready"
+          }
+        ],
+        "edges": [
+          [1, 2],
+          [2, 3],
+          [2, 4],
+          [3, 12],
+          [4, 5],
+          [5, 6],
+          [5, 9],
+          [6, 7],
+          [7, 8],
+          [8, 9],
+          [10, 2],
+          [10, 6],
+          [11, 3]
+        ]
+      },
+      "id": "fresh-architecture",
+      "dataLabel": "Illustrative fixture supplied for UI evaluation; no production evidence.",
+      "images": [
+        "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22800%22%20height%3D%22450%22%3E%3Crect%20width%3D%22800%22%20height%3D%22450%22%20fill%3D%22%23406b58%22/%3E%3Ccircle%20cx%3D%22590%22%20cy%3D%22150%22%20r%3D%2290%22%20fill%3D%22white%22%20opacity%3D%22.2%22/%3E%3Cpath%20d%3D%22M0%20400L250%20180L500%20400L700%20240L800%20400%22%20fill%3D%22white%22%20opacity%3D%22.3%22/%3E%3Ctext%20x%3D%2250%22%20y%3D%2285%22%20fill%3D%22white%22%20font-family%3D%22sans-serif%22%20font-size%3D%2236%22%3EField%20%C2%B7%20illustrative%20evidence%3C/text%3E%3C/svg%3E",
+        "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22800%22%20height%3D%22450%22%3E%3Crect%20width%3D%22800%22%20height%3D%22450%22%20fill%3D%22%236a6288%22/%3E%3Ccircle%20cx%3D%22590%22%20cy%3D%22150%22%20r%3D%2290%22%20fill%3D%22white%22%20opacity%3D%22.2%22/%3E%3Cpath%20d%3D%22M0%20400L250%20180L500%20400L700%20240L800%20400%22%20fill%3D%22white%22%20opacity%3D%22.3%22/%3E%3Ctext%20x%3D%2250%22%20y%3D%2285%22%20fill%3D%22white%22%20font-family%3D%22sans-serif%22%20font-size%3D%2236%22%3ECity%20%C2%B7%20illustrative%20evidence%3C/text%3E%3C/svg%3E",
+        "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22800%22%20height%3D%22450%22%3E%3Crect%20width%3D%22800%22%20height%3D%22450%22%20fill%3D%22%233a7191%22/%3E%3Ccircle%20cx%3D%22590%22%20cy%3D%22150%22%20r%3D%2290%22%20fill%3D%22white%22%20opacity%3D%22.2%22/%3E%3Cpath%20d%3D%22M0%20400L250%20180L500%20400L700%20240L800%20400%22%20fill%3D%22white%22%20opacity%3D%22.3%22/%3E%3Ctext%20x%3D%2250%22%20y%3D%2285%22%20fill%3D%22white%22%20font-family%3D%22sans-serif%22%20font-size%3D%2236%22%3EWater%20%C2%B7%20illustrative%20evidence%3C/text%3E%3C/svg%3E"
+      ]
+    },
+    {
+      "title": "Visual methods lab",
+      "theme": "instrument",
+      "prompt": "Create a complex visual methods notebook with at least 9 cells: overview metrics/notice; linked supplied-point charts with Group filter; a plot-gallery cell with select choosing scatter, line or histogram of supplied fixture values; a scientific Plotly surface (supplied x/y/z) with Surface and Cross section tabs; adjustable JSXGraph geometric construction from the geometry recipe; a browser neural lab from the neural recipe with controls in the left rail and diagnostics/predictions in separate cells; a table of supplied observations with inspect/select; MyST documentation plus highlighted code; and an image carousel. Add canvas-only new-tab snapshots for serializable chart canvases. A local experiment note survives tab changes; the group filter updates both linked charts/table, with reset and empty state. Use at least 8 family packs. Preserve training state during tabs and resize. Use fixtures and recipe computations, no new scientific claims. Prioritize composition, readable chart labels, responsive stateful controls and meaningful action hierarchy. Use the supplied 36-point variant fixture in all linked/gallery/register views. Reuse the complete visual-methods recipe and its theme defaults. Check trained-state resizing and tab round trips with automation.",
+      "data": {
+        "points": [
+          {
+            "id": "hp1",
+            "x": 0.0,
+            "y": 0.1,
+            "group": "A",
+            "decision": "Pending"
+          },
+          {
+            "id": "hp2",
+            "x": 0.2,
+            "y": 0.32,
+            "group": "B",
+            "decision": "Pending"
+          },
+          {
+            "id": "hp3",
+            "x": 0.4,
+            "y": 0.54,
+            "group": "C",
+            "decision": "Pending"
+          },
+          {
+            "id": "hp4",
+            "x": 0.6,
+            "y": 0.76,
+            "group": "A",
+            "decision": "Pending"
+          },
+          {
+            "id": "hp5",
+            "x": 0.8,
+            "y": 0.98,
+            "group": "B",
+            "decision": "Pending"
+          },
+          {
+            "id": "hp6",
+            "x": 1.0,
+            "y": 1.2,
+            "group": "C",
+            "decision": "Pending"
+          },
+          {
+            "id": "hp7",
+            "x": 1.2,
+            "y": 1.42,
+            "group": "A",
+            "decision": "Pending"
+          },
+          {
+            "id": "hp8",
+            "x": 1.4,
+            "y": 1.64,
+            "group": "B",
+            "decision": "Pending"
+          },
+          {
+            "id": "hp9",
+            "x": 1.6,
+            "y": 1.86,
+            "group": "C",
+            "decision": "Pending"
+          },
+          {
+            "id": "hp10",
+            "x": 1.8,
+            "y": 0.1,
+            "group": "A",
+            "decision": "Pending"
+          },
+          {
+            "id": "hp11",
+            "x": 2.0,
+            "y": 0.32,
+            "group": "B",
+            "decision": "Pending"
+          },
+          {
+            "id": "hp12",
+            "x": 2.2,
+            "y": 0.54,
+            "group": "C",
+            "decision": "Pending"
+          },
+          {
+            "id": "hp13",
+            "x": 2.4,
+            "y": 0.76,
+            "group": "A",
+            "decision": "Pending"
+          },
+          {
+            "id": "hp14",
+            "x": 2.6,
+            "y": 0.98,
+            "group": "B",
+            "decision": "Pending"
+          },
+          {
+            "id": "hp15",
+            "x": 2.8,
+            "y": 1.2,
+            "group": "C",
+            "decision": "Pending"
+          },
+          {
+            "id": "hp16",
+            "x": 3.0,
+            "y": 1.42,
+            "group": "A",
+            "decision": "Pending"
+          },
+          {
+            "id": "hp17",
+            "x": 3.2,
+            "y": 1.64,
+            "group": "B",
+            "decision": "Pending"
+          },
+          {
+            "id": "hp18",
+            "x": 3.4,
+            "y": 1.86,
+            "group": "C",
+            "decision": "Pending"
+          },
+          {
+            "id": "hp19",
+            "x": 3.6,
+            "y": 0.1,
+            "group": "A",
+            "decision": "Pending"
+          },
+          {
+            "id": "hp20",
+            "x": 3.8,
+            "y": 0.32,
+            "group": "B",
+            "decision": "Pending"
+          },
+          {
+            "id": "hp21",
+            "x": 4.0,
+            "y": 0.54,
+            "group": "C",
+            "decision": "Pending"
+          },
+          {
+            "id": "hp22",
+            "x": 4.2,
+            "y": 0.76,
+            "group": "A",
+            "decision": "Pending"
+          },
+          {
+            "id": "hp23",
+            "x": 4.4,
+            "y": 0.98,
+            "group": "B",
+            "decision": "Pending"
+          },
+          {
+            "id": "hp24",
+            "x": 4.6,
+            "y": 1.2,
+            "group": "C",
+            "decision": "Pending"
+          },
+          {
+            "id": "hp25",
+            "x": 4.8,
+            "y": 1.42,
+            "group": "A",
+            "decision": "Pending"
+          },
+          {
+            "id": "hp26",
+            "x": 5.0,
+            "y": 1.64,
+            "group": "B",
+            "decision": "Pending"
+          },
+          {
+            "id": "hp27",
+            "x": 5.2,
+            "y": 1.86,
+            "group": "C",
+            "decision": "Pending"
+          },
+          {
+            "id": "hp28",
+            "x": 5.4,
+            "y": 0.1,
+            "group": "A",
+            "decision": "Pending"
+          },
+          {
+            "id": "hp29",
+            "x": 5.6,
+            "y": 0.32,
+            "group": "B",
+            "decision": "Pending"
+          },
+          {
+            "id": "hp30",
+            "x": 5.8,
+            "y": 0.54,
+            "group": "C",
+            "decision": "Pending"
+          },
+          {
+            "id": "hp31",
+            "x": 6.0,
+            "y": 0.76,
+            "group": "A",
+            "decision": "Pending"
+          },
+          {
+            "id": "hp32",
+            "x": 6.2,
+            "y": 0.98,
+            "group": "B",
+            "decision": "Pending"
+          },
+          {
+            "id": "hp33",
+            "x": 6.4,
+            "y": 1.2,
+            "group": "C",
+            "decision": "Pending"
+          },
+          {
+            "id": "hp34",
+            "x": 6.6,
+            "y": 1.42,
+            "group": "A",
+            "decision": "Pending"
+          },
+          {
+            "id": "hp35",
+            "x": 6.8,
+            "y": 1.64,
+            "group": "B",
+            "decision": "Pending"
+          },
+          {
+            "id": "hp36",
+            "x": 7.0,
+            "y": 1.86,
+            "group": "C",
+            "decision": "Pending"
+          }
+        ],
+        "surface": {
+          "x": [-2, -1, 0, 1, 2],
+          "y": [-2, -1, 0, 1, 2],
+          "z": [
+            [0, 0.2, 0.3, 0.2, 0],
+            [0.2, 0.6, 0.8, 0.6, 0.2],
+            [0.3, 0.8, 1, 0.8, 0.3],
+            [0.2, 0.6, 0.8, 0.6, 0.2],
+            [0, 0.2, 0.3, 0.2, 0]
+          ]
+        }
+      },
+      "id": "fresh-lab",
+      "dataLabel": "Illustrative fixture supplied for UI evaluation; no production evidence.",
+      "images": [
+        "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22800%22%20height%3D%22450%22%3E%3Crect%20width%3D%22800%22%20height%3D%22450%22%20fill%3D%22%23406b58%22/%3E%3Ccircle%20cx%3D%22590%22%20cy%3D%22150%22%20r%3D%2290%22%20fill%3D%22white%22%20opacity%3D%22.2%22/%3E%3Cpath%20d%3D%22M0%20400L250%20180L500%20400L700%20240L800%20400%22%20fill%3D%22white%22%20opacity%3D%22.3%22/%3E%3Ctext%20x%3D%2250%22%20y%3D%2285%22%20fill%3D%22white%22%20font-family%3D%22sans-serif%22%20font-size%3D%2236%22%3EField%20%C2%B7%20illustrative%20evidence%3C/text%3E%3C/svg%3E",
+        "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22800%22%20height%3D%22450%22%3E%3Crect%20width%3D%22800%22%20height%3D%22450%22%20fill%3D%22%236a6288%22/%3E%3Ccircle%20cx%3D%22590%22%20cy%3D%22150%22%20r%3D%2290%22%20fill%3D%22white%22%20opacity%3D%22.2%22/%3E%3Cpath%20d%3D%22M0%20400L250%20180L500%20400L700%20240L800%20400%22%20fill%3D%22white%22%20opacity%3D%22.3%22/%3E%3Ctext%20x%3D%2250%22%20y%3D%2285%22%20fill%3D%22white%22%20font-family%3D%22sans-serif%22%20font-size%3D%2236%22%3ECity%20%C2%B7%20illustrative%20evidence%3C/text%3E%3C/svg%3E",
+        "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22800%22%20height%3D%22450%22%3E%3Crect%20width%3D%22800%22%20height%3D%22450%22%20fill%3D%22%233a7191%22/%3E%3Ccircle%20cx%3D%22590%22%20cy%3D%22150%22%20r%3D%2290%22%20fill%3D%22white%22%20opacity%3D%22.2%22/%3E%3Cpath%20d%3D%22M0%20400L250%20180L500%20400L700%20240L800%20400%22%20fill%3D%22white%22%20opacity%3D%22.3%22/%3E%3Ctext%20x%3D%2250%22%20y%3D%2285%22%20fill%3D%22white%22%20font-family%3D%22sans-serif%22%20font-size%3D%2236%22%3EWater%20%C2%B7%20illustrative%20evidence%3C/text%3E%3C/svg%3E"
+      ]
+    }
+  ],
+  "result": "runs/2026-11-08-fresh-complex-ui/REPORT.md"
+}

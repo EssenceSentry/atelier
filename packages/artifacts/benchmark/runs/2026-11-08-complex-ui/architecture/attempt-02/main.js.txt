@@ -1,0 +1,102 @@
+const fixture = {
+  nodes: [
+    { id: "n1", service: "Amazon API Gateway", label: "Amazon API Gateway — public request entry", description: "Validate authenticated requests and route supported API versions.", status: "Ready", icon: "aws:amazon-api-gateway" },
+    { id: "n2", service: "AWS Lambda", label: "AWS Lambda — request validation", description: "Validate payload shape and attach a trace identifier.", status: "Ready", icon: "aws:aws-lambda" },
+    { id: "n3", service: "Amazon S3", label: "Amazon S3 — immutable input archive", description: "Store source objects and versioned evidence for reproducible review.", status: "Ready", icon: "aws:amazon-simple-storage-service" },
+    { id: "n4", service: "Amazon SQS", label: "Amazon SQS — durable processing queue", description: "Buffer ingestion bursts and expose retry and dead-letter state.", status: "Warning", icon: "aws:amazon-simple-queue-service" },
+    { id: "n5", service: "AWS Step Functions", label: "AWS Step Functions — workflow orchestration", description: "Coordinate preparation, inference and result publication.", status: "Ready", icon: "aws:aws-step-functions" },
+    { id: "n6", service: "Amazon SageMaker AI", label: "Amazon SageMaker AI — classifier endpoint", description: "Apply a supplied versioned classifier to prepared records.", status: "Ready", icon: "aws:amazon-sagemaker-ai" },
+    { id: "n7", service: "Amazon DynamoDB", label: "Amazon DynamoDB — review decision state", description: "Persist stable record identifiers and reviewer decisions.", status: "Ready", icon: "aws:amazon-dynamodb" },
+    { id: "n8", service: "Amazon EventBridge", label: "Amazon EventBridge — completion events", description: "Dispatch completion events to interested consumers.", status: "Ready", icon: "aws:amazon-eventbridge" },
+    { id: "n9", service: "Amazon CloudWatch", label: "Amazon CloudWatch — operational telemetry", description: "Collect logs, latency and processing-error indicators.", status: "Warning", icon: "aws:amazon-cloudwatch" },
+    { id: "n10", service: "AWS IAM", label: "AWS IAM — service authorization", description: "Grant least-privilege access to the illustrative components.", status: "Ready", icon: "aws:aws-identity-and-access-management" },
+    { id: "n11", service: "AWS KMS", label: "AWS KMS — key management", description: "Represent encryption key ownership and rotation policy.", status: "Ready", icon: null },
+    { id: "n12", service: "Amazon Athena", label: "Amazon Athena — audit query workspace", description: "Query archived evidence and inspect historical processing summaries.", status: "Ready", icon: "aws:amazon-athena" },
+  ],
+  edges: [[1,2],[2,3],[2,4],[4,5],[5,6],[6,7],[7,8],[5,9],[6,9],[10,5],[11,3],[3,12]],
+}
+const icons = Atelier.modules.icons
+const book = Atelier.notebook({ title: "Architecture investigation notebook", description: "Illustrative AWS workflow · supplied fixture · no production evidence" })
+const intro = book.cell({ id: "brief", title: "Investigation brief" })
+Atelier.mount("markdown", intro.view, { source: "## A request, an archive, and a review trail\n\nTrace how a request moves through the supplied AWS components, inspect service details, then record a local incident note. The topology is an **illustrative fixture**; it does not represent a live deployment.\n\nUse the left navigation to move through the investigation. Select any node in the graph or service inventory to synchronize the detail inspector." })
+Atelier.metrics(intro.view, [
+  { label: "Components", value: "12", note: "Supplied fixture" },
+  { label: "Connections", value: "12", note: "Illustrative paths" },
+  { label: "Health flags", value: "2", note: "Warning badges" },
+])
+const graphCell = book.cell({ id: "workflow", title: "AWS workflow map", controls: true })
+let selectedId = "n1"
+let health = "All"
+let flow
+let detailViews
+let summaryHandle, propertiesHandle, exampleHandle
+let noteValue = ""
+const current = () => fixture.nodes.find(n => n.id === selectedId)
+const graphData = () => ({
+  nodes: fixture.nodes.map(n => ({ id: n.id, data: { label: n.label, description: n.description, status: n.status, icon: n.icon ? icons.url(n.icon) : undefined, tone: health === "All" || n.status === health ? (n.status === "Warning" ? "warning" : "success") : "neutral" } })),
+  edges: fixture.edges.map(([a,b]) => ({ id: `e${a}-${b}`, source: `n${a}`, target: `n${b}` })),
+})
+const choose = async (id, focus = false) => {
+  selectedId = id
+  selectNode.value = id
+  if (flow) {
+    await flow.update(graphData())
+    if (focus) flow.api.focus(id)
+  }
+  await refreshDetails()
+}
+flow = Atelier.mount("flow", graphCell.view, { ...graphData(), onNodeClick: (_event, node) => void choose(node.id) })
+await flow.ready
+const selectNode = Atelier.field(graphCell.controls, { label: "Selected service", type: "select", value: selectedId, options: fixture.nodes.map(n => ({ value: n.id, label: `${n.id} · ${n.service}` })), onChange: id => void choose(id, true) })
+Atelier.field(graphCell.controls, { label: "Health emphasis", type: "select", value: health, options: ["All", "Ready", "Warning"], description: "Highlights matching nodes; topology remains visible.", onChange: async value => { health = value; await flow.update({ ...graphData(), onNodeClick: (_event, node) => void choose(node.id) }) } })
+Atelier.button("Fit overview", () => flow.api.flow?.fitView({ padding: 0.16 }), graphCell.controls, { variant: "secondary" })
+Atelier.button("Focus selected", () => flow.api.focus(selectedId), graphCell.controls, { variant: "secondary" })
+Atelier.canvasLink(flow, graphData(), { parent: graphCell.header })
+
+const inspector = book.cell({ id: "inspector", title: "Selected service inspector", controls: true })
+const incidentNote = Atelier.field(inspector.controls, { label: "Local incident note", type: "textarea", value: noteValue, description: "Stored in this notebook session and included in the export.", onChange: value => { noteValue = value } })
+detailViews = Atelier.tabs(inspector.view, {
+  label: "Service detail views",
+  items: [
+    { id: "summary", label: "Summary", render: panel => { summaryHandle = Atelier.mount("markdown", panel, { source: "" }); return summaryHandle } },
+    { id: "properties", label: "Properties", render: panel => { propertiesHandle = Atelier.mount("editor", panel, { language: "json", source: "{}" }); return propertiesHandle } },
+    { id: "example", label: "Example", render: panel => { exampleHandle = Atelier.mount("editor", panel, { language: "json", source: "{}" }); return exampleHandle } },
+  ],
+})
+const exampleFor = node => node.id === "n12" ? `SELECT record_id, decision, archived_at\nFROM evidence_audit\nWHERE service_id = '${node.id}'\nORDER BY archived_at DESC;` : JSON.stringify({ serviceId: node.id, traceId: "trace-example-7f2a", event: "processing.requested", evidenceVersion: "v1" }, null, 2)
+async function refreshDetails() {
+  const n = current()
+  if (summaryHandle) await summaryHandle.update({ source: `## ${n.service}\n\n**${n.status}** · `${n.id}`\n\n${n.description}\n\nThis service description comes from the supplied fixture. The local note remains available while switching tabs.` })
+  if (propertiesHandle) await propertiesHandle.update({ language: "json", source: JSON.stringify({ id: n.id, service: n.service, status: n.status, description: n.description, icon: n.icon ?? "No matching AWS icon in the bundled catalog" }, null, 2) })
+  if (exampleHandle) await exampleHandle.update({ language: n.id === "n12" ? "sql" : "json", source: exampleFor(n) })
+}
+Atelier.button("Export selection + note", () => Atelier.download("architecture-investigation.json", JSON.stringify({ selectedId, incidentNote: noteValue }, null, 2)), inspector.header, { variant: "primary" })
+await detailViews.ready
+await refreshDetails()
+
+const sequenceCell = book.cell({ id: "sequence", title: "Request sequence" })
+const sequenceConfig = { source: `sequenceDiagram\n  title: Illustrative request and review sequence\n  participant Client as API client\n  participant Gateway as API Gateway\n  participant Validate as Lambda validator\n  participant Queue as SQS queue\n  participant Workflow as Step Functions\n  participant Model as SageMaker endpoint\n  participant State as DynamoDB review state\n  Client->>Gateway: Authenticated request\n  Gateway->>Validate: Route supported version\n  Validate->>Validate: Validate payload + attach trace id\n  Validate->>Queue: Enqueue accepted record\n  Queue->>Workflow: Start processing\n  Workflow->>Model: Apply supplied classifier\n  Model-->>Workflow: Prediction + model version\n  Workflow->>State: Persist review decision\n  State-->>Client: Completion available` }
+const sequence = Atelier.mount("mermaid", sequenceCell.view, sequenceConfig)
+await sequence.ready
+Atelier.canvasLink(sequence, sequenceConfig, { parent: sequenceCell.header })
+
+const inventory = book.cell({ id: "inventory", title: "Service inventory" })
+const columns = [
+  { key: "id", title: "ID" }, { key: "service", title: "Service" },
+  { key: "status", title: "Health", type: "badge", tone: value => value === "Ready" ? "success" : "warning" },
+  { key: "inspect", title: "Inspect", type: "button", action: async row => { await choose(row.id, true); await detailViews.select("summary") } },
+]
+Atelier.mount("table", inventory.view, { data: fixture.nodes.map(({id,service,status}) => ({id,service,status})), columns, pageSize: 12 })
+
+const evidence = book.cell({ id: "evidence", title: "Illustrative evidence" })
+// check-colours: off — supplied image URL literals carry their own illustration colours.
+const images = [
+  "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22800%22%20height%3D%22450%22%3E%3Crect%20width%3D%22800%22%20height%3D%22450%22%20fill%3D%22%23406b58%22/%3E%3Ccircle%20cx%3D%22590%22%20cy%3D%22150%22%20r%3D%2290%22%20fill%3D%22white%22%20opacity%3D%22.2%22/%3E%3Cpath%20d%3D%22M0%20400L250%20180L500%20400L700%20240L800%20400%22%20fill%3D%22white%22%20opacity%3D%22.3%22/%3E%3Ctext%20x%3D%2250%22%20y%3D%2285%22%20fill%3D%22white%22%20font-family%3D%22sans-serif%22%20font-size%3D%2236%22%3EField%20%C2%B7%20illustrative%20evidence%3C/text%3E%3C/svg%3E",
+  "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22800%22%20height%3D%22450%22%3E%3Crect%20width%3D%22800%22%20height%3D%22450%22%20fill%3D%22%236a6288%22/%3E%3Ccircle%20cx%3D%22590%22%20cy%3D%22150%22%20r%3D%2290%22%20fill%3D%22white%22%20opacity%3D%22.2%22/%3E%3Cpath%20d%3D%22M0%20400L250%20180L500%20400L700%20240L800%20400%22%20fill%3D%22white%22%20opacity%3D%22.3%22/%3E%3Ctext%20x%3D%2250%22%20y%3D%2285%22%20fill%3D%22white%22%20font-family%3D%22sans-serif%22%20font-size%3D%2236%22%3ECity%20%C2%B7%20illustrative%20evidence%3C/text%3E%3C/svg%3E",
+  "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22800%22%20height%3D%22450%22%3E%3Crect%20width%3D%22800%22%20height%3D%22450%22%20fill%3D%22%233a7191%22/%3E%3Ccircle%20cx%3D%22590%22%20cy%3D%22150%22%20r%3D%2290%22%20fill%3D%22white%22%20opacity%3D%22.2%22/%3E%3Cpath%20d%3D%22M0%20400L250%20180L500%20400L700%20240L800%20400%22%20fill%3D%22white%22%20opacity%3D%22.3%22/%3E%3Ctext%20x%3D%2250%22%20y%3D%2285%22%20fill%3D%22white%22%20font-family%3D%22sans-serif%22%20font-size%3D%2236%22%3EWater%20%C2%B7%20illustrative%20evidence%3C/text%3E%3C/svg%3E",
+]
+// check-colours: on
+Atelier.mount("carousel", evidence.view, { slides: images.map((src, i) => ({ src, alt: `Illustrative evidence scene ${i+1}`, title: ["Field record", "City record", "Water record"][i], caption: "Supplied illustrative image · not production evidence" })) })
+
+const guide = book.cell({ id: "guide", title: "Operational investigation guide" })
+Atelier.mount("markdown", guide.view, { source: `## A calm path through an incident\n\n### 1. Establish the boundary\nStart with the supplied request id and trace identifier. Confirm the incident window and the affected API version before interpreting any service state. This notebook contains illustrative descriptions only.\n\n### 2. Follow the request\nUse the workflow map to trace entry, validation, queueing, orchestration, inference and review persistence. The sequence diagram offers a second view of that same illustrative path. A warning badge marks a fixture state; it is not an operational alert.\n\n### 3. Inspect the evidence trail\nCompare the archived input version with the result and review decision. Preserve stable record identifiers and the model version in any incident note. The Athena example is a query illustration, not an executed query.\n\n### 4. Record a local note\nCapture the selected service, observed symptom, evidence references and next handoff. Export the selected id and note when you are ready to carry the draft elsewhere.\n\n> Scope: all data here is the supplied evaluation fixture. No live account, backend or production telemetry is connected.` })

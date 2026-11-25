@@ -1,0 +1,50 @@
+{
+  "task_id": "explanation",
+  "deliverables": {
+    "html": "/private/tmp/atelier-luna-medium-20261108-zk3Pdy/explanation/artifact/output.html",
+    "source": "/private/tmp/atelier-luna-medium-20261108-zk3Pdy/explanation/artifact/main.js",
+    "config": "/private/tmp/atelier-luna-medium-20261108-zk3Pdy/explanation/artifact/artifact.json"
+  },
+  "files_read": [
+    "/private/tmp/atelier-luna-medium-20261108-zk3Pdy/explanation/task.json",
+    "~/.agents/skills/atelier-artifacts/SKILL.md",
+    "~/.agents/skills/atelier-artifacts/references/diagrams.md",
+    "~/.agents/skills/atelier-artifacts/references/documents.md",
+    "~/.agents/skills/atelier-artifacts/references/charts.md",
+    "~/Repos/atelier/packages/artifacts/recipes/architecture/artifact.json",
+    "~/Repos/atelier/packages/artifacts/recipes/architecture/main.js",
+    "~/Repos/atelier/packages/artifacts/recipes/scientific/main.js",
+    "~/Repos/atelier/packages/artifacts/recipes/linked-analysis/main.js",
+    "~/Repos/atelier/packages/artifacts/src/adapters/vega.js",
+    "~/Repos/atelier/packages/theme/src/viz.ts",
+    "/private/tmp/atelier-luna-medium-20261108-zk3Pdy/explanation/check.mjs",
+    "/private/tmp/atelier-luna-medium-20261108-zk3Pdy/explanation/checks/attempt-01/results.json",
+    "/private/tmp/atelier-luna-medium-20261108-zk3Pdy/explanation/checks/attempt-02/results.json"
+  ],
+  "pack_attempts": 2,
+  "local_repair_rounds": 1,
+  "checks": [
+    {
+      "command": "node .../record-pack.mjs .../artifact/artifact.json .../artifact/output.html",
+      "result": "Succeeded twice; final portable HTML is 10,978,342 bytes and bundles flow, mermaid, markdown, and vega."
+    },
+    {
+      "command": "node .../check.mjs .../artifact/output.html --matrix --label=attempt-01",
+      "result": "First launch failed under the sandbox because Chromium could not register its macOS Mach port. Retried with the permitted sandbox escalation; all 12 direction/mode/viewport variants passed with no findings."
+    },
+    {
+      "command": "node .../check.mjs .../artifact/output.html --matrix --label=attempt-02",
+      "result": "All 12 direction/mode/viewport variants passed; no render errors, overflow, broken section links, or external requests."
+    },
+    {
+      "command": "Playwright interaction check via interactions.mjs",
+      "result": "Changing heads from 14 to 10 updated prose to Beta(12, 12), chart legend/density, flow cards, and Mermaid sequence. Fit and zoom controls were clicked. Both open-canvas tabs opened standalone pages containing SVG canvases. No page errors."
+    }
+  ],
+  "elapsed_time": "Approximately 4 minutes",
+  "limitations": [
+    "The observations are illustrative synthetic data, as labeled in the artifact; this is a worked conjugate update rather than a fitted model from real observations.",
+    "Visual verification covered checker screenshots and a final full-page interaction capture; no broader inference server or external data source was used or needed."
+  ],
+  "forbidden_operations_encountered": []
+}

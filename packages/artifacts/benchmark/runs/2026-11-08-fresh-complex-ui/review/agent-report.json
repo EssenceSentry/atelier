@@ -1,0 +1,60 @@
+{
+  "taskId": "fresh-review",
+  "result": "complete",
+  "elapsed": {
+    "seconds": 131,
+    "scope": "From first recorded pack attempt at 2026-11-08T23:10:32.294Z through final report at 2026-11-08T23:12:43Z; excludes initial instruction and recipe reading."
+  },
+  "artifact": {
+    "source": "author/main.js",
+    "config": "author/artifact.json",
+    "output": "author/output.html",
+    "families": ["table", "vega", "media", "carousel", "json", "markdown", "code", "chat"],
+    "data": "All 24 supplied fixture records and supplied embedded image data URLs. The required illustrative-data label is preserved."
+  },
+  "recipeAndReferences": [
+    "~/Repos/atelier/packages/artifacts/recipes/complex-review/main.js",
+    "~/Repos/atelier/packages/artifacts/recipes/complex-review/artifact.json",
+    "~/Repos/atelier/packages/artifacts/recipes/ui-patterns/main.js",
+    "~/.agents/skills/atelier-artifacts/SKILL.md",
+    "~/.agents/skills/atelier-artifacts/references/composition.md"
+  ],
+  "packAttempts": {
+    "count": 1,
+    "firstAndOnlyAttempt": "attempts/01/pack-result.json",
+    "success": true,
+    "repairs": []
+  },
+  "commands": [
+    {
+      "command": "node /private/tmp/atelier-fresh-ui-20261108/review/record-pack.mjs /private/tmp/atelier-fresh-ui-20261108/review/author/artifact.json /private/tmp/atelier-fresh-ui-20261108/review/author/output.html",
+      "result": "Passed; produced a 9,292,150-byte browser-profile HTML artifact with the requested families."
+    },
+    {
+      "command": "node /private/tmp/atelier-fresh-ui-20261108/review/check-local.mjs /private/tmp/atelier-fresh-ui-20261108/review/author/output.html --matrix",
+      "result": "Passed all 12 direction, mode, and viewport configurations (instrument/editorial/console × light/dark × 1440/390). Seven mounted widgets ready in each; no errors, overflow, broken navigation links, or remote requests."
+    },
+    {
+      "command": "node /private/tmp/atelier-fresh-ui-20261108/review/author/interactions.mjs",
+      "result": "Passed the task-specific Chromium interaction assertions listed below; no browser page errors. Local Chromium launch required the authorized escalated Node command."
+    }
+  ],
+  "testedInteractions": [
+    "Group South filter and Record search combined; the table became empty for an unmatched title and displayed recoverable empty-state guidance.",
+    "Reset filters restored the populated table.",
+    "A decision changed to Accept and remained selected; sorting the Score column left six table rows available on the page.",
+    "Inspect opened detail for the clicked row (h14), and the JSON view showed that selected record.",
+    "Summary retained the local draft note after switching among summary, JSON, and image-comparison tabs.",
+    "Image comparison rendered supplied imagery.",
+    "Export downloaded 24 decisions, including the changed h01 decision after the row was outside the prior filter state.",
+    "Scripted local chat answered a question about decision storage."
+  ],
+  "testHarnessAdjustments": [
+    "Playwright's accessible-name lookup for Group needed exact matching because Vega points also expose Group in their accessible labels; this changed only the test locator.",
+    "The table does not expose its stable row ID as a data-row-id DOM attribute, so the interaction check derived the fixture ID from the displayed unique title suffix and confirmed that ID in detail content. No product source repair was needed."
+  ],
+  "knownLimits": [
+    "The chat is explicitly scripted and local; it does not connect to a model or remote service.",
+    "Fixture metrics and imagery are illustrative only and do not represent production evidence."
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "title": "External viewers",
+  "release": "0.1.0",
+  "theme": "instrument",
+  "mode": "light",
+  "profile": "external",
+  "families": ["viewer"],
+  "source": "main.js",
+  "sources": [
+    "Bundled synthetic or analytic example; replace with actual evidence before presenting."
+  ],
+  "frameOrigins": [
+    "https://playground.tensorflow.org",
+    "https://poloclub.github.io",
+    "https://netron.app"
+  ]
+}

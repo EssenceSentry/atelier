@@ -1,0 +1,13 @@
+{
+  "title": "XOR classifier lab",
+  "release": "0.1.0",
+  "theme": "console",
+  "mode": "light",
+  "profile": "browser",
+  "families": ["neural", "markdown", "code", "sql"],
+  "source": "main.js",
+  "sources": [
+    "The XOR training data are synthetic and generated in-browser by the neural recipe.",
+    "The four evaluation records are illustrative synthetic observations supplied for this benchmark."
+  ]
+}

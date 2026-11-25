@@ -1,0 +1,38 @@
+{
+  "note": "Artifact sources are JavaScript. The existing template colour checker only scans TS/TSX/CSS and therefore does not catch these JavaScript values.",
+  "results": [
+    {
+      "task": "analysis",
+      "attempt": "01",
+      "violations": []
+    },
+    {
+      "task": "explanation",
+      "attempt": "01",
+      "violations": [
+        {
+          "line": 41,
+          "value": "#8178d8"
+        },
+        {
+          "line": 41,
+          "value": "#32a69a"
+        },
+        {
+          "line": 44,
+          "value": "#77777733"
+        }
+      ]
+    },
+    {
+      "task": "explanation",
+      "attempt": "02",
+      "violations": []
+    },
+    {
+      "task": "neural",
+      "attempt": "01",
+      "violations": []
+    }
+  ]
+}

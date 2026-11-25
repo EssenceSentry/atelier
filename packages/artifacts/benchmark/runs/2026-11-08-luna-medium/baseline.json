@@ -1,0 +1,470 @@
+{
+  "packages/artifacts/src/adapters/carousel.js": {
+    "bytes": 1945,
+    "sha256": "9b748826588f0644c57a7c8dbff5e8fe5a1255ad72acc5d6650c43e7218ffe43"
+  },
+  "packages/artifacts/src/adapters/chat.jsx": {
+    "bytes": 2169,
+    "sha256": "c3cd7d9d499ccfef4afc4a4bdbe618202f1c39acabec9be5fe9df89090be877b"
+  },
+  "packages/artifacts/src/adapters/code-editor.js": {
+    "bytes": 1600,
+    "sha256": "69d671f0132e550a7d6af51c1d9d6ab25b4f19ea30108af3dc1cd4e0911f1730"
+  },
+  "packages/artifacts/src/adapters/code.js": {
+    "bytes": 435,
+    "sha256": "055bd5e2d090c491314ec115459cc188f45cb4b84f281b8a92d761d873c65db1"
+  },
+  "packages/artifacts/src/adapters/deck.js": {
+    "bytes": 908,
+    "sha256": "331f44521b4f61fdad7793955e64c7ce44bdfe034e65a6b4b7d467c829a1d5cc"
+  },
+  "packages/artifacts/src/adapters/flow.jsx": {
+    "bytes": 3923,
+    "sha256": "d17866d5f73dcad87cb382b9703855d445a7cf8393937bba1b6f6c562ee167a9"
+  },
+  "packages/artifacts/src/adapters/geometry.js": {
+    "bytes": 1553,
+    "sha256": "f911998651f0328dec8d86fcee0d717835c63721d0fbc03e8922c5e9377d7159"
+  },
+  "packages/artifacts/src/adapters/grid.jsx": {
+    "bytes": 2822,
+    "sha256": "6a851a61d68ad6531de857429a34b46f4a9e4b5d126df7828a9148c7331ceb15"
+  },
+  "packages/artifacts/src/adapters/icons.js": {
+    "bytes": 977,
+    "sha256": "af1cbd173c77232dbc290e37a01eed88545593c9fd0548c80f8b6daec33907f6"
+  },
+  "packages/artifacts/src/adapters/inputs.js": {
+    "bytes": 1960,
+    "sha256": "7686b18a7e765809437c636995c73daec0dc1d90d9f0e77594c8cf80d46f1d3d"
+  },
+  "packages/artifacts/src/adapters/json.jsx": {
+    "bytes": 2277,
+    "sha256": "e374f904bbf7fba40063aa4664a8c6225515cf761592371904b16fc4b8f4a20c"
+  },
+  "packages/artifacts/src/adapters/markdown.jsx": {
+    "bytes": 776,
+    "sha256": "cb21e7dc62d8f27c9daf9d217d2e56fb3825a92f20942b7e77127edd1521b941"
+  },
+  "packages/artifacts/src/adapters/media.js": {
+    "bytes": 2800,
+    "sha256": "a785b0d8e7ad443555b6504d49fc7d5e0e12e8005a1529f64b40bd978dc68c09"
+  },
+  "packages/artifacts/src/adapters/mermaid.js": {
+    "bytes": 3238,
+    "sha256": "ca56b26f5dc44b1382721b3145368bd7ecb0f61bea05c52ce77ff0e736edd80e"
+  },
+  "packages/artifacts/src/adapters/myst-document.tsx": {
+    "bytes": 11381,
+    "sha256": "81083a8f55b55942dcac59ade8798fef052b504bd9423e277638e4f549ea0653"
+  },
+  "packages/artifacts/src/adapters/myst-worker.ts": {
+    "bytes": 2642,
+    "sha256": "251dcd322f6e0abee77fda182a94d800e47b64e8e49885979735b5c520c1a07b"
+  },
+  "packages/artifacts/src/adapters/myst.jsx": {
+    "bytes": 1499,
+    "sha256": "386e433573af3819bc91e3f085c0fa7653852e68618ff58c3a58e5a251895413"
+  },
+  "packages/artifacts/src/adapters/neural.js": {
+    "bytes": 4781,
+    "sha256": "a5721df52bf8ac7184ca96f1ba1a4c4a21caf42dbd8548703735199397e28bb4"
+  },
+  "packages/artifacts/src/adapters/plot.js": {
+    "bytes": 714,
+    "sha256": "637ba4e21d2ff46e1ab1988f653f5be6644a2866f1ae0f25df5bd08b1328f6cf"
+  },
+  "packages/artifacts/src/adapters/plotly.js": {
+    "bytes": 1692,
+    "sha256": "418334a7c49d5b54e4ed5c2e8ea2cf37b07986db0ab5e3d9c6c509963ffe9044"
+  },
+  "packages/artifacts/src/adapters/recommend.js": {
+    "bytes": 2146,
+    "sha256": "25543bb550477a147e3e469efba90398345e0044abc64b5d0c9685a5d3ddd452"
+  },
+  "packages/artifacts/src/adapters/sanddance.js": {
+    "bytes": 3187,
+    "sha256": "450843cc3ff6d2d3631b5610b9aaf97cc5ff850c0f436f17978809b0b968f3b0"
+  },
+  "packages/artifacts/src/adapters/sql.js": {
+    "bytes": 3451,
+    "sha256": "cbb9a9e40c799a140dde2cd714ae3882845344f23200fd86e7f1ff8718b6b933"
+  },
+  "packages/artifacts/src/adapters/table.jsx": {
+    "bytes": 5815,
+    "sha256": "a766041df6a638c8ae921a841d8e36485f4017ea179dc334b8ef0481ec79f28c"
+  },
+  "packages/artifacts/src/adapters/tfvis-embed.js": {
+    "bytes": 1221,
+    "sha256": "5acf677fafd98ee52674140039399540e7df2dd9e1457065d04fd25c639cf5fa"
+  },
+  "packages/artifacts/src/adapters/vega.js": {
+    "bytes": 2046,
+    "sha256": "7dbca233a6972144b56cd34f6bf48381994157d4bf7b6e63b158ba5f5677197f"
+  },
+  "packages/artifacts/src/adapters/viewer.js": {
+    "bytes": 948,
+    "sha256": "399cf47b9b5a820594822e68763f744263eda35ce10a7e5a8066cadef97f4a25"
+  },
+  "packages/artifacts/src/core.js": {
+    "bytes": 15167,
+    "sha256": "5e243e6d892e5a7cae353ece04abe220407c28d8885e3a4d9b076573cc6ea83a"
+  },
+  "packages/artifacts/src/icon-catalog.json": {
+    "bytes": 168256,
+    "sha256": "5450bf1fb233532fd3d4ae8405f16cde7f0790f26767e63c707c80aecbc7a9fd"
+  },
+  "packages/artifacts/src/neural-model.ts": {
+    "bytes": 9399,
+    "sha256": "84e573d522aec4cbdbd6a90330845f59b1884f9d31d3dbc759f5a4a20bb5a735"
+  },
+  "packages/artifacts/src/style.css": {
+    "bytes": 9581,
+    "sha256": "ce09f66f9c842c6d4eca9355b6331ddd139b4196c3049aafc6ada55011db1e4c"
+  },
+  "packages/artifacts/scripts/build.mjs": {
+    "bytes": 6030,
+    "sha256": "a19556acd483c03f3f24486fdd5ab930b759c1eb7b0e77c4c0df27916fd4521e"
+  },
+  "packages/artifacts/scripts/check-interactions.mjs": {
+    "bytes": 13279,
+    "sha256": "f0360949185f52e2e9a613b04c1853d5ef588a21ae2ba94ba059731baaf3b864"
+  },
+  "packages/artifacts/scripts/check.mjs": {
+    "bytes": 4893,
+    "sha256": "089a691b68ee311ca7cbb1fa6d2952a76b6c63bc3ff170532047b87ccc29940c"
+  },
+  "packages/artifacts/scripts/new.mjs": {
+    "bytes": 1027,
+    "sha256": "5fd3c267797c573c792f8c1e608b140742ad14238c98cc18c26bac7a3f37a552"
+  },
+  "packages/artifacts/scripts/pack-recipes.mjs": {
+    "bytes": 2085,
+    "sha256": "90900cbd2ce9625982e4a60fa67d2f16eb6993be3794d07044100ab05e071738"
+  },
+  "packages/artifacts/scripts/pack.mjs": {
+    "bytes": 8064,
+    "sha256": "a11f57ba54a2ac417c92f6f4a865996c3a6eba4cfa8ea900c76a0905ff57eaf4"
+  },
+  "packages/artifacts/scripts/serve.mjs": {
+    "bytes": 1273,
+    "sha256": "cbd32b342b3ef6e46a371f28c0093a42a220b6ad6bc719e2310be4542ac2eaf8"
+  },
+  "packages/artifacts/scripts/test.mjs": {
+    "bytes": 4421,
+    "sha256": "f78a65a1e1edf3e86b87a84cbdd4b63cfee82eca0ab5b748b632df74e565b1a0"
+  },
+  "packages/artifacts/recipes/architecture/artifact.json": {
+    "bytes": 313,
+    "sha256": "adc35115866f538198b840dd408e30e74639b833d657cfd550d99114f1c74b50"
+  },
+  "packages/artifacts/recipes/architecture/main.js": {
+    "bytes": 1943,
+    "sha256": "5148c169da90a4958a7d8a9da5b8c4115db64b476a9c28df22ba3235515fdf5f"
+  },
+  "packages/artifacts/recipes/chat/artifact.json": {
+    "bytes": 273,
+    "sha256": "658240d5527f2e169a589a4a2fb40a8b39a687993dd50984522997fa2f8227b7"
+  },
+  "packages/artifacts/recipes/chat/main.js": {
+    "bytes": 917,
+    "sha256": "292880e993f1bec79a3019f87359bdd0430ffed275960b4371a7cfa20a2c27b6"
+  },
+  "packages/artifacts/recipes/document/artifact.json": {
+    "bytes": 296,
+    "sha256": "aa62b5c0693aeb62217e4c84c24d2be647ace591b759976826bac34147d1b35c"
+  },
+  "packages/artifacts/recipes/document/main.js": {
+    "bytes": 1049,
+    "sha256": "3621ff7081e187bc9bd8b1bc76f0d4a6da7a41c190e8cb9b25f13542468eef15"
+  },
+  "packages/artifacts/recipes/external-viewers/artifact.json": {
+    "bytes": 412,
+    "sha256": "b6dafbd72f5ecfe5b6bb9e14cfa6562944eb4117d511b2c0439c6bfcea93c81e"
+  },
+  "packages/artifacts/recipes/external-viewers/main.js": {
+    "bytes": 653,
+    "sha256": "9159e6fa766576f852f792d8ae552a37037020618d484d13f3b53db5540c89bf"
+  },
+  "packages/artifacts/recipes/geometry/artifact.json": {
+    "bytes": 281,
+    "sha256": "bacc457a5f4d52e3c90ad5d240fc8bfaf1ba86a1375d377b3c77c8badd6e3f91"
+  },
+  "packages/artifacts/recipes/geometry/main.js": {
+    "bytes": 1156,
+    "sha256": "6ea76720f56a5d3e2be7c7b057e49377122fb6604f50f54d6d43da2cc00875c4"
+  },
+  "packages/artifacts/recipes/index.json": {
+    "bytes": 1978,
+    "sha256": "1c36fd8382bc3cc0c2a3f0890c31fa8e443aae009f320a11c05ec80eafb28e52"
+  },
+  "packages/artifacts/recipes/inputs-media/artifact.json": {
+    "bytes": 304,
+    "sha256": "0c47c74b10dd6524451a2e559fd9550824720ae59d19db8a6d723a4395081758"
+  },
+  "packages/artifacts/recipes/inputs-media/main.js": {
+    "bytes": 1575,
+    "sha256": "12bf40fa3d9d1c974ecb49df5850b3088cd91f562a4b135cbd2892457075ea54"
+  },
+  "packages/artifacts/recipes/linked-analysis/artifact.json": {
+    "bytes": 293,
+    "sha256": "0628259ff1683ef3a539074580cdeab10589bb721caa7b69bc0a1494ceab13f8"
+  },
+  "packages/artifacts/recipes/linked-analysis/main.js": {
+    "bytes": 2594,
+    "sha256": "7e5268f7cd4bc63c69b574161a1f8f57df5272abbc2e3ca6dc0bc0e4183366d3"
+  },
+  "packages/artifacts/recipes/neural/artifact.json": {
+    "bytes": 276,
+    "sha256": "daf3215d3d9500f1e4a80e50916a94b31689238c9952c4248925577e15a425c7"
+  },
+  "packages/artifacts/recipes/neural/main.js": {
+    "bytes": 1397,
+    "sha256": "5baa86b0cb4923583dcc435b8f01c7779fd92b16172646206db6acd52fa7a83b"
+  },
+  "packages/artifacts/recipes/plot-gallery/artifact.json": {
+    "bytes": 218,
+    "sha256": "7115203b3a7f18ded07549566f1df15d14c9847e5d329970ae06a4995d4f2e25"
+  },
+  "packages/artifacts/recipes/plot-gallery/main.js": {
+    "bytes": 18409,
+    "sha256": "9c0b4ef66cd988db0cfe386da05c7ec94a4e90a70589a11b81340f53a6edda9c"
+  },
+  "packages/artifacts/recipes/recommend/artifact.json": {
+    "bytes": 282,
+    "sha256": "6bc8b5e2b5b1424f81d0872082f9fa1577724906581e0539e0febbc6358a2a4d"
+  },
+  "packages/artifacts/recipes/recommend/main.js": {
+    "bytes": 966,
+    "sha256": "81524d93471234a794e1b5ede07c36528db3096289b806d93b1ae8c55c38d5e2"
+  },
+  "packages/artifacts/recipes/rich-data/artifact.json": {
+    "bytes": 294,
+    "sha256": "ee8b640fa7a6e6a9e5275fdbee26a0342b187a43aaae1bdacca6eab0999a4042"
+  },
+  "packages/artifacts/recipes/rich-data/main.js": {
+    "bytes": 2004,
+    "sha256": "dd7da911f480cb6ced02a5baae81ebd1ccf881f0b0c627ae01c1c38e295e2519"
+  },
+  "packages/artifacts/recipes/sanddance/artifact.json": {
+    "bytes": 282,
+    "sha256": "c35866ec3d8239e084799d418f51fa6f7074894f0da161cd280d8d49b79513e0"
+  },
+  "packages/artifacts/recipes/sanddance/main.js": {
+    "bytes": 1392,
+    "sha256": "9aa80cadab1c797444c41fe6d207cd146dccda73b47f05bbc56c4aae508c5fc9"
+  },
+  "packages/artifacts/recipes/scientific/artifact.json": {
+    "bytes": 288,
+    "sha256": "065da947291d2d9eee4a175c528ed8c3b0c7888338d78f4dfdfc342aa3521a4f"
+  },
+  "packages/artifacts/recipes/scientific/main.js": {
+    "bytes": 1367,
+    "sha256": "45b7847b4bca5112566311dc190f9f0cdbe3db6d5a14d12cec38d9e1db3368ff"
+  },
+  "packages/artifacts/recipes/spatial/artifact.json": {
+    "bytes": 275,
+    "sha256": "857c8da865d98dcbb9affaf0dd4759627442d3da60442329e6118c5d193f352e"
+  },
+  "packages/artifacts/recipes/spatial/main.js": {
+    "bytes": 1121,
+    "sha256": "3659a18f319058d6d9a09c0a52d1d6da263779d0d87c2ca8a0545f528ae6d039"
+  },
+  "packages/artifacts/recipes/sql/artifact.json": {
+    "bytes": 270,
+    "sha256": "4aa611a755a64790f010ee9e40b60b06dd80a3bdeef1a5b6ecef002fc40319ff"
+  },
+  "packages/artifacts/recipes/sql/main.js": {
+    "bytes": 637,
+    "sha256": "d9411b0afdbfaeaf91cb7d12c4d3212930880a28711575fe74295ccaf6b603cb"
+  },
+  "packages/artifacts/dist/0.1.0/ICON-NOTICES.md": {
+    "bytes": 14569,
+    "sha256": "8765cfa62d7fcffeeda4de8bb232978350860b3679b07fe985d7e5869995c64b"
+  },
+  "packages/artifacts/dist/0.1.0/THIRD-PARTY-NOTICES.md": {
+    "bytes": 2542459,
+    "sha256": "6caab68a295204007141e35106408c6fa0f2ca4cc74c7530fe7fc7111e08a671"
+  },
+  "packages/artifacts/dist/0.1.0/assets/duckdb.wasm": {
+    "bytes": 41325187,
+    "sha256": "ee5560145a3d3e0ffa6dce697be802c08842f139a594698eecc7c754f7ad5f05"
+  },
+  "packages/artifacts/dist/0.1.0/assets/duckdb.worker.js": {
+    "bytes": 839642,
+    "sha256": "964f678d3bfa5a23deb154e0a7950634a4d1415e571040ab2d47815dc3f13582"
+  },
+  "packages/artifacts/dist/0.1.0/carousel.js": {
+    "bytes": 18981,
+    "sha256": "dd05a09674cc563ff0a83b601cdb327bc6f4bcd90df5345458d13d3ae5b7262b"
+  },
+  "packages/artifacts/dist/0.1.0/chat.js": {
+    "bytes": 526822,
+    "sha256": "e65020a52849c17471d13b3296c3e32a6d23c3aef2b90e124abbba232c06ac45"
+  },
+  "packages/artifacts/dist/0.1.0/code.js": {
+    "bytes": 322210,
+    "sha256": "8f4dfd331103fc3e33c59b8f826a022f323d56b893d89f916de068f8c329f616"
+  },
+  "packages/artifacts/dist/0.1.0/core.css": {
+    "bytes": 1141068,
+    "sha256": "4fbd2bcfc66d9bd421ed598e75222a556220a8006c14cd96f59f0d0d37149d7d"
+  },
+  "packages/artifacts/dist/0.1.0/core.js": {
+    "bytes": 230483,
+    "sha256": "7ad869d7cd7229c544608ee5e51ab2a99d2a462ec22d2de44bd723f214a6de00"
+  },
+  "packages/artifacts/dist/0.1.0/deck.js": {
+    "bytes": 1054506,
+    "sha256": "ef32b17eca87e1f7f13082b2075f81be6d926ac66ddd545ad7fac9f4e6431362"
+  },
+  "packages/artifacts/dist/0.1.0/flow.css": {
+    "bytes": 15425,
+    "sha256": "971ce7c9bd16680a4b77fd0b442ce68213637b92a74c7ff8804a3211c49f579d"
+  },
+  "packages/artifacts/dist/0.1.0/flow.js": {
+    "bytes": 1646400,
+    "sha256": "ceff77090e282d00e543af3512bb14cce9a7f3bf2ecc8de9e0b367766eb1d191"
+  },
+  "packages/artifacts/dist/0.1.0/geometry.js": {
+    "bytes": 1038916,
+    "sha256": "5966a4a5b57d47618db10dbd4df73364cf30e0f403414810ef621b1accf313cb"
+  },
+  "packages/artifacts/dist/0.1.0/grid.css": {
+    "bytes": 8083,
+    "sha256": "8f5c03acac06a7a7d395bbe0ea5921421a11161e65928cf3ce4e9acd426cd6e2"
+  },
+  "packages/artifacts/dist/0.1.0/grid.js": {
+    "bytes": 322778,
+    "sha256": "99577163392a9e86401c07a057403b182a192679b3bdb6ddb3dd304914e26c8b"
+  },
+  "packages/artifacts/dist/0.1.0/icon-catalog.json": {
+    "bytes": 168256,
+    "sha256": "5450bf1fb233532fd3d4ae8405f16cde7f0790f26767e63c707c80aecbc7a9fd"
+  },
+  "packages/artifacts/dist/0.1.0/icon-sources.json": {
+    "bytes": 2995,
+    "sha256": "fd2d73fbabe4ab76bbddf94949162788203bd6c68f0f83285a3f4643019b16e9"
+  },
+  "packages/artifacts/dist/0.1.0/icons.js": {
+    "bytes": 165667,
+    "sha256": "a2df40fa405c55d558f0b661cc8d0e2952c3ba37cb813e3b00ae9bbe0b6a2f44"
+  },
+  "packages/artifacts/dist/0.1.0/inputs.js": {
+    "bytes": 382839,
+    "sha256": "df243318715a453920d4b69f743258fa7d784dbacdbc14f5915e18e29216e54d"
+  },
+  "packages/artifacts/dist/0.1.0/json.css": {
+    "bytes": 3934,
+    "sha256": "5642ce5a8c6c27304453604113935ae69e101bc8018a76e7524b0fd81ecb77e2"
+  },
+  "packages/artifacts/dist/0.1.0/json.js": {
+    "bytes": 4059613,
+    "sha256": "ca88840c00d1d458de17f955e1eb90c71fb218b46f4c53e6176afbf043463117"
+  },
+  "packages/artifacts/dist/0.1.0/manifest.json": {
+    "bytes": 11894,
+    "sha256": "3ae92059aaebe7351c0bffbf465579fcebd2472fd7d9921f82643631a8967ee5"
+  },
+  "packages/artifacts/dist/0.1.0/markdown.css": {
+    "bytes": 1459314,
+    "sha256": "a3548f135b831b3f42ae453b39f0a8bc7a24d14864f926c7f2e31ab596f72e44"
+  },
+  "packages/artifacts/dist/0.1.0/markdown.js": {
+    "bytes": 438990,
+    "sha256": "0e90da61e0f2f410fff450edf01319a590b50ce2c3a1b2e395cc9bfc9815a032"
+  },
+  "packages/artifacts/dist/0.1.0/media.js": {
+    "bytes": 10901,
+    "sha256": "e332658205c0a638ceca26d860456615ccae422b9d99fe6b5c1093242ea6c484"
+  },
+  "packages/artifacts/dist/0.1.0/mermaid.js": {
+    "bytes": 5205045,
+    "sha256": "60a3d3523de109206c7b5ed9f9c01d8c72e9dd8a953f6143080e0f9d47e42e0e"
+  },
+  "packages/artifacts/dist/0.1.0/myst.css": {
+    "bytes": 1459314,
+    "sha256": "a3548f135b831b3f42ae453b39f0a8bc7a24d14864f926c7f2e31ab596f72e44"
+  },
+  "packages/artifacts/dist/0.1.0/myst.js": {
+    "bytes": 755427,
+    "sha256": "5ec1dc077df14cd75843e158c9d30f3a81ed1f34e34b449cc09b8ff6c8528794"
+  },
+  "packages/artifacts/dist/0.1.0/neural.js": {
+    "bytes": 1216177,
+    "sha256": "fab29759c7724418fe5808d29ecf7bee9d7f06e1247fe6847528d9df2d42c79f"
+  },
+  "packages/artifacts/dist/0.1.0/plot.js": {
+    "bytes": 389365,
+    "sha256": "9a7274c7a5ec7cc61e391e5d42a2a64018fe340369b0ccf38444645e47300f61"
+  },
+  "packages/artifacts/dist/0.1.0/plotly.js": {
+    "bytes": 4651915,
+    "sha256": "6cd8b4910421e91c9b3e767a4e18b1a8a2ad7f4789dc484297a5cbda6917373e"
+  },
+  "packages/artifacts/dist/0.1.0/recommend.js": {
+    "bytes": 116571,
+    "sha256": "ace0eb584312b630328bb0eb75b958ce3b594bb31bb611083c47cddf769e0bb6"
+  },
+  "packages/artifacts/dist/0.1.0/sanddance.js": {
+    "bytes": 677024,
+    "sha256": "34b7b196c4402186757561ff0ff9c2bd0b7c8a25022a6205621dc7dd4ad323b6"
+  },
+  "packages/artifacts/dist/0.1.0/sql.js": {
+    "bytes": 544896,
+    "sha256": "dc0249d7099ad1fa38ab69a14c83c2623c18cf898fba3dc38cf68b84107056d5"
+  },
+  "packages/artifacts/dist/0.1.0/table.js": {
+    "bytes": 53530,
+    "sha256": "8aa50c51ba1b3fba1997e5e6a2674f46b668249747dc0f7b25db9bc12d194afb"
+  },
+  "packages/artifacts/dist/0.1.0/vega.js": {
+    "bytes": 834804,
+    "sha256": "2d97a664b56c9a1c448a6dfc4261338e229a8873ef8a9a72a78c89dc1c54cf52"
+  },
+  "packages/artifacts/dist/0.1.0/viewer.js": {
+    "bytes": 677,
+    "sha256": "dd5860f37676631b3578b975c8afc36a661ce9ec2426c89aaabf54417ce52934"
+  },
+  "skills/atelier-artifacts/SKILL.md": {
+    "bytes": 6426,
+    "sha256": "9b1109cc74257baaadee0f54dcd0a61a41b8e67c52a9d366e3ebaef21c2c32cc"
+  },
+  "skills/atelier-artifacts/references/charts.md": {
+    "bytes": 2929,
+    "sha256": "d7d05058478c8d00ffa842c3baa32bc47237707d1c38e576e05410efba090cab"
+  },
+  "skills/atelier-artifacts/references/data.md": {
+    "bytes": 2899,
+    "sha256": "9397e3ea065b9bfe67d61a94ca6e760b43a72b0440078cb9aeab55c127535113"
+  },
+  "skills/atelier-artifacts/references/diagrams.md": {
+    "bytes": 2548,
+    "sha256": "1d02b6ee6adb62ae7efcb2b802f79ac70c0c874a3b274bb1c0ad8ee438c85103"
+  },
+  "skills/atelier-artifacts/references/documents.md": {
+    "bytes": 1876,
+    "sha256": "94e88a2fa8e44922d884a080ecf67ee3823300bc4a814d0064285499cb24e2b4"
+  },
+  "skills/atelier-artifacts/references/neural.md": {
+    "bytes": 1982,
+    "sha256": "42830756ea99af36405ca6682beb2592c0ea386de7d112207664c867d978513a"
+  },
+  "packages/artifacts/catalog.json": {
+    "bytes": 6274,
+    "sha256": "bf84a04d997d3d03ba3ea65b98f58e2ec6182f1999401fb6a2bf45d641bab291"
+  },
+  "packages/artifacts/package.json": {
+    "bytes": 2061,
+    "sha256": "8d6d3c6511a5d95a94d0c64bb62bd6d6cd6ad91e52173e11a293b63fe7852d62"
+  },
+  "packages/artifacts/tsconfig.json": {
+    "bytes": 354,
+    "sha256": "93849acd29622859bb7aa07b0fb2aa2660e9c84b9660d790264f4cd7ca834c1e"
+  },
+  "package-lock.json": {
+    "bytes": 789791,
+    "sha256": "b4553a70ba5a5d60f7cd72a7d18e97c9d2789adbef2d85fa2c223b598a59b7a9"
+  }
+}

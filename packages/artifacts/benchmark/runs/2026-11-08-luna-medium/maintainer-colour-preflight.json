@@ -1,0 +1,20 @@
+{
+  "originalBayesianAttemptRejectedBeforePacking": true,
+  "problems": [
+    {
+      "line": 41,
+      "kind": "literal colour",
+      "value": "#8178d8"
+    },
+    {
+      "line": 41,
+      "kind": "literal colour",
+      "value": "#32a69a"
+    },
+    {
+      "line": 44,
+      "kind": "literal colour",
+      "value": "#77777733"
+    }
+  ]
+}

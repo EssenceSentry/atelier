@@ -1,0 +1,35 @@
+{
+  "elapsed_seconds": 570,
+  "commands": [
+    "Read assigned task, atelier-artifacts skill, composition reference, and shared ui-patterns/linked-analysis/rich-data/inputs-media/chat recipes.",
+    "node --check /private/tmp/atelier-complex-ui-20261108/review/author/main.js",
+    "node /private/tmp/atelier-complex-ui-20261108/review/record-pack.mjs /private/tmp/atelier-complex-ui-20261108/review/author/artifact.json /private/tmp/atelier-complex-ui-20261108/review/author/output.html",
+    "node /private/tmp/atelier-complex-ui-20261108/review/check-local.mjs /private/tmp/atelier-complex-ui-20261108/review/author/output.html --matrix",
+    "Playwright task-specific checks over local HTTP: group/search intersection, empty state/reset, draft note persistence, Inspect selected stable ID and navigation, JSON/Summary tab round trip, decision propagation to detail, pagination after edit, and export of all 18 decisions."
+  ],
+  "checks": {
+    "pack": "passed after shared code-family widget support and pack-time widget/family validation were added",
+    "matrix": "passed; 12 direction/mode/viewport cases, no findings",
+    "task_interactions": "passed; decision changes persisted across filtering and pagination; all 18 records exported with edited Accept/Reject decisions; no observed browser errors"
+  },
+  "recipes_and_references": [
+    "atelier-artifacts skill",
+    "atelier-artifacts/references/composition.md",
+    "recipes/ui-patterns",
+    "recipes/linked-analysis",
+    "recipes/rich-data",
+    "recipes/inputs-media",
+    "recipes/chat",
+    "references/data.md",
+    "references/documents.md"
+  ],
+  "repair_reasons": [
+    "Initial author source-generation command failed due nested template-literal quoting; replaced it with a literal source heredoc and supplied-fixture substitution.",
+    "Corrected SQL and Markdown line breaks to produce real rendered newlines.",
+    "Inspect now opens and scrolls to the detail cell for the clicked stable record ID.",
+    "Decision edits now refresh the selected record summary, chart tooltip data, and metrics while table sorting and pagination remain intact.",
+    "Placed the image comparison slider in the detail cell's left control rail using the newly available media controls option.",
+    "The first packaged output exposed the missing code mount implementation; the shared code widget was added by the parent maintainer, after which repacking passed."
+  ],
+  "known_ui_limitations": []
+}

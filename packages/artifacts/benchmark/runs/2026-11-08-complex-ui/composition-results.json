@@ -1,0 +1,12 @@
+{
+  "results": [
+    "table update retains search/sort/page and clamps shorter data",
+    "lazy tabs preserve instances, draft and diagram camera; large labels do not overlap",
+    "canvas snapshot accepts UI callbacks and opens independent canvas",
+    "keyboard tabs and Vega empty/populated recovery",
+    "carousel final button retains disabled state",
+    "read-only syntax, editor language updates, left media controls and select arrow alignment",
+    "Mermaid readable scale, correct overview fit and camera preservation on theme change",
+    "three themes, two modes, populated desktop/phone resize without overflow/errors"
+  ]
+}
