@@ -14,7 +14,13 @@
     "fix": "biome check --write",
     "try-template": "node scripts/try-template.mjs"
   },
+  "overrides": {
+    "@ts-morph/common@0.27.0": {
+      "minimatch": "^11.0.1"
+    }
+  },
   "devDependencies": {
-    "@biomejs/biome": "2.5.15"
+    "@biomejs/biome": "2.5.15",
+    "shadcn": "^4.22.1"
   }
 }
