@@ -7,6 +7,14 @@ export const TARGETS = ["app", "artifact"]
 export const DIRECTION_IMPORT = "@atelier/theme/direction.css"
 
 const DIRECTIONS = ["instrument", "editorial", "console"]
+
+// Every colour token is a light-dark() pair, and a surface with a mode of its
+// own, such as a dark app bar or lead panel on a light page, relies on the
+// browser resolving the pair where it is used. Vite's default CSS target is
+// older than light-dark(), so the minifier rewrites each token into a value
+// fixed to the page's mode, and those surfaces come out with dark text on a
+// dark fill. Minifying for browsers that have light-dark() leaves it alone.
+export const CSS_TARGET = ["chrome123", "edge123", "firefox120", "safari17.5", "ios17.5"]
 const here = dirname(fileURLToPath(import.meta.url))
 
 // Artifacts may load stylesheets only from Google Fonts, so they get the same
@@ -78,9 +86,13 @@ export function atelierTheme({ configFile = "app.config.json" } = {}) {
       )
       target = pick("target", process.env.ATELIER_TARGET ?? "app", TARGETS)
       file = resolve(here, target === "artifact" ? "directions" : "bundles", `${theme}.css`)
-      const config = { define: { __THEME__: JSON.stringify(theme) } }
+      const config = {
+        define: { __THEME__: JSON.stringify(theme) },
+        build: { cssTarget: userConfig.build?.cssTarget ?? CSS_TARGET },
+      }
       if (target === "artifact") {
         config.build = {
+          ...config.build,
           assetsInlineLimit: () => true,
           cssCodeSplit: false,
           modulePreload: false,

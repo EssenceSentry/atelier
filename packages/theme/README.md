@@ -52,6 +52,13 @@ Light or dark follows the viewer's system setting. `data-theme="light"` or
 `data-theme="dark"` on `<html>` overrides it either way. Each colour token is a
 single `light-dark()` pair, so a direction defines every colour once.
 
+The pairs are resolved by the browser where they are used, which is what lets
+a dark app bar or lead panel sit on a light page. The plugin therefore sets
+`build.cssTarget` to browsers that have `light-dark()` (Chrome and Edge 123,
+Firefox 120, Safari 17.5). With an older target the minifier rewrites every
+token to the page's mode and those surfaces lose their light text; the layout
+check fails a build where that happened.
+
 ## Surfaces and elevation
 
 Each direction's neutrals share one hue and step evenly. Surfaces stack in a

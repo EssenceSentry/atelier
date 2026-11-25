@@ -92,6 +92,11 @@ Do these before showing the app to anyone:
 - Colours come from theme tokens only (`bg-card`, `text-ink-2`,
   `bg-primary-soft`, `text-good`, `var(--series-1)`). A commit hook rejects hex
   values and palette classes such as `blue-500`.
+- Leave `build.cssTarget` to `atelierTheme()`. Tokens are `light-dark()` pairs
+  the browser resolves where they are used; a build for older browsers
+  rewrites them to the page's mode, and the dark app bar and lead panel come
+  out dark on dark. The dev server never shows this, so look at the built
+  app's screenshots in `checks/`, and the layout check fails such a build.
 - Depth comes from the direction's elevation steps, never a hand-written
   shadow, and a surface declares it once: a hairline or a shadow, not a
   border under a soft shadow. A section sits on `panel`, a recessed area on

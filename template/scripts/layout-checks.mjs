@@ -7,7 +7,9 @@
 // - on touch screens, controls shorter than 40px to tap;
 // - running text set at `measure` longer than 75 characters a line;
 // - a status note, such as a toast or "Not built yet", outside the screen;
-// - an app bar whose mark is squeezed or whose product name wraps.
+// - an app bar whose mark is squeezed or whose product name wraps;
+// - a build that fixed the light-dark() tokens to the page's mode, which
+//   leaves a dark app bar or lead panel with dark text.
 // Used by scripts/check.mjs and by atelier's gallery capture.
 
 /** Returns a list of problems in the page as rendered now. */
@@ -17,6 +19,21 @@ export async function layoutProblems(page) {
     const visible = (e) => e.getClientRects().length > 0
     const name = (e) =>
       e.querySelector("h1, h2, h3, summary")?.textContent?.trim() || e.className.split(" ")[0]
+
+    // A minifier targeting browsers older than light-dark() rewrites each
+    // token with these properties. The page still looks right wherever it has
+    // one mode, so only a surface with a mode of its own shows the damage.
+    const lowered = [...document.styleSheets].some((sheet) => {
+      try {
+        return [...sheet.cssRules].some((rule) => rule.cssText.includes("--lightningcss-"))
+      } catch {
+        return false
+      }
+    })
+    if (lowered)
+      problems.push(
+        "the build rewrote light-dark() for older browsers, so a surface with its own mode loses its text colour; build with atelierTheme(), which sets build.cssTarget"
+      )
 
     const root = document.documentElement
     if (root.scrollWidth > root.clientWidth)
