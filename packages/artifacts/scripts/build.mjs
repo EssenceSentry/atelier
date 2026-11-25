@@ -2,6 +2,7 @@ import { createHash } from "node:crypto"
 import { cp, mkdir, readdir, readFile, rm, writeFile } from "node:fs/promises"
 import path from "node:path"
 import { fileURLToPath } from "node:url"
+import { CSS_TARGET } from "@atelier/theme/vite"
 import react from "@vitejs/plugin-react"
 import { build } from "vite"
 
@@ -44,6 +45,9 @@ for (const name of selected) {
       outDir: temp,
       emptyOutDir: true,
       minify: true,
+      // Keep the theme's light-dark() tokens: an older CSS target rewrites them
+      // to the page's mode, and a notebook's dark top bar loses its light text.
+      cssTarget: CSS_TARGET,
       sourcemap: false,
       chunkSizeWarningLimit: 20000,
       lib: {
@@ -137,6 +141,10 @@ async function inventory(dir, prefix = "") {
   }
 }
 await inventory(out)
+for (const name of Object.keys(files).filter((file) => file.endsWith(".css"))) {
+  if ((await readFile(path.join(out, name), "utf8")).includes("--lightningcss-"))
+    throw new Error(`${name}: light-dark() was rewritten for older browsers; check build.cssTarget`)
+}
 await writeFile(
   path.join(out, "manifest.json"),
   JSON.stringify(
