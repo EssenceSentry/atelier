@@ -4,19 +4,18 @@
   contain-intrinsic-size: auto 13rem;
   color: var(--foreground);
   background: var(--card);
-  border: 1px solid var(--border-strong);
-  border-radius: var(--panel-radius, var(--radius));
+  border-block-start: 1px solid var(--border-strong);
   font: 0.875rem / 1.45 var(--ff-sans);
 }
 .channel-row-layout {
   display: grid;
-  gap: 1rem;
-  padding: 1rem;
+  gap: 1.25rem;
+  padding: clamp(1rem, 2.2cqi, 2rem);
 }
 @container (min-width: 44rem) {
   .channel-row-layout {
-    grid-template-columns: 16rem minmax(0, 1fr);
-    gap: 1.5rem;
+    grid-template-columns: clamp(14rem, 27cqi, 22rem) minmax(0, 1fr);
+    gap: clamp(1.25rem, 3cqi, 3rem);
   }
   .channel-row-summary {
     border-inline-end: 1px solid var(--border);
@@ -36,7 +35,8 @@
 }
 .channel-row h3 {
   color: var(--foreground);
-  font: var(--heading-weight) var(--section-size) / 1.2 var(--ff-heading);
+  font: var(--heading-weight) clamp(1.35rem, 2.4cqi, 2rem) / 1.1 var(--ff-heading);
+  letter-spacing: var(--heading-tracking);
   overflow-wrap: anywhere;
 }
 .channel-row a {
@@ -121,9 +121,18 @@
   margin-block-start: 0.35rem;
 }
 .channel-row-strip {
-  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  row-gap: 0.55rem;
+}
+.channel-row-strip-head {
+  grid-area: 1 / 1;
+  align-self: center;
+  font-weight: 650;
+  color: var(--ink-2);
 }
 .channel-row-strip ul {
+  grid-area: 2 / 1;
   display: flex;
   gap: 0.75rem;
   overflow-x: auto;
@@ -133,7 +142,7 @@
   padding: 3px 3px 0.45rem;
 }
 .channel-row-strip li {
-  flex: 0 0 min(10rem, 80%);
+  flex: 0 0 min(clamp(11rem, 18cqi, 16rem), 82%);
   min-width: 0;
   scroll-snap-align: start;
 }
@@ -168,12 +177,29 @@
   overflow: hidden;
   margin-block: 0.35rem 0.2rem;
   line-height: 1.35;
+  font-weight: 600;
   overflow-wrap: anywhere;
 }
 .channel-row-arrows {
+  grid-area: 1 / 1;
+  justify-self: end;
   display: flex;
   justify-content: flex-end;
   gap: 0.35rem;
+}
+.channel-row-strip li:has(.channel-row-placeholder) {
+  border-block-start: 1px solid var(--border);
+  padding-block-start: 0.5rem;
+}
+.channel-row-placeholder {
+  display: block;
+  aspect-ratio: auto;
+  background: transparent;
+  border: 0;
+}
+.channel-row-strip[data-titles-only] ul {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
 }
 .channel-row-arrows button {
   display: grid;

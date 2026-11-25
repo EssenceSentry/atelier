@@ -102,7 +102,15 @@ function VideoStrip({ videos, name }: { videos: ChannelVideo[]; name: string }) 
     if (el) el.scrollBy({ left: direction * el.clientWidth * 0.8 })
   }
   return (
-    <div className="channel-row-strip">
+    <div
+      className="channel-row-strip"
+      data-titles-only={videos.every((video) => !video.thumbnail) || undefined}
+    >
+      <div className="channel-row-strip-head">
+        <span>
+          {count} {count === 1 ? "upload" : "uploads"}
+        </span>
+      </div>
       <ul ref={strip} aria-label={`Videos for ${name}`} dir="ltr">
         {videos.map((video) => (
           <VideoCard key={video.id} video={video} />
