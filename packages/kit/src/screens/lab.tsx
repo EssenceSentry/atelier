@@ -181,15 +181,22 @@ const prChart = (t: VizTokens) => {
   }
   const ends = METHODS.map(lastPoint)
   return {
-    marginLeft: labelWidth(t, ["0.8"]) + 14,
+    marginLeft: labelWidth(t, ["100%"]) + 12,
     marginRight: labelWidth(t, METHODS) + 18,
-    marginBottom: 26,
-    x: { label: null, domain: [0, 1], ticks: 5, tickSize: 0 },
-    y: { label: null, domain: [0.3, 1], ticks: 4, tickSize: 0 },
+    marginBottom: 40,
+    x: {
+      label: "Recall",
+      labelAnchor: "center" as const,
+      domain: [0, 1],
+      ticks: 4,
+      tickFormat: "%",
+      tickSize: 0,
+    },
+    y: { label: null, domain: [0.3, 1], ticks: 4, tickFormat: "%", tickSize: 0 },
     color: { domain: METHODS, range: methodColours(t) },
     marks: [
       Plot.gridY({ stroke: t.grid, strokeOpacity: 1, ticks: 4 }),
-      Plot.ruleX([0.6], { stroke: t.axis }),
+      Plot.ruleX([0.6], { stroke: t.axis, strokeDasharray: "4,3" }),
       Plot.lineY(prCurves, {
         x: "recall",
         y: "precision",
@@ -216,7 +223,7 @@ const prChart = (t: VizTokens) => {
       Plot.text([{ x: 0.6, y: 1 }], {
         x: "x",
         y: "y",
-        text: () => "recall target 0.6",
+        text: () => "60% recall target",
         dx: 4,
         textAnchor: "start",
         fill: t.text,
@@ -589,7 +596,10 @@ export function LabScreen({
             <PlotFigure build={buildScatter} height={360} fill />
           </section>
           <ChartRow className="md:grid-cols-[1.25fr_1fr]">
-            <ChartPanel title="Precision against recall">
+            <ChartPanel
+              title="Precision against recall"
+              note="Illustrative curves for three ranking methods"
+            >
               <PlotFigure build={buildPr} height={176} />
             </ChartPanel>
             <ChartPanel

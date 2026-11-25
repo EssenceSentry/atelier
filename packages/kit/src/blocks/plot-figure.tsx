@@ -20,7 +20,7 @@ const ENTRANCE_MS = 1500
 export function labelWidth(
   t: VizTokens,
   texts: string[],
-  { size = 11, weight = 400 }: { size?: number; weight?: number } = {}
+  { size = 12, weight = 400 }: { size?: number; weight?: number } = {}
 ) {
   measurer ??= document.createElement("canvas").getContext("2d")
   if (!measurer) return 8 * Math.max(0, ...texts.map((text) => text.length))
@@ -36,7 +36,7 @@ export function baseOptions(t: VizTokens, width: number): Plot.PlotOptions {
       background: "transparent",
       color: t.text,
       fontFamily: t.labelFont,
-      fontSize: "11px",
+      fontSize: width >= 500 ? "12px" : "11px",
       overflow: "visible",
     },
   }

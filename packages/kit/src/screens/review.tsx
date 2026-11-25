@@ -713,7 +713,7 @@ export function ReviewScreen({
                 </div>
 
                 <TabsContent value="videos">
-                  <div className="grid grid-cols-2 gap-x-4 gap-y-5 lg:grid-cols-4">
+                  <div className="grid grid-cols-2 gap-x-4 gap-y-5">
                     {detail.videos.map((v) => (
                       <figure key={v.seed} className="m-0 space-y-2">
                         <div className="relative">
@@ -728,7 +728,7 @@ export function ReviewScreen({
                           )}
                         </div>
                         <figcaption className="space-y-0.5">
-                          <div className="line-clamp-2 text-[13px] leading-snug font-medium text-pretty">
+                          <div className="text-sm leading-snug font-semibold text-pretty">
                             {v.title}
                           </div>
                           <div className="num text-xs text-muted-foreground">{v.views} views</div>

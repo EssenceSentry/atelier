@@ -154,7 +154,7 @@ export function ReportScreen({
         }
       />
 
-      <article className="atelier-enter mx-auto max-w-[1080px] px-5 pt-12 pb-24 md:px-8 md:pt-16">
+      <article className="atelier-enter mx-auto max-w-[1200px] px-5 pt-7 pb-24 md:px-8 md:pt-10">
         <header className="grid gap-x-10 gap-y-5 border-t-2 border-foreground pt-5 md:grid-cols-[minmax(0,1.45fr)_minmax(0,1fr)] md:gap-y-6">
           <Eyebrow className="md:col-span-2">
             <Meta items={["Cost review", "Snowflake"]} />
@@ -215,41 +215,36 @@ export function ReportScreen({
           ))}
         </section>
 
-        <div className="measure mt-10 space-y-5 text-[17px] leading-[1.7] text-ink-2">
-          <p>
-            The ingestion warehouse ran at size L for every load until 7 September, although its
-            queue never exceeded two concurrent statements. Moving it to M cut its weekly cost by{" "}
-            {percent(ingestChange)} with no change in load latency at the 95th percentile (Figure
-            {"\u00a0"}1).
-          </p>
-          <p>
-            Transform and dashboard spend stayed flat. Ad hoc spend kept rising, led by thumbnail
-            audits that scan the full image table instead of the daily partition; Figure{"\u00a0"}2
-            lists the queries behind it.
-          </p>
+        <div className="mt-8 grid items-start gap-7 border-t-2 border-foreground pt-5 lg:grid-cols-[minmax(0,2fr)_minmax(16rem,1fr)] lg:gap-10">
+          <figure className="min-w-0 space-y-4">
+            <SectionHeader level="h2" eyebrow="Figure 1" title="Weekly spend by warehouse" />
+            <Legend
+              items={warehouses.map((w, i) => ({
+                label: w,
+                colour: `var(--series-${i + 1})`,
+                mark: "square" as const,
+              }))}
+            />
+            <PlotFigure build={build} height={260} />
+            <figcaption className="text-[13px] text-muted-foreground">
+              Ingest moved from size L to M on 7 September. Weeks start on Monday. Values are
+              on-demand list prices.
+            </figcaption>
+          </figure>
+          <div className="measure space-y-4 text-base leading-relaxed text-ink-2 lg:border-l lg:pl-7">
+            <p>
+              The ingestion warehouse ran at size L for every load until 7 September, although its
+              queue never exceeded two concurrent statements. Moving it to M cut its weekly cost by{" "}
+              {percent(ingestChange)} with no change in load latency at the 95th percentile (Figure
+              {"\u00a0"}1).
+            </p>
+            <p>
+              Transform and dashboard spend stayed flat. Ad hoc spend kept rising, led by thumbnail
+              audits that scan the full image table instead of the daily partition; Figure{"\u00a0"}
+              2 lists the queries behind it.
+            </p>
+          </div>
         </div>
-
-        <figure className="panel mt-12 space-y-4 p-5 md:p-7">
-          <SectionHeader
-            level="h2"
-            eyebrow="Figure 1"
-            title="Weekly spend by warehouse"
-            meta={
-              <Legend
-                items={warehouses.map((w, i) => ({
-                  label: w,
-                  colour: `var(--series-${i + 1})`,
-                  mark: "square" as const,
-                }))}
-              />
-            }
-          />
-          <PlotFigure build={build} height={300} />
-          <figcaption className="text-[13px] text-muted-foreground">
-            Ingest moved from size L to M on 7 September. Weeks start on Monday; values are
-            on-demand list prices.
-          </figcaption>
-        </figure>
 
         <section className="panel mt-12 space-y-4 p-5 md:p-7">
           <SectionHeader level="h2" eyebrow="Figure 2" title="Most expensive recurring queries" />
