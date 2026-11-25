@@ -6,6 +6,7 @@
   "type": "module",
   "exports": {
     "./tailwind.css": "./src/tailwind.css",
+    "./native-select.css": "./src/native-select.css",
     "./status.css": "./src/status.css",
     "./directions/*.css": "./src/directions/*.css",
     "./vite": {

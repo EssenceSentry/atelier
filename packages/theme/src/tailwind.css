@@ -5,6 +5,7 @@
  */
 @import "./status.css";
 @import "./modes.css";
+@import "./native-select.css" layer(base);
 
 /* Matches the same conditions as modes.css, for shadcn's dark: classes. */
 @custom-variant dark {

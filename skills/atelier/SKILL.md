@@ -133,6 +133,10 @@ Do these before showing the app to anyone:
   `fill: fade.fill` on the area mark. In a chart tip's `title`, name the
   point on the first line and put the value on the last; the theme sets the
   value in ink.
+- Keep dropdown chevrons 12px inside the trailing edge, including on phones.
+  The shared Select and single-line native selects supply the spacing. For
+  standalone HTML, inline `packages/theme/src/native-select.css` after local
+  form styles. Use `background-color` and preserve the trailing label padding.
 - Charts go through `PlotFigure`; take colours from the tokens it passes in.
   Use series slots in order and never cycle past the last; fold the rest into
   "Other" or facet.
