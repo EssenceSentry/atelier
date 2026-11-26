@@ -6,7 +6,7 @@
 
 **Start your next internal tool with a screen you can already use.** A reviewer can move through a queue and inspect the evidence. An analyst can select observations in a plot and export them. Atelier gives you those interactions, their phone layouts, and the checks that keep them working as you replace the sample data with your own.
 
-**[Try the gallery](https://essencesentry.github.io/atelier/)** · [See Aside and Probability Lab](https://essencesentry.github.io/atelier/?s=examples) · [Generate a project](#generate-a-project)
+**[Explore the gallery](https://essencesentry.github.io/atelier/)** · **[Open the interactive notebook](https://essencesentry.github.io/atelier/playground.html?view=notebook)** · [Generate a project](#generate-a-project)
 
 ![The Instrument review station with a queue on the left, the selected sample in the middle and decision controls on the right.](docs/media/review-station.webp)
 
@@ -61,6 +61,6 @@ Open the address Vite prints to switch screens and themes. To exercise a full ge
 
 ### Component studies and portable notebooks
 
-In the development checkout, open `/gallery.html` on the local gallery server for a visual index. `npm run playground` opens twenty component families, including linked plots, image review, rich tables, and neural-network diagnostics. These are interactive studies you can inspect before choosing a component for an app. [Playground guide](apps/gallery/README.md#integration-playground)
+The [live notebook](https://essencesentry.github.io/atelier/playground.html?view=notebook) brings twenty component studies onto one page. Jump to linked plots, run a SQL query in the browser, or try the image-review tools. To explore locally, open `/gallery.html` on the gallery server or run `npm run playground`. [Playground guide](apps/gallery/README.md#integration-playground)
 
 For a one-off HTML notebook, the experimental prebuilt distribution packages native-library adapters and sample recipes into a portable page. Authors work in plain JavaScript with the prebuilt assets. [Artifact recipes and packager](packages/artifacts/README.md) · [Authoring skill](skills/atelier-artifacts/SKILL.md)

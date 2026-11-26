@@ -36,9 +36,10 @@ Setup runs `git init`, `npm install` (which installs the hooks) and
 ## Make it this app's own
 
 When the design needs work, choose the organizing question for this screen.
-To browse the available designs, run the gallery from the Atelier repository
-with `npm run gallery` and open `/gallery.html` on the printed local URL.
-The index links to rendered starter screens, channel rows and component studies.
+Browse the [public gallery](https://essencesentry.github.io/atelier/) for rendered
+starter screens and channel rows, or open the [interactive notebook](https://essencesentry.github.io/atelier/playground.html?view=notebook)
+to try the component studies. For local changes, run `npm run gallery` from the
+Atelier repository and open `/gallery.html` on the printed URL.
 
 A monitor should reveal which job needs attention. A review queue should keep
 the evidence and decision together. A lab should show what changed relative

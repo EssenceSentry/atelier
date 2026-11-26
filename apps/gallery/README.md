@@ -1,5 +1,7 @@
 # @atelier/gallery
 
+[Hosted gallery](https://essencesentry.github.io/atelier/) · [Interactive notebook](https://essencesentry.github.io/atelier/playground.html?view=notebook)
+
 Open `/gallery.html` for a visual index of the six screens and the component
 studies. Each screen preview opens in the theme shown. The preview bar lets
 you change the screen, theme and mode. The four starter screens (monitor,
