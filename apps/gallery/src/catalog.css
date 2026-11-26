@@ -47,8 +47,8 @@
 }
 .catalog-title h1 {
   margin: 0;
-  font: 500 clamp(2.7rem, 6.4vw, 6rem) / 0.95 var(--ff-heading);
-  letter-spacing: -0.045em;
+  font: var(--heading-weight) clamp(2.7rem, 6.4vw, 6rem) / 1 var(--ff-heading);
+  letter-spacing: var(--heading-tracking);
 }
 .catalog-title nav {
   flex-wrap: wrap;
@@ -72,7 +72,7 @@
   column-gap: clamp(1rem, 2vw, 2rem);
   row-gap: 1.7rem;
   padding-block-start: 1.25rem;
-  border-block-start: 2px solid var(--foreground);
+  border-block-start: 1px solid var(--border-strong);
 }
 .catalog-screen {
   min-inline-size: 0;
@@ -94,7 +94,8 @@
   gap: 0.5rem;
 }
 .catalog-caption h2 {
-  font: 550 clamp(1.35rem, 1.7vw, 1.75rem) / 1.12 var(--ff-heading);
+  font: var(--heading-weight) clamp(1.35rem, 1.7vw, 1.75rem) / 1.12 var(--ff-heading);
+  letter-spacing: var(--heading-tracking);
 }
 .catalog-spec {
   color: var(--muted-foreground);
@@ -104,11 +105,12 @@
 .catalog-families {
   margin-block-start: clamp(2.5rem, 5vw, 4.5rem);
   scroll-margin: 1rem;
-  border-block-start: 2px solid var(--foreground);
+  border-block-start: 1px solid var(--border-strong);
 }
 .catalog-families h2 {
   margin-block: 1.2rem;
-  font: 500 clamp(2rem, 3.1vw, 3rem) / 1.12 var(--ff-heading);
+  font: var(--heading-weight) clamp(2rem, 3.1vw, 3rem) / 1.12 var(--ff-heading);
+  letter-spacing: var(--heading-tracking);
 }
 .catalog-families ul {
   column-gap: 2rem;

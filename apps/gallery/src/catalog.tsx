@@ -1,6 +1,6 @@
 import { ArrowDown, ArrowUpRight, Layers } from "lucide-react"
 import { createRoot } from "react-dom/client"
-import "../../../packages/theme/src/bundles/editorial.css"
+import "../../../packages/theme/src/bundles/instrument.css"
 import "./index.css"
 import "./catalog.css"
 import { studies } from "./playground/study-pages"
@@ -90,5 +90,5 @@ function Catalog() {
   )
 }
 const root = document.getElementById("root")
-document.documentElement.dataset.direction = "editorial"
+document.documentElement.dataset.direction = "instrument"
 if (root) createRoot(root).render(<Catalog />)

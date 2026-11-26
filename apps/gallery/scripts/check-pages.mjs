@@ -9,13 +9,23 @@ try {
   page.on("pageerror", (error) => errors.push(error.message))
 
   await page.goto(home.href)
-  await page.getByRole("heading", { name: "Interface gallery" }).waitFor()
+  const galleryTitle = page.getByRole("heading", { name: "Interface gallery" })
+  await galleryTitle.waitFor()
+  assert.equal(await page.locator("html").getAttribute("data-direction"), "instrument")
+  assert.match(
+    await galleryTitle.evaluate((el) => getComputedStyle(el).fontFamily),
+    /Instrument Sans/
+  )
   await page.getByRole("link", { name: /Research report/ }).click()
   assert.equal(await page.getByRole("combobox", { name: "Screen" }).inputValue(), "report")
 
   await page.getByRole("link", { name: "Gallery", exact: true }).click()
   await page.getByRole("link", { name: "Open notebook" }).click()
   await page.getByTestId("long-notebook").waitFor()
+  assert.equal(
+    await page.getByRole("combobox", { name: "Visual direction" }).inputValue(),
+    "instrument"
+  )
   await page
     .getByRole("combobox", { name: "Jump to notebook section" })
     .selectOption("cell-notebook-query")
