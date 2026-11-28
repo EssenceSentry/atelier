@@ -6,11 +6,11 @@
 
 **Start your next internal tool with a screen you can already use.** A reviewer can move through a queue and inspect the evidence. An analyst can select observations in a plot and export them. Atelier gives you those interactions, their phone layouts, and the checks that keep them working as you replace the sample data with your own.
 
-**[Explore the gallery](https://essencesentry.github.io/atelier/)** · **[Open the interactive notebook](https://essencesentry.github.io/atelier/playground.html?view=notebook)** · [Generate a project](#generate-a-project)
+**[See two starters become applications](https://essencesentry.github.io/atelier/?s=examples)** · [Explore the gallery](https://essencesentry.github.io/atelier/) · [Generate a project](#generate-a-project)
 
-![The Instrument review station with a queue on the left, the selected sample in the middle and decision controls on the right.](docs/media/review-station.webp)
+Aside turns the review station's queue and evidence pane into a transcript editor. Probability Lab uses the analysis layout to follow a single posterior draw through a model. The examples show how each app adapts the shared layout to a different workflow.
 
-The review station above uses synthetic data. For a finished application, see how Aside uses the kit for a transcript editor and Probability Lab uses it to follow a single draw through a statistical model. [Explore both examples](https://essencesentry.github.io/atelier/?s=examples)
+![The Instrument review station with a synthetic queue on the left, the selected sample in the middle and decision controls on the right.](docs/media/review-station.webp)
 
 ## Pick the screen that fits the work
 
